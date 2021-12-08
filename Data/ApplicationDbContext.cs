@@ -12,6 +12,7 @@ namespace Data
 {
     public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
+        public DbSet<Appointment> Appointments { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -19,6 +20,7 @@ namespace Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
         }
     }
 }
