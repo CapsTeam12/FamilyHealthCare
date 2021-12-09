@@ -8,5 +8,6 @@ namespace Business.IServices
 {
     public interface IAuthService
     {
+        
     }
 }
