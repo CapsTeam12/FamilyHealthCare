@@ -10,12 +10,13 @@ namespace Contract.Constants
     {
         public static class Common
         {
-            public static string Required = "{0} is required";
+            public static string RequiredError = "{0} is required";
+            public static string InvalidTimeValue = "{0} is not valid";
         }
 
         public static class AppointmentMessage
         {
-            public static string ErrorTime = "Time is not valid";
+            
         }
 
         public static class Authentication

@@ -25,13 +25,15 @@ namespace AppointmentService.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAppoinmentsAsync(string search)
         {
-            return await _appointmentService.GetAppointmentsAsync(search);
+            var appointment = await _appointmentService.GetAppointmentsAsync(search);
+            return Ok(appointment);
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateAppoinmentsAsync([FromBody] AppointmentCreateDto appointmentCreateDto)
+        public async Task<IActionResult> CreateAppoinmentsAsync([FromForm] AppointmentCreateDto appointmentCreateDto)
         {
-            return Ok();
+            var createAppointment = await _appointmentService.CreateAppointmentAsync(appointmentCreateDto);
+            return Ok(createAppointment);
         }
     }
 }

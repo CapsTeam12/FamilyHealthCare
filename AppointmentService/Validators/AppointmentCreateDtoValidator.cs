@@ -15,13 +15,13 @@ namespace AppointmentService.Validators
         {
             RuleFor(a => a.Time)
                 .Must(IsTimeValid)
-                .WithMessage(x => string.Format(ErrorMessage.AppointmentMessage.ErrorTime, nameof(x.Time)));
+                .WithMessage(x => string.Format(ErrorMessage.Common.InvalidTimeValue, nameof(x.Time)));
             RuleFor(a => a.Description)
                 .NotEmpty()
-                .WithMessage(x => string.Format(ErrorMessage.Common.Required, nameof(x.Description)));
+                .WithMessage(x => string.Format(ErrorMessage.Common.RequiredError, nameof(x.Description)));
             RuleFor(a => a.TherapistId)
                 .Must(id => id > 0)
-                .WithMessage(x => string.Format(ErrorMessage.Common.Required, nameof(x.TherapistId)));
+                .WithMessage(x => string.Format(ErrorMessage.Common.RequiredError, nameof(x.TherapistId)));
 
         }
 

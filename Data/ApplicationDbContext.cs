@@ -13,6 +13,7 @@ namespace Data
     public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
         public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Medicine> Medicines { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

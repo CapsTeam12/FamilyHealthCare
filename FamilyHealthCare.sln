@@ -15,39 +15,41 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{0C2BB37C-A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{69A346EC-2F4C-41DB-9506-F76BF8D7B5E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingAppoimentService", "BookingAppoimentService\BookingAppoimentService.csproj", "{F3A90998-CDE2-40AA-BD00-1C3E87E10292}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingAppoimentService", "BookingAppoimentService\BookingAppoimentService.csproj", "{F3A90998-CDE2-40AA-BD00-1C3E87E10292}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealCheckService", "HealCheckService\HealCheckService.csproj", "{726A2C63-581C-4C59-8688-C14F1467FD07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealCheckService", "HealCheckService\HealCheckService.csproj", "{726A2C63-581C-4C59-8688-C14F1467FD07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleService", "ScheduleService\ScheduleService.csproj", "{D1BAEA35-BB1D-489D-9973-C03E6CA1511A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScheduleService", "ScheduleService\ScheduleService.csproj", "{D1BAEA35-BB1D-489D-9973-C03E6CA1511A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppointmentService", "AppointmentService\AppointmentService.csproj", "{8DBF1C79-4587-44E7-8B94-17E13DF7DBF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppointmentService", "AppointmentService\AppointmentService.csproj", "{8DBF1C79-4587-44E7-8B94-17E13DF7DBF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService", "AuthService\AuthService.csproj", "{3993EA51-A23E-436F-8965-F7E5F400E4CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService", "AuthService\AuthService.csproj", "{3993EA51-A23E-436F-8965-F7E5F400E4CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientService", "PatientService\PatientService.csproj", "{E032AFFC-A6BA-4C95-8F9A-CA17A7B117F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatientService", "PatientService\PatientService.csproj", "{E032AFFC-A6BA-4C95-8F9A-CA17A7B117F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchService", "SearchService\SearchService.csproj", "{5F4BC958-962E-4A36-8D99-6DF07FA1652C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SearchService", "SearchService\SearchService.csproj", "{5F4BC958-962E-4A36-8D99-6DF07FA1652C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicineService", "MedicineService\MedicineService.csproj", "{D617CAF4-C65E-4FB8-8E45-72A9778C8464}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicineService", "MedicineService\MedicineService.csproj", "{D617CAF4-C65E-4FB8-8E45-72A9778C8464}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresciptionService", "PresciptionService\PresciptionService.csproj", "{89F86D91-9FDB-4FCB-B96B-330E87A10D5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PresciptionService", "PresciptionService\PresciptionService.csproj", "{89F86D91-9FDB-4FCB-B96B-330E87A10D5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalRecordService", "MedicalRecordService\MedicalRecordService.csproj", "{56AC2B01-FF58-4E02-96DF-C661BB61E63B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalRecordService", "MedicalRecordService\MedicalRecordService.csproj", "{56AC2B01-FF58-4E02-96DF-C661BB61E63B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagementService", "ManagementService\ManagementService.csproj", "{3DBC3C18-9B22-48D7-B7DC-B3F1E1D79B9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagementService", "ManagementService\ManagementService.csproj", "{3DBC3C18-9B22-48D7-B7DC-B3F1E1D79B9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyHealthCare.UnitTest", "FamilyHealthCare.UnitTest\FamilyHealthCare.UnitTest.csproj", "{F0E60D19-4EF1-4392-9FAD-C1060258989F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHealthCare.UnitTest", "FamilyHealthCare.UnitTest\FamilyHealthCare.UnitTest.csproj", "{F0E60D19-4EF1-4392-9FAD-C1060258989F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contract", "Contract\Contract.csproj", "{8B48ADB6-757A-4334-AB19-DA4CB77B9B1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contract", "Contract\Contract.csproj", "{8B48ADB6-757A-4334-AB19-DA4CB77B9B1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{CCB0B48F-25E2-40EA-A01D-86F218DEE535}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Business.csproj", "{CCB0B48F-25E2-40EA-A01D-86F218DEE535}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{7FDEC0F4-C7B9-4236-A7D9-AE0DCC5F393B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{7FDEC0F4-C7B9-4236-A7D9-AE0DCC5F393B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyHealCare.IntegationTest", "FamilyHealCare.IntegationTest\FamilyHealCare.IntegationTest.csproj", "{1E671C0E-203E-44D8-A0B9-070910D0D572}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHealthCare.Web", "FamilyHealthCare.Web\FamilyHealthCare.Web.csproj", "{96ED566B-ECDD-47F0-808D-6D3139E66FA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyHealthCare.Web", "FamilyHealthCare.Web\FamilyHealthCare.Web.csproj", "{96ED566B-ECDD-47F0-808D-6D3139E66FA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHealthCare.Test", "FamilyHealthCare.Test\FamilyHealthCare.Test.csproj", "{78CAF872-FB65-4507-8AA2-90866F7545AB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHealthCare.IntegationTest", "FamilyHealCare.IntegationTest\FamilyHealthCare.IntegationTest.csproj", "{EEAD72F5-83A6-4775-A31C-B6DA3BF69A95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -119,14 +121,18 @@ Global
 		{7FDEC0F4-C7B9-4236-A7D9-AE0DCC5F393B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FDEC0F4-C7B9-4236-A7D9-AE0DCC5F393B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FDEC0F4-C7B9-4236-A7D9-AE0DCC5F393B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1E671C0E-203E-44D8-A0B9-070910D0D572}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E671C0E-203E-44D8-A0B9-070910D0D572}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E671C0E-203E-44D8-A0B9-070910D0D572}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E671C0E-203E-44D8-A0B9-070910D0D572}.Release|Any CPU.Build.0 = Release|Any CPU
 		{96ED566B-ECDD-47F0-808D-6D3139E66FA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{96ED566B-ECDD-47F0-808D-6D3139E66FA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96ED566B-ECDD-47F0-808D-6D3139E66FA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96ED566B-ECDD-47F0-808D-6D3139E66FA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78CAF872-FB65-4507-8AA2-90866F7545AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78CAF872-FB65-4507-8AA2-90866F7545AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78CAF872-FB65-4507-8AA2-90866F7545AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78CAF872-FB65-4507-8AA2-90866F7545AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEAD72F5-83A6-4775-A31C-B6DA3BF69A95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEAD72F5-83A6-4775-A31C-B6DA3BF69A95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEAD72F5-83A6-4775-A31C-B6DA3BF69A95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEAD72F5-83A6-4775-A31C-B6DA3BF69A95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -148,8 +154,9 @@ Global
 		{8B48ADB6-757A-4334-AB19-DA4CB77B9B1E} = {73DE656A-EC9B-4E02-895B-C06D8D6B5EE5}
 		{CCB0B48F-25E2-40EA-A01D-86F218DEE535} = {73DE656A-EC9B-4E02-895B-C06D8D6B5EE5}
 		{7FDEC0F4-C7B9-4236-A7D9-AE0DCC5F393B} = {73DE656A-EC9B-4E02-895B-C06D8D6B5EE5}
-		{1E671C0E-203E-44D8-A0B9-070910D0D572} = {0C2BB37C-A655-47E1-8721-2C8494344B6B}
 		{96ED566B-ECDD-47F0-808D-6D3139E66FA1} = {69A346EC-2F4C-41DB-9506-F76BF8D7B5E6}
+		{78CAF872-FB65-4507-8AA2-90866F7545AB} = {0C2BB37C-A655-47E1-8721-2C8494344B6B}
+		{EEAD72F5-83A6-4775-A31C-B6DA3BF69A95} = {0C2BB37C-A655-47E1-8721-2C8494344B6B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6E1DB9E2-2E03-4480-A307-2CEF29BDC7FD}

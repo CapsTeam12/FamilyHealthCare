@@ -3,7 +3,7 @@ using System;
 
 namespace Business
 {
-    public class AuthService : IAuthService
+    public class CIsAuthService : IAuthService
     {
     }
 }

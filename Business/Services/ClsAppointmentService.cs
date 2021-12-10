@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace Business.Services
 {
-    public class AppointmentService : ControllerBase, IAppointmentService
+    public class ClsAppointmentService : ControllerBase, IAppointmentService
     {
         private readonly IBaseRepository<Appointment> _repository;
         private readonly IMapper _mapper;
-        public AppointmentService(IBaseRepository<Appointment> repository, IMapper mapper)
+        public ClsAppointmentService(IBaseRepository<Appointment> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
@@ -31,6 +31,13 @@ namespace Business.Services
                                 .ToListAsync();
             var appointmentDtos = _mapper.Map<IEnumerable<AppointmentDetailsDto>>(appointments);
             return Ok(appointmentDtos);
+        }
+        public async Task<IActionResult> CreateAppointmentAsync(AppointmentCreateDto appointmentCreateDto)
+        {
+            var appointment = _mapper.Map<Appointment>(appointmentCreateDto);
+            var newAppointment = await _repository.Create(appointment);
+            var appointmentDto = _mapper.Map<AppointmentDetailsDto>(newAppointment);
+            return Ok(appointmentDto);
         }
     }
 }

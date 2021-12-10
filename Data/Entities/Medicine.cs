@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 
 namespace Data.Entities
 {
-    public class Appointment
+    public class Medicine
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public DateTime Time { get; set; }
+        public string MedicineName { get; set; }
         public string Description { get; set; }
-        public int TherapistId { get; set; }
-        public User Therapist { get; set; }
+        public int Quantity { get; set; }
     }
 }
