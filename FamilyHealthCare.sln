@@ -51,6 +51,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHealthCare.Test", "Fa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHealthCare.IntegationTest", "FamilyHealCare.IntegationTest\FamilyHealthCare.IntegationTest.csproj", "{EEAD72F5-83A6-4775-A31C-B6DA3BF69A95}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyHealthCare.WebAdmin", "FamilyHealthCare.WebAdmin\FamilyHealthCare.WebAdmin.csproj", "{910757ED-8189-4E9E-ABED-B2E433E79642}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -133,6 +135,10 @@ Global
 		{EEAD72F5-83A6-4775-A31C-B6DA3BF69A95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEAD72F5-83A6-4775-A31C-B6DA3BF69A95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEAD72F5-83A6-4775-A31C-B6DA3BF69A95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{910757ED-8189-4E9E-ABED-B2E433E79642}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{910757ED-8189-4E9E-ABED-B2E433E79642}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{910757ED-8189-4E9E-ABED-B2E433E79642}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{910757ED-8189-4E9E-ABED-B2E433E79642}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -157,6 +163,7 @@ Global
 		{96ED566B-ECDD-47F0-808D-6D3139E66FA1} = {69A346EC-2F4C-41DB-9506-F76BF8D7B5E6}
 		{78CAF872-FB65-4507-8AA2-90866F7545AB} = {0C2BB37C-A655-47E1-8721-2C8494344B6B}
 		{EEAD72F5-83A6-4775-A31C-B6DA3BF69A95} = {0C2BB37C-A655-47E1-8721-2C8494344B6B}
+		{910757ED-8189-4E9E-ABED-B2E433E79642} = {69A346EC-2F4C-41DB-9506-F76BF8D7B5E6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6E1DB9E2-2E03-4480-A307-2CEF29BDC7FD}
