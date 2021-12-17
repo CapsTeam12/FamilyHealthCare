@@ -1,6 +1,8 @@
 using Data;
 using Data.Entities;
+using Duende.IdentityServer.Services;
 using IdentityService.Models;
+using IdentityService.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -46,6 +48,7 @@ namespace IdentityService
 
             builder.AddDeveloperSigningCredential();
 
+            services.AddScoped<IProfileService, ProfileService>();
             services.AddControllersWithViews();
         }
 
