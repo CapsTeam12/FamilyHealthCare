@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,6 +38,7 @@ namespace AuthService
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -47,8 +49,11 @@ namespace AuthService
                 {
                     options.SaveToken = true;
                     options.RequireHttpsMetadata = false;
+
                     options.TokenValidationParameters = new TokenValidationParameters()
                     {
+                        NameClaimType = "name",
+                        RoleClaimType = "role",
                         ValidateIssuer = true,
                         ValidateAudience = true,
                         ValidIssuer = Configuration["JWT:ValidIssuer"],
@@ -56,13 +61,13 @@ namespace AuthService
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:SecretKey"]))
                     };
                 });
-           
 
-          
+
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthService", Version = "v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthService", Version = "v1" });
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Name = "Authorization",
@@ -87,7 +92,7 @@ namespace AuthService
                     }
                 });
             });
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

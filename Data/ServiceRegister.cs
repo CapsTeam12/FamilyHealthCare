@@ -10,7 +10,7 @@ namespace Data
         public static void AddDataAccessorLayer(this IServiceCollection services, IConfiguration config)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(config.GetConnectionString("DefaultConnection"), b =>
+                options.UseSqlServer(config.GetConnectionString("DbConnection"), b =>
                     b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
                 ));
         }
