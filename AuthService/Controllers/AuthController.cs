@@ -36,36 +36,6 @@ namespace AuthService.Controllers
             _db = db;
         }
 
-  
-        private async Task<List<Claim>> GetAllValidClaims(User user)
-        {
-            var _options = new IdentityOptions();
-
-            var authClaims = new List<Claim>
-                {
-                    new Claim(JwtRegisteredClaimNames.Sub,user.Id.ToString()),
-                    new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
-                };
-
-            var userClaims = await _userManager.GetClaimsAsync(user); // Get claims of user 
-            authClaims.AddRange(userClaims);
-
-            var userRoles = await _userManager.GetRolesAsync(user); // Get the user role 
-            foreach (var userRole in userRoles)
-            {
-                var role = await _roleManager.FindByNameAsync(userRole);
-                if(role != null)
-                {
-                    authClaims.Add(new Claim(ClaimTypes.Role, userRole));
-                    var roleClaims = await _roleManager.GetClaimsAsync(role);
-                    foreach(var roleClaim in roleClaims)
-                    {
-                        authClaims.Add(roleClaim);
-                    }
-                }
-            }
-            return authClaims;
-        }
 
         [HttpGet]
         [Route("Users")]
