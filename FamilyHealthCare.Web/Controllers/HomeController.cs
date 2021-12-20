@@ -15,13 +15,11 @@ namespace FamilyHealthCare.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IHttpClientFactory _clientFactory;
-        private readonly HttpClient _client;
 
         public HomeController(ILogger<HomeController> logger, IHttpClientFactory clientFactory)
         {
             _logger = logger;
             _clientFactory = clientFactory;
-            _client = _clientFactory.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
         }
 
         public IActionResult Index()
@@ -42,14 +40,12 @@ namespace FamilyHealthCare.Web.Controllers
 
         public async Task<IActionResult> Test()
         {
-            //var response = await _client.GetAsync(EndpointConstants.TEST);
-            //response.EnsureSuccessStatusCode();
-            //var result = await response.Content.ReadAsAsync<string>();
+            var httpClient = _clientFactory.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
+            var response = await httpClient.GetAsync(EndpointConstants.TEST);
+            response.EnsureSuccessStatusCode();
+            var result = await response.Content.ReadAsStringAsync();
 
-            var httpClient = new HttpClient();
-            var result = await httpClient.GetAsync("http://localhost:24298/api/Values/test");
-
-            return View(result);
+            return View();
         }
     }
 }
