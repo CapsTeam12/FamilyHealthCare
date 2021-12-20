@@ -42,9 +42,12 @@ namespace FamilyHealthCare.Web.Controllers
 
         public async Task<IActionResult> Test()
         {
-            var response = await _client.GetAsync(EndpointConstants.TEST);
-            response.EnsureSuccessStatusCode();
-            var result = await response.Content.ReadAsAsync<string>();
+            //var response = await _client.GetAsync(EndpointConstants.TEST);
+            //response.EnsureSuccessStatusCode();
+            //var result = await response.Content.ReadAsAsync<string>();
+
+            var httpClient = new HttpClient();
+            var result = await httpClient.GetAsync("http://localhost:24298/api/Values/test");
 
             return View(result);
         }
