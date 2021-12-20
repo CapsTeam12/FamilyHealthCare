@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-    public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<int>, int>
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Medicine> Medicines { get; set; }

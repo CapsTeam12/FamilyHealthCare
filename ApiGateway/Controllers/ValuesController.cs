@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AuthService.Controllers
+namespace ApiGateway.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class ValuesController : ControllerBase
     {
         [HttpGet("test")]
         public string Test()
