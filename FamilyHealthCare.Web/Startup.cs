@@ -1,6 +1,9 @@
+using AuthService.Security.Authorization.Requirements;
 using FamilyHealthCare.SharedLibrary;
+using FamilyHealthCare.Web.Security.Authorization.Handlers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -33,7 +36,7 @@ namespace FamilyHealthCare.Web
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
                 {
-                    options.Authority = "https://localhost:24298/";
+                    options.Authority = "https://localhost:44315/";
                     options.RequireHttpsMetadata = false;
                     options.GetClaimsFromUserInfoEndpoint = false;
 
@@ -53,6 +56,7 @@ namespace FamilyHealthCare.Web
                         RoleClaimType = "role"
                     };
                 });
+
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
             services.AddCustomHttpClient(Configuration);

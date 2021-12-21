@@ -1,5 +1,6 @@
 ﻿using FamilyHealthCare.SharedLibrary;
 using FamilyHealthCare.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -27,6 +28,7 @@ namespace FamilyHealthCare.Web.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();
