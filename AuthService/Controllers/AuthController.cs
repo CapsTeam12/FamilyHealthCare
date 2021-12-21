@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Contract.Constants;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,6 +14,7 @@ namespace AuthService.Controllers
     public class AuthController : ControllerBase
     {
         [HttpGet("test")]
+        [Authorize(Policy = SecurityConstants.ADMIN_ROLE_POLICY)]
         public string Test()
         {
             return "connect successfully";

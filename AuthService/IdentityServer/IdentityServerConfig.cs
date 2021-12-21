@@ -1,3 +1,4 @@
+using Contract.Constants;
 using IdentityServer4;
 using IdentityServer4.Models;
 using System.Collections.Generic;
@@ -16,7 +17,8 @@ namespace AuthService.IdentityServer
         public static IEnumerable<ApiScope> ApiScopes =>
              new ApiScope[]
              {
-                  new ApiScope("authservice.api", "Auth Service API")
+                  new ApiScope(CustomIdentityServerConstants.ApiScopeName, 
+                      CustomIdentityServerConstants.ApiScopeDisplayName)
              };
 
         public static IEnumerable<Client> Clients =>
@@ -30,7 +32,7 @@ namespace AuthService.IdentityServer
 
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     // scopes that client has access to
-                    AllowedScopes = { "authservice.api" }
+                    AllowedScopes = { CustomIdentityServerConstants.ApiScopeName }
                 },
 
                 // interactive ASP.NET Core MVC client
@@ -49,7 +51,7 @@ namespace AuthService.IdentityServer
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "authservice.api"
+                        CustomIdentityServerConstants.ApiScopeName
                     }
                 },
 
@@ -70,7 +72,7 @@ namespace AuthService.IdentityServer
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "authservice.api"
+                        CustomIdentityServerConstants.ApiScopeName
                     }
                 }
             };

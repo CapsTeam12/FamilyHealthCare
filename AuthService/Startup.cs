@@ -1,6 +1,7 @@
 using AuthService.IdentityServer;
 using AuthService.Security.Authorization.Handlers;
 using AuthService.Security.Authorization.Requirements;
+using Contract.Constants;
 using Data;
 using Data.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -62,7 +63,7 @@ namespace AuthService
             services.AddAuthentication()
                 .AddLocalApi("Bearer", option =>
                 {
-                    option.ExpectedScope = "authservice.api";
+                    option.ExpectedScope = CustomIdentityServerConstants.ApiScopeName;
                 });
 
             services.AddAuthorization(options =>
@@ -93,7 +94,12 @@ namespace AuthService
                         {
                             TokenUrl = new Uri("/connect/token", UriKind.Relative),
                             AuthorizationUrl = new Uri("/connect/authorize", UriKind.Relative),
-                            Scopes = new Dictionary<string, string> { { "authservice.api", "Auth Service API" } }
+                            Scopes = new Dictionary<string, string> { 
+                                { 
+                                    CustomIdentityServerConstants.ApiScopeName, 
+                                    CustomIdentityServerConstants.ApiScopeDisplayName 
+                                } 
+                            }
                         },
                     },
                 });
@@ -104,7 +110,7 @@ namespace AuthService
                         {
                             Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
                         },
-                        new List<string>{ "authservice.api" }
+                        new List<string>{ CustomIdentityServerConstants.ApiScopeName }
                     }
                             });
             });

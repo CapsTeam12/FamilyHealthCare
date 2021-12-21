@@ -37,7 +37,7 @@ namespace FamilyHealthCare.Web
                     options.RequireHttpsMetadata = false;
                     options.GetClaimsFromUserInfoEndpoint = false;
 
-                    options.ClientId = "client";
+                    options.ClientId = "mvc";
                     options.ClientSecret = "secret";
                     options.ResponseType = "code";
 
@@ -45,7 +45,7 @@ namespace FamilyHealthCare.Web
 
                     options.Scope.Add("openid");
                     options.Scope.Add("profile");
-                    options.Scope.Add("gateway.api");
+                    options.Scope.Add("familyhealthcare.api");
 
                     options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                     {
