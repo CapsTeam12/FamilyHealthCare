@@ -84,7 +84,7 @@ namespace FamilyHealCare.UnitTests.TestData
                 Id = new Random().Next(),
                 Time = DateTime.Now,
                 Description = search,
-                TherapistId = new Random().Next(),
+                TherapistId = new Random().Next().ToString(),
             };
         }
         public static AppointmentCreateDto ValidGetAppointmentCreateDto()

@@ -13,7 +13,7 @@ namespace Data.Entities
         public int Id { get; set; }
         public DateTime Time { get; set; }
         public string Description { get; set; }
-        public int TherapistId { get; set; }
+        public string TherapistId { get; set; }
         public User Therapist { get; set; }
     }
 }

@@ -36,9 +36,18 @@ namespace AuthService
         {
             services.AddDataAccessorLayer(Configuration);
 
-            services.AddIdentity<User, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
-                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                 .AddDefaultTokenProviders();
+            services.AddIdentity<User, IdentityRole>(options =>
+            { 
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireUppercase = false;
+            })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddIdentityServer(options =>
             {
@@ -79,41 +88,7 @@ namespace AuthService
             });
 
             services.AddSingleton<IAuthorizationHandler, AdminRoleHandler>();
-
             services.AddControllersWithViews();
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Auth Service API", Version = "v1" });
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Type = SecuritySchemeType.OAuth2,
-                    Flows = new OpenApiOAuthFlows
-                    {
-                        AuthorizationCode = new OpenApiOAuthFlow
-                        {
-                            TokenUrl = new Uri("/connect/token", UriKind.Relative),
-                            AuthorizationUrl = new Uri("/connect/authorize", UriKind.Relative),
-                            Scopes = new Dictionary<string, string> { 
-                                { 
-                                    CustomIdentityServerConstants.ApiScopeName, 
-                                    CustomIdentityServerConstants.ApiScopeDisplayName 
-                                } 
-                            }
-                        },
-                    },
-                });
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                            {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
-                        },
-                        new List<string>{ CustomIdentityServerConstants.ApiScopeName }
-                    }
-                            });
-            });
             services.AddRazorPages();
         }
 
@@ -123,20 +98,21 @@ namespace AuthService
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuthService v1");
-                });
             }
 
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
             app.UseRouting();
 
+            app.UseIdentityServer();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }
