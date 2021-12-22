@@ -1,6 +1,4 @@
-using AuthService.Security.Authorization.Requirements;
 using FamilyHealthCare.SharedLibrary;
-using FamilyHealthCare.Web.Security.Authorization.Handlers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
