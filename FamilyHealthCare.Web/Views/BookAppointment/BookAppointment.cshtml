@@ -1,0 +1,505 @@
+﻿
+@{
+    ViewData["Title"] = "BookAppointment";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Book Appointment</title>
+    <!-- for-mobile-apps -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords"
+          content="Dental Health Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+
+    <script>
+        addEventListener(
+            "load",
+            function () {
+                setTimeout(hideURLbar, 0);
+            },
+            false
+        );
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+          integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+
+    <!-- css files -->
+    <link href="~/css/css_slider.css"
+          type="text/css"
+          rel="stylesheet"
+          media="all" />
+    <!-- slider css -->
+    <link href="~/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <!-- bootstrap css -->
+    <link href="~/css/style.css" rel="stylesheet" type="text/css" />
+    <!-- custom css -->
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" />
+    <!-- fontawesome css -->
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js	" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css	" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js	" />
+    <link rel="stylesheet" href="../assets/css/style-starter.css" />
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,600,700&display=swap"
+          rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico" />
+
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/owl.carousel.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/datepicker.min.css" />
+
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="~/assets/css/style.min.css" />
+    <link rel="stylesheet"
+          href="~/vendor/fontawesome/css/all.min.css" />
+    <!-- //css files -->
+    <!-- google fonts -->
+    <link href="//vanlangunivn.sharepoint.com///vanlangunivn.sharepoint.com///fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese"
+          rel="stylesheet" />
+    <link href="//vanlangunivn.sharepoint.com///vanlangunivn.sharepoint.com///fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800&amp;subset=latin-ext"
+          rel="stylesheet" />
+    <!-- //google fonts -->
+    <link rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="~/images/logo-white.png" />
+</head>
+<body>
+    <!-- top header -->
+    <!-- //top header -->
+    <!-- //header -->
+    <header class="py-3">
+        <div class="container">
+            <div id="logo">
+                <h1>
+                    <a href="index.html">
+                        <span class="fa fa-stethoscope" aria-hidden="true"></span> Family
+                        Health
+                    </a>
+                </h1>
+            </div>
+            <!-- nav -->
+            <nav class="d-lg-flex">
+                <label for="drop" class="toggle">
+                    <span class="fa fa-bars"></span>
+                </label>
+                <input type="checkbox" id="drop" />
+                <ul class="menu mt-2 ml-auto">
+                    <li class="active"><a href="index.html">Home</a></li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0)" class="dropbtn">
+                            Common <i class="fa fa-caret-down"></i>
+                        </a>
+                        <div class="dropdown-content">
+                            <a href="search.html">Medicine</a>
+                            <a href="drugstore.html">Drugstore</a>
+                            <a href="doctor.html">Doctor</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0)" class="dropbtn">
+                            Service <i class="fa fa-caret-down"></i>
+                        </a>
+                        <div class="dropdown-content">
+                            <a href="book-appointment.html">Booknow</a>
+                            <a href="health-check.html">Health Check</a>
+                        </div>
+                    </li>
+                    <li class=""><a href="register-partner.html">Partner</a></li>
+                </ul>
+                <form action="search.html" class="search-wrap">
+                    <div class="input-group w-100">
+                        <input type="text"
+                               class="form-control search-form"
+                               style="width: 50%"
+                               placeholder="Search" />
+                        <div class="input-group-append">
+                            <button class="btn btn-primary search-button"
+                                    style="padding: 0 0.7rem"
+                                    type="submit">
+                                <i class="fa fa-search" style="margin: 0"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div id="login-btn">
+                    <a id="login"
+                       type="button"
+                       class="nav-link nav-user-img"
+                       href="login.html"
+                       data-toggle="modal"
+                       data-target="#login-modal"
+                       data-abc="true">Login</a>
+
+                    <style>
+                        /* Style The Dropdown Button */
+                        .dropbtn {
+                            background-color: transparent;
+                            color: white;
+                            padding: 0 1.2rem;
+                            font-size: 16px;
+                            border: none;
+                            cursor: pointer;
+                        }
+
+                        /* The container <div> - needed to position the dropdown content */
+                        .dropdown {
+                            position: relative;
+                            display: inline-block;
+                        }
+
+                        /* Dropdown Content (Hidden by Default) */
+                        .dropdown-content {
+                            display: none;
+                            position: absolute;
+                            background-color: #f9f9f9;
+                            min-width: 160px;
+                            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+                            z-index: 1;
+                        }
+
+                            /* Links inside the dropdown */
+                            .dropdown-content a {
+                                color: black;
+                                padding: 12px 16px;
+                                text-decoration: none;
+                                display: block;
+                            }
+
+                                /* Change color of dropdown links on hover */
+                                .dropdown-content a:hover {
+                                    background-color: #f1f1f1;
+                                }
+
+                        /* Show the dropdown menu on hover */
+                        .dropdown:hover .dropdown-content {
+                            display: block;
+                        }
+
+                        /* Change the background color of the dropdown button when the dropdown content is shown */
+                    </style>
+
+                    <div id="user-success"
+                         style="display: none; top: 5px; width: 75px"
+                         class="dropdown">
+                        <button class="dropbtn">
+                            <i class="fas fa-user" style="font-size: 1.5rem"></i>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="profile.html">Account</a>
+                            <a href="change-password.html">New password</a>
+                            <a href="~/calendar/health-check-plan.html">Calendar</a>
+                            <a href="medical-history.html">History</a>
+                            <a href="login.html">Log out!</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown dropdown-language" style="font-size: 1, 5rem">
+                    <a href=""
+                       class=""
+                       data-toggle="dropdown"
+                       role="button"
+                       aria-haspopup="true"
+                       aria-expanded="false"
+                       title="English">
+                        <img alt="English"
+                             class="icon-language showOf"
+                             src="~/images/en-us.png" />
+                    </a>
+
+                    <ul class="dropdown-menu logo-language">
+                        <li>
+                            <span class="change-lang"
+                                  data-link="/language/setLanguageLocal?name=en&amp;redirectUrl=">
+                                <img alt="English"
+                                     class="icon-language"
+                                     src="~/images/en-us.png" />
+
+                                English
+                            </span>
+                        </li>
+
+                        <li>
+                            <span class="change-lang"
+                                  data-link="/language/setLanguageLocal?name=vn&amp;redirectUrl=">
+                                <img alt="Vietnamese"
+                                     class="icon-language"
+                                     src="~/images/vn.png" />
+                                Vietnamese
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <div class="innerpage-banner" id="home">
+        <div class="inner-page-layer"></div>
+    </div>
+    <section class="mail pt-lg-5 pt-4">
+        <div class="container pt-lg-5">
+            <h2 class="heading text-center mb-sm-5 mb-4">Book Appointment</h2>
+            <div class="row agileinfo_mail_grids container">
+                <div class="col-lg-12 agileinfo_mail_grid_right">
+                    <form action="#" method="post">
+                        <div class="row container">
+                            <div class="col-md-6 wthree_contact_left_grid pr-md-0">
+                                <div class="col-md-12"
+                                     style="height: 50px; padding-top: 15px">
+                                    <div class="
+                        form-check form-check-inline
+                        wthree_contact_left_grid
+                      ">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="positions"
+                                               id="doctor"
+                                               value="doctor"
+                                               checked />
+                                        <label class="form-check-label"
+                                               for="inlineRadio1"
+                                               style="padding-right: 100px">Doctor</label>
+                                    </div>
+                                    <div class="
+                        form-check form-check-inline
+                        wthree_contact_left_grid
+                      ">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="positions"
+                                               id="pharmacy"
+                                               value="pharmacy" />
+                                        <label class="form-check-label" for="inlineRadio2">Pharmacy</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <select style="
+                        height: 39.5px;
+                        width: 495px;
+                        outline: none;
+                        border-color: #e4e4e4;
+                        border-radius: 4px;
+                        font-size: 17px;
+                        padding-left: 24px;
+                      "
+                                            name="list">
+                                        <option value="">Choose Doctor..</option>
+                                        <option value="doctor1">Airi J Roese</option>
+                                        <option value="doctor2">Johnson Frankut</option>
+                                        <option value="doctor3">Jonathan DJ</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 wthree_contact_left_grid">
+                                <div class="form-group">
+                                    <input type="text"
+                                           name="name"
+                                           class="form-control"
+                                           placeholder="Phone"
+                                           required="" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="date"
+                                           name="date of birth"
+                                           class="form-control"
+                                           placeholder=""
+                                           required=""
+                                           style="
+                        padding-left: 24px;
+                        height: 39.5px;
+                        width: 480px;
+                        font-size: 17px;
+                      " />
+                                </div>
+                            </div>
+                            <div class="col-md-6 wthree_contact_left_grid_1 pr-md-0">
+                                <div class="form-group">
+                                    <input type="text"
+                                           name="name"
+                                           class="form-control"
+                                           placeholder="Symptom"
+                                           required="" />
+                                </div>
+                            </div>
+                            <div class="col-md-6 wthree_contact_left_grid_1 pr-md-0">
+                                <div class="form-group">
+                                    <select style="
+                        height: 39.5px;
+                        width: 480px;
+                        outline: none;
+                        border-color: #e4e4e4;
+                        border-radius: 4px;
+                        font-size: 17px;
+                        padding-left: 24px;
+                      "
+                                            name="list">
+                                        <option value="">Taking any medications curently?</option>
+                                        <option value="true">Yes</option>
+                                        <option value="false">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <textarea name="message"
+                                              placeholder="If yes, please list it or send your message"
+                                              class="form-control"
+                                              required=""></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="submit-buttons">
+                                    <button type="submit" class="btn">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="map mt-5"></div>
+    </section>
+    <div class="float-contact">
+        <ul style="line-height: 45px">
+            <li>
+                <a href="http://zalo.me/">
+                    <img src="~/images/zalo.png" alt="" />
+                </a>
+            </li>
+            <li>
+                <a href="http://m.me/quanganh.vn">
+                    <img src="~/images/facebook.png" alt="" />
+                </a>
+            </li>
+            <li>
+                <a href="tel:0989999898">
+                    <img src="~/images/phone.png" alt="" />
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <footer class="py-5">
+        <div class="container py-sm-3">
+            <div class="row footer-grids">
+                <div class="col-lg-3 col-sm-6 mb-lg-0 mb-sm-5 mb-4">
+                    <h4 class="mb-sm-4 mb-3">
+                        <span class="fa fa-stethoscope"></span> Family Health
+                    </h4>
+                    <p class="mb-3">
+                        Onec Consequat sapien ut cursus rhoncus. Nullam dui mi, vulputate
+                        ac metus semper quis luctus sed.
+                    </p>
+                    <h5>Trusted by <span>500+ People</span></h5>
+                </div>
+                <div class="col-lg-3 col-sm-6 mb-lg-0 mb-sm-5 mb-4">
+                    <h4 class="mb-sm-4 mb-3">Address Info</h4>
+                    <p>
+                        <span class="fa mr-2 fa-map-marker"></span>64d canal street TT
+                        3356 <span>Newyork, NY.</span>
+                    </p>
+                    <p class="phone py-2">
+                        <span class="fa mr-2 fa-phone"></span> +1(12) 123 456 789
+                    </p>
+                    <p>
+                        <span class="fa mr-2 fa-envelope"></span><a href="mailto:info@example.com">info@example.com</a>
+                    </p>
+                </div>
+                <div class="col-lg-2 col-sm-6 mb-sm-0 mb-4">
+                    <h4 class="mb-sm-4 mb-3">Quick Links</h4>
+                    <ul>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li class="my-2"><a href="#">Support Helpline</a></li>
+                        <li><a href="#">Healthy Tips</a></li>
+                        <li class="mt-2"><a href="#">Privacy Ploicy</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <h4 class="mb-sm-4 mb-3">Subscribe Us</h4>
+                    <p class="mb-3">Subscribe to our newsletter</p>
+                    <form action="#" method="post" class="d-flex">
+                        <input type="email"
+                               id="email"
+                               name="EMAIL"
+                               placeholder="Enter your email here"
+                               required="" />
+                        <button type="submit" class="btn">Subscribe</button>
+                    </form>
+                    <div class="icon-social mt-3">
+                        <a href="#" class="button-footr">
+                            <span class="fa mx-2 fa-facebook"></span>
+                        </a>
+                        <a href="#" class="button-footr">
+                            <span class="fa mx-2 fa-twitter"></span>
+                        </a>
+                        <a href="#" class="button-footr">
+                            <span class="fa mx-2 fa-dribbble"></span>
+                        </a>
+                        <a href="#" class="button-footr">
+                            <span class="fa mx-2 fa-pinterest"></span>
+                        </a>
+                        <a href="#" class="button-footr">
+                            <span class="fa mx-2 fa-google-plus"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- //footer -->
+    <!-- copyright -->
+    <div class="copyright">
+        <div class="container py-4">
+            <div class="text-center">
+                <p>
+                    © 2019 Dental Health. All Rights Reserved | Design by
+                    <a href="http://w3layouts.com/"> W3layouts</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .btn-DangKi,
+        .btn-taoKeHoach {
+            border-radius: 5px !important;
+            font-weight: bold;
+            background: #00bcd5;
+            border: none;
+            text-align: center;
+            padding: 0.5rem 5rem;
+        }
+
+        .btn-taoKeHoach {
+            background: #ffc107 !important;
+            color: black;
+            padding: 0.6rem 5rem;
+            margin: 5px;
+        }
+
+            .btn-taoKeHoach:hover {
+                color: darkred !important;
+            }
+
+        .btn-DangKi:hover {
+            color: #000 !important;
+        }
+    </style>
+    <script src="~/js/index.js"></script>
+</body>
+</html>

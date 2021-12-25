@@ -1,48 +1,403 @@
-﻿<!DOCTYPE html>
+﻿<!--
+author: W3layouts
+author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - FamilyHealthCare.Web</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <title>Home</title>
+    <!-- for-mobile-apps -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Dental Health Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+
+    <script>
+        addEventListener(
+            "load",
+            function () {
+                setTimeout(hideURLbar, 0);
+            },
+            false
+        );
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <link rel="icon" type="image/png" sizes="16x16" href="images/logo-white.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+          integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- css files -->
+    <link href="~/css/css_slider.css" type="text/css" rel="stylesheet" media="all" />
+    <!-- slider css -->
+    <link href="~/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <!-- bootstrap css -->
+    <link href="~/css/style.css" rel="stylesheet" type="text/css" />
+    <!-- custom css -->
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" />
+    <!-- fontawesome css -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js	" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css	" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js	" />
+    <link rel="stylesheet" href="~/css/style-starter.css" />
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,600,700&display=swap" rel="stylesheet" />
+
+    <!-- //css files -->
+    <!-- google fonts -->
+    <link href="//vanlangunivn.sharepoint.com///vanlangunivn.sharepoint.com///vanlangunivn.sharepoint.com///fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese"
+          rel="stylesheet" />
+    <link href="//vanlangunivn.sharepoint.com///vanlangunivn.sharepoint.com///vanlangunivn.sharepoint.com///fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800&amp;subset=latin-ext"
+          rel="stylesheet" />
+    <!-- //google fonts -->
 </head>
+
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FamilyHealthCare.Web</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+
+    <!-- top header -->
+    <!-- //top header -->
+    <!-- //header -->
+    <header class="py-3">
+        <div class="container">
+            <div id="logo">
+                <h1>
+                    <a href="index.html">
+                        <span class="fa fa-stethoscope" aria-hidden="true"></span> Family
+                        Health
+                    </a>
+                </h1>
+            </div>
+            <!-- nav -->
+            <nav class="d-lg-flex">
+                <label for="drop" class="toggle"><span class="fa fa-bars"></span></label>
+                <input type="checkbox" id="drop" />
+                <ul class="menu mt-2 ml-auto">
+                    <li class="active"><a href="index.html">Home</a></li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0)" class="dropbtn">Common <i class="fa fa-caret-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="search.html">Medicine</a>
+                            <a href="drugstore.html">Drugstore</a>
+                            <a href="doctor.html">Doctor</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0)" class="dropbtn">Service <i class="fa fa-caret-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="book-appointment.html">Booknow</a>
+                            <a href="health-check.html">Health Check</a>
+                        </div>
+                    </li>
+                    <li class=""><a href="register-partner.html">Partner</a></li>
+                </ul>
+                <form action="search.html" class="search-wrap">
+                    <div class="input-group w-100">
+                        <input type="text" class="form-control search-form" style="width: 50%" placeholder="Search" />
+                        <div class="input-group-append">
+                            <button class="btn btn-primary search-button" style="padding: 0 0.7rem" type="submit">
+                                <i class="fa fa-search" style="margin: 0"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div id="login-btn">
+                    <a id="login" type="button" class="nav-link nav-user-img" href="login.html" data-toggle="modal"
+                       data-target="#login-modal" data-abc="true">Login</a>
+
+                    <style>
+                        /* Style The Dropdown Button */
+                        .dropbtn {
+                            background-color: transparent;
+                            color: white;
+                            padding: 0 1.2rem;
+                            font-size: 16px;
+                            border: none;
+                            cursor: pointer;
+                        }
+
+                        /* The container <div> - needed to position the dropdown content */
+                        .dropdown {
+                            position: relative;
+                            display: inline-block;
+                        }
+
+                        /* Dropdown Content (Hidden by Default) */
+                        .dropdown-content {
+                            display: none;
+                            position: absolute;
+                            background-color: #f9f9f9;
+                            min-width: 160px;
+                            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+                            z-index: 1;
+                        }
+
+                            /* Links inside the dropdown */
+                            .dropdown-content a {
+                                color: black;
+                                padding: 12px 16px;
+                                text-decoration: none;
+                                display: block;
+                            }
+
+                                /* Change color of dropdown links on hover */
+                                .dropdown-content a:hover {
+                                    background-color: #f1f1f1;
+                                }
+
+                        /* Show the dropdown menu on hover */
+                        .dropdown:hover .dropdown-content {
+                            display: block;
+                        }
+
+                        /* Change the background color of the dropdown button when the dropdown content is shown */
+                    </style>
+
+                    <div id="user-success" style="display: none; top: 5px; width: 75px" class="dropdown">
+                        <button class="dropbtn">
+                            <i class="fas fa-user" style="font-size: 1.5rem"></i>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="profile.html">Account</a>
+                            <a href="change-password.html">New password</a>
+                            <a href="../calendar/health-check-plan.html">Calendar</a>
+                            <a href="medical-history.html">History</a>
+                            <a href="login.html">Log out!</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown dropdown-language" style="font-size: 1,5rem">
+                    <a href="" class="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+                       title="English">
+                        <img alt="English" class="icon-language showOf" src="~/images/en-us.png" />
+                    </a>
+
+                    <ul class="dropdown-menu logo-language">
+                        <li>
+                            <span class="change-lang" data-link="/language/setLanguageLocal?name=en&amp;redirectUrl=">
+                                <img alt="English" class="icon-language" src="~/images/en-us.png" />
+
+                                English
+                            </span>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
+                        <li>
+                            <span class="change-lang" data-link="/language/setLanguageLocal?name=vn&amp;redirectUrl=">
+                                <img alt="Vietnamese" class="icon-language" src="~/images/vn.png" />
+                                Vietnamese
+                            </span>
                         </li>
                     </ul>
                 </div>
-            </div>
-        </nav>
+            </nav>
+        </div>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+
+    <!-- //header -->
+    <!-- banner -->
+    <div class="banner" id="home">
+        <div class="layer">
+            <div class="container">
+                <div class="banner-text-agile">
+                    <div class="row">
+                        <div class="col-lg-6 p-0">
+                            <!-- banner slider-->
+                            <div class="csslider infinity" id="slider1">
+                                <input type="radio" name="slides" checked="checked" id="slides_1" />
+                                <input type="radio" name="slides" id="slides_2" />
+                                <input type="radio" name="slides" id="slides_3" />
+                                <ul class="banner_slide_bg">
+                                    <li>
+                                        <div class="container-fluid">
+                                            <div class="w3ls_banner_txt">
+                                                <h3 class="b-w3ltxt text-capitalize mt-md-4">
+                                                    <span>Family Health Care</span>
+                                                </h3>
+                                                <h4 class="b-w3ltxt text-capitalize mt-md-4">
+                                                    <span>HEALTH CARE SERVICES AT HOME PATIENTS</span>
+                                                </h4>
+                                                <p class="w3ls_pvt-title my-3">
+                                                    ADVANCED SMART Sync Solution combined with
+                                                    MANAGEMENT SOFTWARE PATIENT MANAGER collects medical
+                                                    indicators and information through patient interview
+                                                    questions, thereby allowing staff to Medical care
+                                                    closely monitors the patient's condition and
+                                                    prevents it from getting worse.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="container-fluid">
+                                            <div class="w3ls_banner_txt">
+                                                <h3 class="b-w3ltxt text-capitalize mt-md-4">
+                                                    <span>We care about you</span>
+                                                </h3>
+                                                <h4 class="b-w3ltxt text-capitalize mt-md-4">
+                                                    <span>Health</span>
+                                                </h4>
+                                                <p class="w3ls_pvt-title my-3">
+                                                    Careful care for each patient right from the initial
+                                                    medical examination. Promptly intervene when the
+                                                    patient has abnormal signs. Early diagnosis at home,
+                                                    at the first sign, when the disease is still latent.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="container-fluid">
+                                            <div class="w3ls_banner_txt">
+                                                <h3 class="b-w3ltxt text-capitalize mt-md-4">
+                                                    <span>Professionalism in every procedure</span>
+                                                </h3>
+                                                <h4 class="b-w3ltxt text-capitalize mt-md-4">
+                                                    <span>Nhân viên</span>
+                                                </h4>
+                                                <p class="w3ls_pvt-title my-3">
+                                                    Enthusiastic staff, quick support within 5 hours
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <div class="navigation">
+                                    <div>
+                                        <label for="slides_1"></label>
+                                        <label for="slides_2"></label>
+                                        <label for="slides_3"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- //banner slider-->
+                        </div>
+                        <div class="col-lg-6 col-md-8">
+                            <img src="~/images/hospital.jpg" alt="" class="img-fluid" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - FamilyHealthCare.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
+    <div class="float-contact">
+        <ul style="line-height: 45px">
+            <li>
+                <a href="http://zalo.me/">
+                    <img src="~/images/zalo.png" alt="" />
+                </a>
+            </li>
+            <li>
+                <a href="http://m.me/quanganh.vn">
+                    <img src="~/images/facebook.png" alt="" />
+                </a>
+            </li>
+            <li>
+                <a href="tel:0989999898">
+                    <img src="~/images/phone.png" alt="" />
+                </a>
+            </li>
+        </ul>
+    </div>
+    @RenderBody()
+    <!-- //appointment -->
+    <!-- footer -->
+    <footer class="py-5">
+        <div class="container py-sm-3">
+            <div class="row footer-grids">
+                <div class="col-lg-3 col-sm-6 mb-lg-0 mb-sm-5 mb-4">
+                    <h4 class="mb-sm-4 mb-3">
+                        <span class="fa fa-stethoscope"></span> Family Health Care
+                    </h4>
+                    <p class="mb-3">
+                        We Care About Your <br />
+                        Follow Up You <br />
+                        Bring Happiness To You
+                    </p>
+                    <h5>Trusted by <span>500+ People</span></h5>
+                </div>
+                <div class="col-lg-3 col-sm-6 mb-lg-0 mb-sm-5 mb-4">
+                    <h4 class="mb-sm-4 mb-3">Address</h4>
+                    <p>
+                        <span class="fa mr-2 fa-map-marker"></span>45 Nguyễn Khắc Nhu,
+                        <br />
+                        Phường Cô Giang, <br />
+                        Quận 1, HCM City.
+                    </p>
+                    <p class="phone py-2">
+                        <span class="fa mr-2 fa-phone">
+                            <a href="tel:0989999898"> 0989999898</a>
+                        </span>
+                    </p>
+                    <p>
+                        <span class="fa mr-2 fa-envelope"></span><a href="mailto:tqa47@gmail.com">tqa47@gmail.com</a>
+                    </p>
+                </div>
+                <div class="col-lg-2 col-sm-6 mb-sm-0 mb-4">
+                    <h4 class="mb-sm-4 mb-3">Capston Project 2021</h4>
+                    <ul>
+                        <li><a href="#">Mentor: Nguyen Huu Quoc</a></li>
+                        <li class="my-2"><a href="#">Customer: Nguyen Dat</a></li>
+                        <li><a href="#">CapsTeam12</a></li>
+                        <li class="mt-2"><a href="#">Van Lang University</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <h4 class="mb-sm-4 mb-3">Subscribe Us</h4>
+                    <p class="mb-3">Subscribe to our newsletter</p>
+                    <form action="#" method="post" class="d-flex">
+                        <input type="email" id="email" name="EMAIL" placeholder="Enter your email here" required="" />
+                        <button type="submit" class="btn">Subscribe</button>
+                    </form>
+                    <div class="icon-social mt-3">
+                        <a href="#" class="button-footr">
+                            <span class="fa mx-2 fa-facebook"></span>
+                        </a>
+                        <a href="#" class="button-footr">
+                            <span class="fa mx-2 fa-twitter"></span>
+                        </a>
+                        <a href="#" class="button-footr">
+                            <span class="fa mx-2 fa-dribbble"></span>
+                        </a>
+                        <a href="#" class="button-footr">
+                            <span class="fa mx-2 fa-pinterest"></span>
+                        </a>
+                        <a href="#" class="button-footr">
+                            <span class="fa mx-2 fa-google-plus"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <!-- //footer -->
+    <!-- copyright -->
+    <div class="copyright">
+        <div class="container py-4">
+            <div class="text-center">
+                <p>
+                    © 2021 Family Health Care. All Rights Reserved | Design by
+                    <a href="https://www.vanlanguni.edu.vn"> Team 12 - VanLangUni</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- //copyright -->
+    <!-- move top -->
+    <div class="move-top text-right">
+        <a href="#home" class="move-top">
+            <span class="fa fa-angle-up mb-3" aria-hidden="true"></span>
+        </a>
+    </div>
+    <!-- move top -->
+
+    <script src="~/js/index.js"></script>
 </body>
+
 </html>
