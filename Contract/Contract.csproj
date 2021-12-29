@@ -8,4 +8,8 @@
     <Folder Include="DTOs\MedicineService\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj" />
+  </ItemGroup>
+
 </Project>

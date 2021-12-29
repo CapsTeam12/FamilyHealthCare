@@ -1,4 +1,5 @@
 ﻿using Contract.DTOs;
+using Contract.DTOs.SearchService;
 using Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,15 @@ namespace Business
                 .ReverseMap();
             CreateMap<Appointment, AppointmentCreateDto>()
                 .ReverseMap();
-
+            CreateMap<Medicine , SearchMedicineDto>()
+                .ForMember(d => d.ClassificationName, t => t.MapFrom(m => m.MedicineClass.ClassificationName))
+                .ReverseMap();
+            CreateMap<Doctor, SearchDoctorDto>()
+                .ForMember(d => d.DoctorFullName, t => t.MapFrom(m => m.User.UserName))
+                .ReverseMap();
+            CreateMap<Pharmacy, SearchPharmacyDto>()
+               .ForMember(d => d.PharmacyFullName, t => t.MapFrom(m => m.User.UserName))
+               .ReverseMap();
         }
     }
 }

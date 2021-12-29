@@ -18,7 +18,8 @@ namespace Business
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IAppointmentService, ClsAppointmentService>();
-            services.AddTransient<IAuthService, CIsAuthService>();
+            services.AddTransient<IAuthService, ClsAuthService>();
+            services.AddTransient<ISearchService, ClsSearchService>();
         }
     }
 }
