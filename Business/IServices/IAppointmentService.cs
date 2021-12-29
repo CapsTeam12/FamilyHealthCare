@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Contract.DTOs;
+using Data.Entities;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,10 @@ namespace Business.IServices
 {
     public interface IAppointmentService
     {
-        Task<IActionResult> GetAppointmentsAsync(string search);
+        //Task<IActionResult> GetAppointmentsAsync(string search);
+        Task<IEnumerable<AppointmentDetailsDto>> GetAppointments();
+        Task<AppointmentDetailsDto> AddAppointment(AppointmentCreateDto model);
+
+
     }
 }

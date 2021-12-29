@@ -15,6 +15,9 @@ namespace Business
             CreateMap<Appointment, AppointmentDetailsDto>()
                 .ForMember(d => d.TherapistFullName, t => t.MapFrom(m => m.Therapist.FullName))
                 .ReverseMap();
+
+            CreateMap<Appointment, AppointmentCreateDto>().ReverseMap();
+
         }
     }
 }

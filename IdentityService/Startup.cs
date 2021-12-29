@@ -47,7 +47,6 @@ namespace IdentityService
             .AddAspNetIdentity<User>();
 
             builder.AddDeveloperSigningCredential();
-
             services.AddScoped<IProfileService, ProfileService>();
             services.AddControllersWithViews();
         }

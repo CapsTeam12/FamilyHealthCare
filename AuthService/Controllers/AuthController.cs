@@ -25,15 +25,12 @@ namespace AuthService.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole<int>> _roleManager;
-        private readonly IConfiguration _configuration;
-        private readonly ApplicationDbContext _db;
 
-        public AuthController(UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager, ApplicationDbContext db, IConfiguration configuration)
+        public AuthController(UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _configuration = configuration;
-            _db = db;
+
         }
 
 
