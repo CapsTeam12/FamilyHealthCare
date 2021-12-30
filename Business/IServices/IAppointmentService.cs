@@ -13,8 +13,9 @@ namespace Business.IServices
     {
         //Task<IActionResult> GetAppointmentsAsync(string search);
         Task<IEnumerable<AppointmentDetailsDto>> GetAppointments();
-        Task<AppointmentDetailsDto> AddAppointment(AppointmentCreateDto model);
-
+        Task<AppointmentDetailsDto> GetAppointmentById(string id);
+        Task<AppointmentDetailsDto> RescheduleAppointment(AppointmentCreateDto model,string id);
+        Task CancelAppointment(string id);
 
     }
 }

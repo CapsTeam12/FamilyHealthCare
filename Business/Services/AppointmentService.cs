@@ -46,12 +46,26 @@ namespace Business.Services
             return appointmentDtos;
         }
 
-        public async Task<AppointmentDetailsDto> AddAppointment(AppointmentCreateDto model)
-        {           
-            var appointmentModel = _mapper.Map<Appointment>(model);
-            await _appointments.InsertOneAsync(appointmentModel);
-            var appointmentDtos = _mapper.Map<AppointmentDetailsDto>(appointmentModel);
-            return appointmentDtos;
+        public async Task<AppointmentDetailsDto> GetAppointmentById(string id)
+        {
+            var appointmentModel = await _appointments.Find(x =>x.Id == id).FirstOrDefaultAsync();
+            var appointmentDto = _mapper.Map<AppointmentDetailsDto>(appointmentModel);
+            return appointmentDto;
         }
+
+        public async Task<AppointmentDetailsDto> RescheduleAppointment(AppointmentCreateDto model,string id)
+        {                                        
+            var appointmentModel = _mapper.Map<Appointment>(model);
+            appointmentModel.Id = id;
+            await _appointments.ReplaceOneAsync(x => x.Id == id, appointmentModel);
+            var appointmentDto = _mapper.Map<AppointmentDetailsDto>(appointmentModel);
+            return appointmentDto;
+        }
+
+        public async Task CancelAppointment(string id)
+        {
+            await _appointments.DeleteOneAsync(x => x.Id == id);
+        }
+
     }
 }

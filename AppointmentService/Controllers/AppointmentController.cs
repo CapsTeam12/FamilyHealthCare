@@ -34,15 +34,46 @@ namespace AppointmentService.Controllers
         public async Task<IActionResult> GetAppointments()
         {
             var appointmentDto = await _appointmentService.GetAppointments();
-            return  Ok( appointmentDto);
+            return Ok(appointmentDto);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateAppoinment([FromBody] AppointmentCreateDto appointmentDto)
+        [HttpGet("{id}")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Get(string id)
         {
-            var model = await _appointmentService.AddAppointment(appointmentDto);
+            var appointmentDto = await _appointmentService.GetAppointmentById(id);
+            if(appointmentDto == null)
+            {
+                return NotFound();
+            }
+            return Ok(appointmentDto);
+        }
+
+        [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Put([FromBody] AppointmentCreateDto appointmentDto,string id)
+        {
+            var model = await _appointmentService.RescheduleAppointment(appointmentDto, id);
+            if(model == null)
+            {
+                return NotFound();
+            }
             return Ok(model);
         }
+
+        [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var model = await _appointmentService.GetAppointmentById(id);
+            if(model == null)
+            {
+                return NotFound();
+            }
+            await _appointmentService.CancelAppointment(id);
+            return NoContent();
+        }
+
 
 
         //[HttpPost("create")]

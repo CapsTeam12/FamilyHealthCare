@@ -13,7 +13,6 @@ namespace Data.Entities
     {
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
-        [Key]
         public string Id { get; set; }
         public DateTime Time { get; set; }
         public string Description { get; set; }
