@@ -32,11 +32,11 @@ namespace AppointmentService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IDbClient, DbClient>();
+            //services.AddSingleton<IDbClient, DbClient>();
             services.Configure<MongoDbConfig>(Configuration);
             
             services.AddBusinessLayer();
-            //services.AddDataAccessorLayer(Configuration);               
+            services.AddDataAccessorLayer(Configuration);               
             services.AddControllers()
                 .AddFluentValidation(fv =>
                 {
