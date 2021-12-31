@@ -31,7 +31,7 @@ namespace AppointmentService.Controllers
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> GetAppointments()
+        public async Task<IActionResult> GetAppointments(string search)
         {
             var appointment = await _appointmentService.GetAppointmentsAsync(search);
             return Ok(appointment);
