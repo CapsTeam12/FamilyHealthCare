@@ -16,28 +16,28 @@ namespace Business.Services
 {
     public class ClsAppointmentService : ControllerBase, IAppointmentService
     {
-        //private readonly IBaseRepository<Appointment> _repository;
+        private readonly IBaseRepository<Appointment> _repository;
         private readonly IMapper _mapper;
         private readonly IMongoCollection<Appointment> _appointments;
 
-        public AppointmentService(IMapper mapper, IDbClient dbClient)
+        public ClsAppointmentService(IMapper mapper, IDbClient dbClient)
         {
             //_repository = repository;
             _mapper = mapper;
             _appointments = dbClient.GetAppointmentsCollection();
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetAppointmentsAsync(string search)
-        //{
-        //    var appointments = await _repository
-        //                        .Entities
-        //                        .Include(a => a.Therapist)
-        //                        .Where(a => a.Description.ToLower().Contains(search.ToLower()))
-        //                        .ToListAsync();
-        //    var appointmentDtos = _mapper.Map<IEnumerable<AppointmentDetailsDto>>(appointments);
-        //    return Ok(appointmentDtos);
-        //}
+        [HttpGet]
+        public async Task<IActionResult> GetAppointmentsAsync(string search)
+        {
+            var appointments = await _repository
+                                .Entities
+                                .Include(a => a.Therapist)
+                                .Where(a => a.Description.ToLower().Contains(search.ToLower()))
+                                .ToListAsync();
+            var appointmentDtos = _mapper.Map<IEnumerable<AppointmentDetailsDto>>(appointments);
+            return Ok(appointmentDtos);
+        }
 
         public async Task<IEnumerable<AppointmentDetailsDto>> GetAppointments()
         {

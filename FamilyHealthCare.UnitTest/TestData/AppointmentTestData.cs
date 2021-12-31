@@ -77,16 +77,16 @@ namespace FamilyHealCare.UnitTests.TestData
             };
         }
 
-        public static Appointment ValidGetAppointment(string search)
-        {
-            return new Appointment
-            {
-                Id = new Random().Next(),
-                Time = DateTime.Now,
-                Description = search,
-                TherapistId = new Random().Next(),
-            };
-        }
+        //public static Appointment ValidGetAppointment(string search)
+        //{
+        //    //return new Appointment
+        //    //{
+        //    //    Id = new Random().Next(),
+        //    //    Time = DateTime.Now,
+        //    //    Description = search,
+        //    //    TherapistId = new Random().Next(),
+        //    //};
+        //}
         public static AppointmentCreateDto ValidGetAppointmentCreateDto()
         {
             return new AppointmentCreateDto
