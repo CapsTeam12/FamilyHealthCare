@@ -1,0 +1,43 @@
+﻿@model IdentityService.Quickstart.Account.RegisterViewModel
+
+    <link rel="stylesheet" href="~/css/login.css" />
+    <div class="login-page">
+        
+        <div class="row">
+
+            <div class="form-container sign-in-container">
+
+                <form asp-route="Login">
+                    <partial name="_ValidationSummary" />
+                    <h1>Sign Up</h1>
+                    <div class="social-container">
+                        <a href="#" class="social"><i class="fa fa-facebook"></i></a>
+                        <a href="#" class="social"><i class="fa fa-google"></i></a>
+                        <a href="#" class="social"><i class="fa fa-linkedin"></i></a>
+                    </div>
+                    <span>or use your email for registration</span>
+                    <input type="hidden" asp-for="ReturnUrl" />
+                    <input asp-for="Username" placeholder="UserName" />
+                    <input asp-for="FullName" type="text" placeholder="FullName" />
+                    <input asp-for="Email" type="email" placeholder="Email" />
+                    <input asp-for="Password" type="password" placeholder="Password" autocomplete="off" />
+                    <button name="button" value="Register">Sign Up</button>
+                </form>
+            </div>
+            <div class="overlay-container">
+                <div class="overlay">
+                    <div class="overlay-panel overlay-right">
+                        <h1>Welcome Back!</h1>
+                        <p>To keep connected with us please login with your personal info</p>
+                        <a class="btn btn-outline-light rounded" href="@Url.Action("Login",new {Model.ReturnUrl })">Sign In</a>
+                    </div>
+                    <div class="overlay-panel overlay-left">
+                        <h1>Hello, Friend!</h1>
+                        <p>Enter your personal details and start journey with us</p>
+                        <button class="ghost" id="signUp">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/js/login.js"></script>
