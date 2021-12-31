@@ -1,6 +1,7 @@
 ﻿using AutoMapper.Configuration;
 using Business.IServices;
 using Business.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -17,8 +18,10 @@ namespace Business
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-            services.AddTransient<IAppointmentService, ClsAppointmentService>();
-            services.AddTransient<IAuthService, CIsAuthService>();
+            services.AddTransient<IAppointmentService, AppointmentService>();
+            services.AddTransient<IAuthService, AuthService>();
+            services.AddSingleton<IDbClient, DbClient>();
+
         }
     }
 }

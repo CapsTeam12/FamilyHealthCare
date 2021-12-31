@@ -43,15 +43,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contract", "Contract\Contra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Business.csproj", "{CCB0B48F-25E2-40EA-A01D-86F218DEE535}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contract", "Contract\Contract.csproj", "{8B48ADB6-757A-4334-AB19-DA4CB77B9B1E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Business.csproj", "{CCB0B48F-25E2-40EA-A01D-86F218DEE535}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{7FDEC0F4-C7B9-4236-A7D9-AE0DCC5F393B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHealthCare.Web", "FamilyHealthCare.Web\FamilyHealthCare.Web.csproj", "{96ED566B-ECDD-47F0-808D-6D3139E66FA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHealCare.IntegationTest", "FamilyHealCare.IntegationTest\FamilyHealCare.IntegationTest.csproj", "{1E671C0E-203E-44D8-A0B9-070910D0D572}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHealthCare.Test", "FamilyHealthCare.Test\FamilyHealthCare.Test.csproj", "{78CAF872-FB65-4507-8AA2-90866F7545AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHealthCare.Web", "FamilyHealthCare.Web\FamilyHealthCare.Web.csproj", "{96ED566B-ECDD-47F0-808D-6D3139E66FA1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHealthCare.IntegationTest", "FamilyHealCare.IntegationTest\FamilyHealthCare.IntegationTest.csproj", "{EEAD72F5-83A6-4775-A31C-B6DA3BF69A95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityService", "IdentityService\IdentityService.csproj", "{B697A24D-81ED-4075-AC9E-4CC06714A145}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyHealthCare.WebAdmin", "FamilyHealthCare.WebAdmin\FamilyHealthCare.WebAdmin.csproj", "{910757ED-8189-4E9E-ABED-B2E433E79642}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FHC.Web", "FHC.Web\FHC.Web.csproj", "{55D7EF14-86C0-4E36-9DB8-B5500F7C4271}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
