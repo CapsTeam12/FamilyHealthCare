@@ -1,6 +1,8 @@
 ﻿using Data;
 using Data.Entities;
 using IdentityModel;
+using Contract.Constants;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

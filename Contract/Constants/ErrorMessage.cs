@@ -23,5 +23,9 @@ namespace Contract.Constants
         {
             public static string ErrorLogin = "User Name or Password is not correctly. Please try again!";
         }
+        public static class SearchMessage
+        {
+            public static string NullResult = "No products for query \"{0}\"";
+        }
     }
 }

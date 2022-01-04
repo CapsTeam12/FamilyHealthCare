@@ -20,6 +20,8 @@ namespace Business
             services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IAppointmentService, ClsAppointmentService>();
             services.AddTransient<IAuthService, ClsAuthService>();
+            services.AddTransient<ISearchService, ClsSearchService>();
+            services.AddTransient<IAuthService, ClsAuthService>();
             services.AddTransient<IAppointmentService, ClsAppointmentService>();
             services.AddTransient<IAuthService, ClsAuthService>();
             services.AddSingleton<IDbClient, DbClient>();
