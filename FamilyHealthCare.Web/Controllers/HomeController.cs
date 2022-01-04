@@ -1,4 +1,5 @@
-﻿using FamilyHealthCare.Web.Models;
+﻿using Contract.DTOs.ManagementService;
+using FamilyHealthCare.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,7 +13,7 @@ namespace FamilyHealthCare.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
+        HomeViewModel homeViewModel = new HomeViewModel();
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -20,6 +21,11 @@ namespace FamilyHealthCare.Web.Controllers
 
         public IActionResult Index()
         {
+            //HomeViewModel homeVM = new HomeViewModel
+            //{
+            //    Doctors = await <DoctorDetailsDto>
+            //};
+            ViewBag.Doctors = homeViewModel.Doctors.ToList();
             return View();
         }
 
