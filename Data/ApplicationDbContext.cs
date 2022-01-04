@@ -23,6 +23,7 @@ namespace Data
         public DbSet<MedicineClassification> MedicineClassifications { get; set; }
         public DbSet<RequestParner> RequestParners { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Specialities> Specialities { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

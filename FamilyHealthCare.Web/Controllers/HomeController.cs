@@ -17,8 +17,6 @@ namespace FamilyHealthCare.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IHttpClientFactory _clientFactory;
-
-        HomeViewModel homeViewModel = new HomeViewModel();
         public HomeController(ILogger<HomeController> logger, IHttpClientFactory clientFactory)
         {
             _logger = logger;
@@ -29,9 +27,8 @@ namespace FamilyHealthCare.Web.Controllers
         {
             //HomeViewModel homeVM = new HomeViewModel
             //{
-            //    Doctors = await <DoctorDetailsDto>
+            //    Doctors = await 
             //};
-            ViewBag.Doctors = homeViewModel.Doctors.ToList();
             return View();
         }
 

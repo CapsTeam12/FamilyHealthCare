@@ -9,6 +9,10 @@ namespace Business.IServices
 {
     public interface IManagementService
     {
-        public Task<IActionResult> GetDoctorAsync();
+        public Task<IActionResult> GetPatientsAsync();
+        public Task<IActionResult> GetDoctorsAsync();
+        public Task<IActionResult> GetPharmaciesAsync();
+        public Task<IActionResult> GetSpecialitiesAsync();
+        public Task<IActionResult> GetCategoriestAsync();
     }
 }

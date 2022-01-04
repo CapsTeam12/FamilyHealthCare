@@ -21,9 +21,7 @@ namespace Business
             services.AddTransient<IAppointmentService, ClsAppointmentService>();
             services.AddTransient<IAuthService, ClsAuthService>();
             services.AddTransient<ISearchService, ClsSearchService>();
-            services.AddTransient<IAuthService, ClsAuthService>();
-            services.AddTransient<IAppointmentService, ClsAppointmentService>();
-            services.AddTransient<IAuthService, ClsAuthService>();
+            services.AddTransient<IManagementService, ClsManagementService>();
             services.AddSingleton<IDbClient, DbClient>();
 
         }

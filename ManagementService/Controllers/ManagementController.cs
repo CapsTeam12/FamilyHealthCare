@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Business.IServices;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,46 @@ namespace ManagementService.Controllers
     [ApiController]
     public class ManagementController : ControllerBase
     {
-        // GET: api/<ManagementController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly IManagementService _managementService;
+
+        public ManagementController(IManagementService managementService)
         {
-            return new string[] { "value1", "value2" };
+            _managementService = managementService;
+        }
+        // GET: api/<ManagementController>
+        [HttpGet("doctors")]
+        public async Task<IActionResult> GetDoctorsAsync()
+        {
+            var doctors = await _managementService.GetDoctorsAsync();
+            return Ok(doctors);
+        }
+
+        [HttpGet("patients")]
+        public async Task<IActionResult> GetPatientsAsync()
+        {
+            var patients = await _managementService.GetPatientsAsync();
+            return Ok(patients);
+        }
+
+        [HttpGet("pharmacies")]
+        public async Task<IActionResult> GetPharmacysAsync()
+        {
+            var pharmacies = await _managementService.GetPharmaciesAsync();
+            return Ok(pharmacies);
+        }
+
+        [HttpGet("categories")]
+        public async Task<IActionResult> GetCategoriesAsync()
+        {
+            var categories = await _managementService.GetCategoriestAsync();
+            return Ok(categories);
+        }
+
+        [HttpGet("specialities")]
+        public async Task<IActionResult> GetSpecialitiesAsync()
+        {
+            var specialities = await _managementService.GetSpecialitiesAsync();
+            return Ok(specialities);
         }
 
         // GET api/<ManagementController>/5

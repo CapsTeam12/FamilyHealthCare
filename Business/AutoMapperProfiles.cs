@@ -1,4 +1,5 @@
 ﻿using Contract.DTOs;
+using Contract.DTOs.ManagementService;
 using Contract.DTOs.SearchService;
 using Data.Entities;
 using System;
@@ -27,6 +28,17 @@ namespace Business
             CreateMap<Pharmacy, SearchPharmacyDto>()
                .ForMember(d => d.PharmacyFullName, t => t.MapFrom(m => m.User.UserName))
                .ReverseMap();
+            CreateMap<Doctor, DoctorDetailsDto>()
+                .ReverseMap();
+            CreateMap<Pharmacy, PharmacyDetailsDto>()
+                .ReverseMap();
+            CreateMap<User, PatientDetailsDto>()
+                .ReverseMap();
+            CreateMap<MedicineClassification, CategoriesDetailsDto>()
+                .ForMember(x => x.CateName, opt => opt.MapFrom(m => m.ClassificationName))
+                .ReverseMap();
+            CreateMap<Specialities, SpecialitiesDetailsDto>()
+                .ReverseMap();
         }
     }
 }
