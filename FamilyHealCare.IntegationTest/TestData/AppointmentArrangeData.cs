@@ -17,20 +17,20 @@ namespace FamilyHealCare.IntegationTest.TestData
             {
                 var appointmentList = new List<Appointment>()
                 {
-                    new Appointment
-                    {
-                        Id = 1,
-                        Time = new DateTime(01/03/2022),
-                        Description = "Re-examination",
-                        TherapistId = 1
-                    },
-                    new Appointment
-                    {
-                        Id = 2,
-                        Time = new DateTime(01/04/2022),
-                        Description = "Re-examination",
-                        TherapistId = 1
-                    },
+                    //new Appointment
+                    //{
+                    //    Id = 1,
+                    //    Time = new DateTime(01/03/2022),
+                    //    Description = "Re-examination",
+                    //    TherapistId = 1
+                    //},
+                    //new Appointment
+                    //{
+                    //    Id = 2,
+                    //    Time = new DateTime(01/04/2022),
+                    //    Description = "Re-examination",
+                    //    TherapistId = 1
+                    //},
 
                 };
 

@@ -3,28 +3,20 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>Doccure - Pharmacy Dashboard</title>
 
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href=@Url.Content("~/assets/img/favicon.png")>
+    <title>@ViewData["Title"] - Family Health Care</title>
+    <!-- Favicons -->
+    <link type="image/x-icon" href="@Url.Content("~/assets/img/favicon.png")" rel="icon">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href=@Url.Content("~/assets/css/bootstrap.min.css")>
+    <link rel="stylesheet" href="@Url.Content("~/assets/css/bootstrap.min.css")">
 
     <!-- Fontawesome CSS -->
-    <link rel="stylesheet" href=@Url.Content("~/assets/css/font-awesome.min.css")>
-
-    <!-- Feathericon CSS -->
-    <link rel="stylesheet" href=@Url.Content("~/assets/css/feathericon.min.css")>
-
-    <link rel="stylesheet" href=@Url.Content("~/assets/plugins/morris/morris.css")>
+    <link rel="stylesheet" href=@Url.Content("~/assets/plugins/fontawesome/css/fontawesome.min.css")>
+    <link rel="stylesheet" href=@Url.Content("~/assets/plugins/fontawesome/css/all.min.css")>
 
     <!-- Main CSS -->
-    <link rel="stylesheet" href=@Url.Content("~/assets/css/style.css")>
-
-     <script src=@Url.Content("~/assets/js/html5shiv.min.js")></script>
-     <script src=@Url.Content("~/assets/js/respond.min.js")></script>
-
+    <link rel="stylesheet" href="@Url.Content("~/assets/css/style.css")">
 </head>
 
 <body>
@@ -203,16 +195,213 @@
                         <li>
                             <a href="profile.html"><i class="fe fe-user-plus"></i> <span>Profile</span></a>
                         </li>
-                        <li>
-                            <a href="settings.html"><i class="fe fe-vector"></i> <span>Settings</span></a>
+                        <li class="has-submenu">
+                            <a href="">Common <i class="fas fa-chevron-down"></i></a>
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="product.html">Medicine </a>
+                                </li>
+                                <li class="has-submenu">
+                                    <a href="#">Doctors</a>
+                                    <ul class="submenu">
+                                        <li><a href="map-list.html">Doctor Map List</a></li>
+                                        <li><a href="doctor-search.html">Booking Doctor</a></li>
+                                    </ul>
+                                </li>
+                                <li class="has-submenu">
+                                    <a href="#">Pharmacy</a>
+                                    <ul class="submenu">
+                                        <li><a href="map-list.html">Pharmacy Map List</a></li>
+                                        <li><a href="pharmacy-search.html">Booking Pharmacy</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="healthcheck.html">Health Check </a></li>
+
+                            </ul>
                         </li>
+
+
+                        <li class="has-submenu">
+                            <a href="">Pages <i class="fas fa-chevron-down"></i></a>
+                            <ul class="submenu">
+                                <li><a href="about-us.html">About Us</a></li>
+                                <li><a href="contact-us.html">Contact Us</a></li>
+                        </li>
+                        <li><a href="blog-list.html">Blog </a></li>
+
+                    </ul>
+                    </li>
+                    <li class="has-submenu">
+                        <a href="">Partner <i class="fas fa-chevron-down"></i></a>
+                        <ul class="submenu">
+                            <li><a href="pharmacy-register.html">Pharmacy Register</a></li>
+                            <li><a href="doctor-register.html">Doctor Register</a></li>
+                        </ul>
+                    </li>
                     </ul>
                 </div>
-            </div>
+                <ul class="nav header-navbar-rht">
+                    <li class="nav-item contact-item">
+                        <div class="header-contact-detail">
+                            <div class="card-body">
+                                <form class="search-form">
+                                    <div class="input-group">
+                                        <input type="text" placeholder="Search..." class="form-control">
+                                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link header-login" href="login.html">login / Signup </a>
+                    </li>
+                    <li class="dropdown language-select">
+                        <span class="dropdown-toggle" id="language-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
+                              aria-expanded="false" role="button"><img src=@Url.Content("~/assets/img/vietnam.png") alt="flag"> Việt Nam</span>
+                        <div class="dropdown-menu dropdown-menu" aria-labelledby="language-dropdown">
+                            <a class="dropdown-item" href="#"><img src=@Url.Content("~/assets/img/united-kingdom.png") alt="flag"> English</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+                <div class="float-contact">
+                    <ul style="line-height: 45px">
+                        <div>
+                            <a href="http://zalo.me/">
+                                <img src="assets/img/zalo.png" alt="" />
+                            </a>
+                        </div>
+                        <div>
+                            <a href="http://facebook.com">
+                                <img src="assets/img/messenger.png" alt="" />
+                            </a>
+                        </div>
+                        <div>
+                            <a href="tel:0989999898">
+                                <img src="assets/img/hotline.png" alt="" />
+                            </a>
+                        </div>
+                    </ul>
+                </div>
+            </main>
         </div>
-        <!-- /Sidebar -->
 
+        <!-- Footer -->
+        <footer class="footer">
 
+            <!-- Footer Top -->
+            <div class="footer-top">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6">
+
+                            <!-- Footer Widget -->
+                            <div class="footer-widget footer-about">
+                                <div class="footer-logo">
+                                    <img src=@Url.Content("~/assets/img/footer-logo.png") alt="logo">
+                                </div>
+                                <div class="footer-about-content">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+                                    <div class="social-icon">
+                                        <ul>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-facebook-f"></i> </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-twitter"></i> </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Footer Widget -->
+
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
+
+                            <!-- Footer Widget -->
+                            <div class="footer-widget footer-menu">
+                                <h2 class="footer-title">For Pharmacy</h2>
+                                <ul>
+                                    <li><a href="pharmacy-search.html">Booking Pharmacy</a></li>
+                                    <li><a href="map-list.html">Search Pharmacy</a></li>
+                            </div>
+                            <!-- /Footer Widget -->
+
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
+
+                            <!-- Footer Widget -->
+                            <div class="footer-widget footer-menu">
+                                <h2 class="footer-title">For Doctors</h2>
+                                <ul>
+                                    <li><a href="doctor-search.html">Booking Doctor</a></li>
+                                    <li><a href="map-grid.html">Search Doctor</a></li>
+                                </ul>
+                            </div>
+                            <!-- /Footer Widget -->
+
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
+
+                            <!-- Footer Widget -->
+                            <div class="footer-widget footer-contact">
+                                <h2 class="footer-title">Contact Us</h2>
+                                <div class="footer-contact-info">
+                                    <div class="footer-address">
+                                        <span><i class="fas fa-map-marker-alt"></i></span>
+                                        <p> Team 12 <br> Van Lang university </p>
+                                    </div>
+                                    <p>
+                                        <i class="fas fa-phone-alt"></i>
+                                        +123 456 789
+                                    </p>
+                                    <p class="mb-0">
+                                        <i class="fas fa-envelope"></i>
+                                        fhc@gmail.com
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- /Footer Widget -->
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- /Footer Top -->
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="container-fluid">
+
+                    <!-- Copyright -->
+                    <div class="copyright">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="copyright-text">
+                                    <p class="mb-0">&copy; 2021 Team 12 FHC.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-6">
+
+                                <!-- Copyright Menu -->
+                                <!-- /Copyright Menu -->
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Copyright -->
 
     </div>
 

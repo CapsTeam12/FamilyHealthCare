@@ -1,4 +1,5 @@
 ﻿using Contract.DTOs;
+using Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,11 @@ namespace Business.IServices
     {
         public Task<IActionResult> GetAppointmentsAsync(string search);
         public Task<IActionResult> CreateAppointmentAsync(AppointmentCreateDto appointmentCreateDto);
+
+        //Task<IActionResult> GetAppointmentsAsync(string search);
+        Task<IEnumerable<AppointmentDetailsDto>> GetAppointments();
+        Task<AppointmentDetailsDto> AddAppointment(AppointmentCreateDto model);
+
 
     }
 }

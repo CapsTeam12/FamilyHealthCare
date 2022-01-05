@@ -1,4 +1,6 @@
 using Business;
+using Business.IServices;
+using Business.Services;
 using Data;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
@@ -8,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
@@ -29,8 +32,11 @@ namespace AppointmentService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IDbClient, DbClient>();
+            services.Configure<MongoDbConfig>(Configuration);
+            
             services.AddBusinessLayer();
-            services.AddDataAccessorLayer(Configuration);
+            //services.AddDataAccessorLayer(Configuration);               
             services.AddControllers()
                 .AddFluentValidation(fv =>
                 {
@@ -38,6 +44,29 @@ namespace AppointmentService
                     fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
                 }
             );
+
+            services.AddAuthentication("Bearer")
+               .AddJwtBearer("Bearer", options =>
+               {
+                   options.Authority = "https://localhost:44303/";
+                   options.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       ValidateAudience = false
+                   };
+
+
+               });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ApiScope", policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                    //policy.RequireRole("Admin");
+                    policy.RequireClaim("role", "Admin");
+                });
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AppointmentService", Version = "v1" });
@@ -55,7 +84,7 @@ namespace AppointmentService
             }
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

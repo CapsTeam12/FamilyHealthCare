@@ -13,6 +13,7 @@ namespace Data
                 options.UseSqlServer(config.GetConnectionString("DbConnection"), b =>
                     b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
                 ));
+
         }
     }
 }

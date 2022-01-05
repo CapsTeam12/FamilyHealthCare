@@ -28,9 +28,9 @@ namespace FamilyHealthCare.UnitTest.ServiceBusiness
             var config = new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperProfiles>());
             _mapper = config.CreateMapper();
             _appointmentRepository = new Mock<IBaseRepository<Appointment>>();
-            _appointmentService = new ClsAppointmentService(
-                _appointmentRepository.Object,
-                _mapper);
+            //_appointmentService = new ClsAppointmentService(
+            //    _appointmentRepository.Object,
+            //    _mapper);
         }
 
         [Fact]

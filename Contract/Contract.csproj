@@ -10,4 +10,8 @@
     <None Remove="DTOs\MedicineService\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj" />
+  </ItemGroup>
+
 </Project>

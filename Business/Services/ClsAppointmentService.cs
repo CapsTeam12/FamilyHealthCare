@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Business.IServices;
 using Contract.DTOs;
+using Data;
 using Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +18,16 @@ namespace Business.Services
     {
         private readonly IBaseRepository<Appointment> _repository;
         private readonly IMapper _mapper;
-        public ClsAppointmentService(IBaseRepository<Appointment> repository, IMapper mapper)
+        private readonly IMongoCollection<Appointment> _appointments;
+
+        public ClsAppointmentService(IMapper mapper, IDbClient dbClient)
         {
-            _repository = repository;
+            //_repository = repository;
             _mapper = mapper;
+            _appointments = dbClient.GetAppointmentsCollection();
         }
 
+        [HttpGet]
         public async Task<IActionResult> GetAppointmentsAsync(string search)
         {
             var appointments = await _repository
@@ -31,6 +37,21 @@ namespace Business.Services
                                 .ToListAsync();
             var appointmentDtos = _mapper.Map<IEnumerable<AppointmentDetailsDto>>(appointments);
             return Ok(appointmentDtos);
+        }
+
+        public async Task<IEnumerable<AppointmentDetailsDto>> GetAppointments()
+        {
+            var appointmentModel = await _appointments.Find(appointment => true).ToListAsync();
+            var appointmentDtos = _mapper.Map<IEnumerable<AppointmentDetailsDto>>(appointmentModel);
+            return appointmentDtos;
+        }
+
+        public async Task<AppointmentDetailsDto> AddAppointment(AppointmentCreateDto model)
+        {           
+            var appointmentModel = _mapper.Map<Appointment>(model);
+            await _appointments.InsertOneAsync(appointmentModel);
+            var appointmentDtos = _mapper.Map<AppointmentDetailsDto>(appointmentModel);
+            return appointmentDtos;
         }
         public async Task<IActionResult> CreateAppointmentAsync(AppointmentCreateDto appointmentCreateDto)
         {

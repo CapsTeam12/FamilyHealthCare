@@ -1,5 +1,6 @@
 ﻿using Business.IServices;
 using Contract.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -22,8 +23,15 @@ namespace AppointmentService.Controllers
         }
 
         // GET: api/<AppointmentController>
+        //[HttpGet]
+        //public async Task<IActionResult> GetAppoinmentsAsync(string search)
+        //{
+        //    return await _appointmentService.GetAppointmentsAsync(search);
+        //}
+
         [HttpGet]
-        public async Task<IActionResult> GetAppoinmentsAsync(string search)
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetAppointments(string search)
         {
             var appointment = await _appointmentService.GetAppointmentsAsync(search);
             return Ok(appointment);
@@ -35,5 +43,12 @@ namespace AppointmentService.Controllers
             var createAppointment = await _appointmentService.CreateAppointmentAsync(appointmentCreateDto);
             return Ok(createAppointment);
         }
+
+
+        //[HttpPost("create")]
+        //public async Task<IActionResult> CreateAppoinmentsAsync([FromBody] AppointmentCreateDto appointmentCreateDto)
+        //{
+        //    return Ok();
+        //}
     }
 }

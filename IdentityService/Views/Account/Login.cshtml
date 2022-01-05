@@ -1,0 +1,82 @@
+@model LoginViewModel
+
+<link rel="stylesheet" href="~/css/login.css" />
+<div class="login-page">
+    
+    <div class="row">
+        
+        @if (Model.EnableLocalLogin)
+        {
+        <div class="form-container sign-in-container">
+            <partial name="_ValidationSummary" />
+            <form asp-route="Login">
+                <h1>Sign in</h1>
+                <div class="social-container">
+                    <a href="#" class="social"><i class="fa fa-facebook"></i></a>
+                    <a href="#" class="social"><i class="fa fa-google"></i></a>
+                    <a href="#" class="social"><i class="fa fa-linkedin"></i></a>
+                </div>
+                <span>or use your account</span>
+                <input type="hidden" asp-for="ReturnUrl" />
+                <input asp-for="Username" placeholder="Username" />
+                <input type="password" asp-for="Password" autocomplete="off" placeholder="Password" />
+                @if (Model.AllowRememberLogin)
+                {
+        <div class="form-check">
+            Remember my Login
+            <input class="form-check-input" asp-for="RememberLogin">
+        </div>}
+                <button name="button" value="login">Login</button>
+            </form>
+        </div>
+                    <div class="overlay-container">
+                        <div class="overlay">
+                            <div class="overlay-panel overlay-left">
+                                <h1>Welcome Back!</h1>
+                                <p>To keep connected with us please login with your personal info</p>
+                                <button class="ghost" id="signIn">Sign In</button>
+                            </div>
+                            <div class="overlay-panel overlay-right">
+                                <h1>Hello, Friend!</h1>
+                                <p>Enter your personal details and start journey with us</p>
+                                <a class="btn btn-outline-light rounded" href="@Url.Action("Register",new {Model.ReturnUrl })">Sign Up</a>
+                            </div>
+                        </div>
+                    </div>}
+
+        @if (Model.VisibleExternalProviders.Any())
+        {
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-header">
+                <h2>External Account</h2>
+            </div>
+            <div class="card-body">
+                <ul class="list-inline">
+                    @foreach (var provider in Model.VisibleExternalProviders)
+                    {
+    <li class="list-inline-item">
+        <a class="btn btn-secondary"
+           asp-controller="External"
+           asp-action="Challenge"
+           asp-route-scheme="@provider.AuthenticationScheme"
+           asp-route-returnUrl="@Model.ReturnUrl">
+            @provider.DisplayName
+        </a>
+    </li>
+}
+                </ul>
+            </div>
+        </div>
+    </div>}
+
+        @if (!Model.EnableLocalLogin && !Model.VisibleExternalProviders.Any())
+        {
+    <div class="alert alert-warning">
+        <strong>Invalid login request</strong>
+        There are no login schemes configured for this request.
+    </div>}
+    </div>
+</div>
+
+<script src="~/js/login.js"></script>
