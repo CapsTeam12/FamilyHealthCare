@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\MedicineService\" />
+    <Compile Remove="DTOs\MedicineService\**" />
+    <EmbeddedResource Remove="DTOs\MedicineService\**" />
+    <None Remove="DTOs\MedicineService\**" />
   </ItemGroup>
 
 </Project>

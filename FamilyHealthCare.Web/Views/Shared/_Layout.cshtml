@@ -1,320 +1,238 @@
-﻿<!--
-author: W3layouts
-author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <title>Home</title>
-    <!-- for-mobile-apps -->
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="keywords" content="Dental Health Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Doccure - Pharmacy Dashboard</title>
 
-    <script>
-        addEventListener(
-            "load",
-            function () {
-                setTimeout(hideURLbar, 0);
-            },
-            false
-        );
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href=@Url.Content("~/assets/img/favicon.png")>
 
-        function hideURLbar() {
-            window.scrollTo(0, 1);
-        }
-    </script>
-    <link rel="icon" type="image/png" sizes="16x16" href="images/logo-white.png" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
-          integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- css files -->
-    <link href="~/css/css_slider.css" type="text/css" rel="stylesheet" media="all" />
-    <!-- slider css -->
-    <link href="~/css/bootstrap.css" rel="stylesheet" type="text/css" />
-    <!-- bootstrap css -->
-    <link href="~/css/style.css" rel="stylesheet" type="text/css" />
-    <!-- custom css -->
-    <link href="~/css/font-awesome.min.css" rel="stylesheet" />
-    <!-- fontawesome css -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js	" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css	" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js	" />
-    <link rel="stylesheet" href="~/css/style-starter.css" />
-    <link href="https://fonts.googleapis.com/css?family=Muli:400,600,700&display=swap" rel="stylesheet" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href=@Url.Content("~/assets/css/bootstrap.min.css")>
 
-    <!-- //css files -->
-    <!-- google fonts -->
-    <link href="//vanlangunivn.sharepoint.com///vanlangunivn.sharepoint.com///vanlangunivn.sharepoint.com///fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese"
-          rel="stylesheet" />
-    <link href="//vanlangunivn.sharepoint.com///vanlangunivn.sharepoint.com///vanlangunivn.sharepoint.com///fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800&amp;subset=latin-ext"
-          rel="stylesheet" />
-    <!-- //google fonts -->
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href=@Url.Content("~/assets/css/font-awesome.min.css")>
+
+    <!-- Feathericon CSS -->
+    <link rel="stylesheet" href=@Url.Content("~/assets/css/feathericon.min.css")>
+
+    <link rel="stylesheet" href=@Url.Content("~/assets/plugins/morris/morris.css")>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href=@Url.Content("~/assets/css/style.css")>
+
+     <script src=@Url.Content("~/assets/js/html5shiv.min.js")></script>
+     <script src=@Url.Content("~/assets/js/respond.min.js")></script>
+
 </head>
 
-
 <body>
-
-    <!-- top header -->
-    <!-- //top header -->
-    <!-- //header -->
-    <header class="py-3">
-        <div class="container">
-            <div id="logo">
-                <h1>
-                    <a href="index.html">
-                        <span class="fa fa-stethoscope" aria-hidden="true"></span> Family
-                        Health
-                    </a>
-                </h1>
-            </div>
-            <!-- nav -->
-            <nav class="d-lg-flex">
-                <label for="drop" class="toggle"><span class="fa fa-bars"></span></label>
-                <input type="checkbox" id="drop" />
-                <ul class="menu mt-2 ml-auto">
-                    <li class="active"><a href="index.html">Home</a></li>
-                    <li class="dropdown">
-                        <a href="javascript:void(0)" class="dropbtn">Common <i class="fa fa-caret-down"></i></a>
-                        <div class="dropdown-content">
-                            <a href="search.html">Medicine</a>
-                            <a href="drugstore.html">Drugstore</a>
-                            <a href="doctor.html">Doctor</a>
-                        </div>
-                    </li>
-                    <li class="dropdown">
-                        <a href="javascript:void(0)" class="dropbtn">Service <i class="fa fa-caret-down"></i></a>
-                        <div class="dropdown-content">
-                            <a class="nav-link text-dark" asp-area=""asp-controller="BookAppointment" asp-action="BookAppointment" >Booknow</a>
-                            <a href="health-check.html">Health Check</a>
-                        </div>
-                    </li>
-                    <li class=""><a href="register-partner.html">Partner</a></li>
-                </ul>
-                <form action="search.html" class="search-wrap">
-                    <div class="input-group w-100">
-                        <input type="text" class="form-control search-form" style="width: 50%" placeholder="Search" />
-                        <div class="input-group-append">
-                            <button class="btn btn-primary search-button" style="padding: 0 0.7rem" type="submit">
-                                <i class="fa fa-search" style="margin: 0"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-                <div id="login-btn">
-                    <a id="login" type="button" class="nav-link nav-user-img" href="login.html" data-toggle="modal"
-                       data-target="#login-modal" data-abc="true">Login</a>
-
-                    <style>
-                        /* Style The Dropdown Button */
-                        .dropbtn {
-                            background-color: transparent;
-                            color: white;
-                            padding: 0 1.2rem;
-                            font-size: 16px;
-                            border: none;
-                            cursor: pointer;
-                        }
-
-                        /* The container <div> - needed to position the dropdown content */
-                        .dropdown {
-                            position: relative;
-                            display: inline-block;
-                        }
-
-                        /* Dropdown Content (Hidden by Default) */
-                        .dropdown-content {
-                            display: none;
-                            position: absolute;
-                            background-color: #f9f9f9;
-                            min-width: 160px;
-                            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-                            z-index: 1;
-                        }
-
-                            /* Links inside the dropdown */
-                            .dropdown-content a {
-                                color: black;
-                                padding: 12px 16px;
-                                text-decoration: none;
-                                display: block;
-                            }
-
-                                /* Change color of dropdown links on hover */
-                                .dropdown-content a:hover {
-                                    background-color: #f1f1f1;
-                                }
-
-                        /* Show the dropdown menu on hover */
-                        .dropdown:hover .dropdown-content {
-                            display: block;
-                        }
-
-                        /* Change the background color of the dropdown button when the dropdown content is shown */
-                    </style>
-
-                    <div id="user-success" style="display: none; top: 5px; width: 75px" class="dropdown">
-                        <button class="dropbtn">
-                            <i class="fas fa-user" style="font-size: 1.5rem"></i>
-                        </button>
-                        <div class="dropdown-content">
-                            <a href="profile.html">Account</a>
-                            <a href="change-password.html">New password</a>
-                            <a href="../calendar/health-check-plan.html">Calendar</a>
-                            <a href="medical-history.html">History</a>
-                            <a href="login.html">Log out!</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="dropdown dropdown-language" style="font-size: 1,5rem">
-                    <a href="" class="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
-                       title="English">
-                        <img alt="English" class="icon-language showOf" src="~/images/en-us.png" />
-                    </a>
-
-                    <ul class="dropdown-menu logo-language">
-                        <li>
-                            <span class="change-lang" data-link="/language/setLanguageLocal?name=en&amp;redirectUrl=">
-                                <img alt="English" class="icon-language" src="~/images/en-us.png" />
-
-                                English
-                            </span>
-                        </li>
-
-                        <li>
-                            <span class="change-lang" data-link="/language/setLanguageLocal?name=vn&amp;redirectUrl=">
-                                <img alt="Vietnamese" class="icon-language" src="~/images/vn.png" />
-                                Vietnamese
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <!-- //header -->
-    <!-- banner -->
-    
-
-
-    <div class="float-contact">
-        <ul style="line-height: 45px">
-            <li>
-                <a href="http://zalo.me/">
-                    <img src="~/images/zalo.png" alt="" />
-                </a>
-            </li>
-            <li>
-                <a href="http://m.me/quanganh.vn">
-                    <img src="~/images/facebook.png" alt="" />
-                </a>
-            </li>
-            <li>
-                <a href="tel:0989999898">
-                    <img src="~/images/phone.png" alt="" />
-                </a>
-            </li>
-        </ul>
-    </div>
     @RenderBody()
-    <!-- //appointment -->
-    <!-- footer -->
-    <footer class="py-5">
-        <div class="container py-sm-3">
-            <div class="row footer-grids">
-                <div class="col-lg-3 col-sm-6 mb-lg-0 mb-sm-5 mb-4">
-                    <h4 class="mb-sm-4 mb-3">
-                        <span class="fa fa-stethoscope"></span> Family Health Care
-                    </h4>
-                    <p class="mb-3">
-                        We Care About Your <br />
-                        Follow Up You <br />
-                        Bring Happiness To You
-                    </p>
-                    <h5>Trusted by <span>500+ People</span></h5>
-                </div>
-                <div class="col-lg-3 col-sm-6 mb-lg-0 mb-sm-5 mb-4">
-                    <h4 class="mb-sm-4 mb-3">Address</h4>
-                    <p>
-                        <span class="fa mr-2 fa-map-marker"></span>45 Nguyễn Khắc Nhu,
-                        <br />
-                        Phường Cô Giang, <br />
-                        Quận 1, HCM City.
-                    </p>
-                    <p class="phone py-2">
-                        <span class="fa mr-2 fa-phone">
-                            <a href="tel:0989999898"> 0989999898</a>
-                        </span>
-                    </p>
-                    <p>
-                        <span class="fa mr-2 fa-envelope"></span><a href="mailto:tqa47@gmail.com">tqa47@gmail.com</a>
-                    </p>
-                </div>
-                <div class="col-lg-2 col-sm-6 mb-sm-0 mb-4">
-                    <h4 class="mb-sm-4 mb-3">Capston Project 2021</h4>
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+
+        <!-- Header -->
+        <div class="header">
+
+
+            <!-- Logo -->
+            <div class="header-left">
+                <a href="index.html" class="logo">
+                    <img src=@Url.Content("~/assets/img/logo.png") alt="Logo">
+                </a>
+                <a href="index.html" class="logo logo-small">
+                    <img src=@Url.Content("~/assets/img/logo-small.png") alt="Logo" width="30" height="30">
+                </a>
+            </div>
+            <!-- /Logo -->
+
+            <a href="javascript:void(0);" id="toggle_btn">
+                <i class="fe fe-text-align-left"></i>
+            </a>
+
+            <div class="top-nav-search">
+                <form>
+                    <input type="text" class="form-control" placeholder="Search here">
+                    <button class="btn" type="submit"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <a class="mobile_btn" id="mobile_btn">
+                <i class="fa fa-bars"></i>
+            </a>
+            <!-- /Mobile Menu Toggle -->
+            <!-- Header Right Menu -->
+            <ul class="nav user-menu">
+
+                <!-- Notifications -->
+                <li class="nav-item dropdown noti-dropdown">
+                    <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                        <i class="fe fe-bell"></i> <span class="badge rounded-pill">3</span>
+                    </a>
+                    <div class="dropdown-menu notifications">
+                        <div class="topnav-dropdown-header">
+                            <span class="notification-title">Notifications</span>
+                            <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
+                        </div>
+                        <div class="noti-content">
+                            <ul class="notification-list">
+                                <li class="notification-message">
+                                    <a href="#">
+                                        <div class="media d-flex">
+                                            <span class="avatar avatar-sm flex-shrink-0">
+                                                <img class="avatar-img rounded-circle" alt="User Image" src="assets/img/doctors/doctor-thumb-01.jpg">
+                                            </span>
+                                            <div class="media-body flex-grow-1">
+                                                <p class="noti-details"><span class="noti-title">Dr. Ruby Perrin</span> Schedule <span class="noti-title">her appointment</span></p>
+                                                <p class="noti-time"><span class="notification-time">4 mins ago</span></p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="#">
+                                        <div class="media d-flex">
+                                            <span class="avatar avatar-sm flex-shrink-0">
+                                                <img class="avatar-img rounded-circle" alt="User Image" src=@Url.Content("~/assets/img/profiles/avatar-01.jpg")>
+                                            </span>
+                                            <div class="media-body flex-grow-1">
+                                                <p class="noti-details"><span class="noti-title">Charlene Reed</span> has booked her appointment to <span class="noti-title">Dr. Ruby Perrin</span></p>
+                                                <p class="noti-time"><span class="notification-time">6 mins ago</span></p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="#">
+                                        <div class="media d-flex">
+                                            <span class="avatar avatar-sm flex-shrink-0">
+                                                <img class="avatar-img rounded-circle" alt="User Image" src=@Url.Content("~/assets/img/profiles/avatar-02.jpg")>
+                                            </span>
+                                            <div class="media-body flex-grow-1">
+                                                <p class="noti-details"><span class="noti-title">Travis Trimble</span> sent a amount of $210 for his <span class="noti-title">appointment</span></p>
+                                                <p class="noti-time"><span class="notification-time">8 mins ago</span></p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="#">
+                                        <div class="media d-flex">
+                                            <span class="avatar avatar-sm flex-shrink-0">
+                                                <img class="avatar-img rounded-circle" alt="User Image" src=@Url.Content("~/assets/img/profiles/avatar-03.jpg")>
+                                            </span>
+                                            <div class="media-body flex-grow-1">
+                                                <p class="noti-details"><span class="noti-title">Carl Kelly</span> send a message <span class="noti-title"> to his doctor</span></p>
+                                                <p class="noti-time"><span class="notification-time">12 mins ago</span></p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="topnav-dropdown-footer">
+                            <a href="#">View all Notifications</a>
+                        </div>
+                    </div>
+                </li>
+                <!-- /Notifications -->
+                <!-- User Menu -->
+                <li class="nav-item dropdown has-arrow">
+                    <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                        <span class="user-img"><img class="rounded-circle" src=@Url.Content("~/assets/img/profiles/avatar-01.jpg") width="31" alt="Ryan Taylor"></span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="user-header">
+                            <div class="avatar avatar-sm">
+                                <img src=@Url.Content("~/assets/img/profiles/avatar-01.jpg") alt="User Image" class="avatar-img rounded-circle">
+                            </div>
+                            <div class="user-text">
+                                <h6>Ryan Taylor</h6>
+                                <p class="text-muted mb-0">Administrator</p>
+                            </div>
+                        </div>
+                        <a class="dropdown-item" href="profile.html">My Profile</a>
+                        <a class="dropdown-item" href="settings.html">Settings</a>
+                        <a class="dropdown-item" href="login.html">Logout</a>
+                    </div>
+                </li>
+                <!-- /User Menu -->
+
+            </ul>
+            <!-- /Header Right Menu -->
+
+        </div>
+
+        <!-- /Header -->
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
-                        <li><a href="#">Mentor: Nguyen Huu Quoc</a></li>
-                        <li class="my-2"><a href="#">Customer: Nguyen Dat</a></li>
-                        <li><a href="#">CapsTeam12</a></li>
-                        <li class="mt-2"><a href="#">Van Lang University</a></li>
+                        <li class="menu-title">
+                            <span>Main</span>
+                        </li>
+                        <li class="active">
+                            <a href="index.html"><i class="fe fe-home"></i> <span>Dashboard</span></a>
+                        </li>
+                        <li class="submenu">
+                            <a href="#"><i class="fe fe-document"></i> <span> Medicines</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a href="products.html">Medicines</a></li>
+                                <li><a href="add-product.html">Add Medicine</a></li>
+                                <li><a href="outstock.html">Out-Stock</a></li>
+                                <li><a href="expired.html">Returned</a></li>
+                            </ul>
+                        </li>
+                        <li class="submenu">
+                            <a href="#"><i class="fe fe-star-o"></i> <span> Prescription</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a href="purchase.html">Prescription</a></li>
+                                <li><a href="add-prescription.html">Add Prescription</a></li>
+                                <li><a href="edit-prescription.html">Edit Prescription</a></li>
+                                <!-- <li><a href="order.html">Order</a></li> -->
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="bookappointment.html"><i class="fe fe-layout"></i> <span>Appointment</span></a>
+                        </li>
+                        <li><a href="calendar.html"><i class="fe fe-table"></i> <span>Calendar</span></a></li>
+
+                        <li>
+                            <a href="profile.html"><i class="fe fe-user-plus"></i> <span>Profile</span></a>
+                        </li>
+                        <li>
+                            <a href="settings.html"><i class="fe fe-vector"></i> <span>Settings</span></a>
+                        </li>
                     </ul>
                 </div>
-                <div class="col-lg-4 col-sm-6">
-                    <h4 class="mb-sm-4 mb-3">Subscribe Us</h4>
-                    <p class="mb-3">Subscribe to our newsletter</p>
-                    <form action="#" method="post" class="d-flex">
-                        <input type="email" id="email" name="EMAIL" placeholder="Enter your email here" required="" />
-                        <button type="submit" class="btn">Subscribe</button>
-                    </form>
-                    <div class="icon-social mt-3">
-                        <a href="#" class="button-footr">
-                            <span class="fa mx-2 fa-facebook"></span>
-                        </a>
-                        <a href="#" class="button-footr">
-                            <span class="fa mx-2 fa-twitter"></span>
-                        </a>
-                        <a href="#" class="button-footr">
-                            <span class="fa mx-2 fa-dribbble"></span>
-                        </a>
-                        <a href="#" class="button-footr">
-                            <span class="fa mx-2 fa-pinterest"></span>
-                        </a>
-                        <a href="#" class="button-footr">
-                            <span class="fa mx-2 fa-google-plus"></span>
-                        </a>
-                    </div>
-                </div>
             </div>
         </div>
-    </footer>
-    <!-- //footer -->
-    <!-- copyright -->
-    <div class="copyright">
-        <div class="container py-4">
-            <div class="text-center">
-                <p>
-                    © 2021 Family Health Care. All Rights Reserved | Design by
-                    <a href="https://www.vanlanguni.edu.vn"> Team 12 - VanLangUni</a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <!-- //copyright -->
-    <!-- move top -->
-    <div class="move-top text-right">
-        <a href="#home" class="move-top">
-            <span class="fa fa-angle-up mb-3" aria-hidden="true"></span>
-        </a>
-    </div>
-    <!-- move top -->
+        <!-- /Sidebar -->
 
-    <script src="~/js/index.js"></script>
+
+
+    </div>
+
+
+    <!-- /Main Wrapper -->
+    <!-- jQuery -->
+    <script src=@Url.Content("~/assets/js/jquery-3.6.0.min.js")></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src=@Url.Content("~/assets/js/bootstrap.bundle.min.js")></script>
+
+    <!-- Slimscroll JS -->
+    <script src=@Url.Content("~/assets/plugins/slimscroll/jquery.slimscroll.min.js")></script>
+
+    <script src=@Url.Content("~/assets/plugins/raphael/raphael.min.js")></script>
+    <script src=@Url.Content("~/assets/plugins/morris/morris.min.js")></script>
+    <script src=@Url.Content("~/assets/js/chart.morris.js")></script>
+
+    <!-- Custom JS -->
+    <script src=@Url.Content("~/assets/js/script.js")></script>
+
 </body>
-
 </html>
