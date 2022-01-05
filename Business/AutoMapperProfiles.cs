@@ -29,6 +29,7 @@ namespace Business
                .ForMember(d => d.PharmacyFullName, t => t.MapFrom(m => m.User.UserName))
                .ReverseMap();
             CreateMap<Doctor, DoctorDetailsDto>()
+                .ForMember(d => d.FullName, t => t.MapFrom(m => m.User.FullName))
                 .ReverseMap();
             CreateMap<Pharmacy, PharmacyDetailsDto>()
                 .ReverseMap();

@@ -1,4 +1,5 @@
 ﻿using Business.IServices;
+using Contract.DTOs.ManagementService;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -21,10 +22,10 @@ namespace ManagementService.Controllers
         }
         // GET: api/<ManagementController>
         [HttpGet("doctors")]
-        public async Task<IActionResult> GetDoctorsAsync()
+        public async Task<List<DoctorDetailsDto>> GetDoctorsAsync()
         {
             var doctors = await _managementService.GetDoctorsAsync();
-            return Ok(doctors);
+            return doctors;
         }
 
         [HttpGet("patients")]
@@ -42,10 +43,10 @@ namespace ManagementService.Controllers
         }
 
         [HttpGet("categories")]
-        public async Task<IActionResult> GetCategoriesAsync()
+        public async Task<List<CategoriesDetailsDto>> GetCategoriesAsync()
         {
             var categories = await _managementService.GetCategoriestAsync();
-            return Ok(categories);
+            return categories;
         }
 
         [HttpGet("specialities")]

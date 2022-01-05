@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Contract.DTOs.ManagementService;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,9 @@ namespace Business.IServices
     public interface IManagementService
     {
         public Task<IActionResult> GetPatientsAsync();
-        public Task<IActionResult> GetDoctorsAsync();
+        public Task<List<DoctorDetailsDto>> GetDoctorsAsync();
         public Task<IActionResult> GetPharmaciesAsync();
         public Task<IActionResult> GetSpecialitiesAsync();
-        public Task<IActionResult> GetCategoriestAsync();
+        public Task<List<CategoriesDetailsDto>> GetCategoriestAsync();
     }
 }

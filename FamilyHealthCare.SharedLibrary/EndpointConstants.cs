@@ -9,5 +9,11 @@ namespace FamilyHealthCare.SharedLibrary
     public static class EndpointConstants
     {
         public static string TEST = "api/values/test";
+
+        public static class ManagementService
+        {
+            public static string DOCTORS = "/api/Management/doctors";
+            public static string CATEGORIES = "/api/Management/categories";
+        }
     }
 }

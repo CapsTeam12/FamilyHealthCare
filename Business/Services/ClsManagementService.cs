@@ -36,17 +36,17 @@ namespace Business.Services
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> GetCategoriestAsync()
+        public async Task<List<CategoriesDetailsDto>> GetCategoriestAsync()
         {
             var categories = await _cateRepos
                               .Entities
                               .OrderByDescending(a => a.ClassificationName)
                               .ToListAsync();
             var categoriesDtos = _mapper.Map<List<CategoriesDetailsDto>>(categories);
-            return Ok(categories);
+            return categoriesDtos;
         }
 
-        public async Task<IActionResult> GetDoctorsAsync()
+        public async Task<List<DoctorDetailsDto>> GetDoctorsAsync()
         {
             var doctors = await _doctorRepos
                                .Entities
@@ -54,7 +54,7 @@ namespace Business.Services
                                .OrderByDescending(a => a.User.FullName)
                                .ToListAsync();
             var doctorDtos = _mapper.Map<List<DoctorDetailsDto>>(doctors);
-            return Ok(doctorDtos);
+            return doctorDtos;
         }
 
         public async Task<IActionResult> GetPatientsAsync()

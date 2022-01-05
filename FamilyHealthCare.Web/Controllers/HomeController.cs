@@ -4,6 +4,7 @@ using FamilyHealthCare.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -23,13 +24,20 @@ namespace FamilyHealthCare.Web.Controllers
             _clientFactory = clientFactory;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            //HomeViewModel homeVM = new HomeViewModel
-            //{
-            //    Doctors = await 
-            //};
-            return View();
+            var httpClient = _clientFactory.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
+            var response = await httpClient.GetAsync(EndpointConstants.ManagementService.DOCTORS);
+            var data = new List<DoctorDetailsDto>();
+            if (response.IsSuccessStatusCode)
+            {
+                data = await response.Content.ReadAsAsync<List<DoctorDetailsDto>>();
+            }
+            HomeViewModel homeVM = new HomeViewModel
+            {
+                Doctors = data
+            };
+            return View(homeVM);
         }
 
         [Authorize]

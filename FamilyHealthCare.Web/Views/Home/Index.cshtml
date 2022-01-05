@@ -1,8 +1,8 @@
-﻿@using Data.Entities;
-@using Contract.DTOs;
+﻿@model HomeViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
+
 
 <!-- Home Banner -->
 <section class="section section-search">
@@ -173,7 +173,7 @@
             </div>
             <div class="col-lg-8">
                 <div class="doctor-slider slider">
-                    @*@foreach (var doctor in Model){*@
+                    @foreach (var doctor in Model.Doctors){
                     <div class="profile-widget">
                         <div class="doc-img">
                             <a href="doctor-profile.html">
@@ -185,7 +185,7 @@
                         </div>
                         <div class="pro-content">
                             <h3 class="title">
-                                <a href="doctor-profile.html">abc</a>
+                                <a href="doctor-profile.html">@doctor.FullName</a>
                                 <i class="fas fa-check-circle verified"></i>
                             </h3>
                             <p class="speciality">MBBS, MD - General Medicine, DM - Neurology</p>
@@ -215,7 +215,7 @@
                             </div>
                         </div>
                     </div>
-                    @*}*@
+                    }
 
                     <!-- /Doctor Widget -->
                     <!-- Doctor Widget -->
