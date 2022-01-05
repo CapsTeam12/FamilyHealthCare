@@ -37,6 +37,7 @@ namespace FamilyHealthCare.Web.Controllers
             {
                 Doctors = data
             };
+
             return View(homeVM);
         }
 
