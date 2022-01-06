@@ -76,7 +76,7 @@ namespace AppointmentService.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> Delete(string id)
         {
             var model = await _appointmentService.GetAppointmentById(id);

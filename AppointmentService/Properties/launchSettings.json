@@ -16,8 +16,9 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DATABASE_NAME": "FamilyHealthCare",
-        "APPOINTMENTS_COLLECTION_NAME": "Appointments"
-      }
+        "APPOINTMENTS_COLLECTION_NAME": "Appointments",
+        "CONNECTION_STRING": "mongodb+srv://fhc:12121313@familyhealthcare.9ywfg.mongodb.net/FamilyHealthCare?retryWrites=true&w=majority"
+      } 
     },
     "AppointmentService": {
       "commandName": "Project",
@@ -28,7 +29,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DATABASE_NAME": "FamilyHealthCare",
-        "APPOINTMENTS_COLLECTION_NAME": "Appointments"
+        "APPOINTMENTS_COLLECTION_NAME": "Appointments",
+        "CONNECTION_STRING": "mongodb+srv://fhc:12121313@familyhealthcare.9ywfg.mongodb.net/FamilyHealthCare?retryWrites=true&w=majority"
       }
     }
   }
