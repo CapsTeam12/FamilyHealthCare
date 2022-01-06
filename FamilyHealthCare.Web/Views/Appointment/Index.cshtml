@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Contract.DTOs.AppointmentDetailsDto>
+@using Data
+@{
+    ViewData["Title"] = "Home Page";
+    var getNameOfUser = User.Identity.Name;
+    var userId = ViewBag.UserId;
+    int count = 0;
+}
+
+<div class="container">
+    @if (Model != null)
+    {
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Time</th>
+                <th></th>
+            </tr>
+            @foreach (var ap in Model)
+            {
+                count++;
+                <tr>
+                    <td>@count</td>
+                    <td>@ap.TherapistFullName</td>
+                    <td>@ap.Description</td>
+                    <td>@DateTime.Parse(ap.Time.ToShortDateString())</td>
+                    <td><a asp-action="Details" asp-route-id="@ap.Id">View</a></td>
+                    <td><a asp-action="Reschedule" asp-route-id="@ap.Id">Reschedule</a></td>
+                </tr>
+            }
+
+
+
+        </table>
+    }
+    else
+    {
+        <div>Something went wrong!</div>
+    }
+</div>

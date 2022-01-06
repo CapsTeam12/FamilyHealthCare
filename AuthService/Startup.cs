@@ -34,7 +34,7 @@ namespace AuthService
         {
             services.AddDataAccessorLayer(Configuration);
 
-            services.AddIdentity<User, IdentityRole<int>>()
+            services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
             services.AddControllers();

@@ -1,4 +1,5 @@
 ﻿using Contract.DTOs;
+using Contract.DTOs.AppoimentService;
 using Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,8 +16,8 @@ namespace Business
             CreateMap<Appointment, AppointmentDetailsDto>()
                 .ForMember(d => d.TherapistFullName, t => t.MapFrom(m => m.Therapist.FullName))
                 .ReverseMap();
-
             CreateMap<Appointment, AppointmentCreateDto>().ReverseMap();
+            CreateMap<Appointment, AppointmentRescheduleDto>().ReverseMap();
 
         }
     }

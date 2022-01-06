@@ -1,10 +1,12 @@
 ﻿using FamilyHealthCare.Web.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FamilyHealthCare.Web.Controllers
@@ -12,14 +14,17 @@ namespace FamilyHealthCare.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IHttpContextAccessor _httpContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IHttpContextAccessor httpContext)
         {
             _logger = logger;
+            _httpContext = httpContext;
         }
 
         public IActionResult Index()
         {
+            ViewBag.UserId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
             return View();
         }
 

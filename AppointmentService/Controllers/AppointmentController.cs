@@ -1,5 +1,6 @@
 ﻿using Business.IServices;
 using Contract.DTOs;
+using Contract.DTOs.AppoimentService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -30,16 +31,17 @@ namespace AppointmentService.Controllers
         //}
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> GetAppointments()
+        [Route("List/{userId}")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Get(string userId) // Get list appointment of user
         {
-            var appointmentDto = await _appointmentService.GetAppointments();
+            var appointmentDto = await _appointmentService.GetAppointments(userId);
             return Ok(appointmentDto);
         }
 
         [HttpGet("{id}")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Get(string id)
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetById(string id)
         {
             var appointmentDto = await _appointmentService.GetAppointmentById(id);
             if(appointmentDto == null)
@@ -49,9 +51,21 @@ namespace AppointmentService.Controllers
             return Ok(appointmentDto);
         }
 
+        [HttpPost]
+        [Route("Booking/{userId}")]
+        public async Task<IActionResult> Post([FromBody] AppointmentCreateDto createDto,string userId)
+        {
+            var appointmentDto = await _appointmentService.BookingAppointment(createDto, userId);
+            if(userId == null)
+            {
+                return BadRequest();
+            }
+            return Ok(appointmentDto);
+        }
+
         [HttpPut("{id}")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Put([FromBody] AppointmentCreateDto appointmentDto,string id)
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Put([FromBody] AppointmentRescheduleDto appointmentDto,string id)
         {
             var model = await _appointmentService.RescheduleAppointment(appointmentDto, id);
             if(model == null)

@@ -36,7 +36,7 @@ namespace AppointmentService
             services.Configure<MongoDbConfig>(Configuration);
             
             services.AddBusinessLayer();
-            //services.AddDataAccessorLayer(Configuration);               
+            services.AddDataAccessorLayer(Configuration);               
             services.AddControllers()
                 .AddFluentValidation(fv =>
                 {

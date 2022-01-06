@@ -20,13 +20,13 @@ namespace AuthService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+    //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
     public class AuthController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole<int>> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AuthController(UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager)
+        public AuthController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -44,7 +44,7 @@ namespace AuthService.Controllers
 
         [HttpGet]
         [Route("Users/{id}")]
-        public async Task<IActionResult> GetUser(int id)
+        public async Task<IActionResult> GetUser(string id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user != null)
@@ -91,7 +91,7 @@ namespace AuthService.Controllers
             var roleExists = await _roleManager.RoleExistsAsync(name);
             if (!roleExists)
             {
-                var newRole = await _roleManager.CreateAsync(new IdentityRole<int>(name));
+                var newRole = await _roleManager.CreateAsync(new IdentityRole(name));
                 if (newRole.Succeeded) // Check if create successful
                 {
                     return Ok(new Response { Status = "Success", Message = $"The role {name} has been created" });

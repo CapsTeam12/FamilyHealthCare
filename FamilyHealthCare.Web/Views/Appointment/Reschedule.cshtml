@@ -1,0 +1,53 @@
+﻿@model Contract.DTOs.AppointmentDetailsDto
+@using Contract.DTOs.AppoimentService;
+@using Contract.DTOs;
+
+@{ 
+    var apid = ViewBag.AppointmentId as AppointmentDetailsDto;
+    var userId = ViewBag.UserId;
+}
+
+<form asp-action="Reschedule" method="post">
+    <input asp-for="@apid.Id" hidden />
+    <input asp-for="@userId"  hidden />
+    <input name="TherapistId" value="@apid.Therapist.Id" hidden />
+    <br />
+    <div class="container border p-3">
+        <h1 class="text-primary">Reschedule Doctor @apid.TherapistFullName </h1>
+        <hr />
+        <div class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-2">
+                <label asp-for="Time" class="custom-control-label pt-2" style="font-size:20px"></label>
+            </div>
+            <div class="col-10 pb-3">
+                <input type="datetime-local" asp-for="Time" class="form-control" />
+                <span asp-validation-for="Time" class="text-danger"></span>
+            </div>
+            <div class="col-2">
+                <label asp-for="Description" class="custom-control-label pt-2" style="font-size:20px"></label>
+            </div>
+            <div class="col-10 pb-3">
+                <textarea asp-for="Description" cols="50" rows="10" class="form-control"> </textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="col-2">
+                <label asp-for="Status" class="custom-control-label pt-2" style="font-size:20px"></label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="col-5 offset-2">
+                <a asp-action="Index" asp-route-userId="@userId" class="btn-primary btn form-control">Back to List</a>
+            </div>
+            <div class="col-5">
+                <input type="submit" value="Reschedule" class="btn btn-info form-control" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

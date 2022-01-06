@@ -20,7 +20,7 @@ namespace AppointmentService.Validators
                 .NotEmpty()
                 .WithMessage(x => string.Format(ErrorMessage.Common.Required, nameof(x.Description)));
             RuleFor(a => a.TherapistId)
-                .Must(id => id > 0)
+                .Must(id => id != null)
                 .WithMessage(x => string.Format(ErrorMessage.Common.Required, nameof(x.TherapistId)));
 
         }

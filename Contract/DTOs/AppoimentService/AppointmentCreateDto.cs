@@ -10,7 +10,7 @@ namespace Contract.DTOs
     {
         public DateTime Time { get; set; }
         public string Description { get; set; }
-        public int TherapistId { get; set; }
+        public string TherapistId { get; set; }
         public int Status { get; set; }
     }
 }
