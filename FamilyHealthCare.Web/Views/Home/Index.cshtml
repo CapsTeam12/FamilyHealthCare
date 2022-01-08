@@ -1,4 +1,4 @@
-﻿@model HomeViewModel
+﻿    @model HomeViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -105,7 +105,7 @@
                     <!-- Slider Item -->
                     <div class="speicality-item text-center">
                         <div class="speicality-img">
-                            <img src="assets/img/specialities/specialities-01.png" class="img-fluid" alt="Speciality">
+                            <img src=@Url.Content("~/assets/img/specialities/specialities-01.png") class="img-fluid" alt="Speciality">
                             <span><i class="fa fa-circle" aria-hidden="true"></i></span>
                         </div>
                         <p>Urology</p>
@@ -114,7 +114,7 @@
                     <!-- Slider Item -->
                     <div class="speicality-item text-center">
                         <div class="speicality-img">
-                            <img src="assets/img/specialities/specialities-02.png" class="img-fluid" alt="Speciality">
+                            <img src=@Url.Content("~/assets/img/specialities/specialities-02.png") class="img-fluid" alt="Speciality">
                             <span><i class="fa fa-circle" aria-hidden="true"></i></span>
                         </div>
                         <p>Neurology</p>
@@ -123,7 +123,7 @@
                     <!-- Slider Item -->
                     <div class="speicality-item text-center">
                         <div class="speicality-img">
-                            <img src="assets/img/specialities/specialities-03.png" class="img-fluid" alt="Speciality">
+                            <img src=@Url.Content("~/assets/img/specialities/specialities-03.png") class="img-fluid" alt="Speciality">
                             <span><i class="fa fa-circle" aria-hidden="true"></i></span>
                         </div>
                         <p>Orthopedic</p>
@@ -132,7 +132,7 @@
                     <!-- Slider Item -->
                     <div class="speicality-item text-center">
                         <div class="speicality-img">
-                            <img src="assets/img/specialities/specialities-04.png" class="img-fluid" alt="Speciality">
+                            <img src=@Url.Content("~/assets/img/specialities/specialities-04.png") class="img-fluid" alt="Speciality">
                             <span><i class="fa fa-circle" aria-hidden="true"></i></span>
                         </div>
                         <p>Cardiologist</p>
@@ -141,7 +141,7 @@
                     <!-- Slider Item -->
                     <div class="speicality-item text-center">
                         <div class="speicality-img">
-                            <img src="assets/img/specialities/specialities-05.png" class="img-fluid" alt="Speciality">
+                            <img src=@Url.Content("~/assets/img/specialities/specialities-05.png") class="img-fluid" alt="Speciality">
                             <span><i class="fa fa-circle" aria-hidden="true"></i></span>
                         </div>
                         <p>Dentist</p>
@@ -177,7 +177,7 @@
                     <div class="profile-widget">
                         <div class="doc-img">
                             <a href="doctor-profile.html">
-                                <img class="img-fluid" alt="User Image" src="assets/img/doctors/doctor-07.jpg">
+                                <img class="img-fluid" alt="User Image" src=@Url.Content("~/assets/img/doctors/doctor-07.jpg")>
                             </a>
                             <a href="javascript:void(0)" class="fav-btn">
                                 <i class="far fa-bookmark"></i>
@@ -243,13 +243,13 @@
                 <!-- Blog Post -->
                 <div class="blog grid-blog">
                     <div class="blog-image">
-                        <a href="blog-details.html"><img class="img-fluid" src="assets/img/blog/blog-01.jpg" alt="Post Image"></a>
+                        <a href="blog-details.html"><img class="img-fluid" src=@Url.Content("~/assets/img/blog/blog-01.jpg") alt="Post Image"></a>
                     </div>
                     <div class="blog-content">
                         <ul class="entry-meta meta-item">
                             <li>
                                 <div class="post-author">
-                                    <a href="doctor-profile.html"><img src="assets/img/doctors/doctor-thumb-01.jpg" alt="Post Author"> <span>Dr. Ruby Perrin</span></a>
+                                    <a href="doctor-profile.html"><img src=@Url.Content("~/assets/img/doctors/doctor-thumb-01.jpg") alt="Post Author"> <span>Dr. Ruby Perrin</span></a>
                                 </div>
                             </li>
                             <li><i class="far fa-clock"></i> 4 Dec 2019</li>
@@ -272,7 +272,7 @@
                         <ul class="entry-meta meta-item">
                             <li>
                                 <div class="post-author">
-                                    <a href="doctor-profile.html"><img src="assets/img/doctors/doctor-thumb-02.jpg" alt="Post Author"> <span>Dr. Darren Elder</span></a>
+                                    <a href="doctor-profile.html"><img src=@Url.Content("~/assets/img/doctors/doctor-thumb-02.jpg") alt="Post Author"> <span>Dr. Darren Elder</span></a>
                                 </div>
                             </li>
                             <li><i class="far fa-clock"></i> 3 Dec 2019</li>
@@ -289,13 +289,13 @@
                 <!-- Blog Post -->
                 <div class="blog grid-blog">
                     <div class="blog-image">
-                        <a href="blog-details.html"><img class="img-fluid" src="assets/img/blog/blog-03.jpg" alt="Post Image"></a>
+                        <a href="blog-details.html"><img class="img-fluid" src=@Url.Content("~/assets/img/blog/blog-03.jpg") alt="Post Image"></a>
                     </div>
                     <div class="blog-content">
                         <ul class="entry-meta meta-item">
                             <li>
                                 <div class="post-author">
-                                    <a href="doctor-profile.html"><img src="assets/img/doctors/doctor-thumb-03.jpg" alt="Post Author"> <span>Dr. Deborah Angel</span></a>
+                                    <a href="doctor-profile.html"><img src=@Url.Content("~/assets/img/doctors/doctor-thumb-03.jpg") alt="Post Author"> <span>Dr. Deborah Angel</span></a>
                                 </div>
                             </li>
                             <li><i class="far fa-clock"></i> 3 Dec 2019</li>
@@ -312,13 +312,13 @@
                 <!-- Blog Post -->
                 <div class="blog grid-blog">
                     <div class="blog-image">
-                        <a href="blog-details.html"><img class="img-fluid" src="assets/img/blog/blog-04.jpg" alt="Post Image"></a>
+                        <a href="blog-details.html"><img class="img-fluid" src=@Url.Content("~/assets/img/blog/blog-04.jpg") alt="Post Image"></a>
                     </div>
                     <div class="blog-content">
                         <ul class="entry-meta meta-item">
                             <li>
                                 <div class="post-author">
-                                    <a href="doctor-profile.html"><img src="assets/img/doctors/doctor-thumb-04.jpg" alt="Post Author"> <span>Dr. Sofia Brient</span></a>
+                                    <a href="doctor-profile.html"><img src=@Url.Content("~/assets/img/doctors/doctor-thumb-04.jpg") alt="Post Author"> <span>Dr. Sofia Brient</span></a>
                                 </div>
                             </li>
                             <li><i class="far fa-clock"></i> 2 Dec 2019</li>
