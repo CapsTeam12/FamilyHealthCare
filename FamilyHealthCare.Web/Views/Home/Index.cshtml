@@ -3,337 +3,280 @@
     ViewData["Title"] = "Home Page";
 }
 
-
-<!-- Home Banner -->
-<section class="section section-search">
+<div class="breadcrumb-bar">
     <div class="container-fluid">
-        <div class="banner-wrapper">
-            <div class="banner-header text-center">
-                <h1>Search Doctor, Make an Appointment</h1>
-                <p>Discover the best doctors, clinic & hospital the city nearest to you.</p>
+        <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                    </ol>
+                </nav>
+                <h2 class="breadcrumb-title">Dashboard</h2>
             </div>
-
-            <!-- Search -->
-            <div class="search-box">
-                <form action="doctor-search.html">
-                    <div class="form-group search-location">
-                        <input type="text" class="form-control" placeholder="Search Location">
-                        <span class="form-text">Based on your Location</span>
-                    </div>
-                    <div class="form-group search-info">
-                        <input type="text" class="form-control" placeholder="Search Doctors, Clinics, Hospitals, Diseases Etc">
-                        <span class="form-text">Ex : Dental or Sugar Check up etc</span>
-                    </div>
-                    <button type="submit" class="btn btn-primary search-btn mt-0"><i class="fas fa-search"></i> <span>Search</span></button>
-                </form>
-            </div>
-            <!-- /Search -->
-
         </div>
     </div>
-</section>
-<!-- /Home Banner -->
-
-<section class="section home-tile-section">
+</div>
+<div class="content">
     <div class="container-fluid">
+
         <div class="row">
-            <div class="col-md-9 m-auto">
-                <div class="section-header text-center">
-                    <h2>What are you looking for?</h2>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="pop-box">
-                            <div class="top-section">
-                                <div class="cat-icon">
-                                    <i class="fas fa-procedures"></i>
-                                </div>
-                            </div>
-                            <div class="body-section">
-                                <h3> Book a Doctor</h3>
-                                <p>250 +  Doctors</p>
-                                <a href="doctor-search.html" class="btn book-btn" tabindex="0">Book Now</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="pop-box">
-                            <div class="top-section two">
-                                <div class="cat-icon">
-                                    <i class="fas fa-plus-square"></i>
-                                </div>
-                            </div>
-                            <div class="body-section">
-                                <h3>Book a Pharmacy</h3>
-                                <p>2560 +  Pharmacy</p>
-                                <a href="pharmacy-search.html" class="btn book-btn" tabindex="0">Book Now</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="pop-box">
-                            <div class="top-section three">
-                                <div class="cat-icon">
-                                    <i class="fas fa-city"></i>
-                                </div>
-                            </div>
-                            <div class="body-section">
-                                <h3>Health Check</h3>
-                                <p>Check your health</p>
-                                <a href="healthcheck.html" class="btn book-btn" tabindex="0">Check Now</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+            <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
 
-<!-- Clinic and Specialities -->
-<section class="section section-specialities">
-    <div class="container-fluid">
-        <div class="section-header text-center">
-            <h2>Clinic and Specialities</h2>
-            <p class="sub-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-md-9">
-                <!-- Slider -->
-                <div class="specialities-slider slider">
-
-                    <!-- Slider Item -->
-                    <div class="speicality-item text-center">
-                        <div class="speicality-img">
-                            <img src="assets/img/specialities/specialities-01.png" class="img-fluid" alt="Speciality">
-                            <span><i class="fa fa-circle" aria-hidden="true"></i></span>
-                        </div>
-                        <p>Urology</p>
-                    </div>
-                    <!-- /Slider Item -->
-                    <!-- Slider Item -->
-                    <div class="speicality-item text-center">
-                        <div class="speicality-img">
-                            <img src="assets/img/specialities/specialities-02.png" class="img-fluid" alt="Speciality">
-                            <span><i class="fa fa-circle" aria-hidden="true"></i></span>
-                        </div>
-                        <p>Neurology</p>
-                    </div>
-                    <!-- /Slider Item -->
-                    <!-- Slider Item -->
-                    <div class="speicality-item text-center">
-                        <div class="speicality-img">
-                            <img src="assets/img/specialities/specialities-03.png" class="img-fluid" alt="Speciality">
-                            <span><i class="fa fa-circle" aria-hidden="true"></i></span>
-                        </div>
-                        <p>Orthopedic</p>
-                    </div>
-                    <!-- /Slider Item -->
-                    <!-- Slider Item -->
-                    <div class="speicality-item text-center">
-                        <div class="speicality-img">
-                            <img src="assets/img/specialities/specialities-04.png" class="img-fluid" alt="Speciality">
-                            <span><i class="fa fa-circle" aria-hidden="true"></i></span>
-                        </div>
-                        <p>Cardiologist</p>
-                    </div>
-                    <!-- /Slider Item -->
-                    <!-- Slider Item -->
-                    <div class="speicality-item text-center">
-                        <div class="speicality-img">
-                            <img src="assets/img/specialities/specialities-05.png" class="img-fluid" alt="Speciality">
-                            <span><i class="fa fa-circle" aria-hidden="true"></i></span>
-                        </div>
-                        <p>Dentist</p>
-                    </div>
-                    <!-- /Slider Item -->
-
-                </div>
-                <!-- /Slider -->
-
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Clinic and Specialities -->
-<!-- Popular Section -->
-<section class="section section-doctor">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="section-header ">
-                    <h2>Book Our Doctor</h2>
-                    <p>Lorem Ipsum is simply dummy text </p>
-                </div>
-                <div class="about-content">
-                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum.</p>
-                    <p>web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes</p>
-                    <a href="javascript:;">Read More..</a>
-                </div>
-            </div>
-            <div class="col-lg-8">
-                <div class="doctor-slider slider">
-                    @foreach (var doctor in Model.Doctors){
-                    <div class="profile-widget">
-                        <div class="doc-img">
-                            <a href="doctor-profile.html">
-                                <img class="img-fluid" alt="User Image" src="assets/img/doctors/doctor-07.jpg">
+                <!-- Profile Sidebar -->
+                <div class="profile-sidebar">
+                    <div class="widget-profile pro-widget-content">
+                        <div class="profile-info-widget">
+                            <a href="#" class="booking-doc-img">
+                                <img src="assets/img/doctors/doctor-thumb-02.jpg" alt="User Image">
                             </a>
-                            <a href="javascript:void(0)" class="fav-btn">
-                                <i class="far fa-bookmark"></i>
-                            </a>
-                        </div>
-                        <div class="pro-content">
-                            <h3 class="title">
-                                <a href="doctor-profile.html">@doctor.FullName</a>
-                                <i class="fas fa-check-circle verified"></i>
-                            </h3>
-                            <p class="speciality">MBBS, MD - General Medicine, DM - Neurology</p>
-                            <div class="rating">
-                                <i class="fas fa-star filled"></i>
-                                <i class="fas fa-star filled"></i>
-                                <i class="fas fa-star filled"></i>
-                                <i class="fas fa-star filled"></i>
-                                <i class="fas fa-star"></i>
-                                <span class="d-inline-block average-rating">(43)</span>
+                            <div class="profile-det-info">
+                                <h3>Dr. Darren Elder</h3>
+
+                                <div class="patient-details">
+                                    <h5 class="mb-0">BDS, MDS - Oral & Maxillofacial Surgery</h5>
+                                </div>
                             </div>
-                            <ul class="available-info">
+                        </div>
+                    </div>
+                    <div class="dashboard-widget">
+                        <nav class="dashboard-menu">
+                            <ul>
                                 <li>
-                                    <i class="fas fa-map-marker-alt"></i> Kansas, USA
+                                    <a href="doctor-dashboard.html">
+                                        <i class="fas fa-columns"></i>
+                                        <span>Dashboard</span>
+                                    </a>
                                 </li>
                                 <li>
-                                    <i class="far fa-clock"></i> Available on Fri, 22 Mar
+                                    <a href="my-patients.html">
+                                        <i class="fas fa-user-injured"></i>
+                                        <span>My Patients</span>
+                                    </a>
                                 </li>
+                                <li>
+                                    <a href="schedule-timings.html">
+                                        <i class="fas fa-hourglass-start"></i>
+                                        <span>Schedule Timings</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="medical-records.html">
+                                        <i class="fas fa-file-invoice"></i>
+                                        <span>Medical Records</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="prescription.html">
+                                        <i class="fas fa-share-alt"></i>
+                                        <span>Prescription</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="calendar.html">
+                                        <i class="fas fa-calendar-check"></i></i>
+                                        <span>Calendar</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="doctor-profile-settings.html">
+                                        <i class="fas fa-user-cog"></i>
+                                        <span>Profile Settings</span>
+                                    </a>
+                                </li>
+
                             </ul>
-                            <div class="row row-sm">
-                                <div class="col-6">
-                                    <a href="doctor-profile.html" class="btn view-btn">View Profile</a>
-                                </div>
-                                <div class="col-6">
-                                    <a href="doctor-search.html" class="btn book-btn">Book Now</a>
+                        </nav>
+                    </div>
+                </div>
+                <!-- /Profile Sidebar -->
+
+            </div>
+
+            <div class="col-md-7 col-lg-8 col-xl-9">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card dash-card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12 col-lg-4">
+                                        <div class="dash-widget dct-border-rht">
+                                            <div class="circle-bar circle-bar1">
+                                                <div class="circle-graph1" data-percent="75">
+                                                    <img src="assets/img/icon-01.png" class="img-fluid" alt="patient">
+                                                </div>
+                                            </div>
+                                            <div class="dash-widget-info">
+                                                <h6>Total Patient</h6>
+                                                <h3>1500</h3>
+                                                <p class="text-muted">Till Today</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 col-lg-4">
+                                        <div class="dash-widget dct-border-rht">
+                                            <div class="circle-bar circle-bar2">
+                                                <div class="circle-graph2" data-percent="65">
+                                                    <img src="assets/img/icon-02.png" class="img-fluid" alt="Patient">
+                                                </div>
+                                            </div>
+                                            <div class="dash-widget-info">
+                                                <h6>Today Patient</h6>
+                                                <h3>160</h3>
+                                                <p class="text-muted">06, Nov 2019</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 col-lg-4">
+                                        <div class="dash-widget">
+                                            <div class="circle-bar circle-bar3">
+                                                <div class="circle-graph3" data-percent="50">
+                                                    <img src="assets/img/icon-03.png" class="img-fluid" alt="Patient">
+                                                </div>
+                                            </div>
+                                            <div class="dash-widget-info">
+                                                <h6>Appoinments</h6>
+                                                <h3>85</h3>
+                                                <p class="text-muted">06, Apr 2019</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    }
-
-                    <!-- /Doctor Widget -->
-                    <!-- Doctor Widget -->
-
                 </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="mb-4">Patient Appoinment</h4>
+                        <div class="appointment-tab">
+
+                            <!-- Appointment Tab -->
+                            <!-- /Appointment Tab -->
+
+                            <div class="tab-content">
+
+                                <!-- Upcoming Appointment Tab -->
+                                <!-- /Upcoming Appointment Tab -->
+                                <!-- Today Appointment Tab -->
+
+                                <div class="card card-table mb-0">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-center mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Patient Name</th>
+                                                        <th>Appt Date</th>
+                                                        <th class="text-center">Mail</th>
+                                                        <th class="text-center">Phone</th>
+
+                                                        <th class="text-center"> Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <h2 class="table-avatar">
+                                                                <a href="patient-profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="assets/img/patients/patient6.jpg" alt="User Image"></a>
+                                                                <a href="patient-profile.html">Elsie Gilley <span>#PT0006</span></a>
+                                                            </h2>
+                                                        </td>
+                                                        <td>14 Nov 2019 <span class="d-block text-info">6.00 PM</span></td>
+
+                                                        <td>harrywilliams@example.com</td>
+                                                        <td> +1 303 607 7075</td>
+
+                                                        <td class="text-end">
+                                                            <div class="table-action">
+                                                                <a href="#" class="btn btn-sm bg-info-light" data-bs-toggle="modal" data-bs-target="#appt_details">
+                                                                    <i class="far fa-eye"></i> View
+                                                                </a>
+                                                                <a href="edit-prescription.html" class="btn btn-sm bg-success-light" data-bs-toggle="modal" data-bs-target="#edit_shecdule">
+                                                                    <i class="fas fa-edit"></i> Reschedule
+                                                                </a>
+                                                                <a href="javascript:void(0);" class="btn btn-sm bg-danger-light">
+                                                                    <i class="fas fa-times"></i> Cancel
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <h2 class="table-avatar">
+                                                                <a href="patient-profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="assets/img/patients/patient7.jpg" alt="User Image"></a>
+                                                                <a href="patient-profile.html">Joan Gardner <span>#PT0006</span></a>
+                                                            </h2>
+                                                        </td>
+                                                        <td>14 Nov 2019 <span class="d-block text-info">5.00 PM</span></td>
+
+                                                        <td>robertrhodes@example.com</td>
+                                                        <td>+1 858 259 5285</td>
+
+
+                                                        <td class="text-end">
+                                                            <div class="table-action">
+                                                                <a href="#" class="btn btn-sm bg-info-light" data-bs-toggle="modal" data-bs-target="#appt_details">
+                                                                    <i class="far fa-eye"></i> View
+                                                                </a>
+                                                                <a href="edit-prescription.html" class="btn btn-sm bg-success-light" data-bs-toggle="modal" data-bs-target="#edit_shecdule">
+                                                                    <i class="fas fa-edit"></i> Reschedule
+                                                                </a>
+                                                                <a href="javascript:void(0);" class="btn btn-sm bg-danger-light">
+                                                                    <i class="fas fa-times"></i> Cancel
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <h2 class="table-avatar">
+                                                                <a href="patient-profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="assets/img/patients/patient8.jpg" alt="User Image"></a>
+                                                                <a href="patient-profile.html">Daniel Griffing <span>#PT0007</span></a>
+                                                            </h2>
+                                                        </td>
+                                                        <td>14 Nov 2019 <span class="d-block text-info">3.00 PM</span></td>
+                                                        <td>harrywilliams@example.com</td>
+                                                        <td>+1 303 607 7075</td>
+
+
+                                                        <td class="text-end">
+                                                            <div class="table-action">
+                                                                <a href="#" class="btn btn-sm bg-info-light" data-bs-toggle="modal" data-bs-target="#appt_details">
+                                                                    <i class="far fa-eye"></i> View
+                                                                </a>
+                                                                <a href="edit-prescription.html" class="btn btn-sm bg-success-light" data-bs-toggle="modal" data-bs-target="#edit_shecdule">
+                                                                    <i class="fas fa-edit"></i> Reschedule
+                                                                </a>
+                                                                <a href="javascript:void(0);" class="btn btn-sm bg-danger-light">
+                                                                    <i class="fas fa-times"></i> Cancel
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- /Today Appointment Tab -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
+
     </div>
-</section>
-<!-- /Popular Section -->
-<!-- Availabe Features -->
-<section class="section section-features">
-    <div class="container-fluid">
 
-        <!-- Section Header -->
-        <div class="section-header text-center">
-            <h2>Blogs and News</h2>
-            <p class="sub-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </div>
-        <!-- /Section Header -->
-
-        <div class="row blog-grid-row">
-            <div class="col-md-6 col-lg-3 col-sm-12">
-
-                <!-- Blog Post -->
-                <div class="blog grid-blog">
-                    <div class="blog-image">
-                        <a href="blog-details.html"><img class="img-fluid" src="assets/img/blog/blog-01.jpg" alt="Post Image"></a>
-                    </div>
-                    <div class="blog-content">
-                        <ul class="entry-meta meta-item">
-                            <li>
-                                <div class="post-author">
-                                    <a href="doctor-profile.html"><img src="assets/img/doctors/doctor-thumb-01.jpg" alt="Post Author"> <span>Dr. Ruby Perrin</span></a>
-                                </div>
-                            </li>
-                            <li><i class="far fa-clock"></i> 4 Dec 2019</li>
-                        </ul>
-                        <h3 class="blog-title"><a href="blog-details.html">Doccure – Making your clinic painless visit?</a></h3>
-                        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur em adipiscing elit, sed do eiusmod tempor.</p>
-                    </div>
-                </div>
-                <!-- /Blog Post -->
-
-            </div>
-            <div class="col-md-6 col-lg-3 col-sm-12">
-
-                <!-- Blog Post -->
-                <div class="blog grid-blog">
-                    <div class="blog-image">
-                        <a href="blog-details.html"><img class="img-fluid" src="assets/img/blog/blog-02.jpg" alt="Post Image"></a>
-                    </div>
-                    <div class="blog-content">
-                        <ul class="entry-meta meta-item">
-                            <li>
-                                <div class="post-author">
-                                    <a href="doctor-profile.html"><img src="assets/img/doctors/doctor-thumb-02.jpg" alt="Post Author"> <span>Dr. Darren Elder</span></a>
-                                </div>
-                            </li>
-                            <li><i class="far fa-clock"></i> 3 Dec 2019</li>
-                        </ul>
-                        <h3 class="blog-title"><a href="blog-details.html">What are the benefits of Online Doctor Booking?</a></h3>
-                        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur em adipiscing elit, sed do eiusmod tempor.</p>
-                    </div>
-                </div>
-                <!-- /Blog Post -->
-
-            </div>
-            <div class="col-md-6 col-lg-3 col-sm-12">
-
-                <!-- Blog Post -->
-                <div class="blog grid-blog">
-                    <div class="blog-image">
-                        <a href="blog-details.html"><img class="img-fluid" src="assets/img/blog/blog-03.jpg" alt="Post Image"></a>
-                    </div>
-                    <div class="blog-content">
-                        <ul class="entry-meta meta-item">
-                            <li>
-                                <div class="post-author">
-                                    <a href="doctor-profile.html"><img src="assets/img/doctors/doctor-thumb-03.jpg" alt="Post Author"> <span>Dr. Deborah Angel</span></a>
-                                </div>
-                            </li>
-                            <li><i class="far fa-clock"></i> 3 Dec 2019</li>
-                        </ul>
-                        <h3 class="blog-title"><a href="blog-details.html">Benefits of consulting with an Online Doctor</a></h3>
-                        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur em adipiscing elit, sed do eiusmod tempor.</p>
-                    </div>
-                </div>
-                <!-- /Blog Post -->
-
-            </div>
-            <div class="col-md-6 col-lg-3 col-sm-12">
-
-                <!-- Blog Post -->
-                <div class="blog grid-blog">
-                    <div class="blog-image">
-                        <a href="blog-details.html"><img class="img-fluid" src="assets/img/blog/blog-04.jpg" alt="Post Image"></a>
-                    </div>
-                    <div class="blog-content">
-                        <ul class="entry-meta meta-item">
-                            <li>
-                                <div class="post-author">
-                                    <a href="doctor-profile.html"><img src="assets/img/doctors/doctor-thumb-04.jpg" alt="Post Author"> <span>Dr. Sofia Brient</span></a>
-                                </div>
-                            </li>
-                            <li><i class="far fa-clock"></i> 2 Dec 2019</li>
-                        </ul>
-                        <h3 class="blog-title"><a href="blog-details.html">5 Great reasons to use an Online Doctor</a></h3>
-                        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur em adipiscing elit, sed do eiusmod tempor.</p>
-                    </div>
-                </div>
-                <!-- /Blog Post -->
-
-            </div>
-        </div>
-        <div class="view-all text-center">
-            <a href="blog-list.html" class="btn btn-primary">View All</a>
-        </div>
-    </div>
-
-</section>
+</div>		
