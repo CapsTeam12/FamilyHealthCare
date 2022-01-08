@@ -3,337 +3,299 @@
     ViewData["Title"] = "Home Page";
 }
 
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-inner slimscroll">
+        <div id="sidebar-menu" class="sidebar-menu">
+            <ul>
+                <li class="menu-title">
+                    <span>Main</span>
+                </li>
+                <li class="active">
+                    <a href="index.html"><i class="fe fe-home"></i> <span>Dashboard</span></a>
+                </li>
+                <li class="submenu">
+                    <a href="#"><i class="fe fe-document"></i> <span> Medicines</span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        @*<li><a href="products.html">Medicines</a></li>*@
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Pharmacy" asp-action="Medicine">Medicine</a>
+                        </li>
+                        @*<li><a href="add-product.html">Add Medicine</a></li>*@
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Pharmacy" asp-action="AddMedicine">Add Medicine</a>
+                        </li>
+                        <li><a href="outstock.html">Out-Stock</a></li>
+                        <li><a href="expired.html">Returned</a></li>
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="#"><i class="fe fe-star-o"></i> <span> Prescription</span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li><a href="purchase.html">Prescription</a></li>
+                        <li><a href="add-prescription.html">Add Prescription</a></li>
+                        <!-- <li><a href="edit-prescription.html">Edit Prescription</a></li> -->
+                        <!-- <li><a href="order.html">Order</a></li> -->
+                    </ul>
+                </li>
 
-<!-- Home Banner -->
-<section class="section section-search">
-    <div class="container-fluid">
-        <div class="banner-wrapper">
-            <div class="banner-header text-center">
-                <h1>Search Doctor, Make an Appointment</h1>
-                <p>Discover the best doctors, clinic & hospital the city nearest to you.</p>
-            </div>
 
-            <!-- Search -->
-            <div class="search-box">
-                <form action="doctor-search.html">
-                    <div class="form-group search-location">
-                        <input type="text" class="form-control" placeholder="Search Location">
-                        <span class="form-text">Based on your Location</span>
-                    </div>
-                    <div class="form-group search-info">
-                        <input type="text" class="form-control" placeholder="Search Doctors, Clinics, Hospitals, Diseases Etc">
-                        <span class="form-text">Ex : Dental or Sugar Check up etc</span>
-                    </div>
-                    <button type="submit" class="btn btn-primary search-btn mt-0"><i class="fas fa-search"></i> <span>Search</span></button>
-                </form>
-            </div>
-            <!-- /Search -->
-
+                <li>
+                    <a href="profile.html"><i class="fe fe-user-plus"></i> <span>Profile</span></a>
+                </li>
+                <li>
+                    <a href="settings.html"><i class="fe fe-vector"></i> <span>Settings</span></a>
+                </li>
+            </ul>
         </div>
     </div>
-</section>
-<!-- /Home Banner -->
+</div>
+<!-- /Sidebar -->
+<!-- Page Wrapper -->
+<div class="page-wrapper">
 
-<section class="section home-tile-section">
-    <div class="container-fluid">
+    <div class="content container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="page-title">Welcome!</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item active">Dashboard</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+
         <div class="row">
-            <div class="col-md-9 m-auto">
-                <div class="section-header text-center">
-                    <h2>What are you looking for?</h2>
+            <div class="col-xl-3 col-sm-6 col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="dash-widget-header">
+                            <span class="dash-widget-icon text-primary border-primary">
+                                <i class="fe fe-money"></i>
+                            </span>
+                            <div class="dash-count">
+                                <h3>$50.00</h3>
+                            </div>
+                        </div>
+                        <div class="dash-widget-info">
+                            <h6 class="text-muted">Sales Today</h6>
+                            <div class="progress progress-sm">
+                                <div class="progress-bar bg-primary w-50"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="pop-box">
-                            <div class="top-section">
-                                <div class="cat-icon">
-                                    <i class="fas fa-procedures"></i>
-                                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="dash-widget-header">
+                            <span class="dash-widget-icon text-success">
+                                <i class="fe fe-credit-card"></i>
+                            </span>
+                            <div class="dash-count">
+                                <h3>$5.22</h3>
                             </div>
-                            <div class="body-section">
-                                <h3> Book a Doctor</h3>
-                                <p>250 +  Doctors</p>
-                                <a href="doctor-search.html" class="btn book-btn" tabindex="0">Book Now</a>
+                        </div>
+                        <div class="dash-widget-info">
+
+                            <h6 class="text-muted">Expense Today</h6>
+                            <div class="progress progress-sm">
+                                <div class="progress-bar bg-success w-50"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="pop-box">
-                            <div class="top-section two">
-                                <div class="cat-icon">
-                                    <i class="fas fa-plus-square"></i>
-                                </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="dash-widget-header">
+                            <span class="dash-widget-icon text-danger border-danger">
+                                <i class="fe fe-folder"></i>
+                            </span>
+                            <div class="dash-count">
+                                <h3>485</h3>
                             </div>
-                            <div class="body-section">
-                                <h3>Book a Pharmacy</h3>
-                                <p>2560 +  Pharmacy</p>
-                                <a href="pharmacy-search.html" class="btn book-btn" tabindex="0">Book Now</a>
+                        </div>
+                        <div class="dash-widget-info">
+
+                            <h6 class="text-muted">Medicine</h6>
+                            <div class="progress progress-sm">
+                                <div class="progress-bar bg-danger w-50"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="pop-box">
-                            <div class="top-section three">
-                                <div class="cat-icon">
-                                    <i class="fas fa-city"></i>
-                                </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="dash-widget-header">
+                            <span class="dash-widget-icon text-warning border-warning">
+                                <i class="fe fe-users"></i>
+                            </span>
+                            <div class="dash-count">
+                                <h3>50</h3>
                             </div>
-                            <div class="body-section">
-                                <h3>Health Check</h3>
-                                <p>Check your health</p>
-                                <a href="healthcheck.html" class="btn book-btn" tabindex="0">Check Now</a>
+                        </div>
+                        <div class="dash-widget-info">
+
+                            <h6 class="text-muted">Staff</h6>
+                            <div class="progress progress-sm">
+                                <div class="progress-bar bg-warning w-50"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-
-<!-- Clinic and Specialities -->
-<section class="section section-specialities">
-    <div class="container-fluid">
-        <div class="section-header text-center">
-            <h2>Clinic and Specialities</h2>
-            <p class="sub-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-md-9">
-                <!-- Slider -->
-                <div class="specialities-slider slider">
-
-                    <!-- Slider Item -->
-                    <div class="speicality-item text-center">
-                        <div class="speicality-img">
-                            <img src="assets/img/specialities/specialities-01.png" class="img-fluid" alt="Speciality">
-                            <span><i class="fa fa-circle" aria-hidden="true"></i></span>
-                        </div>
-                        <p>Urology</p>
-                    </div>
-                    <!-- /Slider Item -->
-                    <!-- Slider Item -->
-                    <div class="speicality-item text-center">
-                        <div class="speicality-img">
-                            <img src="assets/img/specialities/specialities-02.png" class="img-fluid" alt="Speciality">
-                            <span><i class="fa fa-circle" aria-hidden="true"></i></span>
-                        </div>
-                        <p>Neurology</p>
-                    </div>
-                    <!-- /Slider Item -->
-                    <!-- Slider Item -->
-                    <div class="speicality-item text-center">
-                        <div class="speicality-img">
-                            <img src="assets/img/specialities/specialities-03.png" class="img-fluid" alt="Speciality">
-                            <span><i class="fa fa-circle" aria-hidden="true"></i></span>
-                        </div>
-                        <p>Orthopedic</p>
-                    </div>
-                    <!-- /Slider Item -->
-                    <!-- Slider Item -->
-                    <div class="speicality-item text-center">
-                        <div class="speicality-img">
-                            <img src="assets/img/specialities/specialities-04.png" class="img-fluid" alt="Speciality">
-                            <span><i class="fa fa-circle" aria-hidden="true"></i></span>
-                        </div>
-                        <p>Cardiologist</p>
-                    </div>
-                    <!-- /Slider Item -->
-                    <!-- Slider Item -->
-                    <div class="speicality-item text-center">
-                        <div class="speicality-img">
-                            <img src="assets/img/specialities/specialities-05.png" class="img-fluid" alt="Speciality">
-                            <span><i class="fa fa-circle" aria-hidden="true"></i></span>
-                        </div>
-                        <p>Dentist</p>
-                    </div>
-                    <!-- /Slider Item -->
-
-                </div>
-                <!-- /Slider -->
-
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Clinic and Specialities -->
-<!-- Popular Section -->
-<section class="section section-doctor">
-    <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-4">
-                <div class="section-header ">
-                    <h2>Book Our Doctor</h2>
-                    <p>Lorem Ipsum is simply dummy text </p>
+            <div class="col-md-12 col-lg-6">
+
+                <!-- Sales Chart -->
+                <div class="card card-chart">
+                    <div class="card-header">
+                        <h4 class="card-title">Revenue</h4>
+                    </div>
+                    <div class="card-body">
+                        <div id="morrisArea"></div>
+                    </div>
                 </div>
-                <div class="about-content">
-                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum.</p>
-                    <p>web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes</p>
-                    <a href="javascript:;">Read More..</a>
-                </div>
+                <!-- /Sales Chart -->
+
             </div>
-            <div class="col-lg-8">
-                <div class="doctor-slider slider">
-                    @foreach (var doctor in Model.Doctors){
-                    <div class="profile-widget">
-                        <div class="doc-img">
-                            <a href="doctor-profile.html">
-                                <img class="img-fluid" alt="User Image" src="assets/img/doctors/doctor-07.jpg">
-                            </a>
-                            <a href="javascript:void(0)" class="fav-btn">
-                                <i class="far fa-bookmark"></i>
-                            </a>
+            <div class="col-md-12 col-lg-6">
+
+                <!-- Invoice Chart -->
+                <div class="card card-chart">
+                    <div class="card-header">
+                        <h4 class="card-title">Status</h4>
+                    </div>
+                    <div class="card-body">
+                        <div id="morrisLine"></div>
+                    </div>
+                </div>
+                <!-- /Invoice Chart -->
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+
+                <!-- Latest Customers -->
+                <div class="card card-table">
+                    <div class="card-header">
+                        <h4 class="card-title">Latest Customers</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Address</th>
+                                        <th>Telephone</th>
+                                        <th>Email</th>
+                                        <th class="text-end">Date added</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>01</td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                Ruby Perrin
+                                            </h2>
+                                        </td>
+                                        <td>takrakka</td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                +54 1245463984
+                                            </h2>
+                                        </td>
+                                        <td>Rubyperring@yahoo.mail</td>
+                                        <td class="text-end">April 14, 2020</td>
+                                    </tr>
+                                    <tr>
+                                        <td>02</td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                Darren Elder
+                                            </h2>
+                                        </td>
+                                        <td>339, Terromont Street</td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                +54 874654536
+                                            </h2>
+                                        </td>
+                                        <td>darrenelder@gmail.com</td>
+                                        <td class="text-end">April 15, 2020</td>
+                                    </tr>
+                                    <tr>
+                                        <td>03</td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                Deborah Angel
+                                            </h2>
+                                        </td>
+                                        <td>takrakka</td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                +54 3647787889
+                                            </h2>
+                                        </td>
+                                        <td>deborahangel@yahoo.com</td>
+                                        <td class="text-end">April 16, 2020</td>
+                                    </tr>
+                                    <tr>
+                                        <td>04</td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                Ruby Perrin
+                                            </h2>
+                                        </td>
+                                        <td>2061 Angus Road</td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                +54 1245463984
+                                            </h2>
+                                        </td>
+                                        <td>Rubyperring@yahoo.mail</td>
+                                        <td class="text-end">April 17, 2020</td>
+                                    </tr>
+                                    <tr>
+                                        <td>05</td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                Krystyna Rodriquez
+                                            </h2>
+                                        </td>
+                                        <td>takrakka</td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                +54 8965722222
+                                            </h2>
+                                        </td>
+                                        <td>krystynarodriquez@gmail.com</td>
+                                        <td class="text-end">April 18, 2020</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="pro-content">
-                            <h3 class="title">
-                                <a href="doctor-profile.html">@doctor.FullName</a>
-                                <i class="fas fa-check-circle verified"></i>
-                            </h3>
-                            <p class="speciality">MBBS, MD - General Medicine, DM - Neurology</p>
-                            <div class="rating">
-                                <i class="fas fa-star filled"></i>
-                                <i class="fas fa-star filled"></i>
-                                <i class="fas fa-star filled"></i>
-                                <i class="fas fa-star filled"></i>
-                                <i class="fas fa-star"></i>
-                                <span class="d-inline-block average-rating">(43)</span>
-                            </div>
-                            <ul class="available-info">
-                                <li>
-                                    <i class="fas fa-map-marker-alt"></i> Kansas, USA
-                                </li>
-                                <li>
-                                    <i class="far fa-clock"></i> Available on Fri, 22 Mar
-                                </li>
-                            </ul>
-                            <div class="row row-sm">
-                                <div class="col-6">
-                                    <a href="doctor-profile.html" class="btn view-btn">View Profile</a>
-                                </div>
-                                <div class="col-6">
-                                    <a href="doctor-search.html" class="btn book-btn">Book Now</a>
-                                </div>
-                            </div>
-                        </div>
                     </div>
-                    }
-
-                    <!-- /Doctor Widget -->
-                    <!-- Doctor Widget -->
-
                 </div>
+                <!-- /Latest Customers -->
+
             </div>
         </div>
+
     </div>
-</section>
-<!-- /Popular Section -->
-<!-- Availabe Features -->
-<section class="section section-features">
-    <div class="container-fluid">
-
-        <!-- Section Header -->
-        <div class="section-header text-center">
-            <h2>Blogs and News</h2>
-            <p class="sub-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </div>
-        <!-- /Section Header -->
-
-        <div class="row blog-grid-row">
-            <div class="col-md-6 col-lg-3 col-sm-12">
-
-                <!-- Blog Post -->
-                <div class="blog grid-blog">
-                    <div class="blog-image">
-                        <a href="blog-details.html"><img class="img-fluid" src="assets/img/blog/blog-01.jpg" alt="Post Image"></a>
-                    </div>
-                    <div class="blog-content">
-                        <ul class="entry-meta meta-item">
-                            <li>
-                                <div class="post-author">
-                                    <a href="doctor-profile.html"><img src="assets/img/doctors/doctor-thumb-01.jpg" alt="Post Author"> <span>Dr. Ruby Perrin</span></a>
-                                </div>
-                            </li>
-                            <li><i class="far fa-clock"></i> 4 Dec 2019</li>
-                        </ul>
-                        <h3 class="blog-title"><a href="blog-details.html">Doccure – Making your clinic painless visit?</a></h3>
-                        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur em adipiscing elit, sed do eiusmod tempor.</p>
-                    </div>
-                </div>
-                <!-- /Blog Post -->
-
-            </div>
-            <div class="col-md-6 col-lg-3 col-sm-12">
-
-                <!-- Blog Post -->
-                <div class="blog grid-blog">
-                    <div class="blog-image">
-                        <a href="blog-details.html"><img class="img-fluid" src="assets/img/blog/blog-02.jpg" alt="Post Image"></a>
-                    </div>
-                    <div class="blog-content">
-                        <ul class="entry-meta meta-item">
-                            <li>
-                                <div class="post-author">
-                                    <a href="doctor-profile.html"><img src="assets/img/doctors/doctor-thumb-02.jpg" alt="Post Author"> <span>Dr. Darren Elder</span></a>
-                                </div>
-                            </li>
-                            <li><i class="far fa-clock"></i> 3 Dec 2019</li>
-                        </ul>
-                        <h3 class="blog-title"><a href="blog-details.html">What are the benefits of Online Doctor Booking?</a></h3>
-                        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur em adipiscing elit, sed do eiusmod tempor.</p>
-                    </div>
-                </div>
-                <!-- /Blog Post -->
-
-            </div>
-            <div class="col-md-6 col-lg-3 col-sm-12">
-
-                <!-- Blog Post -->
-                <div class="blog grid-blog">
-                    <div class="blog-image">
-                        <a href="blog-details.html"><img class="img-fluid" src="assets/img/blog/blog-03.jpg" alt="Post Image"></a>
-                    </div>
-                    <div class="blog-content">
-                        <ul class="entry-meta meta-item">
-                            <li>
-                                <div class="post-author">
-                                    <a href="doctor-profile.html"><img src="assets/img/doctors/doctor-thumb-03.jpg" alt="Post Author"> <span>Dr. Deborah Angel</span></a>
-                                </div>
-                            </li>
-                            <li><i class="far fa-clock"></i> 3 Dec 2019</li>
-                        </ul>
-                        <h3 class="blog-title"><a href="blog-details.html">Benefits of consulting with an Online Doctor</a></h3>
-                        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur em adipiscing elit, sed do eiusmod tempor.</p>
-                    </div>
-                </div>
-                <!-- /Blog Post -->
-
-            </div>
-            <div class="col-md-6 col-lg-3 col-sm-12">
-
-                <!-- Blog Post -->
-                <div class="blog grid-blog">
-                    <div class="blog-image">
-                        <a href="blog-details.html"><img class="img-fluid" src="assets/img/blog/blog-04.jpg" alt="Post Image"></a>
-                    </div>
-                    <div class="blog-content">
-                        <ul class="entry-meta meta-item">
-                            <li>
-                                <div class="post-author">
-                                    <a href="doctor-profile.html"><img src="assets/img/doctors/doctor-thumb-04.jpg" alt="Post Author"> <span>Dr. Sofia Brient</span></a>
-                                </div>
-                            </li>
-                            <li><i class="far fa-clock"></i> 2 Dec 2019</li>
-                        </ul>
-                        <h3 class="blog-title"><a href="blog-details.html">5 Great reasons to use an Online Doctor</a></h3>
-                        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur em adipiscing elit, sed do eiusmod tempor.</p>
-                    </div>
-                </div>
-                <!-- /Blog Post -->
-
-            </div>
-        </div>
-        <div class="view-all text-center">
-            <a href="blog-list.html" class="btn btn-primary">View All</a>
-        </div>
-    </div>
-
-</section>
+</div>
+<!-- /Page Wrapper -->

@@ -8,6 +8,6 @@ namespace FamilyHealthCare.Web.Models
 {
     public class HomeViewModel
     {
-        public List<DoctorDetailsDto> Doctors { get; set; }
+        public List<DoctorDetailsDto> Doctors { get; set; } 
     }
 }

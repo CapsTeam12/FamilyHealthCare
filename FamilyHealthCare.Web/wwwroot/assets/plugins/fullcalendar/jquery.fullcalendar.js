@@ -66,7 +66,7 @@
             form.append("<div class='event-inputs'></div>");
             form.find(".event-inputs")
                 .append("<div class='form-group'><label class='control-label'>Event Name</label><input class='form-control' placeholder='Insert Event Name' type='text' name='title'/></div>")
-                .append("<div class='form-group mb-0'><label class='control-label'>Category</label><select class='form-control' name='category'></select></div>")
+                .append("<div class='form-group'><label class='control-label'>Category</label><select class='form-control' name='category'></select></div>")
                 .find("select[name='category']")
                 .append("<option value='bg-danger'>Danger</option>")
                 .append("<option value='bg-success'>Success</option>")
