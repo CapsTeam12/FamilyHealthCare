@@ -20,7 +20,7 @@
 </head>
 <body>
     <div class="main-wrapper">
-        <<header class="header">
+        <header class="header">
 
             <nav class="navbar navbar-expand-lg header-nav">
                 <div class="navbar-header">
@@ -52,9 +52,11 @@
                         <li class="has-submenu">
                             <a href="">Common <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
+
                                 <li class="">
                                     <a href="product.html">Medicine </a>
                                 </li>
+
                                 <li class="has-submenu">
                                     <a href="#">Doctors</a>
                                     <ul class="submenu">
@@ -62,6 +64,7 @@
                                         <li><a href="doctor-search.html">Booking Doctor</a></li>
                                     </ul>
                                 </li>
+
                                 <li class="has-submenu">
                                     <a href="#">Pharmacy</a>
                                     <ul class="submenu">
@@ -70,28 +73,26 @@
                                     </ul>
                                 </li>
                                 <li><a href="healthcheck.html">Health Check </a></li>
-
                             </ul>
                         </li>
-
 
                         <li class="has-submenu">
                             <a href="">Pages <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
                                 <li><a href="about-us.html">About Us</a></li>
                                 <li><a href="contact-us.html">Contact Us</a></li>
+                            </ul>
                         </li>
+
                         <li><a href="blog-list.html">Blog </a></li>
 
-                    </ul>
-                    </li>
-                    <li class="has-submenu">
-                        <a href="">Partner <i class="fas fa-chevron-down"></i></a>
-                        <ul class="submenu">
-                            <li><a href="pharmacy-register.html">Pharmacy Register</a></li>
-                            <li><a href="doctor-register.html">Doctor Register</a></li>
-                        </ul>
-                    </li>
+                        <li class="has-submenu">
+                            <a href="">Partner <i class="fas fa-chevron-down"></i></a>
+                            <ul class="submenu">
+                                <li><a href="pharmacy-register.html">Pharmacy Register</a></li>
+                                <li><a href="doctor-register.html">Doctor Register</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
                 <ul class="nav header-navbar-rht">
@@ -108,7 +109,14 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link header-login" href="login.html">login / Signup </a>
+                        @*<a class="nav-link header-login" href="login.html">login / Signup </a>*@
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a class="nav-link header-login" asp-controller="Account" asp-action="SignOut">Log out</a> }
+                        else
+                        { 
+                            <a class="nav-link header-login" asp-controller="Account" asp-action="SignIn">Log In / Sign Up</a>
+                        }
                     </li>
                     <li class="dropdown language-select">
                         <span class="dropdown-toggle" id="language-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"

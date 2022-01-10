@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using IdentityServer4.Events;
-using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServerHost.Quickstart.UI;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +10,8 @@ using Microsoft.AspNetCore.Authentication;
 using IdentityModel;
 using AuthService.ViewModel.CustomAuthentication;
 using Data.Entities;
+using IdentityServer4.Stores;
+using System.Linq;
 
 namespace AuthService.Controllers
 {
@@ -21,25 +22,32 @@ namespace AuthService.Controllers
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEventService _events;
+        private readonly IClientStore _clientStore;
+        private readonly IAuthenticationSchemeProvider _schemeProvider;
 
         public CustomAuthenticationController(
             IIdentityServerInteractionService interaction,
             IEventService events,
             UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager,
-            SignInManager<User> signInManager)
+            SignInManager<User> signInManager,
+            IClientStore clientStore,
+            IAuthenticationSchemeProvider schemeProvider)
         {
             _interaction = interaction;
             _events = events;
             _signInManager = signInManager;
             _userManager = userManager;
             _roleManager = roleManager;
+            _clientStore = clientStore;
+            _schemeProvider = schemeProvider;
         }
 
         [HttpGet]
-        public IActionResult Login(string returnUrl)
+        public async Task<IActionResult> LoginAsync(string returnUrl)
         {
-            return View(new LoginAuthModelVM { ReturnUrl = returnUrl });
+            var vm = await BuildLoginViewModelAsync(returnUrl);
+            return View(vm);
         }
 
         [HttpPost]
@@ -91,6 +99,40 @@ namespace AuthService.Controllers
             return Redirect(RegisterVm.ReturnUrl);
         }
 
+        [HttpGet]
+        public IActionResult ChangePassword(string returnUrl)
+        {
+            return View(new ChangePasswordAuthModelVM { ReturnUrl = returnUrl });
+        }
+
+        //[HttpPost]
+        //public async Task<IActionResult> ChangePassword(ChangePasswordAuthModelVM changepwdVM)
+        //{
+        //    var context = await _interaction.GetAuthorizationContextAsync(changepwdVM.ReturnUrl);
+        //    var user = _userManager.GetUserIdAsync(changepwdVM.Id);
+
+        //    if (changepwdVM.CurrentPassword != user.Password)
+        //    {
+        //        ViewBag.Error = "Enter a valid password please try again";
+        //        return View("ChangePassword", changepwdVM);
+        //    }
+
+        //    if (changepwdVM.NewPassword == changepwdVM.CurrentPassword)
+        //    {
+        //        ViewBag.Error = "Password must differ from old password";
+        //        return View("ChangePassword", changepwdVM);
+        //    }
+
+        //    if (changepwdVM.NewPassword == changepwdVM.NewPasswordConfirm)
+        //    {
+        //        ViewBag.Error = "Passwords do not match";
+        //        return View("ChangePassword", changepwdVM);
+        //    }
+
+        //    ViewBag.Error = null;
+
+        //    return Redirect(changepwdVM.ReturnUrl);
+        //}
         /// <summary>
         /// Show logout page
         /// </summary>
@@ -108,6 +150,75 @@ namespace AuthService.Controllers
             }
 
             return View(vm);
+        }
+
+        /*****************************************/
+        /* helper APIs for the AccountController */
+        /*****************************************/
+        private async Task<LoginViewModel> BuildLoginViewModelAsync(string returnUrl)
+        {
+            var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
+            if (context?.IdP != null && await _schemeProvider.GetSchemeAsync(context.IdP) != null)
+            {
+                var local = context.IdP == IdentityServer4.IdentityServerConstants.LocalIdentityProvider;
+
+                // this is meant to short circuit the UI and only trigger the one external IdP
+                var vm = new LoginViewModel
+                {
+                    EnableLocalLogin = local,
+                    ReturnUrl = returnUrl,
+                    Username = context?.LoginHint,
+                };
+
+                if (!local)
+                {
+                    vm.ExternalProviders = new[] { new ExternalProvider { AuthenticationScheme = context.IdP } };
+                }
+
+                return vm;
+            }
+
+            var schemes = await _schemeProvider.GetAllSchemesAsync();
+
+            var providers = schemes
+                .Where(x => x.DisplayName != null)
+                .Select(x => new ExternalProvider
+                {
+                    DisplayName = x.DisplayName ?? x.Name,
+                    AuthenticationScheme = x.Name
+                }).ToList();
+
+            var allowLocal = true;
+            if (context?.Client.ClientId != null)
+            {
+                var client = await _clientStore.FindEnabledClientByIdAsync(context.Client.ClientId);
+                if (client != null)
+                {
+                    allowLocal = client.EnableLocalLogin;
+
+                    if (client.IdentityProviderRestrictions != null && client.IdentityProviderRestrictions.Any())
+                    {
+                        providers = providers.Where(provider => client.IdentityProviderRestrictions.Contains(provider.AuthenticationScheme)).ToList();
+                    }
+                }
+            }
+
+            return new LoginViewModel
+            {
+                AllowRememberLogin = AccountOptions.AllowRememberLogin,
+                EnableLocalLogin = allowLocal && AccountOptions.AllowLocalLogin,
+                ReturnUrl = returnUrl,
+                Username = context?.LoginHint,
+                ExternalProviders = providers.ToArray()
+            };
+        }
+
+        private async Task<LoginViewModel> BuildLoginViewModelAsync(LoginInputModel model)
+        {
+            var vm = await BuildLoginViewModelAsync(model.ReturnUrl);
+            vm.Username = model.Username;
+            vm.RememberLogin = model.RememberLogin;
+            return vm;
         }
 
         /// <summary>

@@ -4,6 +4,7 @@ using AuthService.Security.Authorization.Requirements;
 using Contract.Constants;
 using Data;
 using Data.Entities;
+using IdentityServer4;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -69,10 +70,23 @@ namespace AuthService
 
             services.ConfigureApplicationCookie(config =>
             {
-                config.LoginPath = "/CustomAuthentication/Login";
+                config.LoginPath = "/Account/Login";
             });
 
             services.AddAuthentication()
+                .AddGoogle("Google", options =>
+                {
+                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+
+                    options.ClientId = "59632184419-8c9snd66qcb9kr9ara03g0mq8pkehrio.apps.googleusercontent.com";
+                    options.ClientSecret = "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";
+                })
+                .AddFacebook("Facebook", options =>
+                {
+                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                    options.ClientId = "299489385327911";
+                    options.ClientSecret = "31ff012ae99d8de58415cc4b5f53e8fd";
+                })
                 .AddLocalApi("Bearer", option =>
                 {
                     option.ExpectedScope = CustomIdentityServerConstants.ApiScopeName;
