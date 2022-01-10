@@ -31,13 +31,13 @@
                             <span></span>
                         </span>
                     </a>
-                    <a href="index.html" class="navbar-brand logo">
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand logo">
                         <img src=@Url.Content("~/assets/img/logo.png") class="img-fluid" alt="Logo">
                     </a>
                 </div>
                 <div class="main-menu-wrapper">
                     <div class="menu-header">
-                        <a href="index.html" class="menu-logo">
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="menu-logo">
                             <img src=@Url.Content("~/assets/img/logo.png") class="img-fluid" alt="Logo">
                         </a>
                         <a id="menu_close" class="menu-close" href="javascript:void(0);">
@@ -47,7 +47,6 @@
                     <ul class="main-nav">
                         <li class="has-submenu ">
                             <a asp-area="" asp-controller="Home" asp-action="Index">Home </a>
-
                         </li>
                         <li class="has-submenu">
                             <a href="">Common <i class="fas fa-chevron-down"></i></a>
@@ -112,7 +111,7 @@
                     </li>
                     <li class="dropdown language-select">
                         <span class="dropdown-toggle" id="language-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
-                              aria-expanded="false" role="button"><img src=@Url.Content("~/assets/img/vietnam.png") alt="flag"> Viet Nam</span>
+                              aria-expanded="false" role="button"><img src=@Url.Content("~/assets/img/vietnam.png") alt="flag"> Việt Nam</span>
                         <div class="dropdown-menu dropdown-menu" aria-labelledby="language-dropdown">
                             <a class="dropdown-item" href="#"><img src=@Url.Content("~/assets/img/united-kingdom.png") alt="flag"> English</a>
                         </div>
@@ -120,35 +119,28 @@
                 </ul>
             </nav>
         </header>
-        <div class="container">
-            <main role="main" class="pb-3">
-                @RenderBody()
-                <div class="float-contact">
-                    <ul style="line-height: 45px">
-                        <div>
-                            <a href="http://facebook.com">
-                                <img src="assets/img/messenger.png" alt="" />
-                            </a>
-                        </div>
-                        <div>
-                            <a href="tel:0989999898">
-                                <img src="assets/img/hotline.png" alt="" />
-                            </a>
-                        </div>
-                    </ul>
+        @RenderBody()
+        <div class="float-contact">
+            <ul style="line-height: 45px">
+                <div>
+                    <a href="http://facebook.com">
+                        <img src=@Url.Content("~/assets/img/messenger.png") alt="" />
+                    </a>
                 </div>
-            </main>
+                <div>
+                    <a href="tel:0989999898">
+                        <img src=@Url.Content("~/assets/img/hotline.png") alt="" />
+                    </a>
+                </div>
+            </ul>
         </div>
-
         <!-- Footer -->
         <footer class="footer">
-
             <!-- Footer Top -->
             <div class="footer-top">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-3 col-md-6">
-
                             <!-- Footer Widget -->
                             <div class="footer-widget footer-about">
                                 <div class="footer-logo">
@@ -172,11 +164,8 @@
                                 </div>
                             </div>
                             <!-- /Footer Widget -->
-
                         </div>
-
                         <div class="col-lg-3 col-md-6">
-
                             <!-- Footer Widget -->
                             <div class="footer-widget footer-menu">
                                 <h2 class="footer-title">For Pharmacy</h2>

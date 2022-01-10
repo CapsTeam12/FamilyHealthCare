@@ -12348,7 +12348,7 @@ ul.benifits-col li i{
 .float-contact {
     position: fixed;
     bottom: 20px;
-    left: 20px;
+    right: 60px;
     z-index: 99999;
   }
   .chat-zalo {
@@ -12681,6 +12681,10 @@ ul.benifits-col li i{
 .user-menu.nav > li > a:hover i,
 .user-menu.nav > li > a:focus i {
 	color: grey;
+}
+/* delete_modal */
+#delete_modal .modal-content {
+	text-align: center;
 }
 
 

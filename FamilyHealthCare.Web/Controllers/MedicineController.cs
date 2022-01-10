@@ -12,5 +12,9 @@ namespace FamilyHealthCare.Customer.Controllers
         {
             return View();
         }
+        public IActionResult MedicineDetails()
+        {
+            return View();
+        }
     }
 }
