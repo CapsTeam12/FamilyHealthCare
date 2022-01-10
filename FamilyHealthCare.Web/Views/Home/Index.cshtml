@@ -17,31 +17,45 @@
                 <li class="submenu">
                     <a href="#"><i class="fe fe-document"></i> <span> Medicines</span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
-                        @*<li><a href="products.html">Medicines</a></li>*@
+                      
                         <li class="nav-item">
                             <a asp-area="" asp-controller="Pharmacy" asp-action="Medicine">Medicine</a>
                         </li>
-                        @*<li><a href="add-product.html">Add Medicine</a></li>*@
                         <li class="nav-item">
                             <a asp-area="" asp-controller="Pharmacy" asp-action="AddMedicine">Add Medicine</a>
                         </li>
-                        <li><a href="outstock.html">Out-Stock</a></li>
-                        <li><a href="expired.html">Returned</a></li>
+                      
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Pharmacy" asp-action="OutStock">Out-Stock</a>
+                        </li>
+                       
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Pharmacy" asp-action="Returned">Returned</a>
+                        </li>
                     </ul>
                 </li>
                 <li class="submenu">
                     <a href="#"><i class="fe fe-star-o"></i> <span> Prescription</span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
-                        <li><a href="purchase.html">Prescription</a></li>
-                        <li><a href="add-prescription.html">Add Prescription</a></li>
+                        @*<li><a href="purchase.html">Prescription</a></li>*@
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Pharmacy" asp-action="Prescription">Prescription</a>
+                        </li>
+                        @*<li><a href="add-prescription.html">Add Prescription</a></li>*@
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Pharmacy" asp-action="AddPrescription">Add Prescription</a>
+                        </li>
                         <!-- <li><a href="edit-prescription.html">Edit Prescription</a></li> -->
                         <!-- <li><a href="order.html">Order</a></li> -->
                     </ul>
                 </li>
 
 
-                <li>
-                    <a href="profile.html"><i class="fe fe-user-plus"></i> <span>Profile</span></a>
+                @*<li>
+            <a href="profile.html"><i class="fe fe-user-plus"></i> <span>Profile</span></a>
+        </li>*@
+                <li class="nav-item">
+                    <a class="fe fe-user-plus" asp-area="" asp-controller="Home" asp-action="Profile">Profile</a>
                 </li>
                 <li>
                     <a href="settings.html"><i class="fe fe-vector"></i> <span>Settings</span></a>

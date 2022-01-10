@@ -16,5 +16,21 @@ namespace FamilyHealthCare.Customer.Controllers
         {
             return View();
         }
+        public IActionResult OutStock()
+        {
+            return View();
+        }
+        public IActionResult Returned()
+        {
+            return View();
+        }
+        public IActionResult Prescription()
+        {
+            return View();
+        }
+        public IActionResult AddPrescription()
+        {
+            return View();
+        }
     }
 }
