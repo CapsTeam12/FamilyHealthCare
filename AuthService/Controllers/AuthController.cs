@@ -106,12 +106,12 @@ namespace AuthService.Controllers
 
         [HttpPost]
         [Route("AddUserToRole")]
-        public async Task<IActionResult> AddUserToRole(string userName,string roleName)
+        public async Task<IActionResult> AddUserToRole(string userName, string roleName)
         {
             //Check if the user exist
             var user = await _userManager.FindByNameAsync(userName);
 
-            if(user == null)
+            if (user == null)
             {
                 return BadRequest(new Response { Status = "Failed", Message = $"The user with {userName} does not exist" });
             }
@@ -124,6 +124,10 @@ namespace AuthService.Controllers
             }
 
             var result = await _userManager.AddToRoleAsync(user, roleName);
+            await _userManager.AddClaimsAsync(user, new Claim[]
+                    {
+                       new Claim(JwtClaimTypes.Role, roleName),
+                    });
             if (result.Succeeded)
             {
                 return Ok(new Response { Status = "Success", Message = $"The user has been added to the {roleName}" });
@@ -134,10 +138,10 @@ namespace AuthService.Controllers
             }
 
         }
-     
+
         [HttpPost]
         [Route("RemoveUserRole")]
-        public async Task<IActionResult> RemoveUserRole(string userName,string roleName)
+        public async Task<IActionResult> RemoveUserRole(string userName, string roleName)
         {
             //Check if the user exist
             var user = await _userManager.FindByNameAsync(userName);

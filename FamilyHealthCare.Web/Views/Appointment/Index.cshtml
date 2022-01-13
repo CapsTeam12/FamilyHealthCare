@@ -15,7 +15,8 @@
                 <th>#</th>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Time</th>
+                <th>StartTime</th>
+                <th>EndTime</th>
                 <th></th>
             </tr>
             @foreach (var ap in Model)
@@ -25,7 +26,8 @@
                     <td>@count</td>
                     <td>@ap.TherapistFullName</td>
                     <td>@ap.Description</td>
-                    <td>@DateTime.Parse(ap.Time.ToShortDateString())</td>
+                    <td>@ap.StartTime</td>
+                    <td>@ap.EndTime</td>
                     <td><a asp-action="Details" asp-route-id="@ap.Id">View</a></td>
                     <td><a asp-action="Reschedule" asp-route-id="@ap.Id">Reschedule</a></td>
                 </tr>

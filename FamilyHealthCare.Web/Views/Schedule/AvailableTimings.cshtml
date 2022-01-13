@@ -1,0 +1,33 @@
+﻿@model ScheduleViewModel
+@{
+    int count = 0;
+    var currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+}
+
+<form method="get" asp-action="AvailableTimings">
+    <input type="text" name="UserId" value="@ViewBag.userId" hidden/>
+    <input type="date" id="scheduleDate" class="form-control" name="Date" value="@ViewBag.CurrentDate" min="@currentDate" />
+    <input type="submit" class="btn btn-secondary" value="Search" />
+</form>
+
+<form method="post" asp-action="CreateScheduleDoctor">
+    <input type="text" name="UserId" value="@ViewBag.userId"  hidden/>
+    <input type="text" name="Date" value="@ViewBag.CurrentDate"  hidden/>
+    @foreach (var shifts in Model.Shifts)
+    {
+        count++;
+        if (Model.ScheduleDoctors.Any(x => x.ShiftId == shifts.Id))
+        {
+            <label for="shift{@count}" style="color:aquamarine">@shifts.TimeSlot</label>
+            <br />
+        }
+        else
+        {
+            <input type="checkbox" id="shift{@count}" name="ShiftsId" value="@shifts.Id">
+            <label for="shift{@count}">@shifts.TimeSlot</label>
+            <br>
+        }
+
+    }
+    <input class="btn btn-success" type="submit" value="Save" />
+</form>

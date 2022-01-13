@@ -1,7 +1,8 @@
 ﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Identity
 
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
-@{ 
+@{
     var userId = _httpContextAccessor.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
 }
 <!DOCTYPE html>
@@ -31,9 +32,19 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Appointment" asp-action="Index" asp-route-userId="@userId">Appointments</a>
-                        </li>
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Appointment" asp-action="Index" asp-route-userId="@userId">Appointments</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Schedule" asp-action="Calendar" asp-route-userId="@userId">Calendar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Schedule" asp-action="AvailableTimings" asp-route-userId="@userId" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")">AvailableTimings</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

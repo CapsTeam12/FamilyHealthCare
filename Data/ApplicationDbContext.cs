@@ -15,6 +15,9 @@ namespace Data
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Pharmacy> Pharmacies { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<Shift> Shifts { get; set; }
+        public DbSet<ScheduleDoctor> ScheduleDoctors { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

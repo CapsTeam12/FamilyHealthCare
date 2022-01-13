@@ -13,9 +13,9 @@ namespace AppointmentService.Validators
     {
         public AppointmentCreateDtoValidator()
         {
-            RuleFor(a => a.Time)
+            RuleFor(a => a.StartTime)
                 .Must(IsTimeValid)
-                .WithMessage(x => string.Format(ErrorMessage.AppointmentMessage.ErrorTime, nameof(x.Time)));
+                .WithMessage(x => string.Format(ErrorMessage.AppointmentMessage.ErrorTime, nameof(x.StartTime)));
             RuleFor(a => a.Description)
                 .NotEmpty()
                 .WithMessage(x => string.Format(ErrorMessage.Common.Required, nameof(x.Description)));
