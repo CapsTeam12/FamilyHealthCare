@@ -1,70 +1,29 @@
-﻿@*<!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>@ViewData["Title"] - FamilyHealthCare.Web</title>
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
-    </head>
-    <body>
-        <header>
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                <div class="container">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FamilyHealthCare.Web</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>
-        <div class="container">
-            <main role="main" class="pb-3">
-                @RenderBody()
-            </main>
-        </div>
-
-        <footer class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2021 - FamilyHealthCare.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </div>
-        </footer>
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        @await RenderSectionAsync("Scripts", required: false)
-    </body>
-    </html>*@
+﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Doccure</title>
+    <title>FamilyHealthCare</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 
     <!-- Favicons -->
     <link href="assets/img/favicon.png" rel="icon">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href=@Url.Content("~/assets/css/bootstrap.min.css")>
+    <!-- Datetimepicker CSS -->
+    <link rel="stylesheet" href=@Url.Content("~/assets/css/bootstrap-datetimepicker.min.css")>
+
+    <!-- Full Calander CSS -->
+    <link rel="stylesheet" href=@Url.Content("~/assets/plugins/fullcalendar/fullcalendar.min.css")>
 
     <!-- Fontawesome CSS -->
-    <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
-    <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href=@Url.Content("~/assets/plugins/fontawesome/css/fontawesome.min.css")>
+    <link rel="stylesheet" href=@Url.Content("~/assets/plugins/fontawesome/css/all.min.css")>
 
     <!-- Main CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href=@Url.Content("~/assets/css/style.css")>
+
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -80,7 +39,6 @@
 
         <!-- Header -->
         <header class="header">
-
             <nav class="navbar navbar-expand-lg header-nav">
                 <div class="navbar-header">
                     <a id="mobile_btn" href="javascript:void(0);">
@@ -90,14 +48,14 @@
                             <span></span>
                         </span>
                     </a>
-                    <a href="index.html" class="navbar-brand logo">
-                        <img src="assets/img/logo.png" class="img-fluid" alt="Logo">
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand logo">
+                        <img src="~/assets/img/LogoFHC.png" class="img-fluid" alt="Logo">
                     </a>
                 </div>
                 <div class="main-menu-wrapper">
                     <div class="menu-header">
                         <a href="index.html" class="menu-logo">
-                            <img src="assets/img/logo.png" class="img-fluid" alt="Logo">
+                            <img src="~/assets/img/logo.png" class="img-fluid" alt="Logo">
                         </a>
                         <a id="menu_close" class="menu-close" href="javascript:void(0);">
                             <i class="fas fa-times"></i>
@@ -105,42 +63,31 @@
                     </div>
                     <ul class="main-nav">
                         <li class="has-submenu ">
-                            <a href="index.html">Home </a>
-
+                            <a asp-area="" asp-controller="Home" asp-action="Index">Home </a>
+                            
                         </li>
                         <li class="has-submenu">
                             <a href="">Doctors <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
-                                <li><a href="doctor-dashboard.html">Dashboard</a></li>
-                                <li><a href="calendar.html">Calendar</a></li>
-                                <li><a href="schedule-timings.html">Schedule Timing</a></li>
-
-                                <li><a href="medical-records.html">Medical Records</a></li>
-                                <li><a href="medical-records.html">Prescription</a></li>
-                                <li><a href="my-patients.html">My Patients </a></li>
-                                <li class="has-submenu">
-
-                                </li>
+                                <li><a asp-area="" asp-controller="Calendars" asp-action="Calendar">Calendar</a></li>
+                                <li><a asp-area="" asp-controller="ScheduleTiming" asp-action="ScheduleTimings">Schedule Timing</a></li>
+                                <li><a asp-area="" asp-controller="MedicalRecords" asp-action="MedicalRecord">Medical Records</a></li>
+                                <li><a asp-area="" asp-controller="Prescriptions" asp-action="Prescription">Prescription</a></li>
+                                <li><a asp-area="" asp-controller="MyPatient" asp-action="MyPatients">My Patients</a></li>
                             </ul>
                         </li>
 
                         <li class="has-submenu">
-                            <a href="product-all.html">Medicine </a>
+                            <a asp-area="" asp-controller="Medicines" asp-action="Medicine">Medicine</a>
                         </li>
                         <li class="has-submenu">
-                            <a href="">Services <i class="fas fa-chevron-down"></i></a>
+                            <a href="">Pages <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
-                                <li><a href="about-us.html">About Us</a></li>
-                                <li><a href="contact-us.html">Contact Us</a></li>
+                                <li><a asp-area="" asp-controller="Page" asp-action="AboutUs">About Us</a></li>
+                                <li><a asp-area="" asp-controller="Page" asp-action="ContactUs">Contact Us</a></li>
+
                         </li>
-                        <li class="has-submenu">
-                            <a href="doctor-blog.html">Blog</a>
-                            <ul class="submenu">
-                                <li><a href="doctor-blog.html">Blog</a></li>
-                                <li><a href="blog-details.html">Blog view</a></li>
-                                <li><a href="doctor-add-blog.html">Add Blog</a></li>
-                            </ul>
-                        </li>
+                        <li><a asp-area="" asp-controller="Page" asp-action="Blog">Blog</a></li>
                     </ul>
                     </li>
                     <li class="login-link">
@@ -178,7 +125,7 @@
                                             <a href="#">
                                                 <div class="media d-flex">
                                                     <span class="avatar avatar-sm flex-shrink-0">
-                                                        <img class="avatar-img rounded-circle" alt="User Image" src="assets/img/doctors/doctor-thumb-01.jpg">
+                                                        <img class="avatar-img rounded-circle" alt="User Image" src="~/assets/img/doctors/doctor-thumb-01.jpg">
                                                     </span>
                                                     <div class="media-body flex-grow-1">
                                                         <p class="noti-details"><span class="noti-title">Dr. Ruby Perrin</span> Schedule <span class="noti-title">her appointment</span></p>
@@ -191,7 +138,7 @@
                                             <a href="#">
                                                 <div class="media d-flex">
                                                     <span class="avatar avatar-sm flex-shrink-0">
-                                                        <img class="avatar-img rounded-circle" alt="User Image" src="assets/img/patients/patient1.jpg">
+                                                        <img class="avatar-img rounded-circle" alt="User Image" src="~/assets/img/patients/patient1.jpg">
                                                     </span>
                                                     <div class="media-body flex-grow-1">
                                                         <p class="noti-details"><span class="noti-title">Charlene Reed</span> has booked her appointment to <span class="noti-title">Dr. Ruby Perrin</span></p>
@@ -213,7 +160,7 @@
                     <li class="nav-item dropdown has-arrow logged-item">
                         <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                             <span class="user-img">
-                                <img class="rounded-circle" src="assets/img/doctors/doctor-thumb-02.jpg" width="31" alt="Darren Elder">
+                                <img class="rounded-circle" src="~/assets/img/doctors/doctor-thumb-02.jpg" width="31" alt="Darren Elder">
                             </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
@@ -227,12 +174,12 @@
                                 </div>
                             </div>
                             <a class="dropdown-item" href="doctor-profile-settings.html">Profile Settings</a>
-                            <a class="dropdown-item" href="login.html">Logout</a>
+                            <a class="dropdown-item" href="login-doctor.html">Logout</a>
                         </div>
                     </li>
                     <li class="dropdown language-select">
                         <span class="dropdown-toggle" id="language-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
-                              aria-expanded="false" role="button"><img src="assets/img/vietnam.png" alt="flag"> Viet Nam</span>
+                              aria-expanded="false" role="button"><img src="~/assets/img/vietnam.png" alt="flag"> Viet Nam</span>
                         <div class="dropdown-menu dropdown-menu" aria-labelledby="language-dropdown">
                             <a class="dropdown-item" href="#"><img src="assets/img/united-kingdom.png" alt="flag"> English</a>
                         </div>
@@ -242,7 +189,6 @@
                 </ul>
             </nav>
         </header>
-        <!-- /Header -->
         @RenderBody()
         <!-- Breadcrumb -->
 
@@ -258,7 +204,7 @@
                             <!-- Footer Widget -->
                             <div class="footer-widget footer-about">
                                 <div class="footer-logo">
-                                    <img src="assets/img/footer-logo.png" alt="logo">
+                                    <img src=@Url.Content("~/assets/img/footer-logo.png") alt="logo">
                                 </div>
                                 <div class="footer-about-content">
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
@@ -364,21 +310,31 @@
 
         </footer>
     </div>
-    <script src="assets/js/jquery-3.6.0.min.js"></script>
+    <script src=@Url.Content("~/assets/js/jquery-3.6.0.min.js")></script>
 
     <!-- Bootstrap Core JS -->
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src=@Url.Content("~/assets/js/bootstrap.bundle.min.js")></script>
 
     <!-- Sticky Sidebar JS -->
-    <script src="assets/plugins/theia-sticky-sidebar/ResizeSensor.js"></script>
-    <script src="assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js"></script>
+    <script src=@Url.Content("~/assets/plugins/theia-sticky-sidebar/ResizeSensor.js")></script>
+    <script src=@Url.Content("~/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js")></script>
 
     <!-- Circle Progress JS -->
-    <script src="assets/js/circle-progress.min.js"></script>
+    <script src=@Url.Content("~/assets/js/circle-progress.min.js")></script>
+    <script src=@Url.Content("~/assets/plugins/select2/js/select2.min.js")></script>
+    <!-- Select2 JS -->
+    <script src=@Url.Content("~/assets/plugins/select2/js/select2.min.js")></script>
 
     <!-- Custom JS -->
-    <script src="assets/js/script.js"></script>
+    <script src=@Url.Content("~/assets/js/script.js")></script>
+    <!-- Datetimepicker JS -->
+    <script src=@Url.Content("~/assets/js/moment.min.js")></script>
+    <script src=@Url.Content("~/assets/js/bootstrap-datetimepicker.min.js")></script>
 
+    <!-- Full Calendar JS -->
+    <script src=@Url.Content("~/assets/plugins/jquery-ui/jquery-ui.min.js")></script>
+    <script src=@Url.Content("~/assets/plugins/fullcalendar/fullcalendar.min.js")></script>
+    <script src=@Url.Content("~/assets/plugins/fullcalendar/jquery.fullcalendar.js")></script>
 </body>
 
 

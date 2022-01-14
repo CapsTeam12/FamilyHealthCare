@@ -12348,7 +12348,7 @@ ul.benifits-col li i{
 .float-contact {
     position: fixed;
     bottom: 20px;
-    right: 60px;
+    left: 20px;
     z-index: 99999;
   }
   .chat-zalo {
@@ -12551,7 +12551,7 @@ ul.benifits-col li i{
     	width: auto;
 	}
 }
-/* notification */
+
 .notifications {
 	padding: 0;
 }
@@ -12605,7 +12605,6 @@ ul.benifits-col li i{
 	color: #989c9e;
     margin-bottom: 0;
 }
-
 .noti-title {
 	color: #333;
 }
@@ -12655,7 +12654,6 @@ ul.benifits-col li i{
 .noti-time {
     margin: 0;
 }
-/* logo bell */
 .user-menu.nav > li > a .badge {
 	background-color: #1b5a90;
     display: block;
@@ -12682,10 +12680,6 @@ ul.benifits-col li i{
 .user-menu.nav > li > a:hover i,
 .user-menu.nav > li > a:focus i {
 	color: grey;
-}
-/* delete_modal */
-#delete_modal .modal-content {
-	text-align: center;
 }
 
 

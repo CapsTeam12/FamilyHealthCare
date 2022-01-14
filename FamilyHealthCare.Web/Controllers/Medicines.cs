@@ -6,13 +6,9 @@ using System.Threading.Tasks;
 
 namespace FamilyHealthCare.Customer.Controllers
 {
-    public class MyPatient : Controller
+    public class Medicines : Controller
     {
-        public IActionResult MyPatients()
-        {
-            return View();
-        }
-        public IActionResult MyPatientProfile()
+        public IActionResult Medicine()
         {
             return View();
         }
