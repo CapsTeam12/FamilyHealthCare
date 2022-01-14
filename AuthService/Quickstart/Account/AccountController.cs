@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Data.Entities;
 using Contract.Constants;
+using AuthService.ViewModel.CustomAuthentication;
 
 namespace IdentityServerHost.Quickstart.UI
 {
@@ -76,11 +77,11 @@ namespace IdentityServerHost.Quickstart.UI
             }
             else if(vm.ClientId == ClientIdConstants.Doctor)
             {
-                return View(vm);
+                return View("~/Views/Account/LoginDoctor.cshtml",vm);
             }
             else if (vm.ClientId == ClientIdConstants.Pharmacy)
             {
-                return View(vm);
+                return View("~/Views/Account/LoginPharmacy.cshtml",vm);
             }
             else
             {
@@ -212,7 +213,22 @@ namespace IdentityServerHost.Quickstart.UI
 
             // something went wrong, show form with error
             var vm = await BuildLoginViewModelAsync(model);
-            return View(vm);
+            if (vm.ClientId == ClientIdConstants.User)
+            {
+                return View(vm);
+            }
+            else if (vm.ClientId == ClientIdConstants.Doctor)
+            {
+                return View("~/Views/Account/LoginDoctor.cshtml", vm);
+            }
+            else if (vm.ClientId == ClientIdConstants.Pharmacy)
+            {
+                return View("~/Views/Account/LoginPharmacy.cshtml", vm);
+            }
+            else
+            {
+                return View("~/Views/Account/LoginAdmin.cshtml", vm);
+            }
         }
 
         
@@ -267,6 +283,37 @@ namespace IdentityServerHost.Quickstart.UI
             }
 
             return View("LoggedOut", vm);
+        }
+
+        [HttpGet]
+        public IActionResult Register(string returnUrl)
+        {
+            return View(new RegisterAuthModelVM { ReturnUrl = returnUrl });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterAuthModelVM RegisterVm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Register", RegisterVm);
+            }
+
+            var user = new User();
+            user.UserName = RegisterVm.Username;
+            user.Email = RegisterVm.Username;
+
+            var result = await _userManager.CreateAsync(user, RegisterVm.Password);
+
+            if (!result.Succeeded)
+            {
+                return View("Register", RegisterVm);
+            }
+
+            await _userManager.AddToRoleAsync(user, "User");
+            await _signInManager.SignInAsync(user, false);
+
+            return Redirect(RegisterVm.ReturnUrl);
         }
 
         [HttpGet]
