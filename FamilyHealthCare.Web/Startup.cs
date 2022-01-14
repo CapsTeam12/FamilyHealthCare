@@ -38,7 +38,7 @@ namespace FamilyHealthCare.Web
                     options.RequireHttpsMetadata = false;
                     options.GetClaimsFromUserInfoEndpoint = false;
 
-                    options.ClientId = "mvc";
+                    options.ClientId = "User";
                     options.ClientSecret = "secret";
                     options.ResponseType = "code";
 

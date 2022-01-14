@@ -1,3 +1,6 @@
+using FamilyHealthCare.SharedLibrary;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,7 +25,38 @@ namespace FamilyHealthCare.WebAdmin
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            })
+                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+                 .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
+                 {
+                     options.Authority = "https://localhost:44315/";
+                     options.RequireHttpsMetadata = false;
+                     options.GetClaimsFromUserInfoEndpoint = false;
+
+                     options.ClientId = "Admin";
+                     options.ClientSecret = "secret";
+                     options.ResponseType = "code";
+
+                     options.SaveTokens = true;
+
+                     options.Scope.Add("openid");
+                     options.Scope.Add("profile");
+                     options.Scope.Add("familyhealthcare.api");
+
+                     options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                     {
+                         NameClaimType = "name",
+                         RoleClaimType = "role"
+                     };
+                 });
+
             services.AddControllersWithViews();
+            services.AddHttpContextAccessor();
+            services.AddCustomHttpClient(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,10 +70,12 @@ namespace FamilyHealthCare.WebAdmin
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
