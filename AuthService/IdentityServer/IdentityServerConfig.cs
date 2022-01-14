@@ -79,9 +79,9 @@ namespace AuthService.IdentityServer
 
                     AllowedGrantTypes = GrantTypes.Code,
 
-                    RedirectUris = { "https://localhost:44368/signin-oidc" },
+                    RedirectUris = { "https://localhost:44370/signin-oidc" },
 
-                    PostLogoutRedirectUris = { "https://localhost:44368/signout-callback-oidc" },
+                    PostLogoutRedirectUris = { "https://localhost:44370/signout-callback-oidc" },
 
                     AllowedScopes = new List<string>
                     {
@@ -97,9 +97,9 @@ namespace AuthService.IdentityServer
 
                     AllowedGrantTypes = GrantTypes.Code,
 
-                    RedirectUris = { "https://localhost:44368/signin-oidc" },
+                    RedirectUris = { "https://localhost:44369/signin-oidc" },
 
-                    PostLogoutRedirectUris = { "https://localhost:44368/signout-callback-oidc" },
+                    PostLogoutRedirectUris = { "https://localhost:44369/signout-callback-oidc" },
 
                     AllowedScopes = new List<string>
                     {
