@@ -35,7 +35,7 @@ namespace IdentityServerHost.Quickstart.UI
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signinManager;
-        private readonly RoleManager<IdentityRole<int>> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IClientStore _clientStore;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
@@ -50,7 +50,7 @@ namespace IdentityServerHost.Quickstart.UI
             IEventService events,
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            RoleManager<IdentityRole<int>> roleInManager
+            RoleManager<IdentityRole> roleInManager
             )
         {
             //// this is where you would plug in your own custom identity management library (e.g. ASP.NET Identity)
@@ -243,7 +243,7 @@ namespace IdentityServerHost.Quickstart.UI
                     Email = model.Email,
                     EmailConfirmed = true,
                     FullName = model.FullName,                   
-                };
+                };                
 
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

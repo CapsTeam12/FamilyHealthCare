@@ -1,5 +1,6 @@
 ﻿using Business.IServices;
 using Contract.DTOs;
+using Contract.DTOs.AppoimentService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -30,19 +31,63 @@ namespace AppointmentService.Controllers
         //}
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> GetAppointments(string search)
+        [Route("List/{userId}")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Get(string userId) // Get list appointment of user
         {
-            var appointment = await _appointmentService.GetAppointmentsAsync(search);
-            return Ok(appointment);
+            var appointmentDto = await _appointmentService.GetAppointments(userId);
+            return Ok(appointmentDto);
         }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> CreateAppoinmentsAsync([FromForm] AppointmentCreateDto appointmentCreateDto)
+        [HttpGet("{id}")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetById(string id)
         {
-            var createAppointment = await _appointmentService.CreateAppointmentAsync(appointmentCreateDto);
-            return Ok(createAppointment);
+            var appointmentDto = await _appointmentService.GetAppointmentById(id);
+            if(appointmentDto == null)
+            {
+                return NotFound();
+            }
+            return Ok(appointmentDto);
         }
+
+        [HttpPost]
+        [Route("Booking/{userId}")]
+        public async Task<IActionResult> Post([FromBody] AppointmentCreateDto createDto,string userId)
+        {
+            var appointmentDto = await _appointmentService.BookingAppointment(createDto, userId);
+            if(userId == null)
+            {
+                return BadRequest();
+            }
+            return Ok(appointmentDto);
+        }
+
+        [HttpPut("{id}")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Put([FromBody] AppointmentRescheduleDto appointmentDto,string id)
+        {
+            var model = await _appointmentService.RescheduleAppointment(appointmentDto, id);
+            if(model == null)
+            {
+                return NotFound();
+            }
+            return Ok(model);
+        }
+
+        [HttpDelete("{id}")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var model = await _appointmentService.GetAppointmentById(id);
+            if(model == null)
+            {
+                return NotFound();
+            }
+            await _appointmentService.CancelAppointment(id);
+            return NoContent();
+        }
+
 
 
         //[HttpPost("create")]
