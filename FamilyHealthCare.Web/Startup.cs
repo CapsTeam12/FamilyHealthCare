@@ -34,7 +34,7 @@ namespace FamilyHealthCare.Web
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
                 {
-                    options.Authority = "https://localhost:44315/";
+                    options.Authority = "https://localhost:44367/";
                     options.RequireHttpsMetadata = false;
                     options.GetClaimsFromUserInfoEndpoint = false;
 

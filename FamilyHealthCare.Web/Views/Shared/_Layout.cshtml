@@ -6,17 +6,25 @@
 
     <title>@ViewData["Title"] - Family Health Care</title>
     <!-- Favicons -->
-    <link type="image/x-icon" href="@Url.Content("~/assets/img/favicon.png")" rel="icon">
+    <link type="image/x-icon" href=@Url.Content("~/assets/img/favicon.png") rel="icon">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="@Url.Content("~/assets/css/bootstrap.min.css")">
+    <link rel="stylesheet" href=@Url.Content("~/assets/css/bootstrap.min.css")>
+    <link rel="stylesheet" href=@Url.Content("~/assets/css/bootstrap-datetimepicker.min.css")>
+
+    <link rel="stylesheet" href=@Url.Content("~/assets/plugins/daterangepicker/daterangepicker.css")>
+    <link rel="stylesheet" href=@Url.Content("~/assets/plugins/select2/css/select2.min.css")>
+
+    <!-- Fancybox CSS -->
+    <link rel="stylesheet" href=@Url.Content("~/assets/plugins/fancybox/jquery.fancybox.min.css")>
+
 
     <!-- Fontawesome CSS -->
     <link rel="stylesheet" href=@Url.Content("~/assets/plugins/fontawesome/css/fontawesome.min.css")>
     <link rel="stylesheet" href=@Url.Content("~/assets/plugins/fontawesome/css/all.min.css")>
 
     <!-- Main CSS -->
-    <link rel="stylesheet" href="@Url.Content("~/assets/css/style.css")">
+    <link rel="stylesheet" href=@Url.Content("~/assets/css/style.css")>
 </head>
 <body>
     <div class="main-wrapper">
@@ -32,13 +40,13 @@
                         </span>
                     </a>
                     <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand logo">
-                        <img src=@Url.Content("~/assets/img/logo.png") class="img-fluid" alt="Logo">
+                        <img src=@Url.Content("~/assets/img/LogoFHC.png") class="img-fluid" alt="Logo">
                     </a>
                 </div>
                 <div class="main-menu-wrapper">
                     <div class="menu-header">
                         <a asp-area="" asp-controller="Home" asp-action="Index" class="menu-logo">
-                            <img src=@Url.Content("~/assets/img/logo.png") class="img-fluid" alt="Logo">
+                            <img src=@Url.Content("~/assets/img/LogoFHC.png") class="img-fluid" alt="Logo">
                         </a>
                         <a id="menu_close" class="menu-close" href="javascript:void(0);">
                             <i class="fas fa-times"></i>
@@ -57,41 +65,37 @@
                                 <li class="has-submenu">
                                     <a href="#">Doctors</a>
                                     <ul class="submenu">
-                                        <li><a href="map-list.html">Doctor Map List</a></li>
-                                        <li><a href="doctor-search.html">Booking Doctor</a></li>
+                                        <li><a asp-area="" asp-controller="Doctor" asp-action="MapDoctor">Doctor Map List</a></li>
+                                        <li><a asp-area="" asp-controller="Doctor" asp-action="SearchDoctor">Booking Doctor</a></li>
                                     </ul>
                                 </li>
                                 <li class="has-submenu">
                                     <a href="#">Pharmacy</a>
                                     <ul class="submenu">
-                                        <li><a href="map-list.html">Pharmacy Map List</a></li>
-                                        <li><a href="pharmacy-search.html">Booking Pharmacy</a></li>
+                                        <li><a asp-area="" asp-controller="Pharmacy" asp-action="MapPharmacy">Pharmacy Map List</a></li>
+                                        <li><a asp-area="" asp-controller="Pharmacy" asp-action="SearchPharmacy">Booking Pharmacy</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="healthcheck.html">Health Check </a></li>
 
                             </ul>
                         </li>
-
-
+                        <li class="has-submenu">
+                            <a href="">Partner <i class="fas fa-chevron-down"></i></a>
+                            <ul class="submenu">
+                                <li><a href="pharmacy-register.html">Pharmacy Register</a></li>
+                                <li><a asp-area="" asp-controller="Partner" asp-action="DoctorRegister">Doctor Register</a></li>
+                            </ul>
+                        </li>
                         <li class="has-submenu">
                             <a href="">Pages <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
                                 <li><a href="about-us.html">About Us</a></li>
                                 <li><a href="contact-us.html">Contact Us</a></li>
+                                <li><a href="blog-list.html">Blog </a></li>
+                            </ul>
                         </li>
-                        <li><a href="blog-list.html">Blog </a></li>
-
-                    </ul>
-                    </li>
-                    <li class="has-submenu">
-                        <a href="">Partner <i class="fas fa-chevron-down"></i></a>
-                        <ul class="submenu">
-                            <li><a href="pharmacy-register.html">Pharmacy Register</a></li>
-                            <li><a href="doctor-register.html">Doctor Register</a></li>
-                        </ul>
-                    </li>
-                    </ul>
+                       
                 </div>
                 <ul class="nav header-navbar-rht">
                     <li class="nav-item contact-item">
@@ -107,7 +111,8 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link header-login" href="login.html">login / Signup </a>
+                        <a class="nav-link header-login" asp-area="" asp-controller="Account" asp-action="SignIn">login / Signup </a>
+                      
                     </li>
                     <li class="dropdown language-select">
                         <span class="dropdown-toggle" id="language-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
@@ -144,7 +149,7 @@
                             <!-- Footer Widget -->
                             <div class="footer-widget footer-about">
                                 <div class="footer-logo">
-                                    <img src=@Url.Content("~/assets/img/footer-logo.png") alt="logo">
+                                    <img src=@Url.Content("~/assets/img/logoFHC-footer.png") alt="logo">
                                 </div>
                                 <div class="footer-about-content">
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
@@ -184,7 +189,7 @@
                             <div class="footer-widget footer-menu">
                                 <h2 class="footer-title">For Doctors</h2>
                                 <ul>
-                                    <li><a href="doctor-search.html">Booking Doctor</a></li>
+                                    <li><a asp-area="" asp-controller="Doctor" asp-action="SearchDoctor">Booking Doctor</a></li>
                                     <li><a href="map-grid.html">Search Doctor</a></li>
                                 </ul>
                             </div>
