@@ -58,7 +58,6 @@ namespace FamilyHealthCare.Web.Controllers
             var response = await httpClient.GetAsync(EndpointConstants.TEST);
             response.EnsureSuccessStatusCode();
             var result = await response.Content.ReadAsStringAsync();
-
             return View();
         }
     }

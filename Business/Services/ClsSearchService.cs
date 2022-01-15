@@ -68,7 +68,7 @@ namespace Business.Services
             var doctor = await _doctorRepos
                                 .Entities
                                 .Include(a => a.User)
-                                .Where(a => a.User.FullName.ToLower()
+                                .Where(a => a.User.UserName.ToLower()
                                 .Contains(search.ToLower()))
                                 .ToListAsync();
             if (doctor.Count == 0)
@@ -100,7 +100,7 @@ namespace Business.Services
             var pharmacy = await _doctorRepos
                                 .Entities
                                 .Include(a => a.User)
-                                .Where(a => a.User.FullName.ToLower()
+                                .Where(a => a.User.UserName.ToLower()
                                 .Contains(search.ToLower()))
                                 .ToListAsync();
             if (pharmacy.Count == 0)

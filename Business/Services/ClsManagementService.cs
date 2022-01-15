@@ -51,7 +51,7 @@ namespace Business.Services
             var doctors = await _doctorRepos
                                .Entities
                                .Include(a => a.User)
-                               .OrderByDescending(a => a.User.FullName)
+                               .OrderByDescending(a => a.User.UserName)
                                .ToListAsync();
             var doctorDtos = _mapper.Map<List<DoctorDetailsDto>>(doctors);
             return doctorDtos;
@@ -62,7 +62,7 @@ namespace Business.Services
             var patients = await _doctorRepos
                               .Entities
                               .Include(a => a.User)
-                              .OrderByDescending(a => a.User.FullName)
+                              .OrderByDescending(a => a.User.UserName)
                               .ToListAsync();
             var patientsDtos = _mapper.Map<List<PatientDetailsDto>>(patients);
             return Ok(patientsDtos);
@@ -73,7 +73,7 @@ namespace Business.Services
             var pharmacies = await _pharmacyRepos
                               .Entities
                               .Include(a => a.User)
-                              .OrderByDescending(a => a.User.FullName)
+                              .OrderByDescending(a => a.User.UserName)
                               .ToListAsync();
             var pharmaciesDtos = _mapper.Map<List<PharmacyDetailsDto>>(pharmacies);
             return Ok(pharmaciesDtos);

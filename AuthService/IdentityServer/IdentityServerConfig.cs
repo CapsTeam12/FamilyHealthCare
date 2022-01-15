@@ -38,7 +38,7 @@ namespace AuthService.IdentityServer
                 // interactive ASP.NET Core MVC client
                 new Client
                 {
-                    ClientId = "mvc",
+                    ClientId = ClientIdConstants.User,
                     ClientSecrets = { new Secret("secret".Sha256()) },
 
                     AllowedGrantTypes = GrantTypes.Code,
@@ -46,6 +46,60 @@ namespace AuthService.IdentityServer
                     RedirectUris = { "https://localhost:44367/signin-oidc" },
 
                     PostLogoutRedirectUris = { "https://localhost:44367/signout-callback-oidc" },
+
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        CustomIdentityServerConstants.ApiScopeName
+                    }
+                },
+                new Client
+                {
+                    ClientId = ClientIdConstants.Admin,
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+
+                    AllowedGrantTypes = GrantTypes.Code,
+
+                    RedirectUris = { "https://localhost:44368/signin-oidc" },
+
+                    PostLogoutRedirectUris = { "https://localhost:44368/signout-callback-oidc" },
+
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        CustomIdentityServerConstants.ApiScopeName
+                    }
+                },
+                new Client
+                {
+                    ClientId = ClientIdConstants.Pharmacy,
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+
+                    AllowedGrantTypes = GrantTypes.Code,
+
+                    RedirectUris = { "https://localhost:44370/signin-oidc" },
+
+                    PostLogoutRedirectUris = { "https://localhost:44370/signout-callback-oidc" },
+
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        CustomIdentityServerConstants.ApiScopeName
+                    }
+                },
+                new Client
+                {
+                    ClientId = ClientIdConstants.Doctor,
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+
+                    AllowedGrantTypes = GrantTypes.Code,
+
+                    RedirectUris = { "https://localhost:44369/signin-oidc" },
+
+                    PostLogoutRedirectUris = { "https://localhost:44369/signout-callback-oidc" },
 
                     AllowedScopes = new List<string>
                     {
