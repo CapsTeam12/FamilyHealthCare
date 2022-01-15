@@ -13,5 +13,6 @@ namespace Data.Entities
         {
         }
         public ICollection<Appointment> Appointments { get; set; }
+        public ICollection<ScheduleDoctor> ScheduleDoctors { get; set; }
     }
 }

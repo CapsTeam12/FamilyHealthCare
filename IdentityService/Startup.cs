@@ -31,7 +31,7 @@ namespace IdentityService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDataAccessorLayer(Configuration);
-            services.AddIdentity<User, IdentityRole<int>>()
+            services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
             var builder = services.AddIdentityServer(options =>

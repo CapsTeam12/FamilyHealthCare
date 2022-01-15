@@ -1,4 +1,7 @@
 ﻿using Contract.DTOs;
+using Contract.DTOs.AppoimentService;
+using Contract.DTOs.ScheduleDoctorService;
+using Contract.DTOs.ScheduleService;
 using Contract.DTOs.ManagementService;
 using Contract.DTOs.SearchService;
 using Data.Entities;
@@ -14,11 +17,11 @@ namespace Business
     {
         public AutoMapperProfiles()
         {
-            //CreateMap<Appointment, AppointmentDetailsDto>()
-            //    .ForMember(d => d.TherapistFullName, t => t.MapFrom(m => m.Therapist.FullName))
-            //    .ReverseMap();
-            //CreateMap<Appointment, AppointmentCreateDto>()
-            //    .ReverseMap();
+            CreateMap<Appointment, AppointmentDetailsDto>()
+                .ForMember(d => d.TherapistFullName, t => t.MapFrom(m => m.Therapist.FullName))
+                .ReverseMap();
+            CreateMap<Appointment, AppointmentCreateDto>()
+                .ReverseMap();
             CreateMap<Medicine , SearchMedicineDto>()
                 .ForMember(d => d.ClassificationName, t => t.MapFrom(m => m.MedicineClass.ClassificationName))
                 .ReverseMap();
@@ -38,6 +41,7 @@ namespace Business
                 .ReverseMap();
             CreateMap<Specialities, SpecialitiesDetailsDto>()
                 .ReverseMap();
+
         }
     }
 }

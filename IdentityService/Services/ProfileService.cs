@@ -16,10 +16,10 @@ namespace IdentityService.Services
     {
         private readonly IUserClaimsPrincipalFactory<User> _userClaimsPrincipalFactory;
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole<int>> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public ProfileService(IUserClaimsPrincipalFactory<User> userClaimsPrincipalFactory,
-            UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager)
+            UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userClaimsPrincipalFactory = userClaimsPrincipalFactory;
             _userManager = userManager;
@@ -46,7 +46,7 @@ namespace IdentityService.Services
                     claims.Add(new Claim(JwtClaimTypes.Role, rolename));
                     if (_roleManager.SupportsRoleClaims)
                     {
-                        IdentityRole<int> role = await _roleManager.FindByNameAsync(rolename);
+                        IdentityRole role = await _roleManager.FindByNameAsync(rolename);
                         if(role != null)
                         {
                             claims.AddRange(await _roleManager.GetClaimsAsync(role));

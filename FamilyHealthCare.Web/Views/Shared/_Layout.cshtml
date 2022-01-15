@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Identity
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
+@{
+    var userId = _httpContextAccessor.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">

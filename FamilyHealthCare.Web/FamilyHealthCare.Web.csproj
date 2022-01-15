@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+
     <None Include="wwwroot\assets\css\bootstrap-datetimepicker.min.css" />
     <None Include="wwwroot\assets\css\bootstrap.css" />
     <None Include="wwwroot\assets\css\bootstrap.css.map" />
@@ -395,6 +396,9 @@
     <None Include="wwwroot\assets\plugins\theia-sticky-sidebar\ResizeSensor.min.js" />
     <None Include="wwwroot\assets\plugins\theia-sticky-sidebar\theia-sticky-sidebar.js" />
     <None Include="wwwroot\assets\plugins\theia-sticky-sidebar\theia-sticky-sidebar.min.js" />
+
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.11" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -402,6 +406,7 @@
     <ProjectReference Include="..\Contract\Contract.csproj" />
     <ProjectReference Include="..\Data\Data.csproj" />
     <ProjectReference Include="..\FamilyHealthCare.SharedLibrary\FamilyHealthCare.SharedLibrary.csproj" />
+
   </ItemGroup>
 
 </Project>
