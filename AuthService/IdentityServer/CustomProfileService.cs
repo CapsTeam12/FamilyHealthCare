@@ -44,8 +44,8 @@ namespace AuthService.IdentityServer
                 var claims = new List<Claim>();
                 claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString(CultureInfo.InvariantCulture)));
                 claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString(CultureInfo.InvariantCulture)));
-                claims.Add(new Claim(JwtClaimTypes.Name, user.FullName));
-                claims.Add(new Claim(JwtClaimTypes.Email, user.Email));
+                //claims.Add(new Claim(JwtClaimTypes.Name, user.FullName));
+                claims.Add(new Claim(JwtClaimTypes.Name, user.UserName));
 
                 var userRoles = await _userManager.GetRolesAsync(user);
                 foreach (var userRole in userRoles)

@@ -14,11 +14,11 @@ namespace Business
     {
         public AutoMapperProfiles()
         {
-            CreateMap<Appointment, AppointmentDetailsDto>()
-                .ForMember(d => d.TherapistFullName, t => t.MapFrom(m => m.Therapist.FullName))
-                .ReverseMap();
-            CreateMap<Appointment, AppointmentCreateDto>()
-                .ReverseMap();
+            //CreateMap<Appointment, AppointmentDetailsDto>()
+            //    .ForMember(d => d.TherapistFullName, t => t.MapFrom(m => m.Therapist.FullName))
+            //    .ReverseMap();
+            //CreateMap<Appointment, AppointmentCreateDto>()
+            //    .ReverseMap();
             CreateMap<Medicine , SearchMedicineDto>()
                 .ForMember(d => d.ClassificationName, t => t.MapFrom(m => m.MedicineClass.ClassificationName))
                 .ReverseMap();
@@ -26,10 +26,8 @@ namespace Business
                 .ForMember(d => d.DoctorFullName, t => t.MapFrom(m => m.User.UserName))
                 .ReverseMap();
             CreateMap<Pharmacy, SearchPharmacyDto>()
-               .ForMember(d => d.PharmacyFullName, t => t.MapFrom(m => m.User.UserName))
                .ReverseMap();
             CreateMap<Doctor, DoctorDetailsDto>()
-                .ForMember(d => d.FullName, t => t.MapFrom(m => m.User.FullName))
                 .ReverseMap();
             CreateMap<Pharmacy, PharmacyDetailsDto>()
                 .ReverseMap();

@@ -3,57 +3,125 @@
     Layout = "";
 }
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Doccure</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 
-<div class="login-page">
-    <div class="lead">
-        <h1>Register</h1>
-    </div>
+    <!-- Favicons -->
+    <link href="assets-ud/img/favicon.png" rel="icon">
 
-    <partial name="_ValidationSummary" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="@Url.Content("~/assets-ud/css/bootstrap.min.css")">
 
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Account</h2>
-                </div>
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="@Url.Content("~/assets-ud/plugins/fontawesome/css/fontawesome.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/assets-ud/plugins/fontawesome/css/all.min.css")">
 
-                <div class="card-body">
-                    <form asp-route="Register">
-                        <input type="hidden" asp-for="ReturnUrl" />
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="@Url.Content("~/assets-ud/css/style.css")">
 
-                        <div class="form-group">
-                            <label asp-for="Username"></label>
-                            <input class="form-control" placeholder="Username" asp-for="Username" autofocus>
-                            <span asp-validation-for="Username"></span>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="assets-ud/js/html5shiv.min.js"></script>
+        <script src="assets-ud/js/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body class="account-page">
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+
+        <!-- Page Content -->
+        <div class="content">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+
+                        <!-- Register Content -->
+                        <div class="account-content">
+                            <div class="row align-items-center justify-content-center">
+                                <div class="col-md-7 col-lg-6 login-left">
+                                    <img src=@Url.Content("~/assets-ud/img/login-banner.png") class="img-fluid" alt="FHC Register">
+                                </div>
+                                <div class="col-md-12 col-lg-6 login-right">
+
+
+                                    <!-- Register Form -->
+                                    <form asp-route="Register">
+                                        <input type="hidden" asp-for="ReturnUrl" />
+                                        <div class="form-group form-focus">
+                                            <input type="text" class="form-control floating"asp-for="Name" autofocus>
+                                            <label class="focus-label" asp-for="MobileNumber">Name</label>
+                                            <span asp-validation-for="Name"></span>
+                                        </div>
+                                        <div class="form-group form-focus">
+                                            <input type="text" class="form-control floating" asp-for="MobileNumber" autofocus>
+                                            <label class="focus-label" asp-for="MobileNumber">Mobile Number</label>
+                                            <span asp-validation-for="MobileNumber"></span>
+                                        </div>
+                                        <div class="form-group form-focus">
+                                            <input type="text" class="form-control floating" asp-for="Username" autofocus>
+                                            <label class="focus-label" asp-for="Username">Username</label>
+                                            <span asp-validation-for="Username"></span>
+                                        </div>
+                                        <div class="form-group form-focus">
+                                            <input type="password" class="form-control floating" asp-for="Password" autocomplete="off">
+                                            <label class="focus-label" asp-for="Password">Password</label>
+                                            <span asp-validation-for="Password"></span>
+                                        </div>
+                                        <div class="form-group form-focus">
+                                            <input type="password" class="form-control floating" asp-for="PasswordConfirm"
+                                                   autocomplete="off">
+                                            <label class="focus-label" asp-for="PasswordConfirm">Password Confirm</label>
+                                            <span asp-validation-for="PasswordConfirm"></span>
+                                        </div>
+                                        <div class="text-end">
+                                            <a class="forgot-link" asp-controller="Account" asp-action="Login"
+                                               asp-route-returnUrl="@Model.ReturnUrl">Already have an account?</a>
+                                        </div>
+                                        <button class="btn btn-primary w-100 btn-lg login-btn" type="submit" name="button" value="register">Signup</button>
+                                        <div class="login-or">
+                                            <span class="or-line"></span>
+                                            <span class="span-or">or</span>
+                                        </div>
+                                        <div class="row form-row social-login">
+                                            <div class="col-6">
+                                                <a href="#" class="btn btn-facebook w-100"><i class="fab fa-facebook-f me-1"></i> Login</a>
+                                            </div>
+                                            <div class="col-6">
+                                                <a href="#" class="btn btn-google w-100"><i class="fab fa-google me-1"></i> Login</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- /Register Form -->
+
+                                </div>
+                            </div>
                         </div>
+                        <!-- /Register Content -->
 
-                        <div class="form-group">
-                            <label asp-for="Password"></label>
-                            <input type="password" class="form-control" placeholder="Password" asp-for="Password"
-                                   autocomplete="off">
-                            <span asp-validation-for="Password"></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label asp-for="PasswordConfirm"></label>
-                            <input type="password" class="form-control" placeholder="Password" asp-for="PasswordConfirm"
-                                   autocomplete="off">
-                            <span asp-validation-for="PasswordConfirm"></span>
-                        </div>
-                        <button class="btn btn-primary" name="button" value="login">Register</button>
-                        <button class="btn btn-secondary" name="button" value="cancel">Cancel</button>
-                    </form>
-
-                    <div class="d-flex mt-3">
-                        <a class="btn btn-primary" asp-controller="Account" asp-action="Login"
-                           asp-route-returnUrl="@Model.ReturnUrl">
-                            Back to Login
-                        </a>
                     </div>
-
                 </div>
+
             </div>
+
         </div>
+
     </div>
-</div>
+    <!-- /Main Wrapper -->
+    <!-- jQuery -->
+    <script src=@Url.Content("~/assets-ud/js/jquery-3.6.0.min.js")></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src=@Url.Content("~/assets-ud/js/bootstrap.bundle.min.js")></script>
+
+    <!-- Custom JS -->
+    <script src=@Url.Content("~/assets-ud/js/script.js")></script>
+
+</body>
+</html>

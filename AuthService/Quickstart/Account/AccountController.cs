@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Identity;
 using Data.Entities;
 using Contract.Constants;
 using AuthService.ViewModel.CustomAuthentication;
+using Business.IServices;
 
 namespace IdentityServerHost.Quickstart.UI
 {
@@ -38,6 +39,7 @@ namespace IdentityServerHost.Quickstart.UI
         private readonly IClientStore _clientStore;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly IEventService _events;
+        private readonly IBaseRepository<Patient> _patient;
 
         public AccountController(
             IIdentityServerInteractionService interaction,
@@ -304,6 +306,13 @@ namespace IdentityServerHost.Quickstart.UI
             user.Email = RegisterVm.Username;
 
             var result = await _userManager.CreateAsync(user, RegisterVm.Password);
+
+            var info = new Patient();
+            info.AccountId = user.Id;
+            info.FullName = RegisterVm.Name;
+            info.Phone = RegisterVm.MobileNumber;
+
+            //var info = await _patient.Create(info);
 
             if (!result.Succeeded)
             {
