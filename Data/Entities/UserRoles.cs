@@ -8,7 +8,9 @@ namespace Data.Entities
 {
     public class UserRoles
     {
-        public static string Admin = "Admin";
         public static string User = "User";
+        public static string Doctor = "Doctor";
+        public static string Pharmacy = "Pharmacy";
+        public static string Admin = "Admin";
     }
 }

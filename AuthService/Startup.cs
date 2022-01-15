@@ -1,6 +1,12 @@
+using AuthService.IdentityServer;
+using AuthService.Security.Authorization.Handlers;
+using AuthService.Security.Authorization.Requirements;
+using Contract.Constants;
 using Data;
 using Data.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using IdentityServer4;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -17,6 +23,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static IdentityServer4.IdentityServerConstants;
 
 namespace AuthService
 {
@@ -34,62 +41,73 @@ namespace AuthService
         {
             services.AddDataAccessorLayer(Configuration);
 
-            services.AddIdentity<User, IdentityRole<int>>()
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireUppercase = false;
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-            services.AddControllers();
 
-            services.AddAuthentication("Bearer")
-                .AddJwtBearer("Bearer", options =>
-                 {
-                     options.Authority = "https://localhost:44303/";
-                     options.TokenValidationParameters = new TokenValidationParameters
-                     {
-                         ValidateAudience = false
-                     };
+            services.AddIdentityServer(options =>
+            {
+                options.Events.RaiseErrorEvents = true;
+                options.Events.RaiseInformationEvents = true;
+                options.Events.RaiseFailureEvents = true;
+                options.Events.RaiseSuccessEvents = true;
+                options.EmitStaticAudienceClaim = true;
+            })
+            .AddInMemoryIdentityResources(IdentityServerConfig.IdentityResources)
+            .AddInMemoryApiScopes(IdentityServerConfig.ApiScopes)
+            .AddInMemoryClients(IdentityServerConfig.Clients)
+            .AddAspNetIdentity<User>()
+            .AddProfileService<CustomProfileService>()
+            .AddDeveloperSigningCredential();
 
+            services.ConfigureApplicationCookie(config =>
+            {
+                config.LoginPath = "/Account/Login";
+            });
 
-                 });
+            services.AddAuthentication()
+                .AddGoogle("Google", options =>
+                {
+                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+
+                    options.ClientId = "59632184419-8c9snd66qcb9kr9ara03g0mq8pkehrio.apps.googleusercontent.com";
+                    options.ClientSecret = "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";
+                })
+                .AddFacebook("Facebook", options =>
+                {
+                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                    options.ClientId = "299489385327911";
+                    options.ClientSecret = "31ff012ae99d8de58415cc4b5f53e8fd";
+                })
+                .AddLocalApi("Bearer", option =>
+                {
+                    option.ExpectedScope = CustomIdentityServerConstants.ApiScopeName;
+                });
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("ApiScope", policy =>
-                 {
-                     policy.RequireAuthenticatedUser();
-                     //policy.RequireRole("Admin");
-                     policy.RequireClaim("role", "Admin");
-                 });
+                options.AddPolicy(LocalApi.PolicyName, policy =>
+                {
+                    policy.AddAuthenticationSchemes("Bearer");
+                    policy.RequireAuthenticatedUser();
+                });
+
+                options.AddPolicy("ADMIN_ROLE_POLICY", policy =>
+                    policy.Requirements.Add(new AdminRoleRequirement()));
             });
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthService", Version = "v1" });
-                c.EnableAnnotations();
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Description = @"Enter 'Bearer' [space] and your token",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer"
-                });
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        },
-                        Scheme= "oauth2",
-                        Name = "Bearer",
-                        In = ParameterLocation.Header
-                    },
-                    new List<string>()
-                }
-            });
-            });
+            services.AddSingleton<IAuthorizationHandler, AdminRoleHandler>();
+            services.AddControllersWithViews();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -104,13 +122,19 @@ namespace AuthService
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuthService v1");
                 });
 
+                app.UseHttpsRedirection();
+                app.UseStaticFiles();
                 app.UseRouting();
-                app.UseAuthentication();
+
+                app.UseIdentityServer();
                 app.UseAuthorization();
 
                 app.UseEndpoints(endpoints =>
                 {
-                    endpoints.MapControllers();
+                    endpoints.MapControllerRoute(
+                        name: "default",
+                        pattern: "{controller=Home}/{action=Index}/{id?}");
+                    endpoints.MapRazorPages();
                 });
             }
         }

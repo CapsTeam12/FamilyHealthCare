@@ -45,8 +45,8 @@ namespace IdentityService
                     ClientId= "fhc",
                     ClientSecrets = {new Secret("secret".Sha256())},
                     AllowedGrantTypes = GrantTypes.Code,
-                    RedirectUris = { "https://localhost:44320/signin-oidc" },
-                    PostLogoutRedirectUris = { "https://localhost:44320/signout-callback-oidc" },
+                    RedirectUris = { "https://localhost:44385/signin-oidc" },
+                    PostLogoutRedirectUris = { "https://localhost:44385/signout-callback-oidc" },
                     AllowedScopes = new List<string>
                     {
                         IdentityServerConstants.StandardScopes.OpenId,

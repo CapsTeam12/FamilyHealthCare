@@ -13,6 +13,16 @@ namespace Data.Entities
         public int Id { get; set; }
         public string MedicineName { get; set; }
         public string Description { get; set; }
-        public int Quantity { get; set; }
+        public int Quantity { get; set; } 
+        public DateTime ImportDate { get; set; }
+        public DateTime ExpirationDate { get; set; }
+        public string Ingredients { get; set; }
+        public string Direction { get; set; }
+        public string Images { get; set; }
+        public int Status { get; set; }
+        public int ClassificationID { get; set; }
+        public MedicineClassification MedicineClass { get; set; }
+        public string PharmacyId { get; set; }
+        public Pharmacy Pharmacy { get; set; }
     }
 }

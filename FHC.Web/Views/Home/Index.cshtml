@@ -1,8 +1,23 @@
-﻿@{
+﻿@model IEnumerable<Contract.DTOs.AppointmentDetailsDto>
+@using Data 
+@{
     ViewData["Title"] = "Home Page";
+    var getNameOfUser = User.Identity.Name;
+    var userId = ViewBag.UserId;
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<div class="container">
+    @foreach (var ap in Model)
+    {
+        <div>@ap.Id</div>
+        <div>@ap.Description</div>
+        <div>@ap.Status</div>
+        <div>@ap.StartTime</div>
+    }
+
 </div>

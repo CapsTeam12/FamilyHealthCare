@@ -1,0 +1,92 @@
+﻿@model LoginViewModel
+@{
+    Layout = "";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>FHC - Login</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="@Url.Content("~/assets-ap/img/favicon.png")">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="@Url.Content("~/assets-ap/css/bootstrap.min.css")">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="@Url.Content("~/assets-ap/css/font-awesome.min.css")">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="@Url.Content("~/assets-ap/css/style.css")">
+
+    <!--[if lt IE 9]>
+        <script src="assets-ap/js/html5shiv.min.js"></script>
+        <script src="assets-ap/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper login-body">
+        <div class="login-wrapper">
+            <div class="container">
+                <div class="loginbox">
+                    <div class="login-left">
+                        <img class="img-fluid" src=@Url.Content("~/assets-ap/img/logoFHC-footer.png") alt="Logo">
+                    </div>
+                    <div class="login-right">
+                        <div class="login-right-wrap">
+                            <h1>Pharmacy Login</h1>
+                            <p class="account-subtitle">Access to your dashboard</p>
+
+                            <!-- Form -->
+                            <partial name="_ValidationSummary" />
+                            <form asp-route="Login">
+                                <input type="hidden" asp-for="ReturnUrl" />
+                                <div class="form-group">
+                                    <input asp-for="Username" autofocus class="form-control" type="text" placeholder="Email">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" type="password" placeholder="Password" asp-for="Password" autocomplete="off">
+                                </div>
+                                <div class="text-end">
+                                    <a class="forgot-link" href="forgot-password.html">Forgot Password ?</a>
+                                </div>
+                                @if (Model.AllowRememberLogin)
+                                {
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input class="form-check-input" asp-for="RememberLogin">
+                                            <label class="form-check-label" asp-for="RememberLogin">
+                                                Remember My Login
+                                            </label>
+                                        </div>
+                                    </div>
+                                }
+                                <input asp-for="ClientId" value="@Model.ClientId" hidden />
+                                <div class="form-group">
+                                    <button class="btn btn-primary w-100" type="submit" value="login" name="button">Login</button>
+                                </div>
+                            </form>
+                            <!-- /Form -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Main Wrapper -->
+    <!-- jQuery -->
+    <script src=@Url.Content("~/assets-ap/js/jquery-3.6.0.min.js")></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src=@Url.Content("~/assets-ap/js/bootstrap.bundle.min.js")></script>
+
+    <!-- Custom JS -->
+    <script src=@Url.Content("~/assets-ap/js/script.js")></script>
+
+</body>
+</html>

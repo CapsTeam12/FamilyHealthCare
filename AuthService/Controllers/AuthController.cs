@@ -1,6 +1,8 @@
 ﻿using Data;
 using Data.Entities;
 using IdentityModel;
+using Contract.Constants;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,13 +22,13 @@ namespace AuthService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+    //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
     public class AuthController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole<int>> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AuthController(UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager)
+        public AuthController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -44,7 +46,7 @@ namespace AuthService.Controllers
 
         [HttpGet]
         [Route("Users/{id}")]
-        public async Task<IActionResult> GetUser(int id)
+        public async Task<IActionResult> GetUser(string id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user != null)
@@ -91,7 +93,7 @@ namespace AuthService.Controllers
             var roleExists = await _roleManager.RoleExistsAsync(name);
             if (!roleExists)
             {
-                var newRole = await _roleManager.CreateAsync(new IdentityRole<int>(name));
+                var newRole = await _roleManager.CreateAsync(new IdentityRole(name));
                 if (newRole.Succeeded) // Check if create successful
                 {
                     return Ok(new Response { Status = "Success", Message = $"The role {name} has been created" });
@@ -106,12 +108,12 @@ namespace AuthService.Controllers
 
         [HttpPost]
         [Route("AddUserToRole")]
-        public async Task<IActionResult> AddUserToRole(string userName,string roleName)
+        public async Task<IActionResult> AddUserToRole(string userName, string roleName)
         {
             //Check if the user exist
             var user = await _userManager.FindByNameAsync(userName);
 
-            if(user == null)
+            if (user == null)
             {
                 return BadRequest(new Response { Status = "Failed", Message = $"The user with {userName} does not exist" });
             }
@@ -124,6 +126,10 @@ namespace AuthService.Controllers
             }
 
             var result = await _userManager.AddToRoleAsync(user, roleName);
+            await _userManager.AddClaimsAsync(user, new Claim[]
+                    {
+                       new Claim(JwtClaimTypes.Role, roleName),
+                    });
             if (result.Succeeded)
             {
                 return Ok(new Response { Status = "Success", Message = $"The user has been added to the {roleName}" });
@@ -134,10 +140,10 @@ namespace AuthService.Controllers
             }
 
         }
-     
+
         [HttpPost]
         [Route("RemoveUserRole")]
-        public async Task<IActionResult> RemoveUserRole(string userName,string roleName)
+        public async Task<IActionResult> RemoveUserRole(string userName, string roleName)
         {
             //Check if the user exist
             var user = await _userManager.FindByNameAsync(userName);

@@ -18,8 +18,8 @@ namespace FamilyHealCare.IntegationTest.TestData
                 {
                     new User
                     {
-                        Id = 1,
-                        FullName = "Alexis Nico"
+                        Id = "1",
+                        UserName = "Alexis Nico"
                     },
                 };
 

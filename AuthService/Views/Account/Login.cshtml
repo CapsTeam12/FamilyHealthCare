@@ -1,0 +1,111 @@
+﻿@model LoginViewModel
+@{
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <!-- Favicons -->
+    <link href="@Url.Content("~/assets-ud/img/favicon.png")" rel="icon">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="@Url.Content("~/assets-ud/css/bootstrap.min.css")">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="@Url.Content("~/assets-ud/plugins/fontawesome/css/fontawesome.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/assets-ud/plugins/fontawesome/css/all.min.css")">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="@Url.Content("~/assets-ud/css/style.css")">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="assets-ud/js/html5shiv.min.js"></script>
+        <script src="assets-ud/js/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body class="account-page">
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+
+                    <!-- Login Tab Content -->
+                    <div class="account-content">
+                        <div class="row align-items-center justify-content-center">
+                            <div class="col-md-7 col-lg-6 login-left">
+                                <img src=@Url.Content("~/assets-ud/img/login-banner.png") class="img-fluid" alt="FHC Login">
+                            </div>
+                            <div class="col-md-12 col-lg-6 login-right">
+                                <partial name="_ValidationSummary" />
+                                <form asp-route="Login">
+                                    <input type="hidden" asp-for="ReturnUrl" />
+                                    <div class="form-group form-focus">
+                                        <input class="form-control floating" asp-for="Username" autofocus>
+                                        <label asp-for="Username" class="focus-label">Username</label>
+                                    </div>
+                                    <div class="form-group form-focus">
+                                        <input type="password" class="form-control floating" asp-for="Password" autocomplete="off">
+                                        <label class="focus-label" asp-for="Password">Password</label>
+                                    </div>
+                                    <div class="text-end">
+                                        <a class="forgot-link" href="forgot-password.html">Forgot Password ?</a>
+                                    </div>
+                                    @if (Model.AllowRememberLogin)
+                                    {
+                                        <div class="form-group">
+                                            <div class="form-check">
+                                                <input class="form-check-input" asp-for="RememberLogin">
+                                                <label class="form-check-label" asp-for="RememberLogin">
+                                                    Remember My Login
+                                                </label>
+                                            </div>
+                                        </div>
+                                    }
+                                    <input asp-for="ClientId" value="@Model.ClientId" hidden />
+                                    <button class="btn btn-primary w-100 btn-lg login-btn" value="login" name="button">Login</button>
+                                    @*<button class="btn btn-secondary" name="button" value="cancel">Cancel</button>*@
+                                    <div class="login-or">
+                                        <span class="or-line"></span>
+                                        <span class="span-or">or</span>
+                                    </div>
+                                    <div class="row form-row social-login">
+                                        <div class="col-6">
+                                            <a href="#" class="btn btn-facebook w-100"><i class="fab fa-facebook-f me-1"></i> Login</a>
+                                        </div>
+                                        <div class="col-6">
+                                            <a href="#" class="btn btn-google w-100"><i class="fab fa-google me-1"></i> Login</a>
+                                        </div>
+                                    </div>
+                                    <div class="text-center dont-have">
+                                        Don’t have an account? <a asp-controller="Account" asp-action="Register"
+                                                                  asp-route-returnUrl="@Model.ReturnUrl">Register</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Login Tab Content -->
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <script src= @Url.Content("~/assets-ud/js/jquery-3.6.0.min.js")></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src= @Url.Content("~/assets-ud/js/bootstrap.bundle.min.js")></script>
+
+    <!-- Custom JS -->
+    <script src= @Url.Content("~/assets-ud/js/script.js")></script>
+</body>
+</html>

@@ -15,24 +15,24 @@ namespace FamilyHealCare.IntegationTest.TestData
         {
             if (!appointmentRepository.GetAll().Result.Any())
             {
-                //var appointmentList = new List<Appointment>()
-                ////{
-                //    new Appointment
-                //    {
-                //        Id = 1,
-                //        Time = new DateTime(01/03/2022),
-                //        Description = "Re-examination",
-                //        TherapistId = 1
-                //    },
-                //    new Appointment
-                //    {
-                //        Id = 2,
-                //        Time = new DateTime(01/04/2022),
-                //        Description = "Re-examination",
-                //        TherapistId = 1
-                //    },
+                var appointmentList = new List<Appointment>()
+                {
+                    //new Appointment
+                    //{
+                    //    Id = 1,
+                    //    Time = new DateTime(01/03/2022),
+                    //    Description = "Re-examination",
+                    //    TherapistId = 1
+                    //},
+                    //new Appointment
+                    //{
+                    //    Id = 2,
+                    //    Time = new DateTime(01/04/2022),
+                    //    Description = "Re-examination",
+                    //    TherapistId = 1
+                    //},
 
-                //};
+                };
 
                 //foreach (Appointment appointment in appointmentList)
                 //{
@@ -49,12 +49,13 @@ namespace FamilyHealCare.IntegationTest.TestData
         {
             return new AppointmentCreateDto()
             {
-                Time = new DateTime(01 / 04 / 2022),
+                StartTime = new DateTime(01 / 04 / 2022),
                 Description = "Re-examination",
-                TherapistId = 1
+                TherapistId = ""
             };
         }
 
 
     }
 }
+    

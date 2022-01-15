@@ -52,7 +52,7 @@ namespace FamilyHealCare.UnitTests.TestData
                 new object[]
                 {
                     DateTime.MinValue,
-                    string.Format(ErrorMessage.Common.InvalidTimeValue, nameof(AppointmentCreateDto.Time))
+                    string.Format(ErrorMessage.Common.InvalidTimeValue, nameof(AppointmentCreateDto.StartTime))
                 }
             };
         }
@@ -79,21 +79,21 @@ namespace FamilyHealCare.UnitTests.TestData
 
         //public static Appointment ValidGetAppointment(string search)
         //{
-        //    //return new Appointment
-        //    //{
-        //    //    Id = new Random().Next(),
-        //    //    Time = DateTime.Now,
-        //    //    Description = search,
-        //    //    TherapistId = new Random().Next(),
-        //    //};
+        //    return new Appointment
+        //    {
+        //        Id = new Random().Next(),
+        //        Time = DateTime.Now,
+        //        Description = search,
+        //        TherapistId = new Random().Next(),
+        //    };
         //}
         public static AppointmentCreateDto ValidGetAppointmentCreateDto()
         {
             return new AppointmentCreateDto
             {
-                Time = DateTime.Now,
+                StartTime = DateTime.Now,
                 Description = "Re-examination",
-                TherapistId = 1,
+                TherapistId = "",
             };
         }
     }

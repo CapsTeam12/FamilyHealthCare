@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace Data.Entities
 {
-    public class User : IdentityUser<int>
+    public class User : IdentityUser
     {
-        public string FullName { get; set; }
-
+        public User() : base()
+        {
+        }
         public ICollection<Appointment> Appointments { get; set; }
+        public ICollection<ScheduleDoctor> ScheduleDoctors { get; set; }
     }
 }

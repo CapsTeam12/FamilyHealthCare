@@ -1,0 +1,27 @@
+﻿@model Contract.DTOs.AppointmentDetailsDto
+
+@{
+    ViewData["Title"] = "Home Page";
+    var getNameOfUser = User.Identity.Name;
+    var userId = ViewBag.UserId;
+}
+
+<div class="container">
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Doctor Name</th>
+            <th>Description</th>
+            <th>StartTime</th>
+            <th>EndTime</th>
+            <th></th>
+        </tr>
+            <tr>
+                <td>@Model.Id</td>
+                <td>@Model.TherapistFullName</td>
+                <td>@Model.Description</td>
+                <td>@Model.StartTime</td>
+                <td>@Model.EndTime</td>
+            </tr>        
+    </table>
+</div>
