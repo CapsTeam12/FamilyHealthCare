@@ -66,5 +66,9 @@ namespace FamilyHealthCare.Web.Controllers
         {
             return View();
         }
+        public IActionResult Setting()
+        {
+            return View();
+        }
     }
 }

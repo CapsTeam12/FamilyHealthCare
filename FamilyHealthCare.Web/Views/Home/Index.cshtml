@@ -17,18 +17,18 @@
                 <li class="submenu">
                     <a href="#"><i class="fe fe-document"></i> <span> Medicines</span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
-                      
+
                         <li class="nav-item">
                             <a asp-area="" asp-controller="Pharmacy" asp-action="Medicine">Medicine</a>
                         </li>
                         <li class="nav-item">
                             <a asp-area="" asp-controller="Pharmacy" asp-action="AddMedicine">Add Medicine</a>
                         </li>
-                      
+
                         <li class="nav-item">
                             <a asp-area="" asp-controller="Pharmacy" asp-action="OutStock">Out-Stock</a>
                         </li>
-                       
+
                         <li class="nav-item">
                             <a asp-area="" asp-controller="Pharmacy" asp-action="Returned">Returned</a>
                         </li>
@@ -52,15 +52,19 @@
 
 
                 @*<li>
-            <a href="profile.html"><i class="fe fe-user-plus"></i> <span>Profile</span></a>
-        </li>*@
+                        <a href="profile.html"><i class="fe fe-user-plus"></i> <span>Profile</span></a>
+                    </li>*@
+
                 <li class="nav-item">
-                    <a class="fe fe-user-plus" asp-area="" asp-controller="Home" asp-action="Profile">Profile</a>
+                    <a class="fe fe-user-plus" asp-area="" asp-controller="Home" asp-action="Profile"><span> Profile</span></a>
                 </li>
-                <li>
-                    <a href="settings.html"><i class="fe fe-vector"></i> <span>Settings</span></a>
+
+                <li class="submenu">
+                    <a class="fe fe-vector" asp-area="" asp-controller="Home" asp-action="Setting"><span>Setting</span></a>
+
                 </li>
             </ul>
+
         </div>
     </div>
 </div>
