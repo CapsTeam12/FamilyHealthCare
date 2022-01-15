@@ -34,7 +34,7 @@ namespace Business.Services
 
         public async Task<IEnumerable<ScheduleDto>> GetSchedulesAsync(string userId) // View List Schedule On Calendar of User
         {
-            var ListScheduleOfUser = await _db.Schedules.Where(x => x.UserId == userId).ToListAsync();
+            var ListScheduleOfUser = await _db.Schedules.Where(x => x.AccountId == userId).ToListAsync();
             var ScheduleDtos = _mapper.Map<List<ScheduleDto>>(ListScheduleOfUser);
             return ScheduleDtos;
         }

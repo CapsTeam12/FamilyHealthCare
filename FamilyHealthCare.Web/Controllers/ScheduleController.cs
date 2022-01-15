@@ -91,7 +91,7 @@ namespace FamilyHealthCare.Web.Controllers
             var response = await client.PostAsync($"/Schedule/Doctor",data);
             if (response != null && response.IsSuccessStatusCode)
             {
-                return RedirectToAction("AvailableTimings", "Schedule",new { userId = model.UserId, date = model.Date});
+                return RedirectToAction("AvailableTimings", "Schedule",new { userId = model.AccountId, date = model.Date});
             }
             return View(model);
 

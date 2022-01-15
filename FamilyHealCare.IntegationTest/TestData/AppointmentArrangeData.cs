@@ -32,7 +32,7 @@ namespace FamilyHealCare.IntegationTest.TestData
                     //    TherapistId = 1
                     //},
 
-                //};
+                };
 
                 //foreach (Appointment appointment in appointmentList)
                 //{
@@ -49,12 +49,13 @@ namespace FamilyHealCare.IntegationTest.TestData
         {
             return new AppointmentCreateDto()
             {
-                Time = new DateTime(01 / 04 / 2022),
+                StartTime = new DateTime(01 / 04 / 2022),
                 Description = "Re-examination",
-                TherapistId = 1
+                TherapistId = ""
             };
         }
 
 
     }
 }
+    

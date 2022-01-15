@@ -16,7 +16,7 @@ namespace Contract.Constants
 
         public static class AppointmentMessage
         {
-            
+            public static string ErrorTime = "Time is not valid";
         }
 
         public static class Authentication

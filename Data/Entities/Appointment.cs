@@ -15,13 +15,13 @@ namespace Data.Entities
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         [Key]
         public string Id { get; set; }
-        public string UserId { get; set; }
+        public string AccountId { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string Description { get; set; }
         public string TherapistId { get; set; }
         
-        public User Therapist { get; set; } 
+        public Doctor Therapist { get; set; } 
         public int Status { get; set; }
     }
 }

@@ -32,7 +32,7 @@ namespace Business.Services
 
         public async Task<IEnumerable<ScheduleDoctorDto>> GetSchedulesAsync(string userId,DateTime date) // View schedule timeslot of doctor when booking 
         {
-            var ListScheduleOfDoctor = await _db.ScheduleDoctors.Where(x => x.UserId == userId && x.Date == date).ToListAsync();
+            var ListScheduleOfDoctor = await _db.ScheduleDoctors.Where(x => x.AccountId == userId && x.Date == date).ToListAsync();
             var ScheduleDoctorDtos = _mapper.Map<IEnumerable<ScheduleDoctorDto>>(ListScheduleOfDoctor);
             return ScheduleDoctorDtos;
         }
@@ -44,7 +44,7 @@ namespace Business.Services
             {
                 var newScheduleDoctor = new ScheduleDoctor()
                 {
-                    UserId = ScheduleDoctorModel.UserId,
+                    AccountId = ScheduleDoctorModel.AccountId,
                     Date = Convert.ToDateTime(ScheduleDoctorModel.Date.ToString("yyyy-MM-dd")),
                     IsBooking = ScheduleDoctorModel.IsBooking,
                     ShiftId = schedule.ShiftsId[i]
@@ -52,7 +52,7 @@ namespace Business.Services
                 await _db.ScheduleDoctors.AddAsync(newScheduleDoctor);
                 await _db.SaveChangesAsync();
             }
-            var listScheduleOfDoctor = await _db.ScheduleDoctors.Where(x => x.UserId == schedule.UserId && x.Date == Convert.ToDateTime(schedule.Date.ToString("yyyy-MM-dd"))).ToListAsync();
+            var listScheduleOfDoctor = await _db.ScheduleDoctors.Where(x => x.AccountId == schedule.AccountId && x.Date == Convert.ToDateTime(schedule.Date.ToString("yyyy-MM-dd"))).ToListAsync();
             var ScheduleDoctorDto = _mapper.Map<IEnumerable<ScheduleDoctorDto>>(listScheduleOfDoctor);
             return ScheduleDoctorDto;
         }

@@ -57,10 +57,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHealthCare.WebAdmin",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHealthCare.SharedLibrary", "FamilyHealthCare.SharedLibrary\FamilyHealthCare.SharedLibrary.csproj", "{CB4DA355-2352-4464-91B2-6F5C39E2B0A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyHealthCare.Doctor", "FamilyHealthCare.Doctor\FamilyHealthCare.Doctor.csproj", "{8281E350-A17C-4322-872C-586A3AA41F63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHealthCare.Doctor", "FamilyHealthCare.Doctor\FamilyHealthCare.Doctor.csproj", "{8281E350-A17C-4322-872C-586A3AA41F63}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FHC.Web", "FHC.Web\FHC.Web.csproj", "{55D7EF14-86C0-4E36-9DB8-B5500F7C4271}"
->>>>>>>>> Temporary merge branch 2
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -156,10 +155,10 @@ Global
 		{8281E350-A17C-4322-872C-586A3AA41F63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8281E350-A17C-4322-872C-586A3AA41F63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8281E350-A17C-4322-872C-586A3AA41F63}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6C532A4F-143B-482D-A851-C83C31D4D125}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6C532A4F-143B-482D-A851-C83C31D4D125}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6C532A4F-143B-482D-A851-C83C31D4D125}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6C532A4F-143B-482D-A851-C83C31D4D125}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55D7EF14-86C0-4E36-9DB8-B5500F7C4271}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55D7EF14-86C0-4E36-9DB8-B5500F7C4271}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55D7EF14-86C0-4E36-9DB8-B5500F7C4271}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55D7EF14-86C0-4E36-9DB8-B5500F7C4271}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -187,7 +186,6 @@ Global
 		{910757ED-8189-4E9E-ABED-B2E433E79642} = {69A346EC-2F4C-41DB-9506-F76BF8D7B5E6}
 		{CB4DA355-2352-4464-91B2-6F5C39E2B0A5} = {69A346EC-2F4C-41DB-9506-F76BF8D7B5E6}
 		{8281E350-A17C-4322-872C-586A3AA41F63} = {69A346EC-2F4C-41DB-9506-F76BF8D7B5E6}
-		{6C532A4F-143B-482D-A851-C83C31D4D125} = {69A346EC-2F4C-41DB-9506-F76BF8D7B5E6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6E1DB9E2-2E03-4480-A307-2CEF29BDC7FD}

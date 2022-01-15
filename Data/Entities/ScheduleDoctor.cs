@@ -12,7 +12,7 @@ namespace Data.Entities
         public int ShiftId { get; set; }
         public Shift Shift { get; set; }
         public DateTime Date { get; set; }
-        public string UserId { get; set; }
+        public string AccountId { get; set; }
         public User User { get; set; }
         public bool IsBooking { get; set; }
 

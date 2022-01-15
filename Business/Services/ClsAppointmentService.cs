@@ -44,7 +44,7 @@ namespace Business.Services
 
         public async Task<IEnumerable<AppointmentDetailsDto>> GetAppointments(string userId) //Get Appointment of user
         {            
-            List<Appointment> appointmentModel = await _appointments.Find(x => x.UserId == userId).ToListAsync();
+            List<Appointment> appointmentModel = await _appointments.Find(x => x.AccountId == userId).ToListAsync();
             var roleOfUser = await _db.UserRoles.FirstOrDefaultAsync(x => x.UserId == userId); // get role of User           
             if (roleOfUser != null)
             {
@@ -72,16 +72,16 @@ namespace Business.Services
         public async Task<AppointmentDetailsDto> BookingAppointment(AppointmentCreateDto model, string userId) // Booking Appointment
         {
             var appointmentModel = _mapper.Map<Appointment>(model);
-            var therapist = await _db.Users.FirstOrDefaultAsync(x => x.Id == model.TherapistId); // Find therapist
-            appointmentModel.UserId = userId;
+            var therapist = await _db.Doctors.FirstOrDefaultAsync(x => x.AccountId == model.TherapistId); // Find therapist
+            appointmentModel.AccountId = userId;
             appointmentModel.Therapist = therapist;
             await _appointments.InsertOneAsync(appointmentModel); // Insert appointment data
-            var patient = await _db.Users.FirstOrDefaultAsync(x => x.Id == userId); // Find patient
+            var patient = await _db.Patients.FirstOrDefaultAsync(x => x.AccountId == userId); // Find patient
             List<Schedule> scheduleOfAppointment = new List<Schedule>()
             {
                 new Schedule // Schedule of Patient
                 {
-                  UserId = appointmentModel.UserId,
+                  AccountId = appointmentModel.AccountId,
                   AppointmentId = appointmentModel.Id,
                   Eventname = "Meeting with Dr." + appointmentModel.Therapist.FullName,
                   StartTime = appointmentModel.StartTime,
@@ -89,7 +89,7 @@ namespace Business.Services
                 },
                 new Schedule // Schedule of Doctor
                 {
-                    UserId = appointmentModel.TherapistId,
+                    AccountId = appointmentModel.TherapistId,
                     AppointmentId = appointmentModel.Id,
                     Eventname = "Meeting with " + patient.FullName,
                     StartTime = appointmentModel.StartTime,
@@ -113,7 +113,7 @@ namespace Business.Services
         public async Task<AppointmentDetailsDto> RescheduleAppointment(AppointmentRescheduleDto model, string id) // Reschedule Appointment
         {
             var appointmentModel = _mapper.Map<Appointment>(model);
-            var therapist = await _db.Users.FirstOrDefaultAsync(x => x.Id == model.TherapistId); // Find therapist
+            var therapist = await _db.Doctors.FirstOrDefaultAsync(x => x.AccountId == model.TherapistId); // Find therapist
             appointmentModel.Therapist = therapist;
             appointmentModel.Id = id;
             await _appointments.ReplaceOneAsync(x => x.Id == id, appointmentModel);

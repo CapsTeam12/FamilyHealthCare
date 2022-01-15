@@ -39,26 +39,26 @@ namespace FamilyHealthCare.UnitTest.Validators
         [MemberData(nameof(AppointmentTestData.ValidTime), MemberType = typeof(AppointmentTestData))]
         public void NotHaveErrorWhenTimeIsValid(DateTime time) =>
             _testRunner
-                .For(d => d.Time = time)
-                .ShouldNotHaveErrorsFor(e => e.Time);
+                .For(d => d.StartTime = time)
+                .ShouldNotHaveErrorsFor(e => e.StartTime);
 
         [Theory]
         [MemberData(nameof(AppointmentTestData.InvalidTime), MemberType = typeof(AppointmentTestData))]
         public void HaveErrorWhenTimeIsInvalid(DateTime time, string errorMessage) =>
             _testRunner
-                .For(d => d.Time = time)
-                .ShouldHaveErrorsFor(e => e.Time, errorMessage);
+                .For(d => d.StartTime = time)
+                .ShouldHaveErrorsFor(e => e.StartTime, errorMessage);
 
         [Theory]
         [MemberData(nameof(AppointmentTestData.ValidTherapistId), MemberType = typeof(AppointmentTestData))]
-        public void NotHaveErrorWhenTherapistIdIsValid(int therapistId) =>
+        public void NotHaveErrorWhenTherapistIdIsValid(string therapistId) =>
             _testRunner
                 .For(d => d.TherapistId = therapistId)
                 .ShouldNotHaveErrorsFor(e => e.TherapistId);
 
         [Theory]
         [MemberData(nameof(AppointmentTestData.InvalidTherapistId), MemberType = typeof(AppointmentTestData))]
-        public void HaveErrorWhenTherapistIdIsInvalid(int therapistId, string errorMessage) =>
+        public void HaveErrorWhenTherapistIdIsInvalid(string therapistId, string errorMessage) =>
             _testRunner
                 .For(d => d.TherapistId = therapistId)
                 .ShouldHaveErrorsFor(e => e.TherapistId, errorMessage);

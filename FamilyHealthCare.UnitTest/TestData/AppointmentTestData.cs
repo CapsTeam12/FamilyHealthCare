@@ -52,7 +52,7 @@ namespace FamilyHealCare.UnitTests.TestData
                 new object[]
                 {
                     DateTime.MinValue,
-                    string.Format(ErrorMessage.Common.InvalidTimeValue, nameof(AppointmentCreateDto.Time))
+                    string.Format(ErrorMessage.Common.InvalidTimeValue, nameof(AppointmentCreateDto.StartTime))
                 }
             };
         }
@@ -91,9 +91,9 @@ namespace FamilyHealCare.UnitTests.TestData
         {
             return new AppointmentCreateDto
             {
-                Time = DateTime.Now,
+                StartTime = DateTime.Now,
                 Description = "Re-examination",
-                TherapistId = 1,
+                TherapistId = "",
             };
         }
     }

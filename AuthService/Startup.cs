@@ -42,7 +42,7 @@ namespace AuthService
             services.AddDataAccessorLayer(Configuration);
 
             services.AddIdentity<User, IdentityRole>(options =>
-            { 
+            {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireDigit = false;
@@ -117,25 +117,26 @@ namespace AuthService
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => 
+                app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuthService v1");
                 });
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseRouting();
+                app.UseHttpsRedirection();
+                app.UseStaticFiles();
+                app.UseRouting();
 
-            app.UseIdentityServer();
-            app.UseAuthorization();
+                app.UseIdentityServer();
+                app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
-            });
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllerRoute(
+                        name: "default",
+                        pattern: "{controller=Home}/{action=Index}/{id?}");
+                    endpoints.MapRazorPages();
+                });
+            }
         }
     }
 }
