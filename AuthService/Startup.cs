@@ -4,6 +4,7 @@ using AuthService.Security.Authorization.Requirements;
 using Contract.Constants;
 using Data;
 using Data.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using IdentityServer4;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -115,7 +116,11 @@ namespace AuthService
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
+                app.UseSwagger();
+                app.UseSwaggerUI(c => 
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuthService v1");
+                });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

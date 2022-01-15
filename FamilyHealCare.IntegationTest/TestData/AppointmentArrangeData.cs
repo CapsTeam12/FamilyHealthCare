@@ -32,12 +32,12 @@ namespace FamilyHealCare.IntegationTest.TestData
                     //    TherapistId = 1
                     //},
 
-                };
+                //};
 
-                foreach (Appointment appointment in appointmentList)
-                {
-                    await appointmentRepository.Create(appointment);
-                }
+                //foreach (Appointment appointment in appointmentList)
+                //{
+                //    await appointmentRepository.Create(appointment);
+                //}
             }
         }
 

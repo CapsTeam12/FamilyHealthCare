@@ -1,5 +1,6 @@
 ﻿using Contract.DTOs;
-using Contract.DTOs.AppoimentService;
+<<<<<<<<< Temporary merge branch 1
+=========
 using Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
