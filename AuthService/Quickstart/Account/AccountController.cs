@@ -79,11 +79,11 @@ namespace IdentityServerHost.Quickstart.UI
             }
             else if(vm.ClientId == ClientIdConstants.Doctor)
             {
-                return View("~/Views/Account/LoginDoctor.cshtml",vm);
+                return View("~/Views/Account/LoginDoctor.cshtml", vm);
             }
             else if (vm.ClientId == ClientIdConstants.Pharmacy)
             {
-                return View("~/Views/Account/LoginPharmacy.cshtml",vm);
+                return View("~/Views/Account/LoginPharmacy.cshtml", vm);
             }
             else
             {

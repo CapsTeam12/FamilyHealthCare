@@ -1,0 +1,207 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-inner slimscroll">
+        <div id="sidebar-menu" class="sidebar-menu">
+            <ul>
+                <li class="menu-title">
+                    <span>Main</span>
+                </li>
+                <li>
+                    <a asp-controller="Home" asp-action="Index"><i class="fe fe-home"></i> <span>Dashboard</span></a>
+                </li>
+                <li>
+                    <a asp-controller="Appointment" asp-action="Index"><i class="fe fe-layout"></i> <span>Appointments</span></a>
+                </li>
+                <li>
+                    <a asp-controller="Specialities" asp-action="Index"><i class="fe fe-vector"></i> <span>Specialities</span></a>
+                </li>
+                <li>
+                    <a asp-controller="Doctor" asp-action="Index"><i class="fe fe-user-plus"></i> <span>Doctors</span></a>
+                </li>
+                <li>
+                    <a asp-controller="Patient" asp-action="Index"><i class="fe fe-user"></i> <span>Patients</span></a>
+                </li>
+                <li><a asp-controller="Pharmacy" asp-action="Index"><i class="fe fe-vector"></i> <span>Pharmacy List</span></a></li>
+                <li>
+                <li><a asp-controller="Category" asp-action="Index"><i class="fe fe-layout"></i> <span>Categories</span></a></li>
+                <li class="submenu">
+                    <a href="#"><i class="fe fe-document"></i> <span> Pending Request</span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li><a asp-controller="Doctor" asp-action="RequestDoctor">Request From Doctor</a></li>
+                        <li><a asp-controller="Pharmacy" asp-action="RequestPharmacy">Request From Pharmacy</a></li>
+                    </ul>
+                </li>
+                <li class="menu-title">
+                    <span>Pages</span>
+                </li>
+                <li class="submenu">
+                    <a href="#"><i class="fe fe-document"></i> <span> Blog </span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li><a asp-controller="Blog" asp-action="Index"> Blog </a></li>
+                        <li><a asp-controller="Blog" asp-action="AddBlog"> Add Blog </a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /Sidebar -->
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+    <div class="content container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col">
+                    <h3 class="page-title">Profile Doctor</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Doctor profile</li>
+                        <li class="breadcrumb-item active">Dr. Ruby Perrin</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="profile-header">
+                    <div class="row align-items-center">
+                        <div class="col-auto profile-image">
+                            <a href="#">
+                                <img class="rounded-circle" alt="User Image" src=@Url.Content("~/assets/img/profiles/avatar-01.jpg")>
+                            </a>
+                        </div>
+                        <div class="col ml-md-n2 profile-user-info">
+                            <h4 class="user-name mb-0">Dr. Ruby Perrin</h4>
+                            <h6 class="text-muted">Ruby@gmail.com</h6>
+                            <div class="user-Location"><i class="fa fa-map-marker"></i> TP HCM, VietNam</div>
+                            <div class="about-text">Iu công việc</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-menu">
+                    <ul class="nav nav-tabs nav-tabs-solid">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#per_details_tab">About</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content profile-tab-cont">
+
+                    <!-- Personal Details Tab -->
+                    <div class="tab-pane fade show active" id="per_details_tab">
+
+                        <!-- Personal Details -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title d-flex justify-content-between">
+                                            <span>Personal Details</span>
+                                        </h5>
+                                        <div class="row">
+                                            <p class="col-sm-2 text-muted text-sm-end mb-0 mb-sm-3">Name</p>
+                                            <p class="col-sm-10">Dr. Ruby Perrin</p>
+                                        </div>
+                                        <div class="row">
+                                            <p class="col-sm-2 text-muted text-sm-end mb-0 mb-sm-3">Gender</p>
+                                            <p class="col-sm-10">Male</p>
+                                        </div>
+                                        <div class="row">
+                                            <p class="col-sm-2 text-muted text-sm-end mb-0 mb-sm-3">Date of Birth</p>
+                                            <p class="col-sm-10">10 Jan 1982</p>
+                                        </div>
+                                        <div class="row">
+                                            <p class="col-sm-2 text-muted text-sm-end mb-0 mb-sm-3">Email ID</p>
+                                            <p class="col-sm-10">Ruby@gmail.com</p>
+                                        </div>
+                                        <div class="row">
+                                            <p class="col-sm-2 text-muted text-sm-end mb-0 mb-sm-3">Speciality</p>
+                                            <p class="col-sm-10">Dental</p>
+                                        </div>
+                                        <div class="row">
+                                            <p class="col-sm-2 text-muted text-sm-end mb-0 mb-sm-3">Experience</p>
+                                            <p class="col-sm-10">8 years+</p>
+                                        </div>
+                                        <div class="row">
+                                            <p class="col-sm-2 text-muted text-sm-end mb-0 mb-sm-3">Mobile</p>
+                                            <p class="col-sm-10">082826960x</p>
+                                        </div>
+                                        <div class="row">
+                                            <p class="col-sm-2 text-muted text-sm-end mb-0">Address</p>
+                                            <p class="col-sm-10 mb-0">
+                                                197B Hoàng Văn Thụ,<br>
+                                                Phú Nhuận,<br>
+                                                Thành Phố Hồ Chí Minh,<br>
+                                                Việt Nam.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Edit Details Modal -->
+                                <!-- /Edit Details Modal -->
+                            </div>
+                        </div>
+                        <!-- /Personal Details -->
+                    </div>
+                    <!-- /Personal Details Tab -->
+                    <!-- Change Password Tab -->
+                    <div id="password_tab" class="tab-pane fade">
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Change Password</h5>
+                                <div class="row">
+                                    <div class="col-md-10 col-lg-6">
+                                        <form>
+                                            <div class="form-group">
+                                                <label>Old Password</label>
+                                                <input type="password" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>New Password</label>
+                                                <input type="password" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Confirm Password</label>
+                                                <input type="password" class="form-control">
+                                            </div>
+                                            <button class="btn btn-primary" type="submit">Save Changes</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Change Password Tab -->
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src=@Url.Content("~/assets/js/jquery-3.6.0.min.js")></script>
+
+<!-- Bootstrap Core JS -->
+<script src=@Url.Content("~/assets/js/bootstrap.bundle.min.js")></script>
+
+<!-- Slimscroll JS -->
+<script src=@Url.Content("~/assets/plugins/slimscroll/jquery.slimscroll.min.js")></script>
+
+<!-- Bootstrap Datetimepicker JS -->
+<script src=@Url.Content("~/assets/js/moment.min.js")></script>
+<script src=@Url.Content("~/assets/js/bootstrap-datetimepicker.min.js")></script>
+
+<!-- Custom JS -->
+<script src=@Url.Content("~/assets/js/script.js")></script>
+
+
