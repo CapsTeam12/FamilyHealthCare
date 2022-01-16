@@ -45,7 +45,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Busine
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{7FDEC0F4-C7B9-4236-A7D9-AE0DCC5F393B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHealthCare.Customer", "FamilyHealthCare.Web\FamilyHealthCare.Customer.csproj", "{96ED566B-ECDD-47F0-808D-6D3139E66FA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHealthCare.Doctor", "FamilyHealthCare.Web\FamilyHealthCare.Doctor.csproj", "{96ED566B-ECDD-47F0-808D-6D3139E66FA1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHealthCare.Test", "FamilyHealthCare.Test\FamilyHealthCare.Test.csproj", "{78CAF872-FB65-4507-8AA2-90866F7545AB}"
 EndProject
