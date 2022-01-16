@@ -1,0 +1,126 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-inner slimscroll">
+        <div id="sidebar-menu" class="sidebar-menu">
+            <ul>
+                <li class="menu-title">
+                    <span>Main</span>
+                </li>
+                <li>
+                    <a asp-area="" asp-controller="Home" asp-action="Index"><i class="fe fe-home"></i><span>Dashboard</span></a>
+                </li>
+                <li class="submenu">
+                    <a href="#"><i class="fe fe-document"></i> <span> Medicines</span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Pharmacy" asp-action="Medicine">Medicine</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Pharmacy" asp-action="AddMedicine">Add Medicine</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Pharmacy" asp-action="OutStock">Out-Stock</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Pharmacy" asp-action="Returned">Returned</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="#"><i class="fe fe-star-o"></i> <span> Prescription</span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        @*<li><a href="purchase.html">Prescription</a></li>*@
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Pharmacy" asp-action="Prescription">Prescription</a>
+                        </li>
+                        @*<li><a href="add-prescription.html">Add Prescription</a></li>*@
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Pharmacy" asp-action="AddPrescription">Add Prescription</a>
+                        </li>
+                        <!-- <li><a href="edit-prescription.html">Edit Prescription</a></li> -->
+                        <!-- <li><a href="order.html">Order</a></li> -->
+                    </ul>
+                </li>
+
+                <li>
+                    <a asp-area="" asp-controller="Home" asp-action="Profile"><i class="fe fe-user-plus"></i> <span>Profile</span></a>
+                </li>
+
+
+                <li  class="active">
+                    <a asp-area="" asp-controller="Home" asp-action="Setting"><i class="fe fe-vector"></i> <span>Settings</span></a>
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
+</div>
+<!-- /Sidebar --><!-- Page Wrapper -->
+<div class="page-wrapper">
+    <div class="content container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="page-title">General Settings</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="javascript:(0)">Settings</a></li>
+                        <li class="breadcrumb-item active">General Settings</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+
+        <div class="row">
+
+            <div class="col-12">
+
+                <!-- General -->
+
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">General</h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="#">
+
+                            <div class="form-group">
+                                <label>Website Name</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Website Logo</label>
+                                <input type="file" class="form-control">
+                                <small class="text-secondary">Recommended image size is <b>150px x 150px</b></small>
+                            </div>
+                            <div class="form-group mb-0">
+                                <label>Favicon</label>
+                                <input type="file" class="form-control">
+                                <small class="text-secondary">Recommended image size is <b>16px x 16px</b> or <b>32px x 32px</b></small><br>
+                                <small class="text-secondary">Accepted formats : only png and ico</small>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+                <!-- /General -->
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- /Page Wrapper -->
