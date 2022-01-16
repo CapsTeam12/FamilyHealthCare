@@ -163,21 +163,6 @@
                     </div>
                 </li>
                 <!-- /Notifications -->
-                <!-- User Menu -->
-
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Account" asp-action="SignOut">Log out</a>
-                    </li>
-                }
-                else
-                {
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Account" asp-action="SignIn">Log In</a>
-                    </li>
-                }
-                <!-- /User Menu -->
             </ul>
             <!-- /Header Right Menu -->
         </div>
