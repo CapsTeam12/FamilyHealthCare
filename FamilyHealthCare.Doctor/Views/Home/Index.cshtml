@@ -1,8 +1,332 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="breadcrumb-bar">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                    </ol>
+                </nav>
+                <h2 class="breadcrumb-title">Dashboard</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+
+                <!-- Profile Sidebar -->
+                <div class="profile-sidebar">
+                    <div class="widget-profile pro-widget-content">
+                        <div class="profile-info-widget">
+                            <a href="#" class="booking-doc-img">
+                                <img src=@Url.Content("~/assets/img/doctors/doctor-thumb-02.jpg") alt="User Image">
+                            </a>
+                            <div class="profile-det-info">
+                                <h3>Dr. Darren Elder</h3>
+
+                                <div class="patient-details">
+                                    <h5 class="mb-0">BDS, MDS - Oral & Maxillofacial Surgery</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-widget">
+                        <nav class="dashboard-menu">
+                            <ul>
+                                <li class="active">
+                                    <a asp-area="" asp-controller="Home" asp-action="Index">
+                                        <i class="fas fa-columns"></i>
+                                        <span>Dashboard</span>
+                                    </a>
+                                </li>
+                                <li>
+
+                                    <a asp-area="" asp-controller="MyPatient" asp-action="MyPatients">
+                                        <i class="fas fa-user-injured"></i>
+                                        <span>My Patients</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="ScheduleTiming" asp-action="ScheduleTimings">
+                                        <i class="fas fa-hourglass-start"></i>
+                                        <span>Schedule Timings</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="MedicalRecords" asp-action="MedicalRecord">
+                                        <i class="fas fa-file-invoice"></i>
+                                        <span>Medical Records</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="Prescriptions" asp-action="Prescription">
+                                        <i class="fas fa-share-alt"></i>
+                                        <span>Prescription</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="Calendars" asp-action="Calendar">
+                                        <i class="fas fa-calendar-check"></i>
+                                        <span>Calendar</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="ProfileSettings" asp-action="ProfileSetting">
+                                        <i class="fas fa-user-cog"></i>
+                                        <span>Profile Settings</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!-- /Profile Sidebar -->
+
+            </div>
+
+            <div class="col-md-7 col-lg-8 col-xl-9">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card dash-card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12 col-lg-4">
+                                        <div class="dash-widget dct-border-rht">
+                                            <div class="circle-bar circle-bar1">
+                                                <div class="circle-graph1" data-percent="75">
+                                                    <img src=@Url.Content("~/assets/img/icon-01.png") class="img-fluid" alt="patient">
+                                                </div>
+                                            </div>
+                                            <div class="dash-widget-info">
+                                                <h6>Total Patient</h6>
+                                                <h3>1500</h3>
+                                                <p class="text-muted">Till Today</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 col-lg-4">
+                                        <div class="dash-widget dct-border-rht">
+                                            <div class="circle-bar circle-bar2">
+                                                <div class="circle-graph2" data-percent="65">
+                                                    <img src=@Url.Content("~/assets/img/icon-02.png") class="img-fluid" alt="Patient">
+                                                </div>
+                                            </div>
+                                            <div class="dash-widget-info">
+                                                <h6>Today Patient</h6>
+                                                <h3>160</h3>
+                                                <p class="text-muted">06, Nov 2019</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 col-lg-4">
+                                        <div class="dash-widget">
+                                            <div class="circle-bar circle-bar3">
+                                                <div class="circle-graph3" data-percent="50">
+                                                    <img src=@Url.Content("~/assets/img/icon-03.png") class="img-fluid" alt="Patient">
+                                                </div>
+                                            </div>
+                                            <div class="dash-widget-info">
+                                                <h6>Appoinments</h6>
+                                                <h3>85</h3>
+                                                <p class="text-muted">06, Apr 2019</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="mb-4">Patient Appoinment</h4>
+                        <div class="appointment-tab">
+
+                            <!-- Appointment Tab -->
+                            <!-- /Appointment Tab -->
+
+                            <div class="tab-content">
+
+                                <!-- Upcoming Appointment Tab -->
+                                <!-- /Upcoming Appointment Tab -->
+                                <!-- Today Appointment Tab -->
+
+                                <div class="card card-table mb-0">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-center mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Patient Name</th>
+                                                        <th>Appt Date</th>
+                                                        <th class="text-center">Mail</th>
+                                                        <th class="text-center">Phone</th>
+
+                                                        <th class="text-center"> Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <h2 class="table-avatar">
+                                                                <a href="patient-profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/patients/patient6.jpg") alt="User Image"></a>
+                                                                <a href="patient-profile.html">Elsie Gilley <span>#PT0006</span></a>
+                                                            </h2>
+                                                        </td>
+                                                        <td>14 Nov 2019 <span class="d-block text-info">6.00 PM</span></td>
+
+                                                        <td>harrywilliams@example.com</td>
+                                                        <td> +1 303 607 7075</td>
+
+                                                        <td class="text-end">
+                                                            <div class="table-action">
+                                                                <a href="#" class="btn btn-sm bg-info-light" data-bs-toggle="modal" data-bs-target="#appt_details">
+                                                                    <i class="far fa-eye"></i> View
+                                                                </a>
+                                                                <a href="edit-prescription.html" class="btn btn-sm bg-success-light" data-bs-toggle="modal" data-bs-target="#edit_shecdule">
+                                                                    <i class="fas fa-edit"></i> Reschedule
+                                                                </a>
+
+                                                                <a href="edit-prescription.html" class="btn btn-sm bg-danger-light" data-bs-toggle="modal" data-bs-target="#cancel_modal">
+                                                                    <i class="fas fa-times"></i> Cancel
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <h2 class="table-avatar">
+                                                                <a href="patient-profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="~/assets/img/patients/patient7.jpg" alt="User Image"></a>
+                                                                <a href="patient-profile.html">Joan Gardner <span>#PT0006</span></a>
+                                                            </h2>
+                                                        </td>
+                                                        <td>14 Nov 2019 <span class="d-block text-info">5.00 PM</span></td>
+
+                                                        <td>robertrhodes@example.com</td>
+                                                        <td>+1 858 259 5285</td>
+
+
+                                                        <td class="text-end">
+                                                            <div class="table-action">
+                                                                <a href="#" class="btn btn-sm bg-info-light" data-bs-toggle="modal" data-bs-target="#appt_details">
+                                                                    <i class="far fa-eye"></i> View
+                                                                </a>
+                                                                <a href="edit-prescription.html" class="btn btn-sm bg-success-light" data-bs-toggle="modal" data-bs-target="#edit_shecdule">
+                                                                    <i class="fas fa-edit"></i> Reschedule
+                                                                </a>
+
+                                                                <a href="edit-prescription.html" class="btn btn-sm bg-danger-light" data-bs-toggle="modal" data-bs-target="#cancel_modal">
+                                                                    <i class="fas fa-times"></i> Cancel
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <h2 class="table-avatar">
+                                                                <a href="patient-profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="~/assets/img/patients/patient8.jpg" alt="User Image"></a>
+                                                                <a href="patient-profile.html">Daniel Griffing <span>#PT0007</span></a>
+                                                            </h2>
+                                                        </td>
+                                                        <td>14 Nov 2019 <span class="d-block text-info">3.00 PM</span></td>
+                                                        <td>harrywilliams@example.com</td>
+                                                        <td>+1 303 607 7075</td>
+
+
+                                                        <td class="text-end">
+                                                            <div class="table-action">
+                                                                <a href="#" class="btn btn-sm bg-info-light" data-bs-toggle="modal" data-bs-target="#appt_details">
+                                                                    <i class="far fa-eye"></i> View
+                                                                </a>
+                                                                <a href="edit-prescription.html" class="btn btn-sm bg-success-light" data-bs-toggle="modal" data-bs-target="#edit_shecdule">
+                                                                    <i class="fas fa-edit"></i> Reschedule
+                                                                </a>
+                                                                <a href="edit-prescription.html" class="btn btn-sm bg-danger-light" data-bs-toggle="modal" data-bs-target="#cancel_modal">
+                                                                    <i class="fas fa-times"></i> Cancel
+                                                                </a>
+
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>	<div class="modal fade custom-modal" id="edit_shecdule">
+                                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h3 class="modal-title">Reschedule</h3>
+                                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </div>
+                                            <form>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-12 col-md-6">
+                                                            <div class="form-group">
+                                                                <label>Date</label>
+                                                                <div class="form-group">
+                                                                    <input type="datetime-local" class="form-control" name="tratment_date" id="tratment_date">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <label>Description ( Optional )</label>
+                                                        <textarea cols="30" rows="10"></textarea>
+                                                    </div>
+                                                    <div class="submit-section text-center">
+                                                        <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+                                                        <button type="button" class="btn btn-secondary submit-btn" data-bs-dismiss="modal">Cancel</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- /Today Appointment Tab -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="modal fade" id="cancel_modal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-content p-2">
+                    <h4 class="modal-title">Delete</h4>
+                    <p class="mb-4">Are you sure want to cancel?</p>
+                    <button type="button" class="btn btn-primary">Save </button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

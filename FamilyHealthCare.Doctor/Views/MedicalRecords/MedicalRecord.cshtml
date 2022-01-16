@@ -1,0 +1,421 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!-- Breadcrumb -->
+<div class="breadcrumb-bar">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <li class="breadcrumb-item active" aria-current="page">Medical Records</li>
+                    </ol>
+                </nav>
+                <h2 class="breadcrumb-title">Medical Records</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Breadcrumb -->
+<!-- Page Content -->
+<div class="content">
+    <div class="container-fluid">
+
+        <div class="row">
+
+            <!-- Profile Sidebar -->
+            <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+                <div class="profile-sidebar">
+                    <div class="widget-profile pro-widget-content">
+                        <div class="profile-info-widget">
+                            <a href="#" class="booking-doc-img">
+                                <img src="~/assets/img/doctors/doctor-thumb-02.jpg" alt="User Image">
+                            </a>
+                            <div class="profile-det-info">
+                                <h3>Dr. Darren Elder</h3>
+
+                                <div class="patient-details">
+                                    <h5 class="mb-0">BDS, MDS - Oral & Maxillofacial Surgery</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-widget">
+                        <nav class="dashboard-menu">
+                            <ul>
+                                <li >
+                                    <a asp-area="" asp-controller="Home" asp-action="Index">
+                                        <i class="fas fa-columns"></i>
+                                        <span>Dashboard</span>
+                                    </a>
+                                </li>
+                                <li>
+
+                                    <a asp-area="" asp-controller="MyPatient" asp-action="MyPatients">
+                                        <i class="fas fa-user-injured"></i>
+                                        <span>My Patients</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="ScheduleTiming" asp-action="ScheduleTimings">
+                                        <i class="fas fa-hourglass-start"></i>
+                                        <span>Schedule Timings</span>
+                                    </a>
+                                </li>
+                                <li class="active">
+                                    <a asp-area="" asp-controller="MedicalRecords" asp-action="MedicalRecord">
+                                        <i class="fas fa-file-invoice"></i>
+                                        <span>Medical Records</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="Prescriptions" asp-action="Prescription">
+                                        <i class="fas fa-share-alt"></i>
+                                        <span>Prescription</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="Calendars" asp-action="Calendar">
+                                        <i class="fas fa-calendar-check"></i>
+                                        <span>Calendar</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="ProfileSettings" asp-action="ProfileSetting">
+                                        <i class="fas fa-user-cog"></i>
+                                        <span>Profile Settings</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+            <!-- / Profile Sidebar -->
+
+            <div class="col-md-7 col-lg-8 col-xl-9">
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body pt-0">
+
+                                <!-- Tab Menu -->
+                                <!-- /Tab Menu -->
+                                <!-- Tab Content -->
+                                <div class="tab-content pt-0">
+
+                                    <!-- Medical Records Tab -->
+                                    <div id="pat_medicalrecords" class="tab-pane fade show active">
+                                        <div class="text-end">
+                                            <a href="#" class="add-new-btn" data-bs-toggle="modal" data-bs-target="#add_medical_records_modal">Add Medical Records</a>
+                                        </div>
+                                        <div class="card card-table mb-0">
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover table-center mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Name</th>
+                                                                <th>Date</th>
+                                                                <th>Symptoms</th>
+
+                                                                <th>Created By</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>1</td>
+                                                                <td><a href="patient-profile.html"><span>Richard Wilson</span></a></td>
+                                                                <td>11 Nov 2019 <span class="d-block text-info">10.00 AM</span></td>
+                                                                <td><a href="medical-records-detail.html"><span>Flu</span></a></td>
+
+                                                                <td>Dr. Darren Elder</td>
+                                                                <td>
+                                                                    <a asp-area="" asp-controller="MedicalRecords" asp-action="MedicalRecordDetails" class="btn btn-sm bg-info-light">
+                                                                        <i class="far fa-eye"></i> View
+                                                                    </a>
+                                                                    <a href="#" class="btn btn-sm bg-success-light" data-bs-toggle="modal" data-bs-target="#Edit_medical_records_modal">
+                                                                        <i class="far fa-edit"> Edit</i>
+                                                                    </a>
+                                                                    <a class="btn btn-sm bg-danger-light" data-bs-toggle="modal" href="#delete_modal">
+                                                                        <i class="fas fa-trash-alt"></i> Delete
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>2</td>
+                                                                <td><a href="patient-profile.html"><span>Vena</span></a></td>
+                                                                <td>3 Nov 2019 <span class="d-block text-info">11.00 AM</span></td>
+                                                                <td>Rapalac Neuronium</td>
+
+                                                                <td>Dr. Darren Elder</td>
+                                                                <td>
+                                                                    <a href="details-medical-records.html" class="btn btn-sm bg-info-light">
+                                                                        <i class="far fa-eye"></i> View
+                                                                    </a>
+                                                                    <a href="#" class="btn btn-sm bg-success-light" data-bs-toggle="modal" data-bs-target="#Edit_medical_records_modal">
+                                                                        <i class="far fa-edit"> Edit</i>
+                                                                    </a>
+                                                                    <a class="btn btn-sm bg-danger-light" data-bs-toggle="modal" href="#delete_modal">
+                                                                        <i class="fas fa-trash-alt"></i> Delete
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>3</td>
+                                                                <td>Tressie</td>
+                                                                <td>1 Nov 2019 <span class="d-block text-info">1.00 PM</span></td>
+                                                                <td>Ombinazol Bonibamol</td>
+
+                                                                <td>Dr. Darren Elder</td>
+                                                                <td>
+                                                                    <a href="details-medical-records.html" class="btn btn-sm bg-info-light">
+                                                                        <i class="far fa-eye"></i> View
+                                                                    </a>
+                                                                    <a href="#" class="btn btn-sm bg-success-light" data-bs-toggle="modal" data-bs-target="#Edit_medical_records_modal">
+                                                                        <i class="far fa-edit"> Edit</i>
+                                                                    </a>
+                                                                    <a class="btn btn-sm bg-danger-light" data-bs-toggle="modal" href="#delete_modal">
+                                                                        <i class="fas fa-trash-alt"></i> Delete
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>4</td>
+                                                                <td>Richard Wilson</td>
+                                                                <td>30 Oct 2019 <span class="d-block text-info">9.00 AM</span></td>
+                                                                <td>Dantotate Dantodazole</td>
+
+                                                                <td>Dr Mund</td>
+                                                                <td>
+                                                                    <a href="details-medical-records.html" class="btn btn-sm bg-info-light">
+                                                                        <i class="far fa-eye"></i> View
+                                                                    </a>
+                                                                    <a href="#" class="btn btn-sm bg-success-light" data-bs-toggle="modal" data-bs-target="#Edit_medical_records_modal">
+                                                                        <i class="far fa-edit"> Edit</i>
+                                                                    </a>
+                                                                    <a class="btn btn-sm bg-danger-light" data-bs-toggle="modal" href="#delete_modal">
+                                                                        <i class="fas fa-trash-alt"></i> Delete
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>5</td>
+                                                                <td>Christopher</td>
+                                                                <td>28 Oct 2019 <span class="d-block text-info">6.00 PM</span></td>
+                                                                <td>Acetrace Amionel</td>
+
+                                                                <td>Dr Mund</td>
+                                                                <td>
+                                                                    <a href="details-medical-records.html" class="btn btn-sm bg-info-light">
+                                                                        <i class="far fa-eye"></i> View
+                                                                    </a>
+                                                                    <a href="#" class="btn btn-sm bg-success-light" data-bs-toggle="modal" data-bs-target="#Edit_medical_records_modal">
+                                                                        <i class="far fa-edit"> Edit</i>
+                                                                    </a>
+                                                                    <a class="btn btn-sm bg-danger-light" data-bs-toggle="modal" href="#delete_modal">
+                                                                        <i class="fas fa-trash-alt"></i> Delete
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /Medical Records Tab -->
+
+
+                                </div>
+                                <!-- Tab Content -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- Medical Records Modal -->
+<div class="modal fade custom-modal custom-medicalrecord-modal" id="add_medical_records_modal" style="display: none;" data-select2-id="add_medical_records_modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Medical Records</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="medical_records_form" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Patient Name</label>
+                                <input type="text" name="description" class="form-control" placeholder="Enter Patient Name">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Age</label>
+                                <input type="text" name="description" class="form-control" placeholder="Age">
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="rows">
+                            <div class="form-group">
+                                <label>Symptoms</label>
+                                <input type="text" data-role="tagsinput" class="input-tags form-control" value="Fever, Fatigue" name="services" id="services">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Doctor</label>
+                                <select class="form-select">
+                                    <option>Steplen</option>
+                                    <option>Richard</option>
+                                    <option>Self</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Date</label>
+                                <div class="form-group">
+                                    <input type="date" class="form-control" name="tratment_date" id="tratment_date">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <div class="submit-section text-center">
+                            <button type="submit" id="medical_btn" class="btn btn-primary submit-btn">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /Medical Records Modal -->
+<div class="modal fade custom-modal custom-medicalrecord-modal" id="Edit_medical_records_modal" style="display: none;" data-select2-id="add_medical_records_modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Medical Records</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="medical_records_form" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Patient Name</label>
+                                <input type="text" name="description" class="form-control" placeholder="Enter Patient Name">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Age</label>
+                                <input type="text" name="description" class="form-control" placeholder="Age">
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Symptoms</label>
+                                <input type="text" data-role="tagsinput" class="input-tags form-control" value="Fever, Fatigue" name="services" id="services">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Doctor</label>
+                                <select class="form-select">
+                                    <option>Steplen</option>
+                                    <option>Richard</option>
+                                    <option>Self</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Date</label>
+                                <div class="form-group">
+                                    <input type="date" class="form-control" name="tratment_date" id="tratment_date">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <div class="submit-section text-center">
+                            <button type="submit" id="medical_btn" class="btn btn-primary submit-btn">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- /Medical Records Modal -->
+<div class="modal fade" id="delete_modal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div class="form-content p-2">
+                    <h4 class="modal-title">Delete</h4>
+                    <p class="mb-4">Are you sure want to delete ?</p>
+                    <button type="button" class="btn btn-primary">Save </button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src=@Url.Content("~/assets/js/jquery-3.6.0.min.js")></script>
+
+<!-- Bootstrap Core JS -->
+<script src=@Url.Content("~/assets/js/bootstrap.bundle.min.js")></script>
+
+<!-- Select2 JS -->
+<script src=@Url.Content("~/assets/plugins/select2/js/select2.min.js")></script>
+
+<!-- Sticky Sidebar JS -->
+<script src=@Url.Content("~/assets/plugins/theia-sticky-sidebar/ResizeSensor.js")></script>
+<script src=@Url.Content("~/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js")></script>
+
+<!-- Custom JS -->
+<script src=@Url.Content("~/assets/js/script.js")></script>
