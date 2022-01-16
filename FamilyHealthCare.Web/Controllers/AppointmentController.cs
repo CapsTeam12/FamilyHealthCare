@@ -14,7 +14,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FamilyHealthCare.Web.Controllers
+namespace FamilyHealthCare.Customer.Controllers
 {
     public class AppointmentController : Controller
     {

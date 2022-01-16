@@ -15,7 +15,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FamilyHealthCare.Web.Controllers
+namespace FamilyHealthCare.Customer.Controllers
 {
     public class ScheduleController : Controller
     {

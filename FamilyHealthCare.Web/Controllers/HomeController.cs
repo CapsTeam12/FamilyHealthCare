@@ -12,7 +12,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace FamilyHealthCare.Web.Controllers
+namespace FamilyHealthCare.Customer.Controllers
 {
     public class HomeController : Controller
     {
