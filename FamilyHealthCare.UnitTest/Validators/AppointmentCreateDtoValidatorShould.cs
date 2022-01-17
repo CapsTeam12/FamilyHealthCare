@@ -51,14 +51,14 @@ namespace FamilyHealthCare.UnitTest.Validators
 
         [Theory]
         [MemberData(nameof(AppointmentTestData.ValidTherapistId), MemberType = typeof(AppointmentTestData))]
-        public void NotHaveErrorWhenTherapistIdIsValid(string therapistId) =>
+        public void NotHaveErrorWhenTherapistIdIsValid(int therapistId) =>
             _testRunner
                 .For(d => d.TherapistId = therapistId)
                 .ShouldNotHaveErrorsFor(e => e.TherapistId);
 
         [Theory]
         [MemberData(nameof(AppointmentTestData.InvalidTherapistId), MemberType = typeof(AppointmentTestData))]
-        public void HaveErrorWhenTherapistIdIsInvalid(string therapistId, string errorMessage) =>
+        public void HaveErrorWhenTherapistIdIsInvalid(int therapistId, string errorMessage) =>
             _testRunner
                 .For(d => d.TherapistId = therapistId)
                 .ShouldHaveErrorsFor(e => e.TherapistId, errorMessage);

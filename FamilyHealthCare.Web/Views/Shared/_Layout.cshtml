@@ -4,6 +4,7 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
 @{
     var userId = _httpContextAccessor.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+    var userName = User.FindFirst(ClaimTypes.Name)?.Value;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -53,11 +54,11 @@
                     </div>
                     <ul class="main-nav">
                         <li class="has-submenu ">
-                            <a href="index.html">Home </a>
+                            <a asp-controller="Home" asp-action="Index">Home </a>
 
                         </li>
                         <li class="has-submenu">
-                            <a href="">Common <i class="fas fa-chevron-down"></i></a>
+                            <a >Common <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
 
                                 <li class="">
@@ -65,7 +66,7 @@
                                 </li>
 
                                 <li class="has-submenu">
-                                    <a href="#">Doctors</a>
+                                    <a>Doctors</a>
                                     <ul class="submenu">
                                         <li><a href="map-list.html">Doctor Map List</a></li>
                                         <li><a href="doctor-search.html">Booking Doctor</a></li>
@@ -73,10 +74,10 @@
                                 </li>
 
                                 <li class="has-submenu">
-                                    <a href="#">Pharmacy</a>
+                                    <a>Pharmacy</a>
                                     <ul class="submenu">
                                         <li><a href="map-list.html">Pharmacy Map List</a></li>
-                                        <li><a href="pharmacy-search.html">Booking Pharmacy</a></li>
+                                        @*<li><a href="pharmacy-search.html">Booking Pharmacy</a></li>*@
                                     </ul>
                                 </li>
                                 <li><a href="healthcheck.html">Health Check </a></li>
@@ -84,7 +85,7 @@
                         </li>
 
                         <li class="has-submenu">
-                            <a href="">Pages <i class="fas fa-chevron-down"></i></a>
+                            <a>Pages <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
                                 <li><a href="about-us.html">About Us</a></li>
                                 <li><a href="contact-us.html">Contact Us</a></li>
@@ -115,16 +116,40 @@
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        @*<a class="nav-link header-login" href="login.html">login / Signup </a>*@
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <a class="nav-link header-login" asp-controller="Account" asp-action="SignOut">Log out</a> }
-                        else
-                        { 
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item dropdown has-arrow logged-item">
+                            <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                                <span class="user-img">
+                                    <img class="rounded-circle" src="~/assets/img/patients/patient.jpg" width="31" alt="Ryan Taylor">
+                                </span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <div class="user-header">
+                                    <div class="avatar avatar-sm">
+                                        <img src="~/assets/img/patients/patient.jpg" alt="User Image" class="avatar-img rounded-circle">
+                                    </div>
+                                    <div class="user-text">
+                                        <h6>@User.Identity.Name</h6>
+                                        <p class="text-muted mb-0">Patient</p>
+                                    </div>
+                                </div>
+                                <a class="dropdown-item" asp-controller="Appointment" asp-action="Index" asp-route-userId="@userId">Appointments</a>
+                                <a class="dropdown-item" href="profile-settings.html">Profile Settings</a>
+                                <a class="dropdown-item" asp-controller="Schedule" asp-action="Calendar" asp-route-userId="@userId">Calendar</a>
+                                <a class="dropdown-item" href="change-password.html">Change Password</a>
+                                <a class="dropdown-item" asp-controller="Account" asp-action="SignOut">Logout</a>
+                            </div>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
                             <a class="nav-link header-login" asp-controller="Account" asp-action="SignIn">Log In / Sign Up</a>
-                        }
-                    </li>
+                        </li>
+                    }
+
                     <li class="dropdown language-select">
                         <span class="dropdown-toggle" id="language-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
                               aria-expanded="false" role="button"><img src=@Url.Content("~/assets/img/vietnam.png") alt="flag"> Việt Nam</span>
@@ -135,31 +160,26 @@
                 </ul>
             </nav>
         </header>
-        <div class="container">
-            <main role="main" class="pb-3">
-                @RenderBody()
-                <div class="float-contact">
-                    <ul style="line-height: 45px">
-                        <div>
-                            <a href="http://zalo.me/">
-                                <img src="assets/img/zalo.png" alt="" />
-                            </a>
-                        </div>
-                        <div>
-                            <a href="http://facebook.com">
-                                <img src="assets/img/messenger.png" alt="" />
-                            </a>
-                        </div>
-                        <div>
-                            <a href="tel:0989999898">
-                                <img src="assets/img/hotline.png" alt="" />
-                            </a>
-                        </div>
-                    </ul>
-                </div>
-            </main>
+        @RenderBody()   
+        <div class="float-contact">
+            <ul style="line-height: 45px">
+                <li>
+                    <a href="http://zalo.me/">
+                        <img src="~/assets/img/zalo.png" alt="" />
+                    </a>
+                </li>
+                <li>
+                    <a href="http://facebook.com">
+                        <img src="~/assets/img/messenger.png" alt="" />
+                    </a>
+                </li>
+                <li>
+                    <a href="tel:0989999898">
+                        <img src="~/assets/img/hotline.png" alt="" />
+                    </a>
+                </li>
+            </ul>
         </div>
-
         <!-- Footer -->
         <footer class="footer">
 
@@ -203,6 +223,7 @@
                                 <ul>
                                     <li><a href="pharmacy-search.html">Booking Pharmacy</a></li>
                                     <li><a href="map-list.html">Search Pharmacy</a></li>
+                                </ul>
                             </div>
                             <!-- /Footer Widget -->
 

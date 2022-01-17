@@ -19,8 +19,8 @@ namespace Data.Entities
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string Description { get; set; }
-        public string TherapistId { get; set; }
-        
+        [ForeignKey("Doctor")]
+        public int TherapistId { get; set; }       
         public Doctor Therapist { get; set; } 
         public int Status { get; set; }
     }

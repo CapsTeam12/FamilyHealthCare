@@ -12,7 +12,7 @@ namespace FamilyHealthCare.SharedLibrary
 
         public static class ManagementService
         {
-            public static string DOCTORS = "/api/Management/doctors";
+            public static string DOCTORS = "/Management/doctors";
             public static string CATEGORIES = "/api/Management/categories";
         }
     }

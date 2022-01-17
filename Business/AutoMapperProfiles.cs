@@ -40,6 +40,14 @@ namespace Business
             CreateMap<Specialities, SpecialitiesDetailsDto>()
                 .ReverseMap();
 
+            CreateMap<Appointment, AppointmentRescheduleDto>().ReverseMap();
+
+            CreateMap<Schedule, ScheduleDto>().ReverseMap();
+            CreateMap<Schedule, ScheduleCreateDto>().ReverseMap();
+
+            CreateMap<ScheduleDoctor, ScheduleDoctorDto>().ReverseMap();
+            CreateMap<ScheduleDoctor, ScheduleDoctorCreateDto>().ReverseMap();
+
         }
     }
 }

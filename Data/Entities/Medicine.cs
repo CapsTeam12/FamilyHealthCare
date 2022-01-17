@@ -20,9 +20,11 @@ namespace Data.Entities
         public string Direction { get; set; }
         public string Images { get; set; }
         public int Status { get; set; }
+        [ForeignKey("MedicineClass")]
         public int ClassificationID { get; set; }
         public MedicineClassification MedicineClass { get; set; }
-        public string PharmacyId { get; set; }
+        [ForeignKey("Pharmacy")]
+        public int PharmacyId { get; set; }
         public Pharmacy Pharmacy { get; set; }
     }
 }

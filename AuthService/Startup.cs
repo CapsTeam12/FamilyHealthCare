@@ -79,7 +79,7 @@ namespace AuthService
                 {
                     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
 
-                    options.ClientId = "59632184419-8c9snd66qcb9kr9ara03g0mq8pkehrio.apps.googleusercontent.com";
+                    options.ClientId =  "59632184419-8c9snd66qcb9kr9ara03g0mq8pkehrio.apps.googleusercontent.com";
                     options.ClientSecret = "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";
                 })
                 .AddFacebook("Facebook", options =>
@@ -116,11 +116,7 @@ namespace AuthService
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuthService v1");
-                });
+               
 
                 app.UseHttpsRedirection();
                 app.UseStaticFiles();
@@ -137,6 +133,11 @@ namespace AuthService
                     endpoints.MapRazorPages();
                 });
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuthService v1");
+            });
         }
     }
 }

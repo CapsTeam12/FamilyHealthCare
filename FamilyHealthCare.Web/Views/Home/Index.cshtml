@@ -210,7 +210,7 @@
                                     <a href="doctor-profile.html" class="btn view-btn">View Profile</a>
                                 </div>
                                 <div class="col-6">
-                                    <a href="doctor-search.html" class="btn book-btn">Book Now</a>
+                                    <a asp-controller="Appointment" asp-action="Booking" asp-route-doctor="@doctor.AccountId" asp-route-Id="@doctor.Id" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")" asp-route-doctorName="@doctor.FullName" class="btn book-btn">Book Now</a>
                                 </div>
                             </div>
                         </div>
