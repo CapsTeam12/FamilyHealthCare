@@ -11,7 +11,7 @@ namespace Contract.DTOs.ScheduleService
     {
         public int Id { get; set; }
         public string AppointmentId { get; set; }
-        public string UserId { get; set; }
+        public string AccountId { get; set; }
         public string Eventname { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }

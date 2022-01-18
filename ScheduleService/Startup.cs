@@ -43,7 +43,7 @@ namespace ScheduleService
             services.AddAuthentication("Bearer")
                .AddJwtBearer("Bearer", options =>
                {
-                   options.Authority = "https://localhost:44303/";
+                   options.Authority = "https://localhost:44315/";
                    options.TokenValidationParameters = new TokenValidationParameters
                    {
                        ValidateAudience = false

@@ -37,7 +37,7 @@ namespace FamilyHealthCare.Customer
                 {
                     options.Authority = "https://localhost:44315/";
                     options.RequireHttpsMetadata = false;
-                    options.GetClaimsFromUserInfoEndpoint = false;
+                    options.GetClaimsFromUserInfoEndpoint = true;
 
                     options.ClientId = "User";
                     options.ClientSecret = "secret";

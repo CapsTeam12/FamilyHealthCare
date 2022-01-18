@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -41,6 +42,8 @@ namespace AuthService.IdentityServer
             }
             else
             {
+                var claimsOfUser = await _userManager.GetClaimsAsync(user);
+                var FullName = claimsOfUser.FirstOrDefault(x => x.Type.Equals("name")).Value;
                 var claims = new List<Claim>();
                 claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString(CultureInfo.InvariantCulture)));
                 claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString(CultureInfo.InvariantCulture)));

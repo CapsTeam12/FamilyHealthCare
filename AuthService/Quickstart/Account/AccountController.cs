@@ -21,6 +21,8 @@ using Data.Entities;
 using Contract.Constants;
 using AuthService.ViewModel.CustomAuthentication;
 using Business.IServices;
+using System.Security.Claims;
+using Data;
 
 namespace IdentityServerHost.Quickstart.UI
 {
@@ -39,7 +41,8 @@ namespace IdentityServerHost.Quickstart.UI
         private readonly IClientStore _clientStore;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly IEventService _events;
-        private readonly IBaseRepository<Patient> _patient;
+        private readonly ApplicationDbContext _db;
+
 
         public AccountController(
             IIdentityServerInteractionService interaction,
@@ -47,7 +50,8 @@ namespace IdentityServerHost.Quickstart.UI
             IAuthenticationSchemeProvider schemeProvider,
             IEventService events,
             UserManager<User> userManager,
-            SignInManager<User> signInManager)
+            SignInManager<User> signInManager,
+            ApplicationDbContext db)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -55,6 +59,7 @@ namespace IdentityServerHost.Quickstart.UI
             _clientStore = clientStore;
             _schemeProvider = schemeProvider;
             _events = events;
+            _db = db;
         }
 
         /// <summary>
@@ -307,13 +312,17 @@ namespace IdentityServerHost.Quickstart.UI
             user.Email = RegisterVm.Username;
 
             var result = await _userManager.CreateAsync(user, RegisterVm.Password);
+       
 
             var info = new Patient();
             info.AccountId = user.Id;
             info.FullName = RegisterVm.Name;
             info.Phone = RegisterVm.MobileNumber;
 
-            //var info = await _patient.Create(info);
+            await _db.Patients.AddAsync(info);
+            await _db.SaveChangesAsync();
+
+
 
             if (!result.Succeeded)
             {
@@ -321,6 +330,11 @@ namespace IdentityServerHost.Quickstart.UI
             }
 
             await _userManager.AddToRoleAsync(user, "User");
+            await _userManager.AddClaimsAsync(user, new Claim[]
+              {
+                            new Claim(JwtClaimTypes.Name, RegisterVm.Name),
+                            new Claim(JwtClaimTypes.Role, "User")
+                      });
             await _signInManager.SignInAsync(user, false);
 
             return Redirect(RegisterVm.ReturnUrl);

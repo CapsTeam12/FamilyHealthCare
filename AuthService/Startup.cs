@@ -79,7 +79,7 @@ namespace AuthService
                 {
                     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
 
-                    options.ClientId = "59632184419-8c9snd66qcb9kr9ara03g0mq8pkehrio.apps.googleusercontent.com";
+                    options.ClientId =  "59632184419-8c9snd66qcb9kr9ara03g0mq8pkehrio.apps.googleusercontent.com";
                     options.ClientSecret = "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";
                 })
                 .AddFacebook("Facebook", options =>
@@ -132,9 +132,15 @@ namespace AuthService
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
+                  name: "default",
+                  pattern: "{controller=Home}/{action=Index}/{id?}");
+                  endpoints.MapRazorPages();
+              });
+            }
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuthService v1");
             });
         }
     }

@@ -51,7 +51,7 @@ namespace FamilyHealCare.IntegationTest.TestData
             {
                 StartTime = new DateTime(01 / 04 / 2022),
                 Description = "Re-examination",
-                TherapistId = ""
+                TherapistId = 3
             };
         }
 

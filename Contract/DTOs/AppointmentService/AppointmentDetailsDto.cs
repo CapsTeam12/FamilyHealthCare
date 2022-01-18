@@ -13,8 +13,8 @@ namespace Contract.DTOs
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string Description { get; set; }
-        public string TherapistFullName { get; set; }
-        public User Therapist { get; set; }
+        public int TherapistId { get; set; }
+        public Doctor Therapist { get; set; }
         public int Status { get; set; }
     }
 }

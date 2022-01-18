@@ -11,7 +11,7 @@ namespace Contract.DTOs.ScheduleDoctorService
         public int Id { get; set; }
         public int ShiftId { get; set; }
         public DateTime Date { get; set; }
-        public string UserId { get; set; }
+        public string AccountId { get; set; }
         public bool IsBooking { get; set; }
     }
 }

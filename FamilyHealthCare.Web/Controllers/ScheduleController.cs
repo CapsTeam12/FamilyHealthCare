@@ -34,7 +34,7 @@ namespace FamilyHealthCare.Customer.Controllers
             var client = _httpClient.CreateClient();
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            client.BaseAddress = new Uri("http://localhost:5020"); //gateway url
+            client.BaseAddress = new Uri("https://localhost:44316"); //gateway url
             var response = await client.GetAsync($"/Schedule/{userId}");
             string jsonData = await response.Content.ReadAsStringAsync();
             List<ScheduleDto> data = JsonConvert.DeserializeObject<List<ScheduleDto>>(jsonData);
@@ -48,7 +48,7 @@ namespace FamilyHealthCare.Customer.Controllers
             var client = _httpClient.CreateClient();
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            client.BaseAddress = new Uri("http://localhost:5020"); //gateway url
+            client.BaseAddress = new Uri("https://localhost:44316"); //gateway url
             var response = await client.GetAsync("/Schedule/Shifts");
             string jsonData = await response.Content.ReadAsStringAsync();
             List<Shift> data = JsonConvert.DeserializeObject<List<Shift>>(jsonData);
@@ -61,7 +61,7 @@ namespace FamilyHealthCare.Customer.Controllers
             var client = _httpClient.CreateClient();
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            client.BaseAddress = new Uri("http://localhost:5020"); //gateway url
+            client.BaseAddress = new Uri("https://localhost:44316"); //gateway url
             var response = await client.GetAsync($"/Schedule/Doctor/{userId}/{date.ToString("yyyy-MM-dd")}");
             string jsonData = await response.Content.ReadAsStringAsync();
             List<ScheduleDoctorDto> data = JsonConvert.DeserializeObject<List<ScheduleDoctorDto>>(jsonData);

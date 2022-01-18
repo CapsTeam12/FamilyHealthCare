@@ -15,9 +15,9 @@ namespace Data.Entities
         public string Advice { get; set; }
         public DateTime Date { get; set; }
         public DateTime? ReExamination { get; set; }
-        public string PatientId { get; set; }
-        public string TherapistId { get; set; }
-        public User Patient { get; set; }
+        public int PatientId { get; set; }
+        public int DoctorId { get; set; }
+        public Patient Patient { get; set; }
         public Doctor Doctor { get; set; }
     }
 }

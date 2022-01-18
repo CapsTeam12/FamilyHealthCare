@@ -93,7 +93,7 @@ namespace FamilyHealCare.UnitTests.TestData
             {
                 StartTime = DateTime.Now,
                 Description = "Re-examination",
-                TherapistId = "",
+                TherapistId = 3
             };
         }
     }
