@@ -79,7 +79,7 @@ namespace AuthService
                 {
                     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
 
-                    options.ClientId =  "59632184419-8c9snd66qcb9kr9ara03g0mq8pkehrio.apps.googleusercontent.com";
+                    options.ClientId = "59632184419-8c9snd66qcb9kr9ara03g0mq8pkehrio.apps.googleusercontent.com";
                     options.ClientSecret = "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";
                 })
                 .AddFacebook("Facebook", options =>
@@ -108,6 +108,10 @@ namespace AuthService
             services.AddSingleton<IAuthorizationHandler, AdminRoleHandler>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthService", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -116,6 +120,11 @@ namespace AuthService
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuthService v1");
+                });
             }
             else
             {
@@ -134,13 +143,7 @@ namespace AuthService
                 endpoints.MapControllerRoute(
                   name: "default",
                   pattern: "{controller=Home}/{action=Index}/{id?}");
-                  endpoints.MapRazorPages();
-              });
-            }
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuthService v1");
+                endpoints.MapRazorPages();
             });
         }
     }

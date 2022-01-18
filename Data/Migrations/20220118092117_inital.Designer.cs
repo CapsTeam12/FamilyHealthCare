@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220116095204_update-userid-to-accountid")]
-    partial class updateuseridtoaccountid
+    [Migration("20220118092117_inital")]
+    partial class inital
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,10 +41,7 @@ namespace Data.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<string>("TherapistId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("TherapistId1")
+                    b.Property<int>("TherapistId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -52,7 +49,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TherapistId1");
+                    b.HasIndex("TherapistId");
 
                     b.HasIndex("UserId");
 
@@ -67,7 +64,7 @@ namespace Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AccountId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
@@ -93,20 +90,14 @@ namespace Data.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SpecializedId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("SpecializedId1")
+                    b.Property<int>("SpecializedId")
                         .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SpecializedId1");
+                    b.HasIndex("AccountId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("SpecializedId");
 
                     b.ToTable("Doctors");
                 });
@@ -127,19 +118,16 @@ namespace Data.Migrations
                     b.Property<string>("Diagnosis")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DoctorId")
+                    b.Property<int>("DoctorId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PatientId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("ReExamination")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Symptom")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TherapistId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -179,16 +167,10 @@ namespace Data.Migrations
                     b.Property<string>("Ingredients")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("MedicineClassId")
-                        .HasColumnType("int");
-
                     b.Property<string>("MedicineName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PharmacyId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("PharmacyId1")
+                    b.Property<int>("PharmacyId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -199,9 +181,9 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MedicineClassId");
+                    b.HasIndex("ClassificationID");
 
-                    b.HasIndex("PharmacyId1");
+                    b.HasIndex("PharmacyId");
 
                     b.ToTable("Medicines");
                 });
@@ -252,9 +234,12 @@ namespace Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AccountId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Avatar")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DateOfBirth")
@@ -275,12 +260,9 @@ namespace Data.Migrations
                     b.Property<int?>("PostalCode")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("AccountId");
 
                     b.ToTable("Patients");
                 });
@@ -293,7 +275,7 @@ namespace Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AccountId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
@@ -316,12 +298,9 @@ namespace Data.Migrations
                     b.Property<int>("PostalCode")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("AccountId");
 
                     b.ToTable("Pharmacies");
                 });
@@ -333,14 +312,11 @@ namespace Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("PatientId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("PharmacyId")
+                    b.Property<int>("PatientId")
                         .HasColumnType("int");
 
-                    b.Property<string>("TherapistId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PharmacyId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -358,16 +334,10 @@ namespace Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("MedicineId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("MedicineId1")
+                    b.Property<int?>("MedicineId")
                         .HasColumnType("int");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PrecriptionId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PrescriptionId")
@@ -378,7 +348,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MedicineId1");
+                    b.HasIndex("MedicineId");
 
                     b.HasIndex("PrescriptionId");
 
@@ -423,7 +393,7 @@ namespace Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AccountId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("AppointmentId")
                         .HasColumnType("nvarchar(max)");
@@ -437,12 +407,9 @@ namespace Data.Migrations
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("AccountId");
 
                     b.ToTable("Schedules");
                 });
@@ -455,7 +422,7 @@ namespace Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AccountId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -466,14 +433,11 @@ namespace Data.Migrations
                     b.Property<int>("ShiftId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ShiftId");
+                    b.HasIndex("AccountId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ShiftId");
 
                     b.ToTable("ScheduleDoctors");
                 });
@@ -708,7 +672,9 @@ namespace Data.Migrations
                 {
                     b.HasOne("Data.Entities.Doctor", "Therapist")
                         .WithMany()
-                        .HasForeignKey("TherapistId1");
+                        .HasForeignKey("TherapistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Data.Entities.User", null)
                         .WithMany("Appointments")
@@ -719,13 +685,15 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.Doctor", b =>
                 {
-                    b.HasOne("Data.Entities.Specialities", "Specialized")
-                        .WithMany()
-                        .HasForeignKey("SpecializedId1");
-
                     b.HasOne("Data.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("AccountId");
+
+                    b.HasOne("Data.Entities.Specialities", "Specialized")
+                        .WithMany()
+                        .HasForeignKey("SpecializedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Specialized");
 
@@ -736,11 +704,15 @@ namespace Data.Migrations
                 {
                     b.HasOne("Data.Entities.Doctor", "Doctor")
                         .WithMany()
-                        .HasForeignKey("DoctorId");
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Data.Entities.User", "Patient")
+                    b.HasOne("Data.Entities.Patient", "Patient")
                         .WithMany()
-                        .HasForeignKey("PatientId");
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Doctor");
 
@@ -751,11 +723,15 @@ namespace Data.Migrations
                 {
                     b.HasOne("Data.Entities.MedicineClassification", "MedicineClass")
                         .WithMany()
-                        .HasForeignKey("MedicineClassId");
+                        .HasForeignKey("ClassificationID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Data.Entities.Pharmacy", "Pharmacy")
                         .WithMany()
-                        .HasForeignKey("PharmacyId1");
+                        .HasForeignKey("PharmacyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("MedicineClass");
 
@@ -775,7 +751,7 @@ namespace Data.Migrations
                 {
                     b.HasOne("Data.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("AccountId");
 
                     b.Navigation("User");
                 });
@@ -784,20 +760,24 @@ namespace Data.Migrations
                 {
                     b.HasOne("Data.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("AccountId");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("Data.Entities.Prescription", b =>
                 {
-                    b.HasOne("Data.Entities.User", "Patient")
+                    b.HasOne("Data.Entities.Patient", "Patient")
                         .WithMany()
-                        .HasForeignKey("PatientId");
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Data.Entities.Pharmacy", "Pharmacy")
                         .WithMany()
-                        .HasForeignKey("PharmacyId");
+                        .HasForeignKey("PharmacyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Patient");
 
@@ -808,7 +788,7 @@ namespace Data.Migrations
                 {
                     b.HasOne("Data.Entities.Medicine", "Medicine")
                         .WithMany()
-                        .HasForeignKey("MedicineId1");
+                        .HasForeignKey("MedicineId");
 
                     b.HasOne("Data.Entities.Prescription", "Prescription")
                         .WithMany()
@@ -823,22 +803,22 @@ namespace Data.Migrations
                 {
                     b.HasOne("Data.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("AccountId");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("Data.Entities.ScheduleDoctor", b =>
                 {
+                    b.HasOne("Data.Entities.User", "User")
+                        .WithMany("ScheduleDoctors")
+                        .HasForeignKey("AccountId");
+
                     b.HasOne("Data.Entities.Shift", "Shift")
                         .WithMany("ScheduleDoctors")
                         .HasForeignKey("ShiftId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Data.Entities.User", "User")
-                        .WithMany("ScheduleDoctors")
-                        .HasForeignKey("UserId");
 
                     b.Navigation("Shift");
 

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Data.Migrations
 {
-    public partial class updateentities : Migration
+    public partial class inital : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -243,7 +243,8 @@ namespace Data.Migrations
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Languages = table.Column<int>(type: "int", nullable: true),
-                    PostalCode = table.Column<int>(type: "int", nullable: true)
+                    PostalCode = table.Column<int>(type: "int", nullable: true),
+                    Avatar = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

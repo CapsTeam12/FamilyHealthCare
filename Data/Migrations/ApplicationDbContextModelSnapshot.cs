@@ -40,16 +40,14 @@ namespace Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("TherapistId")
-                        .HasColumnType("string");
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TherapistId1");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("TherapistId");
 
                     b.HasIndex("UserId");
 
@@ -237,6 +235,9 @@ namespace Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Avatar")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DateOfBirth")
@@ -799,7 +800,7 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Entities.Schedule", b =>
                 {
                     b.HasOne("Data.Entities.User", "User")
-                        .WithMany()                  
+                        .WithMany()
                         .HasForeignKey("AccountId");
 
                     b.Navigation("User");
@@ -816,7 +817,6 @@ namespace Data.Migrations
                         .HasForeignKey("ShiftId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
 
                     b.Navigation("Shift");
 

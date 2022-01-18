@@ -11,18 +11,18 @@ namespace Business
 {
     public class ClsAuthService : ControllerBase, IAuthService
     {
-        private readonly UserManager<User> _userManager;
+        //private readonly UserManager<User> _userManager;
         private readonly IBaseRepository<Doctor> _doctorRepos;
         private readonly IBaseRepository<Pharmacy> _pharmacyRepos;
         private readonly IBaseRepository<Patient> _patientRepos;
         private readonly IMapper _mapper;
 
-        public ClsAuthService(UserManager<User> userManager, IMapper mapper,
+        public ClsAuthService( IMapper mapper,
                                 IBaseRepository<Doctor> doctorRepos,
                                 IBaseRepository<Pharmacy> pharmacyRepos,
                                 IBaseRepository<Patient> patientRepos)
         {
-            _userManager = userManager;
+            //_userManager = userManager;
             _doctorRepos = doctorRepos;
             _pharmacyRepos = pharmacyRepos;
             _patientRepos = patientRepos;
