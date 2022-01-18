@@ -23,6 +23,14 @@ namespace FamilyHealthCare.WebAdmin.Controllers
         {
             return View();
         }
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+        public IActionResult Profile()
+        {
+            return View();
+        }
 
     }
 }

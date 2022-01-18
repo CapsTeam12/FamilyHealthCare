@@ -116,22 +116,26 @@ namespace AuthService
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-               
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
 
-                app.UseHttpsRedirection();
-                app.UseStaticFiles();
-                app.UseRouting();
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseRouting();
 
-                app.UseIdentityServer();
-                app.UseAuthorization();
+            app.UseIdentityServer();
+            app.UseAuthorization();
 
-                app.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllerRoute(
-                        name: "default",
-                        pattern: "{controller=Home}/{action=Index}/{id?}");
-                    endpoints.MapRazorPages();
-                });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                  name: "default",
+                  pattern: "{controller=Home}/{action=Index}/{id?}");
+                  endpoints.MapRazorPages();
+              });
             }
             app.UseSwagger();
             app.UseSwaggerUI(c =>

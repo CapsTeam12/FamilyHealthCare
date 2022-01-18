@@ -1,0 +1,193 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-inner slimscroll">
+        <div id="sidebar-menu" class="sidebar-menu">
+            <ul>
+                <li class="menu-title">
+                    <span>Main</span>
+                </li>
+                <li>
+                    <a asp-controller="Home" asp-action="Index"><i class="fe fe-home"></i> <span>Dashboard</span></a>
+                </li>
+                <li>
+                    <a asp-controller="Appointment" asp-action="Index"><i class="fe fe-layout"></i> <span>Appointments</span></a>
+                </li>
+                <li>
+                    <a asp-controller="Specialities" asp-action="Index"><i class="fe fe-vector"></i> <span>Specialities</span></a>
+                </li>
+                <li>
+                    <a asp-controller="Doctor" asp-action="Index"><i class="fe fe-user-plus"></i> <span>Doctors</span></a>
+                </li>
+                <li>
+                    <a asp-controller="Patient" asp-action="Index"><i class="fe fe-user"></i> <span>Patients</span></a>
+                </li>
+                <li><a asp-controller="Pharmacy" asp-action="Index"><i class="fe fe-vector"></i> <span>Pharmacy List</span></a></li>
+                <li>
+                <li><a asp-controller="Category" asp-action="Index"><i class="fe fe-layout"></i> <span>Categories</span></a></li>
+                <li class="submenu">
+                    <a href="#"><i class="fe fe-document"></i> <span> Pending Request</span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li><a asp-controller="Doctor" asp-action="RequestDoctor">Request From Doctor</a></li>
+                        <li><a asp-controller="Pharmacy" asp-action="RequestPharmacy">Request From Pharmacy</a></li>
+                    </ul>
+                </li>
+                <li class="menu-title">
+                    <span>Pages</span>
+                </li>
+                <li class="submenu">
+                    <a href="#"><i class="fe fe-document"></i> <span> Blog </span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li><a asp-controller="Blog" asp-action="Index"> Blog </a></li>
+                        <li><a asp-controller="Blog" asp-action="AddBlog"> Add Blog </a></li>
+                    </ul>
+                </li>            
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /Sidebar -->
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+    <div class="content container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="page-title">Edit Blog</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a asp-controller="Blog" asp-action="Index">Blog</a></li>
+                        <li class="breadcrumb-item active">Edit Blog</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body custom-edit-service">
+
+                        <div class="row mb-5">
+
+                        </div>
+
+                        <!-- Add Blog -->
+                        <form method="post" enctype="multipart/form-data" autocomplete="off" id="update_service" action="#">
+                            <input type="hidden" name="csrf_token_name" value="0146f123a4c7ae94253b39bca6bd5a5e">
+
+                            <div class="service-fields mb-3">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label>Blog Title <span class="text-danger">*</span></label>
+                                            <input type="hidden" name="service_id" id="service_id" value="18">
+                                            <input class="form-control" type="text" name="service_title" id="service_title" value="FHC – Making your clinic painless visit?" required="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="service-fields mb-3">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Category <span class="text-danger">*</span></label>
+                                            <select class="form-select form-control" name="category" required="">
+                                                <option value="1">Automobile</option>
+                                                <option value="2" selected="selected">Construction</option>
+                                                <option value="3">Interior</option>
+                                                <option value="4">Cleaning</option>
+                                                <option value="5">Electrical</option>
+                                                <option value="6">Carpentry</option>
+                                                <option value="7">Computer</option>
+                                                <option value="8">Painting</option>
+                                                <option value="9">Car Wash</option>
+                                                <option value="10">Category Test</option>
+                                                <option value="11">dfdf</option>
+                                                <option value="12">Equipment</option>
+                                                <option value="13">Test category1</option>
+                                                <option value="14">Farming</option>
+                                                <option value="15">Test Category02</option>
+                                                <option value="16">Laundry</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Sub Category <span class="text-danger">*</span></label>
+                                            <select class="form-select form-control" name="subcategory">
+                                                <option value="5">Others</option>
+                                                <option value="6">Others</option>
+                                                <option value="7">Others</option>
+                                                <option value="8">House cleaning</option>
+                                                <option value="9">Others</option>
+                                                <option value="10">Others</option>
+                                                <option value="11">Others</option>
+                                                <option value="12">Others</option>
+                                                <option value="13">Full Car Wash</option>
+                                                <option value="14" selected="selected">Testing category</option>
+                                                <option value="15">Test Sub category</option>
+                                                <option value="16">Harvesting pine</option>
+                                                <option value="17">Test Sub category name</option>
+                                                <option value="18">Test Sub category name</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="service-fields mb-3">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label>Descriptions <span class="text-danger">*</span></label>
+                                            <textarea id="about" class="form-control service-desc" name="about">note.</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="service-fields mb-3">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="service-upload">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                            <span>Upload Blog Images *</span>
+                                            <input type="file" name="images[]" id="images" multiple="" accept="image/jpeg, image/png, image/gif,">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="submit-section">
+                                <button class="btn btn-primary submit-btn" type="submit" name="form_submit" value="submit">Submit</button>
+                            </div>
+                        </form>
+                        <!-- /Add Blog -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src=@Url.Content("~/assets/js/jquery-3.6.0.min.js")></script>
+
+<!-- Bootstrap Core JS -->
+<script src=@Url.Content("~/assets/js/bootstrap.bundle.min.js")></script>
+
+<!-- Slimscroll JS -->
+<script src=@Url.Content("~/assets/plugins/slimscroll/jquery.slimscroll.min.js")></script>
+
+<!-- Datatables JS -->
+<script src=@Url.Content("~/assets/plugins/datatables/jquery.dataTables.min.js")></script>
+<script src=@Url.Content("~/assets/plugins/datatables/datatables.min.js")></script>
+
+<!-- Custom JS -->
+<script src=@Url.Content("~/assets/js/script.js")></script>

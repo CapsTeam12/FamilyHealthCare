@@ -1,0 +1,329 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-inner slimscroll">
+        <div id="sidebar-menu" class="sidebar-menu">
+            <ul>
+                <li class="menu-title">
+                    <span>Main</span>
+                </li>
+                <li>
+                    <a asp-controller="Home" asp-action="Index"><i class="fe fe-home"></i> <span>Dashboard</span></a>
+                </li>
+                <li>
+                    <a asp-controller="Appointment" asp-action="Index"><i class="fe fe-layout"></i> <span>Appointments</span></a>
+                </li>
+                <li>
+                    <a asp-controller="Specialities" asp-action="Index"><i class="fe fe-vector"></i> <span>Specialities</span></a>
+                </li>
+                <li>
+                    <a asp-controller="Doctor" asp-action="Index"><i class="fe fe-user-plus"></i> <span>Doctors</span></a>
+                </li>
+                <li>
+                    <a asp-controller="Patient" asp-action="Index"><i class="fe fe-user"></i> <span>Patients</span></a>
+                </li>
+                <li><a asp-controller="Pharmacy" asp-action="Index"><i class="fe fe-vector"></i> <span>Pharmacy List</span></a></li>
+                <li>
+                <li class="active"><a asp-controller="Category" asp-action="Index"><i class="fe fe-layout"></i> <span>Categories</span></a></li>
+                <li class="submenu">
+                    <a href="#"><i class="fe fe-document"></i> <span> Pending Request</span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li><a asp-controller="Doctor" asp-action="RequestDoctor">Request From Doctor</a></li>
+                        <li><a asp-controller="Pharmacy" asp-action="RequestPharmacy">Request From Pharmacy</a></li>
+                    </ul>
+                </li>
+                <li class="menu-title">
+                    <span>Pages</span>
+                </li>
+                <li class="submenu">
+                    <a href="#"><i class="fe fe-document"></i> <span> Blog </span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li><a asp-controller="Blog" asp-action="Index"> Blog </a></li>
+                        <li><a asp-controller="Blog" asp-action="AddBlog"> Add Blog </a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /Sidebar -->
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+    <div class="content container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-7 col-auto">
+                    <h3 class="page-title">Categories</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Categories</li>
+                    </ul>
+                </div>
+                <div class="col-sm-5 col">
+                    <a href="#add_categories" data-bs-toggle="modal" class="btn btn-primary float-end mt-2">Add Category</a>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="datatable table table-hover table-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th class="text-end">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#SP001</td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                <a data-bs-toggle="modal" href="#categories_details">Khẩu trang y tế</a>
+                                            </h2>
+                                        </td>
+                                        <td>Mặt nạ bảo vệ chống bụi bẩn,vi khuẩn</td>
+                                        <td class="text-end">
+                                            <div class="actions">
+                                                <a class="btn btn-sm bg-success-light" data-bs-toggle="modal" href="#edit_categories">
+                                                    <i class="fe fe-pencil"></i> Edit
+                                                </a>
+                                                <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
+                                                    <i class="fe fe-trash"></i> Delete
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#SP002</td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                <a data-bs-toggle="modal" href="#categories_details">Thực phẩm dinh dưỡng</a>
+                                            </h2>
+                                        </td>
+                                        <td>Thực phẩm chức năng cung cấp dinh dưỡng</td>
+                                        <td class="text-end">
+                                            <div class="actions">
+                                                <a class="btn btn-sm bg-success-light" data-bs-toggle="modal" href="#edit_categories">
+                                                    <i class="fe fe-pencil"></i> Edit
+                                                </a>
+                                                <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
+                                                    <i class="fe fe-trash"></i> Delete
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#SP003</td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                <a data-bs-toggle="modal" href="#categories_details">Dược mỹ phẩm</a>
+                                            </h2>
+                                        </td>
+                                        <td>Sản phẩm mỹ phẩm y tế phục hồi tổn thương và nuôi dưỡng..</td>
+                                        <td class="text-end">
+                                            <div class="actions">
+                                                <a class="btn btn-sm bg-success-light" data-bs-toggle="modal" href="#edit_categories">
+                                                    <i class="fe fe-pencil"></i> Edit
+                                                </a>
+                                                <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
+                                                    <i class="fe fe-trash"></i> Delete
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#SP004</td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                <a data-bs-toggle="modal" href="#categories_details">Dụng cụ sơ cứu</a>
+                                            </h2>
+                                        </td>
+                                        <td>Sản phẩm & dụng cụ hỗ trợ chăm sóc vết thương</td>
+                                        <td class="text-end">
+                                            <div class="actions">
+                                                <a class="btn btn-sm bg-success-light" data-bs-toggle="modal" href="#edit_categories">
+                                                    <i class="fe fe-pencil"></i> Edit
+                                                </a>
+                                                <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
+                                                    <i class="fe fe-trash"></i> Delete
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#SP005</td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                <a data-bs-toggle="modal" href="#categories_details">Chăm sóc cá nhân</a>
+                                            </h2>
+                                        </td>
+                                        <td>Thiết bị & dụng cụ chăm sóc cá nhân</td>
+                                        <td class="text-end">
+                                            <div class="actions">
+                                                <a class="btn btn-sm bg-success-light" data-bs-toggle="modal" href="#edit_categories">
+                                                    <i class="fe fe-pencil"></i> Edit
+                                                </a>
+                                                <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
+                                                    <i class="fe fe-trash"></i> Delete
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="add_categories" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row form-row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="service-fields mb-3">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label>Descriptions <span class="text-danger">*</span></label>
+                                        <textarea id="about" class="form-control service-desc" name="about"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /ADD Modal -->
+<!-- Details Modal -->
+<div class="modal fade" id="categories_details" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detail Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row form-row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <p class="text">Khẩu trang y tế</p>
+                            </div>
+                        </div>
+
+                        <div class="service-fields mb-3">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <p class="text"> Mặt nạ bảo vệ chống bụi bẩn,vi khuẩn</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Edit Details Modal -->
+<div class="modal fade" id="edit_categories" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row form-row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="service-fields mb-3">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label>Descriptions <span class="text-danger">*</span></label>
+                                        <textarea id="about" class="form-control service-desc" name="about"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Edit Details Modal -->
+<!-- Delete Modal -->
+<div class="modal fade" id="delete_modal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <!--	<div class="modal-header">
+                    <h5 class="modal-title">Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>-->
+            <div class="modal-body">
+                <div class="form-content p-2">
+                    <h4 class="modal-title">Delete</h4>
+                    <p class="mb-4">Are you sure want to delete?</p>
+                    <button type="button" class="btn btn-primary">Save </button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src=@Url.Content("~/assets/js/jquery-3.6.0.min.js")></script>
+
+<!-- Bootstrap Core JS -->
+<script src=@Url.Content("~/assets/js/bootstrap.bundle.min.js")></script>
+
+<!-- Slimscroll JS -->
+<script src=@Url.Content("~/assets/plugins/slimscroll/jquery.slimscroll.min.js")></script>
+
+<!-- Datatables JS -->
+<script src=@Url.Content("~/assets/plugins/datatables/jquery.dataTables.min.js")></script>
+<script src=@Url.Content("~/assets/plugins/datatables/datatables.min.js")></script>
+
+<!-- Custom JS -->
+<script src=@Url.Content("~/assets/js/script.js")></script>

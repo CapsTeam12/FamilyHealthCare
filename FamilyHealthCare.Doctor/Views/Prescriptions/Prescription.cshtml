@@ -1,0 +1,324 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!-- Breadcrumb -->
+<div class="breadcrumb-bar">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <li class="breadcrumb-item active" aria-current="page">Prescription</li>
+                    </ol>
+                </nav>
+                <h2 class="breadcrumb-title">Prescription</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Breadcrumb -->
+<!-- Page Content -->
+<div class="content">
+    <div class="container-fluid">
+
+        <div class="row">
+
+            <!-- Profile Sidebar -->
+            <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+                <div class="profile-sidebar">
+                    <div class="widget-profile pro-widget-content">
+                        <div class="profile-info-widget">
+                            <a href="#" class="booking-doc-img">
+                                <img src="~/assets/img/doctors/doctor-thumb-02.jpg" alt="User Image">
+                            </a>
+                            <div class="profile-det-info">
+                                <h3>Dr. Darren Elder</h3>
+
+                                <div class="patient-details">
+                                    <h5 class="mb-0">BDS, MDS - Oral & Maxillofacial Surgery</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-widget">
+                        <nav class="dashboard-menu">
+                            <ul>
+                                <li>
+                                    <a asp-area="" asp-controller="Home" asp-action="Index">
+                                        <i class="fas fa-columns"></i>
+                                        <span>Dashboard</span>
+                                    </a>
+                                </li>
+                                <li >
+                                    <a asp-area="" asp-controller="MyPatient" asp-action="MyPatients">
+                                        <i class="fas fa-user-injured"></i>
+                                        <span>My Patients</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="ScheduleTiming" asp-action="ScheduleTimings">
+                                        <i class="fas fa-hourglass-start"></i>
+                                        <span>Schedule Timings</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="MedicalRecords" asp-action="MedicalRecord">
+                                        <i class="fas fa-file-invoice"></i>
+                                        <span>Medical Records</span>
+                                    </a>
+                                </li>
+                                <li class="active">
+                                    <a asp-area="" asp-controller="Prescriptions" asp-action="Prescription">
+                                        <i class="fas fa-share-alt"></i>
+                                        <span>Prescription</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="Calendars" asp-action="Calendar">
+                                        <i class="fas fa-calendar-check"></i>
+                                        <span>Calendar</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="ProfileSettings" asp-action="ProfileSetting">
+                                        <i class="fas fa-user-cog"></i>
+                                        <span>Profile Settings</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <!-- / Profile Sidebar -->
+
+            <div class="col-md-7 col-lg-8 col-xl-9">
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body pt-0">
+
+                                <div class="text-end">
+                                    <a asp-area="" asp-controller="Prescriptions" asp-action="AddPrescription" class="add-new-btn" data-bs-target="#add_medical_records_modal">Add Prescription</a>
+                                </div>
+                               
+
+                                    <!-- Tab Content -->
+                                    <div class="tab-content pt-0">
+
+                                        <!-- Prescription Tab -->
+                                        <div class="tab-pane fade show active" id="pat_prescription">
+                                            <div class="card card-table mb-0">
+
+                                                <div class="card-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-hover table-center mb-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>#</th>
+                                                                    <th>Date</th>
+                                                                    <th>Name</th>
+                                                                    <th>Doctor</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>1</td>
+                                                                    <td>11 Nov 2019 <span class="d-block text-info">10.00 AM</span></td>
+                                                                    <td>Prescription</td>
+                                                                    <td>
+                                                                        <h2 class="table-avatar">
+                                                                            <a class="avatar avatar-sm me-2">
+                                                                                <img class="avatar-img rounded-circle" src="~/assets/img/doctors/doctor-thumb-01.jpg" alt="User Image">
+                                                                            </a>
+                                                                            <a>Dr. Ruby Perrin <span>Dental</span></a>
+                                                                        </h2>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="table-action">
+                                                                            <a asp-area="" asp-controller="Prescriptions" asp-action="DetailPrescription" class="btn btn-sm bg-info-light">
+                                                                                <i class="far fa-eye"></i> View
+                                                                            </a>
+                                                                            <a asp-area="" asp-controller="Prescriptions" asp-action="EditPrescription" class="btn btn-sm bg-success-light">
+                                                                                <i class="far fa-edit"> Edit</i>
+                                                                            </a>
+                                                                            <a class="btn btn-sm bg-danger-light" data-bs-toggle="modal" href="#delete_modal">
+                                                                                <i class="fas fa-trash-alt"></i> Delete
+                                                                            </a>
+                                                                        </div>
+
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>2</td>
+                                                                    <td>3 Nov 2019 <span class="d-block text-info">11.00 AM</span></td>
+                                                                    <td>Prescription</td>
+                                                                    <td>
+                                                                        <h2 class="table-avatar">
+                                                                            <a href="doctor-profile.html" class="avatar avatar-sm me-2">
+                                                                                <img class="avatar-img rounded-circle" src="~/assets/img/doctors/doctor-thumb-02.jpg" alt="User Image">
+                                                                            </a>
+                                                                            <a>Dr. Darren Elder <span>Dental</span></a>
+                                                                        </h2>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="table-action">
+                                                                            <a href="view-prescription.html" class="btn btn-sm bg-info-light">
+                                                                                <i class="far fa-eye"></i> View
+                                                                            </a>
+                                                                            <a href="edit-prescription.html" class="btn btn-sm bg-success-light">
+                                                                                <i class="far fa-edit"> Edit</i>
+                                                                            </a>
+                                                                            <a class="btn btn-sm bg-danger-light" data-bs-toggle="modal" href="#delete_modal">
+                                                                                <i class="fas fa-trash-alt"></i> Delete
+                                                                            </a>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>3</td>
+                                                                    <td>1 Nov 2019 <span class="d-block text-info">1.00 PM</span></td>
+                                                                    <td>Prescription</td>
+                                                                    <td>
+                                                                        <h2 class="table-avatar">
+                                                                            <a class="avatar avatar-sm me-2">
+                                                                                <img class="avatar-img rounded-circle" src="~/assets/img/doctors/doctor-thumb-03.jpg" alt="User Image">
+                                                                            </a>
+                                                                            <a>Dr. Deborah Angel <span>Cardiology</span></a>
+                                                                        </h2>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="table-action">
+                                                                            <a href="view-prescription.html" class="btn btn-sm bg-info-light">
+                                                                                <i class="far fa-eye"></i> View
+                                                                            </a>
+                                                                            <a href="edit-prescription.html" class="btn btn-sm bg-success-light">
+                                                                                <i class="far fa-edit"> Edit</i>
+                                                                            </a>
+                                                                            <a class="btn btn-sm bg-danger-light" data-bs-toggle="modal" href="#delete_modal">
+                                                                                <i class="fas fa-trash-alt"></i> Delete
+                                                                            </a>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>4</td>
+                                                                    <td>30 Oct 2019 <span class="d-block text-info">9.00 AM</span></td>
+                                                                    <td>Prescription</td>
+                                                                    <td>
+                                                                        <h2 class="table-avatar">
+                                                                            <a class="avatar avatar-sm me-2">
+                                                                                <img class="avatar-img rounded-circle" src="~/assets/img/doctors/doctor-thumb-04.jpg" alt="User Image">
+                                                                            </a>
+                                                                            <a>Dr. Sofia Brient <span>Urology</span></a>
+                                                                        </h2>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="table-action">
+                                                                            <a href="view-prescription.html;" class="btn btn-sm bg-info-light">
+                                                                                <i class="far fa-eye"></i> View
+                                                                            </a>
+                                                                            <a href="edit-prescription.html" class="btn btn-sm bg-success-light">
+                                                                                <i class="far fa-edit"> Edit</i>
+                                                                            </a>
+                                                                            <a class="btn btn-sm bg-danger-light" data-bs-toggle="modal" href="#delete_modal">
+                                                                                <i class="fas fa-trash-alt"></i> Delete
+                                                                            </a>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>5</td>
+                                                                    <td>28 Oct 2019 <span class="d-block text-info">6.00 PM</span></td>
+                                                                    <td>Prescription</td>
+                                                                    <td>
+                                                                        <h2 class="table-avatar">
+                                                                            <a class="avatar avatar-sm me-2">
+                                                                                <img class="avatar-img rounded-circle" src="~/assets/img/doctors/doctor-thumb-05.jpg" alt="User Image">
+                                                                            </a>
+                                                                            <a>Dr. Marvin Campbell <span>Ophthalmology</span></a>
+                                                                        </h2>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="table-action">
+                                                                            <a href="view-prescription.html" class="btn btn-sm bg-info-light">
+                                                                                <i class="far fa-eye"></i> View
+                                                                            </a>
+                                                                            <a href="edit-prescription.html" class="btn btn-sm bg-success-light">
+                                                                                <i class="far fa-edit"> Edit</i>
+                                                                            </a>
+                                                                            <a class="btn btn-sm bg-danger-light" data-bs-toggle="modal" href="#delete_modal">
+                                                                                <i class="fas fa-trash-alt"></i> Delete
+                                                                            </a>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>6</td>
+                                                                    <td>27 Oct 2019 <span class="d-block text-info">8.00 AM</span></td>
+                                                                    <td>Prescription</td>
+                                                                    <td>
+                                                                        <h2 class="table-avatar">
+                                                                            <a class="avatar avatar-sm me-2">
+                                                                                <img class="avatar-img rounded-circle" src="~/assets/img/doctors/doctor-thumb-06.jpg" alt="User Image">
+                                                                            </a>
+                                                                            <a>Dr. Katharine Berthold <span>Orthopaedics</span></a>
+                                                                        </h2>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="table-action">
+                                                                            <a href="view-prescription.html" class="btn btn-sm bg-info-light">
+                                                                                <i class="far fa-eye"></i> View
+                                                                            </a>
+                                                                            <a href="edit-prescription.html" class="btn btn-sm bg-success-light">
+                                                                                <i class="far fa-edit"> Edit</i>
+                                                                            </a>
+                                                                            <a class="btn btn-sm bg-danger-light" data-bs-toggle="modal" href="#delete_modal">
+                                                                                <i class="fas fa-trash-alt"></i> Delete
+                                                                            </a>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /Prescription Tab -->
+
+                                    </div>
+                                    <!-- Tab Content -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- /Page Content -->
+<div class="modal fade" id="delete_modal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div class="form-content p-2">
+                    <h4 class="modal-title">Delete</h4>
+                    <p class="mb-4">Are you sure want to delete ?</p>
+                    <button type="button" class="btn btn-primary">Save </button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

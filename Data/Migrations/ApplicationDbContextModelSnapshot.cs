@@ -40,14 +40,16 @@ namespace Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("TherapistId")
-                        .HasColumnType("int");
+                        .HasColumnType("string");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TherapistId");
+                    b.HasIndex("TherapistId1");
+
+                    b.HasIndex("UserId");
 
                     b.HasIndex("UserId");
 
@@ -797,7 +799,7 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Entities.Schedule", b =>
                 {
                     b.HasOne("Data.Entities.User", "User")
-                        .WithMany()
+                        .WithMany()                  
                         .HasForeignKey("AccountId");
 
                     b.Navigation("User");
@@ -814,6 +816,7 @@ namespace Data.Migrations
                         .HasForeignKey("ShiftId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
 
                     b.Navigation("Shift");
 

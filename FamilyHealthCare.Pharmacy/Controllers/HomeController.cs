@@ -1,4 +1,5 @@
 ﻿using FamilyHealthCare.Pharmacy.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace FamilyHealthCare.Pharmacy.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -32,6 +34,14 @@ namespace FamilyHealthCare.Pharmacy.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        public IActionResult Profile()
+        {
+            return View();
+        }
+        public IActionResult Setting()
+        {
+            return View();
         }
     }
 }

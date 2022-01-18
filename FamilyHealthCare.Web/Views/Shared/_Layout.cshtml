@@ -1,4 +1,4 @@
-﻿@using System.Security.Claims
+@using System.Security.Claims
 @using Microsoft.AspNetCore.Identity
 
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
@@ -117,201 +117,252 @@
                         </div>
                     </li>
 
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <li class="nav-item dropdown has-arrow logged-item">
-                            <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                                <span class="user-img">
-                                    <img class="rounded-circle" src="~/assets/img/patients/patient.jpg" width="31" alt="Ryan Taylor">
-                                </span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end">
+                    <li class="nav-item">
+                        @*<a class="nav-link header-login" href="login.html">login / Signup </a>*@
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <ul class="nav user-menu">
+                                <!-- Notifications -->
+                                <li class="nav-item dropdown noti-dropdown">
+                                    <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                                        <i class="fas fa-bell"></i> <span class="badge rounded-pill">3</span>
+                                    </a>
+                                    <div class="dropdown-menu notifications">
+                                        <div class="topnav-dropdown-header">
+                                            <span class="notification-title">Notifications</span>
+                                            <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
+                                        </div>
+                                        <div class="noti-content">
+                                            <ul class="notification-list">
+                                                <li class="notification-message">
+                                                    <a href="#">
+                                                        <div class="media d-flex">
+                                                            <span class="avatar avatar-sm flex-shrink-0">
+                                                                <img class="avatar-img rounded-circle" alt="User Image" src=@Url.Content("~/assets/img/doctors/doctor-thumb-01.jpg")>
+                                                            </span>
+                                                            <div class="media-body flex-grow-1">
+                                                                <p class="noti-details"><span class="noti-title">Dr. Ruby Perrin</span> Schedule <span class="noti-title">her appointment</span></p>
+                                                                <p class="noti-time"><span class="notification-time">4 mins ago</span></p>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li class="notification-message">
+                                                    <a href="#">
+                                                        <div class="media d-flex">
+                                                            <span class="avatar avatar-sm flex-shrink-0">
+                                                                <img class="avatar-img rounded-circle" alt="User Image" src=@Url.Content("~/assets/img/patients/patient1.jpg")>
+                                                            </span>
+                                                            <div class="media-body flex-grow-1">
+                                                                <p class="noti-details"><span class="noti-title">Charlene Reed</span> has booked her appointment to <span class="noti-title">Dr. Ruby Perrin</span></p>
+                                                                <p class="noti-time"><span class="notification-time">6 mins ago</span></p>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="topnav-dropdown-footer">
+                                            <a href="#">View all Notifications</a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <!-- /Notifications -->
+                            </ul>
+                                 <li class="nav-item dropdown has-arrow logged-item">
+                                         <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                                         <span class="user-img">
+                                          <img class="rounded-circle" src="assets/img/patients/patient.jpg" width="31" alt="Ryan Taylor">
+                                         </span>
+                                         </a>
+                                <div class="dropdown-menu dropdown-menu-end">
                                 <div class="user-header">
                                     <div class="avatar avatar-sm">
-                                        <img src="~/assets/img/patients/patient.jpg" alt="User Image" class="avatar-img rounded-circle">
+                                        <img src="assets/img/patients/patient.jpg" alt="User Image" class="avatar-img rounded-circle">
                                     </div>
                                     <div class="user-text">
-                                        <h6>@User.Identity.Name</h6>
+                                        <h6>Richard Wilson</h6>
                                         <p class="text-muted mb-0">Patient</p>
                                     </div>
                                 </div>
-                                <a class="dropdown-item" asp-controller="Appointment" asp-action="Index" asp-route-userId="@userId">Appointments</a>
+                                <a class="dropdown-item" href="patient-dashboard.html">Dashboard</a>
                                 <a class="dropdown-item" href="profile-settings.html">Profile Settings</a>
-                                <a class="dropdown-item" asp-controller="Schedule" asp-action="Calendar" asp-route-userId="@userId">Calendar</a>
+                                <a class="dropdown-item" href="calendar.html">Calendar</a>
                                 <a class="dropdown-item" href="change-password.html">Change Password</a>
                                 <a class="dropdown-item" asp-controller="Account" asp-action="SignOut">Logout</a>
-                            </div>
-                        </li>
-                    }
+                                 </div>
+                                </li>}
                     else
                     {
-                        <li class="nav-item">
-                            <a class="nav-link header-login" asp-controller="Account" asp-action="SignIn">Log In / Sign Up</a>
+                        <a class="nav-link header-login" asp-controller="Account" asp-action="SignIn">Log In / Sign Up</a>
+                    }                 
+                        <li class="dropdown language-select">
+                            <span class="dropdown-toggle" id="language-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
+                                  aria-expanded="false" role="button"><img src=@Url.Content("~/assets/img/vietnam.png") alt="flag"> Việt Nam</span>
+                            <div class="dropdown-menu dropdown-menu" aria-labelledby="language-dropdown">
+                                <a class="dropdown-item" href="#"><img src=@Url.Content("~/assets/img/united-kingdom.png") alt="flag"> English</a>
+                            </div>
                         </li>
-                    }
-
-                    <li class="dropdown language-select">
-                        <span class="dropdown-toggle" id="language-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
-                              aria-expanded="false" role="button"><img src=@Url.Content("~/assets/img/vietnam.png") alt="flag"> Việt Nam</span>
-                        <div class="dropdown-menu dropdown-menu" aria-labelledby="language-dropdown">
-                            <a class="dropdown-item" href="#"><img src=@Url.Content("~/assets/img/united-kingdom.png") alt="flag"> English</a>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
-        </header>
-        @RenderBody()   
-        <div class="float-contact">
-            <ul style="line-height: 45px">
-                <li>
-                    <a href="http://zalo.me/">
-                        <img src="~/assets/img/zalo.png" alt="" />
-                    </a>
-                </li>
-                <li>
-                    <a href="http://facebook.com">
-                        <img src="~/assets/img/messenger.png" alt="" />
-                    </a>
-                </li>
-                <li>
-                    <a href="tel:0989999898">
-                        <img src="~/assets/img/hotline.png" alt="" />
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <!-- Footer -->
-        <footer class="footer">
-
-            <!-- Footer Top -->
-            <div class="footer-top">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6">
-
-                            <!-- Footer Widget -->
-                            <div class="footer-widget footer-about">
-                                <div class="footer-logo">
-                                    <img src=@Url.Content("~/assets/img/footer-logo.png") alt="logo">
-                                </div>
-                                <div class="footer-about-content">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                                    <div class="social-icon">
-                                        <ul>
-                                            <li>
-                                                <a href="#" target="_blank"><i class="fab fa-facebook-f"></i> </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" target="_blank"><i class="fab fa-twitter"></i> </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                    </ul>
+             
+                </nav>
+            </header>
+            <div class="container">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                    <div class="float-contact">
+                        <ul style="line-height: 45px">
+                            <div>
+                                <a href="http://zalo.me/">
+                                    <img src="assets/img/zalo.png" alt="" />
+                                </a>
                             </div>
-                            <!-- /Footer Widget -->
-
-                        </div>
-
-                        <div class="col-lg-3 col-md-6">
-
-                            <!-- Footer Widget -->
-                            <div class="footer-widget footer-menu">
-                                <h2 class="footer-title">For Pharmacy</h2>
-                                <ul>
-                                    <li><a href="pharmacy-search.html">Booking Pharmacy</a></li>
-                                    <li><a href="map-list.html">Search Pharmacy</a></li>
-                                </ul>
+                            <div>
+                                <a href="http://facebook.com">
+                                    <img src="assets/img/messenger.png" alt="" />
+                                </a>
                             </div>
-                            <!-- /Footer Widget -->
-
-                        </div>
-
-                        <div class="col-lg-3 col-md-6">
-
-                            <!-- Footer Widget -->
-                            <div class="footer-widget footer-menu">
-                                <h2 class="footer-title">For Doctors</h2>
-                                <ul>
-                                    <li><a href="doctor-search.html">Booking Doctor</a></li>
-                                    <li><a href="map-grid.html">Search Doctor</a></li>
-                                </ul>
+                            <div>
+                                <a href="tel:0989999898">
+                                    <img src="assets/img/hotline.png" alt="" />
+                                </a>
                             </div>
-                            <!-- /Footer Widget -->
-
-                        </div>
-
-                        <div class="col-lg-3 col-md-6">
-
-                            <!-- Footer Widget -->
-                            <div class="footer-widget footer-contact">
-                                <h2 class="footer-title">Contact Us</h2>
-                                <div class="footer-contact-info">
-                                    <div class="footer-address">
-                                        <span><i class="fas fa-map-marker-alt"></i></span>
-                                        <p> Team 12 <br> Van Lang university </p>
-                                    </div>
-                                    <p>
-                                        <i class="fas fa-phone-alt"></i>
-                                        +123 456 789
-                                    </p>
-                                    <p class="mb-0">
-                                        <i class="fas fa-envelope"></i>
-                                        fhc@gmail.com
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- /Footer Widget -->
-
-                        </div>
-
+                        </ul>
                     </div>
-                </div>
+                </main>
             </div>
-            <!-- /Footer Top -->
-            <!-- Footer Bottom -->
-            <div class="footer-bottom">
-                <div class="container-fluid">
 
-                    <!-- Copyright -->
-                    <div class="copyright">
+            <!-- Footer -->
+            <footer class="footer">
+
+                <!-- Footer Top -->
+                <div class="footer-top">
+                    <div class="container-fluid">
                         <div class="row">
-                            <div class="col-md-6 col-lg-6">
-                                <div class="copyright-text">
-                                    <p class="mb-0">&copy; 2021 Team 12 FHC.</p>
+                            <div class="col-lg-3 col-md-6">
+
+                                <!-- Footer Widget -->
+                                <div class="footer-widget footer-about">
+                                    <div class="footer-logo">
+                                        <img src=@Url.Content("~/assets/img/footer-logo.png") alt="logo">
+                                    </div>
+                                    <div class="footer-about-content">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+                                        <div class="social-icon">
+                                            <ul>
+                                                <li>
+                                                    <a href="#" target="_blank"><i class="fab fa-facebook-f"></i> </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" target="_blank"><i class="fab fa-twitter"></i> </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6 col-lg-6">
-
-                                <!-- Copyright Menu -->
-                                <!-- /Copyright Menu -->
+                                <!-- /Footer Widget -->
 
                             </div>
+
+                            <div class="col-lg-3 col-md-6">
+
+                                <!-- Footer Widget -->
+                                <div class="footer-widget footer-menu">
+                                    <h2 class="footer-title">For Pharmacy</h2>
+                                    <ul >
+                                        <li><a href="pharmacy-search.html">Booking Pharmacy</a></li>
+                                        <li><a href="map-list.html">Search Pharmacy</a></li>
+                                </div>
+                                <!-- /Footer Widget -->
+        
+                            </div>
+
+                            <div class="col-lg-3 col-md-6">
+
+                                <!-- Footer Widget -->
+                                <div class="footer-widget footer-menu">
+                                    <h2 class="footer-title">For Doctors</h2>
+                                    <ul>
+                                        <li><a href="doctor-search.html">Booking Doctor</a></li>
+                                        <li><a href="map-grid.html">Search Doctor</a></li>
+                                    </ul>
+                                </div>
+                                <!-- /Footer Widget -->
+
+                            </div>
+
+                            <div class="col-lg-3 col-md-6">
+
+                                <!-- Footer Widget -->
+                                <div class="footer-widget footer-contact">
+                                    <h2 class="footer-title">Contact Us</h2>
+                                    <div class="footer-contact-info">
+                                        <div class="footer-address">
+                                            <span><i class="fas fa-map-marker-alt"></i></span>
+                                            <p> Team 12 <br> Van Lang university </p>
+                                        </div>
+                                        <p>
+                                            <i class="fas fa-phone-alt"></i>
+                                            +123 456 789
+                                        </p>
+                                        <p class="mb-0">
+                                            <i class="fas fa-envelope"></i>
+                                            fhc@gmail.com
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- /Footer Widget -->
+
+                            </div>
+
                         </div>
                     </div>
-                    <!-- /Copyright -->
-
                 </div>
-            </div>
-            <!-- /Footer Bottom -->
+                <!-- /Footer Top -->
+                <!-- Footer Bottom -->
+                <div class="footer-bottom">
+                    <div class="container-fluid">
 
-        </footer>
-        <!-- /Footer -->
-        <!-- /Main Wrapper -->
-        <!-- jQuery -->
-        <script src=@Url.Content("~/assets/js/jquery-3.6.0.min.js")></script>
+                        <!-- Copyright -->
+                        <div class="copyright">
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="copyright-text">
+                                        <p class="mb-0">&copy; 2021 Team 12 FHC.</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-6">
 
-        <!-- Bootstrap Core JS -->
-        <script src=@Url.Content("~/assets/js/bootstrap.bundle.min.js")></script>
+                                    <!-- Copyright Menu -->
+                                    <!-- /Copyright Menu -->
 
-        <!-- Slick JS -->
-        <script src=@Url.Content("~/assets/js/slick.js")></script>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Copyright -->
 
-        <!-- Custom JS -->
-        <script src=@Url.Content("~/assets/js/script.js")></script>
-        @await RenderSectionAsync("Scripts", required: false)
-    </div>
-</body>
+                    </div>
+                </div>
+                <!-- /Footer Bottom -->
+
+            </footer>
+            <!-- /Footer -->
+            <!-- /Main Wrapper -->
+            <!-- jQuery -->
+            <script src=@Url.Content("~/assets/js/jquery-3.6.0.min.js")></script>
+
+            <!-- Bootstrap Core JS -->
+            <script src=@Url.Content("~/assets/js/bootstrap.bundle.min.js")></script>
+
+            <!-- Slick JS -->
+            <script src=@Url.Content("~/assets/js/slick.js")></script>
+
+            <!-- Custom JS -->
+            <script src=@Url.Content("~/assets/js/script.js")></script>
+            @await RenderSectionAsync("Scripts", required: false)
+        </div>
+    </body>
 </html>

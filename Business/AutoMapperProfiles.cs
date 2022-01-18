@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Contract.DTOs.AuthService;
 
 namespace Business
 {
@@ -38,6 +39,8 @@ namespace Business
                 .ForMember(x => x.CateName, opt => opt.MapFrom(m => m.ClassificationName))
                 .ReverseMap();
             CreateMap<Specialities, SpecialitiesDetailsDto>()
+                .ReverseMap();
+            CreateMap<User, ChangePasswordDto>()
                 .ReverseMap();
 
             CreateMap<Appointment, AppointmentRescheduleDto>().ReverseMap();
