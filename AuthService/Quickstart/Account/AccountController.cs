@@ -96,7 +96,8 @@ namespace IdentityServerHost.Quickstart.UI
         /// Handle postback from username/password login
         /// </summary>
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
+        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Login(LoginInputModel model, string button)
         {
             // check if we are in the context of an authorization request
