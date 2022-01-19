@@ -23,6 +23,18 @@
     <link rel="stylesheet" href=@Url.Content("~/assets/plugins/fontawesome/css/fontawesome.min.css")>
     <link rel="stylesheet" href=@Url.Content("~/assets/plugins/fontawesome/css/all.min.css")>
 
+    <!-- Datetimepicker CSS -->
+    <link rel="stylesheet" href=@Url.Content("~/assets/css/bootstrap-datetimepicker.min.css")>
+
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" href=@Url.Content("~/assets/plugins/select2/css/select2.min.css")>
+
+    <!-- Feathericon CSS -->
+    <link rel="stylesheet" href=@Url.Content("~/assets/css/feather.css")>
+
+    <!-- Fancybox CSS -->
+    <link rel="stylesheet" href=@Url.Content("~/assets/plugins/fancybox/jquery.fancybox.min.css")>
+
     <!-- Main CSS -->
     <link rel="stylesheet" href="@Url.Content("~/assets/css/style.css")">
 </head>
@@ -39,13 +51,13 @@
                             <span></span>
                         </span>
                     </a>
-                    <a href="index.html" class="navbar-brand logo">
-                        <img src=@Url.Content("~/assets/img/logo.png") class="img-fluid" alt="Logo">
+                    <a asp-controller="Home" asp-action="Index" class="navbar-brand logo">
+                        <img src=@Url.Content("~/assets/img/LogoFHC.png") class="img-fluid" alt="Logo">
                     </a>
                 </div>
                 <div class="main-menu-wrapper">
                     <div class="menu-header">
-                        <a href="index.html" class="menu-logo">
+                        <a asp-controller="Home" asp-action="Index">Home class="menu-logo">
                             <img src=@Url.Content("assets/img/logo.png") class="img-fluid" alt="Logo">
                         </a>
                         <a id="menu_close" class="menu-close" href="javascript:void(0);">
@@ -62,7 +74,7 @@
                             <ul class="submenu">
 
                                 <li class="">
-                                    <a href="product.html">Medicine </a>
+                                    <a asp-controller="Medicine" asp-action="Index">Medicine </a>
                                 </li>
 
                                 <li class="has-submenu">
@@ -87,13 +99,11 @@
                         <li class="has-submenu">
                             <a>Pages <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
-                                <li><a href="about-us.html">About Us</a></li>
-                                <li><a href="contact-us.html">Contact Us</a></li>
+                                <li><a asp-controller="AboutUs" asp-action="Index">About Us</a></li>
+                                <li><a asp-controller="ContactUs" asp-action="Index">Contact Us</a></li>
+                                <li><a asp-controller="BLog" asp-action="Index">Blog </a></li>
                             </ul>
-                        </li>
-
-                        <li><a href="blog-list.html">Blog </a></li>
-
+                        </li>                      
                         <li class="has-submenu">
                             <a href="">Partner <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
@@ -172,13 +182,13 @@
                                  <li class="nav-item dropdown has-arrow logged-item">
                                          <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                                          <span class="user-img">
-                                          <img class="rounded-circle" src="assets/img/patients/patient.jpg" width="31" alt="Ryan Taylor">
+                                          <img class="rounded-circle" src=@Url.Content("~/assets/img/patients/patient.jpg") width="31" alt="Ryan Taylor">
                                          </span>
                                          </a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                 <div class="user-header">
                                     <div class="avatar avatar-sm">
-                                        <img src="assets/img/patients/patient.jpg" alt="User Image" class="avatar-img rounded-circle">
+                                        <img src=@Url.Content("~/assets/img/patients/patient.jpg") alt="User Image" class="avatar-img rounded-circle">
                                     </div>
                                     <div class="user-text">
                                         <h6>Richard Wilson</h6>
@@ -206,31 +216,23 @@
                     </ul>
              
                 </nav>
-            </header>
-            <div class="container">
-                <main role="main" class="pb-3">
+            </header>               
                     @RenderBody()
                     <div class="float-contact">
                         <ul style="line-height: 45px">
                             <div>
-                                <a href="http://zalo.me/">
-                                    <img src="assets/img/zalo.png" alt="" />
-                                </a>
-                            </div>
-                            <div>
                                 <a href="http://facebook.com">
-                                    <img src="assets/img/messenger.png" alt="" />
+                                    <img src=@Url.Content("~/assets/img/messenger.png") alt="" />
                                 </a>
                             </div>
                             <div>
                                 <a href="tel:0989999898">
-                                    <img src="assets/img/hotline.png" alt="" />
+                                    <img src=@Url.Content("~/assets/img/hotline.png") alt="" />
                                 </a>
                             </div>
                         </ul>
-                    </div>
-                </main>
-            </div>
+                    </div>             
+          
 
             <!-- Footer -->
             <footer class="footer">
@@ -244,7 +246,7 @@
                                 <!-- Footer Widget -->
                                 <div class="footer-widget footer-about">
                                     <div class="footer-logo">
-                                        <img src=@Url.Content("~/assets/img/footer-logo.png") alt="logo">
+                                        <img src=@Url.Content("~/assets/img/logoFHC-footer.png") alt="logo">
                                     </div>
                                     <div class="footer-about-content">
                                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
@@ -272,8 +274,7 @@
                                 <!-- Footer Widget -->
                                 <div class="footer-widget footer-menu">
                                     <h2 class="footer-title">For Pharmacy</h2>
-                                    <ul >
-                                        <li><a href="pharmacy-search.html">Booking Pharmacy</a></li>
+                                    <ul>
                                         <li><a href="map-list.html">Search Pharmacy</a></li>
                                 </div>
                                 <!-- /Footer Widget -->
@@ -350,18 +351,7 @@
 
             </footer>
             <!-- /Footer -->
-            <!-- /Main Wrapper -->
-            <!-- jQuery -->
-            <script src=@Url.Content("~/assets/js/jquery-3.6.0.min.js")></script>
-
-            <!-- Bootstrap Core JS -->
-            <script src=@Url.Content("~/assets/js/bootstrap.bundle.min.js")></script>
-
-            <!-- Slick JS -->
-            <script src=@Url.Content("~/assets/js/slick.js")></script>
-
-            <!-- Custom JS -->
-            <script src=@Url.Content("~/assets/js/script.js")></script>
+            <!-- /Main Wrapper -->                   
             @await RenderSectionAsync("Scripts", required: false)
         </div>
     </body>

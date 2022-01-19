@@ -43,13 +43,12 @@ namespace AuthService.IdentityServer
             else
             {
                 var claimsOfUser = await _userManager.GetClaimsAsync(user);
-                var FullName = claimsOfUser.FirstOrDefault(x => x.Type.Equals("name")).Value;
+               // var FullName = claimsOfUser.FirstOrDefault(x => x.Type.Equals("name")).Value;
                 var claims = new List<Claim>();
                 claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString(CultureInfo.InvariantCulture)));
                 claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString(CultureInfo.InvariantCulture)));
-                //claims.Add(new Claim(JwtClaimTypes.Name, user.FullName));
-                //claims.Add(new Claim(JwtClaimTypes.Name, user.UserName));
-
+               // claims.Add(new Claim(JwtClaimTypes.Name, user.FullName));
+                claims.Add(new Claim(JwtClaimTypes.Name, user.UserName));
                 var userRoles = await _userManager.GetRolesAsync(user);
                 foreach (var userRole in userRoles)
                 {
