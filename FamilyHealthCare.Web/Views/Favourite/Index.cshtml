@@ -1,0 +1,267 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="breadcrumb-bar">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Favourites</li>
+                    </ol>
+                </nav>
+                <h2 class="breadcrumb-title">Favourites</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Breadcrumb -->
+<!-- Page Content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+                <div class="profile-sidebar">
+                    <div class="widget-profile pro-widget-content">
+                        <div class="profile-info-widget">
+                            <a href="#" class="booking-doc-img">
+                                <img src=@Url.Content("~/assets/img/patients/patient.jpg") alt="User Image">
+                            </a>
+                            <div class="profile-det-info">
+                                <h3>Richard Wilson</h3>
+                                <div class="patient-details">
+                                    <h5><i class="fas fa-birthday-cake"></i> 24 Jul 1983, 38 years</h5>
+                                    <h5 class="mb-0"><i class="fas fa-map-marker-alt"></i> Newyork, USA</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-widget">
+                        <nav class="dashboard-menu">
+                            <ul>
+                                <li>
+                                    <a asp-controller="Dashboard" asp-action="Index">
+                                        <i class="fas fa-columns"></i>
+                                        <span>Dashboard</span>
+                                    </a>
+                                </li>
+                                <li class="active">
+                                    <a asp-controller="Favourite" asp-action="Index">
+                                        <i class="fas fa-bookmark"></i>
+                                        <span>Favourites</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="appointments.html">
+                                        <i class="fas fa-calendar-check"></i>
+                                        <span>Appointments</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="healthcheck-details.html">
+                                        <i class="fas fa-file-medical-alt"></i>
+                                        <span>Health Check details</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="profile-settings.html">
+                                        <i class="fas fa-user-cog"></i>
+                                        <span>Profile Settings</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="change-password.html">
+                                        <i class="fas fa-lock"></i>
+                                        <span>Change Password</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-7 col-lg-8 col-xl-9">
+                <div class="row row-grid">
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="profile-widget">
+                            <div class="doc-img">
+                                <a asp-controller="Doctor" asp-action="Details">
+                                    <img class="img-fluid" alt="User Image" src=@Url.Content("~/assets/img/doctors/doctor-09.jpg")>
+                                </a>
+                                <a href="javascript:void(0)" class="fav-btn">
+                                    <i class="far fa-bookmark"></i>
+                                </a>
+                            </div>
+                            <div class="pro-content">
+                                <h3 class="title">
+                                    <a asp-controller="Doctor" asp-action="Details">Dr. John Gibbs</a>
+                                    <i class="fas fa-check-circle verified"></i>
+                                </h3>
+                                <p class="speciality">MDS - Periodontology and Oral Implantology, BDS</p>
+                                <div class="rating">
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span class="d-inline-block average-rating">(112)</span>
+                                </div>
+                                <ul class="available-info">
+                                    <li>
+                                        <i class="fas fa-map-marker-alt"></i> Oklahoma, USA
+                                    </li>
+                                </ul>
+                                <div class="row row-sm">
+                                    <div class="col-6">
+                                        <a asp-controller="Doctor" asp-action="Details" class="btn view-btn">View Profile</a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="booking.html" class="btn book-btn">Book Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="profile-widget">
+                            <div class="doc-img">
+                                <a asp-controller="Doctor" asp-action="Details">
+                                    <img class="img-fluid" alt="User Image" src=@Url.Content("~/assets/img/doctors/doctor-10.jpg")>
+                                </a>
+                                <a href="javascript:void(0)" class="fav-btn">
+                                    <i class="far fa-bookmark"></i>
+                                </a>
+                            </div>
+                            <div class="pro-content">
+                                <h3 class="title">
+                                    <a asp-controller="Doctor" asp-action="Details">Dr. Olga Barlow</a>
+                                    <i class="fas fa-check-circle verified"></i>
+                                </h3>
+                                <p class="speciality">MDS - Periodontology and Oral Implantology, BDS</p>
+                                <div class="rating">
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span class="d-inline-block average-rating">(65)</span>
+                                </div>
+                                <ul class="available-info">
+                                    <li>
+                                        <i class="fas fa-map-marker-alt"></i> Montana, USA
+                                    </li>
+                                </ul>
+                                <div class="row row-sm">
+                                    <div class="col-6">
+                                        <a asp-controller="Doctor" asp-action="Details" class="btn view-btn">View Profile</a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="booking.html" class="btn book-btn">Book Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="profile-widget">
+                            <div class="doc-img">
+                                <a asp-controller="Doctor" asp-action="Details">
+                                    <img class="img-fluid" alt="User Image" src=@Url.Content("~/assets/img/doctors/doctor-11.jpg")>
+                                </a>
+                                <a href="javascript:void(0)" class="fav-btn">
+                                    <i class="far fa-bookmark"></i>
+                                </a>
+                            </div>
+                            <div class="pro-content">
+                                <h3 class="title">
+                                    <a href="doctor-profile.html">Dr. Julia Washington</a>
+                                    <i class="fas fa-check-circle verified"></i>
+                                </h3>
+                                <p class="speciality">MBBS, MD - General Medicine, DM - Endocrinology</p>
+                                <div class="rating">
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span class="d-inline-block average-rating">(5)</span>
+                                </div>
+                                <ul class="available-info">
+                                    <li>
+                                        <i class="fas fa-map-marker-alt"></i> Oklahoma, USA
+                                    </li>
+                                </ul>
+                                <div class="row row-sm">
+                                    <div class="col-6">
+                                        <a asp-controller="Doctor" asp-action="Details" class="btn view-btn">View Profile</a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="booking.html" class="btn book-btn">Book Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="profile-widget">
+                            <div class="doc-img">
+                                <a asp-controller="Doctor" asp-action="Details">
+                                    <img class="img-fluid" alt="User Image" src=@Url.Content("~/assets/img/doctors/doctor-12.jpg")>
+                                </a>
+                                <a href="javascript:void(0)" class="fav-btn">
+                                    <i class="far fa-bookmark"></i>
+                                </a>
+                            </div>
+                            <div class="pro-content">
+                                <h3 class="title">
+                                    <a asp-controller="Doctor" asp-action="Details">Dr. Shaun Aponte</a>
+                                    <i class="fas fa-check-circle verified"></i>
+                                </h3>
+                                <p class="speciality">MBBS, MS - ENT, Diploma in Otorhinolaryngology (DLO)</p>
+                                <div class="rating">
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span class="d-inline-block average-rating">(5)</span>
+                                </div>
+                                <ul class="available-info">
+                                    <li>
+                                        <i class="fas fa-map-marker-alt"></i> Indiana, USA
+                                    </li>
+                                </ul>
+                                <div class="row row-sm">
+                                    <div class="col-6">
+                                        <a asp-controller="Doctor" asp-action="Details" class="btn view-btn">View Profile</a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="booking.html" class="btn book-btn">Book Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src=@Url.Content("~/assets/js/jquery-3.6.0.min.js")></script>
+
+<!-- Bootstrap Core JS -->
+<script src=@Url.Content("~/assets/js/bootstrap.bundle.min.js")></script>
+
+<!-- Sticky Sidebar JS -->
+<script src=@Url.Content("~/assets/plugins/theia-sticky-sidebar/ResizeSensor.js")></script>
+<script src=@Url.Content("~/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js")></script>
+
+<!-- Custom JS -->
+<script src=@Url.Content("~/assets/js/script.js")></script>

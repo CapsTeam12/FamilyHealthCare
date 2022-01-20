@@ -80,19 +80,19 @@
                                 <li class="has-submenu">
                                     <a>Doctors</a>
                                     <ul class="submenu">
-                                        <li><a href="map-list.html">Doctor Map List</a></li>
-                                        <li><a href="doctor-search.html">Booking Doctor</a></li>
+                                        <li><a asp-controller="Doctor" asp-action="Map">Doctor Map List</a></li>
+                                        <li><a asp-controller="Doctor" asp-action="Index">Booking Doctor</a></li>
                                     </ul>
                                 </li>
 
                                 <li class="has-submenu">
                                     <a>Pharmacy</a>
                                     <ul class="submenu">
-                                        <li><a href="map-list.html">Pharmacy Map List</a></li>
+                                        <li><a asp-controller="Pharmacy" asp-action="Map">Pharmacy Map List</a></li>
                                         @*<li><a href="pharmacy-search.html">Booking Pharmacy</a></li>*@
                                     </ul>
                                 </li>
-                                <li><a href="healthcheck.html">Health Check </a></li>
+                                <li><a asp-controller="HealthCheck" asp-action="Index">Health Check </a></li>
                             </ul>
                         </li>
 
@@ -107,8 +107,8 @@
                         <li class="has-submenu">
                             <a href="">Partner <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
-                                <li><a href="pharmacy-register.html">Pharmacy Register</a></li>
-                                <li><a href="doctor-register.html">Doctor Register</a></li>
+                                <li><a asp-controller="Partner" asp-action="PharmacyRegister">Pharmacy Register</a></li>
+                                <li><a asp-controller="Partner" asp-action="DoctorRegister">Doctor Register</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -195,7 +195,7 @@
                                         <p class="text-muted mb-0">Patient</p>
                                     </div>
                                 </div>
-                                <a class="dropdown-item" href="patient-dashboard.html">Dashboard</a>
+                                <a class="dropdown-item" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
                                 <a class="dropdown-item" href="profile-settings.html">Profile Settings</a>
                                 <a class="dropdown-item" href="calendar.html">Calendar</a>
                                 <a class="dropdown-item" href="change-password.html">Change Password</a>

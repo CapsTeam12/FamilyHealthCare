@@ -1,0 +1,149 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-xl-7 col-lg-12 order-md-last order-sm-last order-last map-left">
+
+                <div class="row align-items-center mb-4">
+                    <div class="col-md-6 col">
+                        <h4>2 Pharmacies found</h4>
+                    </div>
+
+                    <div class="col-md-6 col-auto">
+                        <div class="sort-by d-sm-block d-none">
+                            <span class="sortby-fliter">
+                                <select class="form-select">
+                                    <option>Sort by</option>
+                                    <option class="sorting">Rating</option>
+                                    <option class="sorting">Popular</option>
+                                    <option class="sorting">Latest</option>
+                                    <option class="sorting">Free</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pharmacy Widget -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="doctor-widget">
+                            <div class="doc-info-left">
+                                <div class="doctor-img1">
+                                    <a href="pharmacy-details.html">
+                                        <img src=@Url.Content("~/assets/img/medical-img1.jpg") class="img-fluid" alt="User Image">
+                                    </a>
+                                </div>
+                                <div class="doc-info-cont">
+                                    <h4 class="doc-name mb-2"><a href="pharmacy-details.html">Medlife Medical</a></h4>
+                                    <div class="rating mb-2">
+                                        <span class="badge badge-primary">4.0</span>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span class="d-inline-block average-rating">(17)</span>
+                                    </div>
+                                    <div class="clinic-details">
+                                        <div class="clini-infos pt-3">
+
+                                            <p class="doc-location mb-2"><i class="fas fa-phone-volume me-1"></i> 320-795-8815</p>
+                                            <p class="doc-location mb-2 text-ellipse"><i class="fas fa-map-marker-alt me-1"></i> 96 Red Hawk Road Cyrus, MN 56323 </p>
+                                            <p class="doc-location mb-2"><i class="fas fa-chevron-right me-1"></i> Chemists, Surgical Equipment Dealer</p>
+
+                                            <p class="doc-location mb-2"><i class="fas fa-chevron-right me-1"></i> Opens at 08.00 AM</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="doc-info-right">
+                                <div class="clinic-booking">
+                                    <a class="view-pro-btn" asp-controller="Pharmacy" asp-action="Details">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Pharmacy Widget -->
+                <!-- Pharmacy Widget -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="doctor-widget">
+                            <div class="doc-info-left">
+                                <div class="doctor-img1">
+                                    <a href="pharmacy-details.html">
+                                        <img src=@Url.Content("~/assets/img/medical-img3.jpg") class="img-fluid" alt="User Image">
+                                    </a>
+                                </div>
+                                <div class="doc-info-cont">
+                                    <h4 class="doc-name mb-2"><a href="pharmacy-details.html">The Pill Club Medical</a></h4>
+                                    <div class="rating mb-2">
+                                        <span class="badge badge-primary">4.0</span>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span class="d-inline-block average-rating">(17)</span>
+                                    </div>
+                                    <div class="clinic-details">
+                                        <div class="clini-infos pt-3">
+
+                                            <p class="doc-location mb-2"><i class="fas fa-phone-volume me-1"></i> 816-270-2336</p>
+                                            <p class="doc-location mb-2 text-ellipse"><i class="fas fa-map-marker-alt me-1"></i> 3849 Nutter Street Ferrelview, MO 64163 </p>
+                                            <p class="doc-location mb-2"><i class="fas fa-chevron-right me-1"></i> Chemists, Surgical Equipment Dealer</p>
+
+                                            <p class="doc-location mb-2"><i class="fas fa-chevron-right me-1"></i> Opens at 08.00 AM</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="doc-info-right">
+
+                                <div class="clinic-booking">
+                                    <a class="view-pro-btn" asp-controller="Pharmacy" asp-action="Details">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Pharmacy Widget -->
+
+                <div class="load-more text-center">
+                    <a class="btn btn-primary btn-sm" href="javascript:void(0);">Load More</a>
+                </div>
+            </div>
+            <!-- /content-left-->
+            <div class="col-xl-5 col-lg-12 map-right">
+                <div id="map" class="map-listing"></div>
+                <!-- map-->
+            </div>
+            <!-- /map-right-->
+        </div>
+        <!-- /row-->
+    </div>
+</div>
+<script src=@Url.Content("~/assets/js/jquery-3.6.0.min.js")></script>
+
+<!-- Bootstrap Core JS -->
+<script src=@Url.Content("~/assets/js/bootstrap.bundle.min.js")></script>
+
+<!-- Select2 JS -->
+<script src=@Url.Content("~/assets/plugins/select2/js/select2.min.js")></script>
+
+<!-- Fancybox JS -->
+<script src=@Url.Content("~/assets/plugins/fancybox/jquery.fancybox.min.js")></script>
+
+<!-- Custom JS -->
+<script src=@Url.Content("~/assets/js/script.js")></script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6adZVdzTvBpE2yBRK8cDfsss8QXChK0I"></script>
+<script src=@Url.Content("~/assets/js/map.js")></script>
