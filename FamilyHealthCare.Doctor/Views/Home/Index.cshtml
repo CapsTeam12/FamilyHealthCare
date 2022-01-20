@@ -1,6 +1,10 @@
-﻿
+﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Identity
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
 @{
     ViewData["Title"] = "Home Page";
+    var userId = _httpContextAccessor.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
 }
 
 <div class="breadcrumb-bar">
@@ -32,7 +36,7 @@
                                 <img src=@Url.Content("~/assets/img/doctors/doctor-thumb-02.jpg") alt="User Image">
                             </a>
                             <div class="profile-det-info">
-                                <h3>Dr. Darren Elder</h3>
+                                <h3>Dr. @User.Identity.Name</h3>
 
                                 <div class="patient-details">
                                     <h5 class="mb-0">BDS, MDS - Oral & Maxillofacial Surgery</h5>
@@ -57,7 +61,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a asp-area="" asp-controller="ScheduleTiming" asp-action="ScheduleTimings">
+                                    <a asp-area="" asp-controller="Schedule" asp-action="AvailableTimings" asp-route-userId="@userId" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")">
                                         <i class="fas fa-hourglass-start"></i>
                                         <span>Schedule Timings</span>
                                     </a>
@@ -75,7 +79,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a asp-area="" asp-controller="Calendars" asp-action="Calendar">
+                                    <a asp-area="" asp-controller="Schedule" asp-action="Calendar" asp-route-userId="@userId">
                                         <i class="fas fa-calendar-check"></i>
                                         <span>Calendar</span>
                                     </a>

@@ -25,6 +25,7 @@
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="@Url.Content("~/assets/css/style.css")">
+
 </head>
 <body>
     <div class="main-wrapper">
@@ -58,7 +59,7 @@
 
                         </li>
                         <li class="has-submenu">
-                            <a >Common <i class="fas fa-chevron-down"></i></a>
+                            <a>Common <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
 
                                 <li class="">
@@ -169,33 +170,34 @@
                                 </li>
                                 <!-- /Notifications -->
                             </ul>
-                                 <li class="nav-item dropdown has-arrow logged-item">
-                                         <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                                         <span class="user-img">
-                                          <img class="rounded-circle" src="assets/img/patients/patient.jpg" width="31" alt="Ryan Taylor">
-                                         </span>
-                                         </a>
-                                <div class="dropdown-menu dropdown-menu-end">
+                        <li class="nav-item dropdown has-arrow logged-item">
+                            <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                                <span class="user-img">
+                                    <img class="rounded-circle" src="~/assets/img/patients/patient.jpg" width="31" alt="Ryan Taylor">
+                                </span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
                                 <div class="user-header">
                                     <div class="avatar avatar-sm">
-                                        <img src="assets/img/patients/patient.jpg" alt="User Image" class="avatar-img rounded-circle">
+                                        <img src="~/assets/img/patients/patient.jpg" alt="User Image" class="avatar-img rounded-circle">
                                     </div>
                                     <div class="user-text">
-                                        <h6>Richard Wilson</h6>
+                                        <h6>@User.Identity.Name</h6>
                                         <p class="text-muted mb-0">Patient</p>
                                     </div>
                                 </div>
-                                <a class="dropdown-item" href="patient-dashboard.html">Dashboard</a>
+                                <a class="dropdown-item" asp-controller="Appointment" asp-action="Index" asp-route-userId="@userId">Appointments</a>
                                 <a class="dropdown-item" href="profile-settings.html">Profile Settings</a>
-                                <a class="dropdown-item" href="calendar.html">Calendar</a>
+                                <a class="dropdown-item" asp-controller="Schedule" asp-action="Calendar" asp-route-userId="@userId">Calendar</a>
                                 <a class="dropdown-item" href="change-password.html">Change Password</a>
                                 <a class="dropdown-item" asp-controller="Account" asp-action="SignOut">Logout</a>
-                                 </div>
-                                </li>}
+                            </div>
+                        </li>
+                    }
                     else
                     {
                         <a class="nav-link header-login" asp-controller="Account" asp-action="SignIn">Log In / Sign Up</a>
-                    }                 
+                    }
                         <li class="dropdown language-select">
                             <span class="dropdown-toggle" id="language-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
                                   aria-expanded="false" role="button"><img src=@Url.Content("~/assets/img/vietnam.png") alt="flag"> Việt Nam</span>
@@ -204,34 +206,29 @@
                             </div>
                         </li>
                     </ul>
-             
+
                 </nav>
             </header>
-            <div class="container">
-                <main role="main" class="pb-3">
-                    @RenderBody()
-                    <div class="float-contact">
-                        <ul style="line-height: 45px">
-                            <div>
-                                <a href="http://zalo.me/">
-                                    <img src="assets/img/zalo.png" alt="" />
-                                </a>
-                            </div>
-                            <div>
-                                <a href="http://facebook.com">
-                                    <img src="assets/img/messenger.png" alt="" />
-                                </a>
-                            </div>
-                            <div>
-                                <a href="tel:0989999898">
-                                    <img src="assets/img/hotline.png" alt="" />
-                                </a>
-                            </div>
-                        </ul>
-                    </div>
-                </main>
+            @RenderBody()
+            <div class="float-contact">
+                <ul style="line-height: 45px">
+                    <li>
+                        <a href="http://zalo.me/">
+                            <img src="~/assets/img/zalo.png" alt="" />
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://facebook.com">
+                            <img src="~/assets/img/messenger.png" alt="" />
+                        </a>
+                    </li>
+                    <li>
+                        <a href="tel:0989999898">
+                            <img src="~/assets/img/hotline.png" alt="" />
+                        </a>
+                    </li>
+                </ul>
             </div>
-
             <!-- Footer -->
             <footer class="footer">
 
@@ -272,12 +269,12 @@
                                 <!-- Footer Widget -->
                                 <div class="footer-widget footer-menu">
                                     <h2 class="footer-title">For Pharmacy</h2>
-                                    <ul >
-                                        <li><a href="pharmacy-search.html">Booking Pharmacy</a></li>
+                                    <ul>
                                         <li><a href="map-list.html">Search Pharmacy</a></li>
+                                    </ul>
                                 </div>
                                 <!-- /Footer Widget -->
-        
+
                             </div>
 
                             <div class="col-lg-3 col-md-6">
@@ -356,6 +353,10 @@
 
             <!-- Bootstrap Core JS -->
             <script src=@Url.Content("~/assets/js/bootstrap.bundle.min.js")></script>
+
+            <!-- Sticky Sidebar JS -->
+            <script src=@Url.Content("~/assets/plugins/theia-sticky-sidebar/ResizeSensor.js")></script>
+            <script src=@Url.Content("~/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js")></script>
 
             <!-- Slick JS -->
             <script src=@Url.Content("~/assets/js/slick.js")></script>

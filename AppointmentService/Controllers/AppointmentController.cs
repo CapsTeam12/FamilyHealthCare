@@ -55,15 +55,19 @@ namespace AppointmentService.Controllers
         [Route("Booking/{userId}")]
         public async Task<IActionResult> Post([FromBody] AppointmentCreateDto createDto,string userId)
         {
-            var appointmentDto = await _appointmentService.BookingAppointment(createDto, userId);
             if(userId == null)
             {
                 return BadRequest();
             }
+            var appointmentDto = await _appointmentService.BookingAppointment(createDto, userId);
+            if(appointmentDto == null)
+            {
+                return NotFound();
+            }
             return Ok(appointmentDto);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("Reschedule/{id}")]
         //[Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> Put([FromBody] AppointmentRescheduleDto appointmentDto,string id)
         {

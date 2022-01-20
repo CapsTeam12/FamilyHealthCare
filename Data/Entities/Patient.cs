@@ -20,6 +20,6 @@ namespace Data.Entities
         public string Address { get; set; }
         public int? Languages { get; set; }
         public int? PostalCode { get; set; }
-        public string Avatar { get; set; }
+        //public string Avatar { get; set; }
     }
 }
