@@ -35,13 +35,9 @@ namespace FamilyHealthCare.Customer.Controllers
             _httpContext = httpContext;
         }
 
-        public async Task<IActionResult> Index(string userId) // Show list appointment of User 
+        public async Task<IActionResult> Index() // Show list appointment of User 
         {
-            var userCurrent = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier); //get userId of current user logged in
-            if (userCurrent != userId) // Check if the currently logged in user is the same as the userId
-            {
-                return Forbid();
-            }
+            var userId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier); //get userId of current user logged in
             var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
             var response = await client.GetAsync(EndpointConstants.AppointmentService.LIST + userId);
             string jsonData = await response.Content.ReadAsStringAsync();

@@ -29,7 +29,7 @@ namespace Business
                 .ReverseMap();
             CreateMap<Pharmacy, SearchPharmacyDto>()
                .ReverseMap();
-            CreateMap<Doctor, DoctorDetailsDto>()
+            CreateMap<Doctor, DoctorDetailsDto>().ForMember(d =>d.Specialities, t => t.MapFrom(m => m.Specialized.SpecializedName))
                 .ReverseMap();
             CreateMap<Pharmacy, PharmacyDetailsDto>()
                 .ReverseMap();

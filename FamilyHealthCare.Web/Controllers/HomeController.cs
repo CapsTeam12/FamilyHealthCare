@@ -3,6 +3,7 @@ using Contract.DTOs.SearchService;
 using FamilyHealthCare.SharedLibrary;
 using FamilyHealthCare.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FamilyHealthCare.Customer.Controllers
@@ -36,7 +38,7 @@ namespace FamilyHealthCare.Customer.Controllers
             }
             HomeViewModel homeVM = new HomeViewModel
             {
-                Doctors = data
+                Doctors = data,
             };
             return View(homeVM);
         }

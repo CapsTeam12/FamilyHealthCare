@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,8 +30,9 @@ namespace FamilyHealthCare.Customer.Controllers
             _httpClient = httpClient;
         }
 
-        public async Task<IActionResult> Calendar(string userId)
+        public async Task<IActionResult> Calendar()
         {
+            var userId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier); //get userId of current user logged in
             var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
             var response = await client.GetAsync(EndpointConstants.ScheduleService.CALENDAR + "/" + userId);
             string jsonData = await response.Content.ReadAsStringAsync();
