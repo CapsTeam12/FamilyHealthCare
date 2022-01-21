@@ -16,5 +16,9 @@ namespace FamilyHealthCare.Customer.Controllers
         {
             return View();
         }
+        public IActionResult HealthCheckDetails()
+        {
+            return View();
+        }
     }
 }
