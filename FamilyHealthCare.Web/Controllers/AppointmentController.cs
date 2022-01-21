@@ -3,6 +3,7 @@ using Contract.DTOs.AppoimentService;
 using Contract.DTOs.ScheduleDoctorService;
 using Data.Entities;
 using FamilyHealthCare.Customer.Models;
+using FamilyHealthCare.SharedLibrary;
 using FamilyHealthCare.Web.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -34,14 +35,15 @@ namespace FamilyHealthCare.Customer.Controllers
             _httpContext = httpContext;
         }
 
-        public async Task<IActionResult> Index(string userId) // Show list appointment of current User has logged in
+        public async Task<IActionResult> Index(string userId) // Show list appointment of User 
         {
-            var accessToken = await HttpContext.GetTokenAsync("access_token");
-            var client = _httpClient.CreateClient();
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            client.BaseAddress = new Uri("https://localhost:44316"); //gateway url
-            var response = await client.GetAsync($"/Appointment/List/{userId}");
+            var userCurrent = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier); //get userId of current user logged in
+            if (userCurrent != userId) // Check if the currently logged in user is the same as the userId
+            {
+                return Forbid();
+            }
+            var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
+            var response = await client.GetAsync(EndpointConstants.AppointmentService.LIST + userId);
             string jsonData = await response.Content.ReadAsStringAsync();
             List<AppointmentDetailsDto> data = JsonConvert.DeserializeObject<List<AppointmentDetailsDto>>(jsonData);
             ViewBag.UserId = userId;
@@ -50,12 +52,8 @@ namespace FamilyHealthCare.Customer.Controllers
 
         public async Task<IActionResult> Details(string id)
         {
-            var accessToken = await HttpContext.GetTokenAsync("access_token");
-            var client = _httpClient.CreateClient();
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            client.BaseAddress = new Uri("https://localhost:44316"); //gateway url
-            var response = await client.GetAsync("/Appointment/" + id);
+            var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
+            var response = await client.GetAsync(EndpointConstants.AppointmentService.DETAILS + id);
             string jsonData = await response.Content.ReadAsStringAsync();
             AppointmentDetailsDto data = JsonConvert.DeserializeObject<AppointmentDetailsDto>(jsonData);
             ViewBag.UserId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -66,12 +64,8 @@ namespace FamilyHealthCare.Customer.Controllers
 
         public async Task<IActionResult> Reschedule(string id)
         {
-            var accessToken = await HttpContext.GetTokenAsync("access_token");
-            var client = _httpClient.CreateClient();
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            client.BaseAddress = new Uri("https://localhost:44316"); //gateway url
-            var response = await client.GetAsync("/Appointment/" + id);
+            var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
+            var response = await client.GetAsync(EndpointConstants.AppointmentService.RESCHEDULE + id);
             string jsonData = await response.Content.ReadAsStringAsync();
             AppointmentDetailsDto data = JsonConvert.DeserializeObject<AppointmentDetailsDto>(jsonData);
             ViewBag.UserId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier); //get userId of current user logged in
@@ -81,45 +75,33 @@ namespace FamilyHealthCare.Customer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Reschedule(AppointmentRescheduleDto model,string id)
+        public async Task<IActionResult> Reschedule(AppointmentRescheduleDto model, string id)
         {
-            var accessToken = await HttpContext.GetTokenAsync("access_token");
-            var client = _httpClient.CreateClient();
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            client.BaseAddress = new Uri("https://localhost:44316"); //gateway url
             var stringModel = JsonConvert.SerializeObject(model);
-            var data = new StringContent(stringModel,Encoding.UTF8, "application/json");
-            var response = await client.PutAsync($"/Appointment/{id}",data);
+            var data = new StringContent(stringModel, Encoding.UTF8, "application/json");
+            var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
+            var response = await client.PutAsync(EndpointConstants.AppointmentService.DETAILS + id, data);
             if (response != null && response.IsSuccessStatusCode)
             {
-                return RedirectToAction(nameof(Index),new { userId= model.UserId });
+                return RedirectToAction(nameof(Index), new { userId = model.UserId });
             }
             return View(model);
         }
 
         public async Task<List<Shift>> GetShifts()
         {
-            var accessToken = await HttpContext.GetTokenAsync("access_token");
-            var client = _httpClient.CreateClient();
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            client.BaseAddress = new Uri("https://localhost:44316"); //gateway url
-            var response = await client.GetAsync("/Schedule/Shifts");
+            var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
+            var response = await client.GetAsync(EndpointConstants.ScheduleService.SHIFTS);
             string jsonData = await response.Content.ReadAsStringAsync();
             List<Shift> data = JsonConvert.DeserializeObject<List<Shift>>(jsonData);
             return data;
         }
 
         [Authorize]
-        public async Task<IActionResult> Booking(string doctor, DateTime date,string doctorName,int Id)
+        public async Task<IActionResult> Booking(string doctor, DateTime date, string doctorName, int Id)
         {
-            var accessToken = await HttpContext.GetTokenAsync("access_token");
-            var client = _httpClient.CreateClient();
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            client.BaseAddress = new Uri("https://localhost:44316"); //gateway url
-            var response = await client.GetAsync($"/Schedule/Doctor/{doctor}/{date.ToString("yyyy-MM-dd")}");
+            var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
+            var response = await client.GetAsync(EndpointConstants.ScheduleService.DOCTOR_SCHEDULES + "/" + doctor + "/" + date.ToString("yyyy-MM-dd"));
             string jsonData = await response.Content.ReadAsStringAsync();
             List<ScheduleDoctorDto> data = JsonConvert.DeserializeObject<List<ScheduleDoctorDto>>(jsonData);
             List<Shift> shiftdata = await GetShifts();
@@ -137,41 +119,44 @@ namespace FamilyHealthCare.Customer.Controllers
         }
 
 
-        public IActionResult BookingSummary(string Time,string userId,int therapistId,string doctorName,DateTime date)
+        public IActionResult BookingSummary(string Time, string userId, int therapistId, string doctorName, DateTime date,string doctor)
         {
+            if (Time == null)
+            {
+                TempData["StatusMessage"] = "No appointment has been selected";
+                return RedirectToAction("Booking", "Appointment", new { doctor = doctor, date = date, doctorName = doctorName, Id = therapistId  });
+            }
             var bookingView = new BookingViewModel()
             {
                 therapistId = therapistId,
                 userId = userId,
                 doctorName = doctorName,
-                StartTime = Convert.ToDateTime(Time.Split("-")[0]),
-                EndTime = Convert.ToDateTime(Time.Split("-")[1]),
+                StartTime = Convert.ToDateTime(date.ToString("yyyy-MM-dd") + " " + Time.Split("-")[0]),
+                EndTime = Convert.ToDateTime(date.ToString("yyyy-MM-dd") + " " + Time.Split("-")[1]),
                 Date = date
             };
             return View(bookingView);
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> BookingSummary(BookingViewModel model,string userId)
+        public async Task<IActionResult> BookingSummary(BookingViewModel model, string userId)
         {
-            var accessToken = await HttpContext.GetTokenAsync("access_token");
-            var client = _httpClient.CreateClient();
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            client.BaseAddress = new Uri("https://localhost:44316"); //gateway url
+            if (String.IsNullOrEmpty(model.Description)) model.Description = "No information";
             var stringModel = JsonConvert.SerializeObject(model);
             var data = new StringContent(stringModel, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync($"/Appointment/Booking/{userId}", data);
+            var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
+            var response = await client.PostAsync(EndpointConstants.AppointmentService.BOOKING + userId, data);
             string jsonData = await response.Content.ReadAsStringAsync();
             if (response != null && response.IsSuccessStatusCode)
             {
-                return RedirectToAction("BookingSuccess","Appointment",new { doctorName = model.doctorName,StartTime = model.StartTime,EndTime = model.EndTime,date = model.Date });
+                return RedirectToAction("BookingSuccess", "Appointment", new { doctorName = model.doctorName, StartTime = model.StartTime, EndTime = model.EndTime, date = model.Date });
             }
             return View(model);
         }
 
-        public IActionResult BookingSuccess(string doctorName,DateTime StartTime,DateTime EndTime,DateTime date)
+        public IActionResult BookingSuccess(string doctorName, DateTime StartTime, DateTime EndTime, DateTime date)
         {
             ViewBag.doctorName = doctorName;
             ViewBag.StartTime = StartTime;

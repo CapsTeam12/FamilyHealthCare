@@ -30,5 +30,20 @@ namespace FamilyHealthCare.SharedLibrary
             public static string SEARCH = "api/Search/search/medicine";
             public static string PATIENTPROFILE = "api/Auth/update-profile";
         }
+
+        public static class AppointmentService
+        {
+            public static string LIST = "/Appointment/List/";
+            public static string DETAILS = "/Appointment/";
+            public static string BOOKING = "/Appointment/Booking/";
+            public static string RESCHEDULE = "/Appointment/Reschedule/";
+        }
+
+        public static class ScheduleService
+        {
+            public static string CALENDAR = "/Schedule";
+            public static string SHIFTS = "/Schedule/Shifts";
+            public static string DOCTOR_SCHEDULES = "/Schedule/Doctor";
+        }
     }
 }

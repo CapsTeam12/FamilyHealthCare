@@ -14,6 +14,7 @@ namespace Business.IServices
         Task<IEnumerable<ScheduleDoctorDto>> GetSchedulesAsync(string userId,DateTime date);
         Task<IEnumerable<ScheduleDoctorDto>> CreateScheduleAsync(ScheduleDoctorCreateDto schedule);
         Task<IEnumerable<Shift>> GetShiftsAsync();
+        void DeleteExpirationSchedules();
 
     }
 }

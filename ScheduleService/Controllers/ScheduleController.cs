@@ -24,22 +24,17 @@ namespace ScheduleService.Controllers
 
 
         [HttpGet("Doctor/{userId}/{date}")]
-        public async Task<IActionResult> GetSchedulesOfDoctor(string userId, DateTime date)
+        public async Task<IActionResult> GetSchedulesOfDoctor(string userId, DateTime date) // Get list schedule of doctor
         {
 
             var scheduleDto = await _scheduleDoctorService.GetSchedulesAsync(userId, date);
             return Ok(scheduleDto);
         }
 
-        //[HttpPost("Doctor/{shiftsId}")]
-        //public async Task<IActionResult> CreateSchedulesOfDoctor([FromBody]ScheduleDoctorCreateDto model,[FromQuery] int[] shiftsId)
-        //{
-        //    var scheduleDto = await _scheduleDoctorService.CreateScheduleAsync(model,shiftsId);
-        //    return Ok(scheduleDto);
-        //}
+
 
         [HttpPost("Doctor")]
-        public async Task<IActionResult> CreateSchedulesOfDoctor([FromBody] ScheduleDoctorCreateDto model)
+        public async Task<IActionResult> CreateSchedulesOfDoctor([FromBody] ScheduleDoctorCreateDto model) // Create schedule of doctor
         {
             var scheduleDto = await _scheduleDoctorService.CreateScheduleAsync(model);
             return Ok(scheduleDto);
@@ -47,14 +42,14 @@ namespace ScheduleService.Controllers
 
 
         [HttpGet("Shifts")]
-        public async Task<IActionResult> GetShifts()
+        public async Task<IActionResult> GetShifts() // Get list shift timeslot
         {
             var shifts = await _scheduleDoctorService.GetShiftsAsync();
             return Ok(shifts);
         }
 
         [HttpGet("{userId}")]
-        public async Task<IActionResult> Get(string userId)
+        public async Task<IActionResult> Get(string userId) // Get schedules of user on calendar
         {
             if (userId == null)
             {
@@ -66,7 +61,7 @@ namespace ScheduleService.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ScheduleCreateDto schedule)
+        public async Task<IActionResult> Post([FromBody] ScheduleCreateDto schedule) // Create schedule on calendar
         {
             var scheduleDto = await _scheduleService.CreateScheduleAsync(schedule);
             return Ok(scheduleDto);

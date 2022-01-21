@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<Contract.DTOs.ScheduleService.ScheduleDto>
 @{
     Layout = "_Layout";
+    //Layout = null;
 }
+<link href="~/lib/fullcalendar/main.min.css" rel="stylesheet" />
 <table id="eventsTable" hidden>
     @for (int i = 0; i < Model.Count(); i++)
     {
@@ -50,19 +52,7 @@
                     <div class="dashboard-widget">
                         <nav class="dashboard-menu">
                             <ul>
-                                @*<li>
-                                        <a href="patient-dashboard.html">
-                                            <i class="fas fa-columns"></i>
-                                            <span>Dashboard</span>
-                                        </a>
-                                    </li>*@
-                                @*<li>
-                                        <a href="favourites.html">
-                                            <i class="fas fa-bookmark"></i>
-                                            <span>Favourites</span>
-                                        </a>
-                                    </li>*@
-                                <li class="active">
+                                <li>
                                     <a asp-controller="Appointment" asp-action="Index" asp-route-userId="@ViewBag.UserId">
                                         <i class="fas fa-calendar-check"></i>
                                         <span>Appointments</span>
@@ -104,9 +94,7 @@
 </div>
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.min.js"></script>
-
+<script src="~/lib/fullcalendar/main.min.js"></script>
+<script src="~/lib/fullcalendar/locales-all.min.js"></script>
 <script src="~/js/Calendar.js"></script>
 

@@ -7,8 +7,9 @@
     var doctorId = ViewBag.doctorId; // doctorId
     var userId = ViewBag.userId; // userId
     var doctorName = ViewBag.doctorName; // doctor fullname
-}
 
+    var currentTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+}
 <!-- Breadcrumb -->
 <div class="breadcrumb-bar">
     <div class="container-fluid">
@@ -54,26 +55,26 @@
                         </div>
                     </div>
                 </div>
+                <div class="alert alert-primary" role="alert">
+                    <b>@TempData["StatusMessage"]</b>
+                </div>
                 <div class="row mb-2">
                     <div class="col-12 col-sm-4 col-md-6">
                         <h4 class="mb-1">@currentDate.ToLongDateString()</h4>
                         <form method="get" asp-controller="Appointment" asp-action="Booking">
                             <input type="text" name="doctor" value="@Doctor" hidden />
                             <input type="text" name="doctorName" value="@doctorName" hidden />
-                            <input type="text" name="Id" value="@doctorId" hidden/>
+                            <input type="text" name="Id" value="@doctorId" hidden />
                             <input type="date" id="scheduleDate" class="form-control" name="date" value="@currentDate.ToString("yyyy-MM-dd")" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
                             <input type="submit" class="btn btn-secondary" value="Search" />
                         </form>
                     </div>
-                    @*<div class="col-12 col-sm-8 col-md-6 text-sm-end">
-                            <div class="btn btn-white btn-sm mb-3">
 
-                            </div>
-                        </div>*@
                 </div>
                 <!-- Schedule Widget -->
                 <form asp-controller="Appointment" asp-action="BookingSummary" method="get">
                     <input type="text" name="TherapistId" value="@doctorId" hidden />
+                    <input type="text" name="doctor" value="@Doctor" hidden />
                     <input type="text" name="userId" value="@userId" hidden />
                     <input type="text" name="doctorName" value="@doctorName" hidden />
                     <input type="text" name="date" value="@currentDate" hidden />
@@ -84,22 +85,29 @@
                                 <div class="col-md-12">
                                     <!-- Time Slot -->
                                     <div class="time-slot">
-                                        @foreach (var shifts in Model.Shifts)
+                                        @if (Model.ScheduleDoctors.Count > 0)
                                         {
-                                            foreach (var available in Model.ScheduleDoctors.Where(x => x.ShiftId == shifts.Id))
+                                            foreach (var shifts in Model.Shifts)
                                             {
-
-                                                if (available.IsBooking == true)
+                                                foreach (var available in Model.ScheduleDoctors.Where(x => x.ShiftId == shifts.Id))
                                                 {
-                                                    <input type="radio" class="btn-check" name="Time" id="@available.ShiftId" autocomplete="off" disabled>
-                                                    <label class="btn btn-secondary" for="@available.ShiftId">@shifts.TimeSlot.Split("-")[0].Substring(0, 5)</label>
-                                                }
-                                                else
-                                                {
-                                                    <input type="radio" class="btn-check" name="Time" id="@available.ShiftId" value="@shifts.TimeSlot" autocomplete="off">
-                                                    <label class="btn btn-outline-success" for="@available.ShiftId">@shifts.TimeSlot.Split("-")[0].Substring(0, 5)</label>
+                                                    var timeOfShifts = Convert.ToDateTime(available.Date.ToString("yyyy-MM-dd") + " " + shifts.TimeSlot.Split("-")[0]);
+                                                    if (available.IsBooking == true || DateTime.Compare(currentTime, timeOfShifts) > 0)
+                                                    {
+                                                        <input type="radio" class="btn-check" name="Time" id="@available.ShiftId" autocomplete="off" disabled>
+                                                        <label class="btn btn-secondary" for="@available.ShiftId">@shifts.TimeSlot.Split("-")[0].Substring(0, 5)</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="radio" class="btn-check" name="Time" id="@available.ShiftId" value="@shifts.TimeSlot" autocomplete="off" required>
+                                                        <label class="btn btn-outline-success" for="@available.ShiftId">@shifts.TimeSlot.Split("-")[0].Substring(0, 5)</label>
+                                                    }
                                                 }
                                             }
+                                        }
+                                        else
+                                        {
+                                            <b>Dr. @doctorName has no appointments on @currentDate.ToLongDateString()</b>
                                         }
                                     </div>
                                     <!-- /Time Slot -->
@@ -110,9 +118,9 @@
                     </div>
                     <!-- /Schedule Widget -->
                     <!-- Submit Section -->
-                    <div class="submit-section proceed-btn text-end">
-                        <input class="btn btn-primary submit-btn" type="submit" value="Continue" />
-                    </div>
+                        <div class="submit-section proceed-btn text-end">
+                            <input class="btn btn-primary submit-btn" type="submit" value="Continue" />
+                        </div>
                     <!-- /Submit Section -->
                 </form>
             </div>

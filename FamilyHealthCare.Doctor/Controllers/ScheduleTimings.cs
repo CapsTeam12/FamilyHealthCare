@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Data.Entities;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,12 @@ namespace FamilyHealthCare.Doctor.Controllers
 {
     public class ScheduleTiming : Controller
     {
+
         public IActionResult ScheduleTimings()
         {
             return View();
         }
+
+
     }
 }

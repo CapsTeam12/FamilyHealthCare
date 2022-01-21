@@ -1,4 +1,6 @@
 using Business;
+using Business.IServices;
+using Business.Services;
 using Data;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
@@ -95,7 +97,7 @@ namespace ScheduleService
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,IScheduleDoctorService scheduleDoctorService)
         {
             if (env.IsDevelopment())
             {
@@ -108,6 +110,7 @@ namespace ScheduleService
 
             app.UseAuthentication();
             app.UseAuthorization();
+            //scheduleDoctorService.DeleteExpirationSchedules(); // Delete expiration schedules
 
             app.UseEndpoints(endpoints =>
             {
