@@ -73,7 +73,7 @@
                         <li class="has-submenu">
                             <a href="">Doctors <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
-                                <li><a asp-area="" asp-controller="Calendars" asp-action="Calendar">Calendar</a></li>
+                                <li><a asp-area="" asp-controller="Schedule" asp-action="Calendar" asp-route-userId="@userId">Calendar</a></li>
                                 <li><a asp-area="" asp-controller="Schedule" asp-action="AvailableTimings" asp-route-userId="@userId" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")">Schedule Timing</a></li>
                                 <li><a asp-area="" asp-controller="MedicalRecords" asp-action="MedicalRecord">Medical Records</a></li>
                                 <li><a asp-area="" asp-controller="Prescriptions" asp-action="Prescription">Prescription</a></li>

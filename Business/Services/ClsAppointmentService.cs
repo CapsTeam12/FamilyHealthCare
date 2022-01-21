@@ -67,6 +67,7 @@ namespace Business.Services
         public async Task<AppointmentDetailsDto> BookingAppointment(AppointmentCreateDto model, string userId) // Booking Appointment
         {
             var therapist = await _db.Doctors.FirstOrDefaultAsync(x => x.Id == model.TherapistId); // Find therapist
+            var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == userId);  
             var patient = await _db.Patients.FirstOrDefaultAsync(x => x.AccountId == userId); // Find patient
             var appointmentModel = _mapper.Map<Appointment>(model);
             appointmentModel.AccountId = userId;

@@ -131,8 +131,8 @@ namespace FamilyHealthCare.Customer.Controllers
                 therapistId = therapistId,
                 userId = userId,
                 doctorName = doctorName,
-                StartTime = Convert.ToDateTime(Time.Split("-")[0]),
-                EndTime = Convert.ToDateTime(Time.Split("-")[1]),
+                StartTime = Convert.ToDateTime(date.ToString("yyyy-MM-dd") + " " + Time.Split("-")[0]),
+                EndTime = Convert.ToDateTime(date.ToString("yyyy-MM-dd") + " " + Time.Split("-")[1]),
                 Date = date
             };
             return View(bookingView);
