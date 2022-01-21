@@ -1,5 +1,6 @@
 ﻿using Contract.DTOs.ManagementService;
 using Contract.DTOs.SearchService;
+using FamilyHealthCare.Customer.Models;
 using FamilyHealthCare.SharedLibrary;
 using FamilyHealthCare.Web.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -12,6 +13,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -64,17 +66,70 @@ namespace FamilyHealthCare.Customer.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Search(string search)
+        [HttpPost]
+        public async Task<IActionResult> Search(SearchCategoryDto searchCategoryDto)
         {
             var httpClient = _clientFactory.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
-            var response = await httpClient.GetAsync(EndpointConstants.SearchService.SEARCH);
-            var data = new List<SearchMedicineDto>();
-            response.EnsureSuccessStatusCode();
+            var json = JsonConvert.SerializeObject(searchCategoryDto);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await httpClient.PostAsync(EndpointConstants.SearchService.SEARCH, data);
+
+            var respsoneData = new List<SearchMedicineDto>();
+           
             //var result = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
-                data = await response.Content.ReadAsAsync<List<SearchMedicineDto>>();
-            ViewBag.search = search;
-            return View(data);
+            {
+                var content = await response.Content.ReadAsAsync<IEnumerable<SearchMedicineDto>>();
+                respsoneData = content.ToList();
+            }
+            ViewBag.resultCount = respsoneData.Count();
+            ViewBag.keyword = searchCategoryDto.Search;
+
+            var responseCate = await httpClient.GetAsync(EndpointConstants.ManagementService.CATEGORIES);
+            var dataCate = new List<CategoriesDetailsDto>();
+            if (responseCate.IsSuccessStatusCode)
+            {
+                dataCate = await responseCate.Content.ReadAsAsync<List<CategoriesDetailsDto>>();
+            }
+
+            var filteredCates = new List<FilterCate>();
+            for (int i = 0; i < dataCate.Count; i++)
+            {
+                if(searchCategoryDto.FilterCates != null)
+                {
+                    if (searchCategoryDto.FilterCates.Contains(dataCate[i].CateName))
+                    {
+                        filteredCates.Add(new FilterCate
+                        {
+                            Name = dataCate[i].CateName,
+                            IsSelected = true
+                        });
+                    }
+                    else
+                    {
+                        filteredCates.Add(new FilterCate
+                        {
+                            Name = dataCate[i].CateName,
+                            IsSelected = false
+                        });
+                    }
+                }
+                else
+                {
+                    filteredCates.Add(new FilterCate
+                    {
+                        Name = dataCate[i].CateName,
+                        IsSelected = false
+                    });
+                }
+            }
+
+            var model = new SearchViewModel
+            {
+                SearchMedicineDtos = respsoneData,
+                FilterCates = filteredCates
+            };
+            return View(model);
         }
     }
 }

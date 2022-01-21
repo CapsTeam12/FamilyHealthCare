@@ -190,7 +190,7 @@ namespace AuthService.Controllers
 
         [HttpPut]
         [Route("update-profile")]
-        public async Task<IActionResult> UpdatePatientProfile(PatientDetailsDto patientDetailsDto)
+        public async Task<IActionResult> UpdatePatientProfile([FromForm] PatientUpdateDto patientDetailsDto)
         {
             //var identity = HttpContext.User.Identity as ClaimsIdentity;
             if (patientDetailsDto.AccountId.ToString() == null)

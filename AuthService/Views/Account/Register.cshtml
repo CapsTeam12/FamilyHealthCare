@@ -55,30 +55,30 @@
                                     <form asp-route="Register">
                                         <input type="hidden" asp-for="ReturnUrl" />
                                         <div class="form-group form-focus">
-                                            <input type="text" class="form-control floating"asp-for="Name" autofocus>
+                                            <input type="text" class="form-control floating"asp-for="Name" autofocus >
                                             <label class="focus-label" asp-for="Name">Name</label>
-                                            <span asp-validation-for="Name"></span>
+                                            <span asp-validation-for="Name" class="text-danger"></span>
                                         </div>
                                         <div class="form-group form-focus">
-                                            <input type="text" class="form-control floating" asp-for="MobileNumber" autofocus>
+                                            <input type="text" class="form-control floating" asp-for="MobileNumber" autofocus >
                                             <label class="focus-label" asp-for="MobileNumber">Mobile Number</label>
-                                            <span asp-validation-for="MobileNumber"></span>
+                                            <span asp-validation-for="MobileNumber" class="text-danger"></span>
                                         </div>
                                         <div class="form-group form-focus">
-                                            <input type="text" class="form-control floating" asp-for="Username" autofocus>
+                                            <input type="text" class="form-control floating" asp-for="Username" autofocus >
                                             <label class="focus-label" asp-for="Username">Username</label>
-                                            <span asp-validation-for="Username"></span>
+                                            <span asp-validation-for="Username" class="text-danger"></span>
                                         </div>
                                         <div class="form-group form-focus">
-                                            <input type="password" class="form-control floating" asp-for="Password" autocomplete="off">
+                                            <input type="password" class="form-control floating" asp-for="Password" autocomplete="off" >
                                             <label class="focus-label" asp-for="Password">Password</label>
-                                            <span asp-validation-for="Password"></span>
+                                            <span asp-validation-for="Password" class="text-danger"></span>
                                         </div>
                                         <div class="form-group form-focus">
                                             <input type="password" class="form-control floating" asp-for="PasswordConfirm"
-                                                   autocomplete="off">
+                                                   autocomplete="off" required>
                                             <label class="focus-label" asp-for="PasswordConfirm">Password Confirm</label>
-                                            <span asp-validation-for="PasswordConfirm"></span>
+                                            <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
                                         </div>
                                         <div class="text-end">
                                             <a class="forgot-link" asp-controller="Account" asp-action="Login"

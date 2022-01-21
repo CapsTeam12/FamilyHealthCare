@@ -26,6 +26,7 @@ namespace Business
             services.AddTransient<IScheduleDoctorService, ScheduleDoctorService>();
             services.AddSingleton<IDbClient, DbClient>();
             services.AddTransient<IAuthService, ClsAuthService>();
+            services.AddSingleton<IFileService, FileService>();
         }
     }
 }

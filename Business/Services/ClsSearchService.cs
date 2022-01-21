@@ -79,20 +79,21 @@ namespace Business.Services
             return Ok(doctorDtos);
         }
 
-        public async Task<IActionResult> GetSearchMedicineResultAsync(string search)
+        public async Task<IEnumerable<SearchMedicineDto>> GetSearchMedicineResultAsync(SearchCategoryDto searchCategoryDto)
         {
             var medicine = await _medicineRepos
                                 .Entities
                                 .Include(a => a.MedicineClass)
-                                .Where(a => a.MedicineName.ToLower().Contains(search.ToLower())
-                                         || a.Description.ToLower().Contains(search.ToLower()))
+                                .Where(a => a.MedicineName.ToLower().Contains(searchCategoryDto.Search.ToLower())
+                                         || a.Description.ToLower().Contains(searchCategoryDto.Search.ToLower()))
                                 .ToListAsync();
-            if(medicine.Count == 0)
-            {
-                return Ok(ErrorMessage.SearchMessage.NullResult);
-            }
             var medicineDtos = _mapper.Map<IEnumerable<SearchMedicineDto>>(medicine);
-            return Ok(medicineDtos);
+            if(searchCategoryDto.FilterCates != null)
+            {
+                medicineDtos = medicineDtos
+                    .Where(m => searchCategoryDto.FilterCates.Contains(m.ClassificationName));
+            }
+            return medicineDtos;
         }
 
         public async Task<IActionResult> GetSearchPharmacyResultAsync(string search)

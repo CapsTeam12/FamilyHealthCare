@@ -15,6 +15,6 @@ namespace Contract.DTOs.SearchService
         public string Ingredients { get; set; }
         public string Direction { get; set; }
         public string Images { get; set; }
-        public int ClassificationName { get; set; }
+        public string ClassificationName { get; set; }
     }
 }

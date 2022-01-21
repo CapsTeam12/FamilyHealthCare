@@ -33,7 +33,7 @@ namespace Business
                 .ReverseMap();
             CreateMap<Pharmacy, PharmacyDetailsDto>()
                 .ReverseMap();
-            CreateMap<User, PatientDetailsDto>()
+            CreateMap<User, PatientUpdateDto>()
                 .ForMember(x => x.AccountId, opt => opt.MapFrom(m => m.Id))
                 .ReverseMap();
             CreateMap<MedicineClassification, CategoriesDetailsDto>()
