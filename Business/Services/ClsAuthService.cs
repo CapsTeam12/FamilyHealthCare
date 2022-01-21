@@ -1,48 +1,63 @@
 ﻿using AutoMapper;
 using Business.IServices;
 using Contract.DTOs.AuthService;
+using Contract.DTOs.ManagementService;
 using Data.Entities;
+using FamilyHealthCare.SharedLibrary;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Business
 {
     public class ClsAuthService : ControllerBase, IAuthService
     {
-        //private readonly UserManager<User> _userManager;
+        private readonly UserManager<User> _userManager;
+        private readonly IBaseRepository<User> _userRepos;
         private readonly IBaseRepository<Doctor> _doctorRepos;
         private readonly IBaseRepository<Pharmacy> _pharmacyRepos;
         private readonly IBaseRepository<Patient> _patientRepos;
+        //private readonly IFileService _fileService;
+
         private readonly IMapper _mapper;
 
-        public ClsAuthService( IMapper mapper,
+        public ClsAuthService(IBaseRepository<User> userRepos, IMapper mapper,
+                                UserManager<User> userManager,
                                 IBaseRepository<Doctor> doctorRepos,
                                 IBaseRepository<Pharmacy> pharmacyRepos,
-                                IBaseRepository<Patient> patientRepos)
+                                IBaseRepository<Patient> patientRepos
+                                )
         {
-            //_userManager = userManager;
+            _userManager = userManager;
+            _userRepos = userRepos;
             _doctorRepos = doctorRepos;
             _pharmacyRepos = pharmacyRepos;
             _patientRepos = patientRepos;
+            //_fileService = fileService; IFileService fileService
             _mapper = mapper;
         }
         public async Task<IActionResult> ChangePasswordAsync(ChangePasswordDto changePasswordDto)
         {
-            //var user = await _userManager.GetUserAsync(HttpContext.User);
-            //var changePasswordDtos = _mapper.Map<User>(changePasswordDto);
-
-            //var userIdentity = await _userManager.FindByIdAsync(user.Id);
-            //await _userManager.UpdateAsync(user.Id, changePasswordDtos);
-            //user.PasswordHash = await PasswordHasher.HashPassword(changePasswordDto.NewPassword);
-            //var result = await _userManager.UpdateAsync(user);
-            return Ok();
+            var user = await _userManager.FindByIdAsync(changePasswordDto.UserId);
+            if (user == null)
+                return Unauthorized();
+            var checkPass = await _userManager.CheckPasswordAsync(user, changePasswordDto.CurrentPassword);
+            var validPass = await _userManager.CheckPasswordAsync(user, changePasswordDto.NewPassword);
+            if (!checkPass)
+                return NoContent();
+            if (validPass)
+                return NotFound();
+            var result = await _userManager.ChangePasswordAsync(user, changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
+            return Ok(result);
         }
 
-        public Task<IActionResult> UpdateAdminProfileAsync()
+        public async Task<IActionResult> UpdateAdminProfileAsync()
         {
-            throw new NotImplementedException();
+            return Ok();
         }
 
         public Task<IActionResult> UpdateDoctorProfileAsync()
@@ -50,9 +65,34 @@ namespace Business
             throw new NotImplementedException();
         }
 
-        public Task<IActionResult> UpdatePatientProfileAsync()
+        public async Task<IActionResult> UpdatePatientProfileAsync(PatientDetailsDto patientDetailsDto)
         {
-            throw new NotImplementedException();
+            //var patientModel = _mapper.Map<Patient>(patientDetailsDto);
+            var user = _patientRepos
+                                .Entities
+                                .Include(a => a.User)
+                                .Where(a => a.AccountId == patientDetailsDto.AccountId)
+                                .First();
+            if (user == null)
+                return Unauthorized();
+            user.FullName = patientDetailsDto.FullName;
+            user.User.Email = patientDetailsDto.Email;
+            user.Languages = patientDetailsDto.Languages;
+            user.Phone = patientDetailsDto.Phone;
+            user.PostalCode = patientDetailsDto.PostalCode;
+            user.Gender = patientDetailsDto.Gender;
+            user.DateOfBirth = patientDetailsDto.DateOfBirth;
+            user.Address = patientDetailsDto.Address;
+
+            //if (patientDetailsDto.Avatar != null)
+            //{
+            //    await _fileService.DeleteFile(user.Avatar, ImageConstants.PATIENTS_PATH);
+            //    user.Avatar = await _fileService.SaveFile(patientDetailsDto.Avatar, ImageConstants.PATIENTS_PATH);
+            //}
+
+            var updatedPatient = await _patientRepos.Update(user);
+            var patientDto = _mapper.Map<PatientDetailsDto>(updatedPatient);
+            return Ok(patientDto);
         }
 
         public Task<IActionResult> UpdatePharmacyProfileAsync()

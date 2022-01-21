@@ -1,4 +1,5 @@
 ﻿using Contract.DTOs.AuthService;
+using Contract.DTOs.ManagementService;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Business.IServices
     public interface IAuthService 
     {
         public Task<IActionResult> ChangePasswordAsync(ChangePasswordDto changePasswordDto);
-        public Task<IActionResult> UpdatePatientProfileAsync();
+        public Task<IActionResult> UpdatePatientProfileAsync(PatientDetailsDto patientDetailsDto);
         public Task<IActionResult> UpdateDoctorProfileAsync();
         public Task<IActionResult> UpdatePharmacyProfileAsync();
         public Task<IActionResult> UpdateAdminProfileAsync();

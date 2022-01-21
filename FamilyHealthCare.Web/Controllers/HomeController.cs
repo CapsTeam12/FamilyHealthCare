@@ -1,4 +1,5 @@
 ﻿using Contract.DTOs.ManagementService;
+using Contract.DTOs.SearchService;
 using FamilyHealthCare.SharedLibrary;
 using FamilyHealthCare.Web.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -59,6 +60,19 @@ namespace FamilyHealthCare.Customer.Controllers
             response.EnsureSuccessStatusCode();
             var result = await response.Content.ReadAsStringAsync();
             return View();
+        }
+
+        public async Task<IActionResult> Search(string search)
+        {
+            var httpClient = _clientFactory.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
+            var response = await httpClient.GetAsync(EndpointConstants.SearchService.SEARCH);
+            var data = new List<SearchMedicineDto>();
+            response.EnsureSuccessStatusCode();
+            //var result = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                data = await response.Content.ReadAsAsync<List<SearchMedicineDto>>();
+            ViewBag.search = search;
+            return View(data);
         }
     }
 }

@@ -16,6 +16,9 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Business.IServices;
+using Contract.DTOs.AuthService;
+using Contract.DTOs.ManagementService;
 
 namespace AuthService.Controllers
 {
@@ -24,14 +27,17 @@ namespace AuthService.Controllers
     //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
     public class AuthController : ControllerBase
     {
+        private readonly IAuthService _authService;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AuthController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public AuthController(UserManager<User> userManager,
+                              RoleManager<IdentityRole> roleManager,
+                              IAuthService authService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
-
+            _authService = authService;
         }
 
 
@@ -168,6 +174,32 @@ namespace AuthService.Controllers
             }
         }
 
+        [HttpPut]
+        [Route("change-password")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordDto changePassworDto)
+        {
+            //var identity = HttpContext.User.Identity as ClaimsIdentity;
+            if (changePassworDto.UserId == null)
+            {
+                return Unauthorized();
+            }
+            var changePassworDtos = await _authService.ChangePasswordAsync(changePassworDto);
+            
+            return changePassworDtos;
+        }
 
+        [HttpPut]
+        [Route("update-profile")]
+        public async Task<IActionResult> UpdatePatientProfile(PatientDetailsDto patientDetailsDto)
+        {
+            //var identity = HttpContext.User.Identity as ClaimsIdentity;
+            if (patientDetailsDto.AccountId.ToString() == null)
+            {
+                return Unauthorized();
+            }
+            var updatePatientProfile = await _authService.UpdatePatientProfileAsync(patientDetailsDto);
+
+            return Ok(updatePatientProfile);
+        }
     }
 }

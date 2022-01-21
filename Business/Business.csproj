@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Contract\Contract.csproj" />
     <ProjectReference Include="..\Data\Data.csproj" />
+    <ProjectReference Include="..\FamilyHealthCare.SharedLibrary\FamilyHealthCare.SharedLibrary.csproj" />
   </ItemGroup>
 
 </Project>

@@ -34,6 +34,7 @@ namespace Business
             CreateMap<Pharmacy, PharmacyDetailsDto>()
                 .ReverseMap();
             CreateMap<User, PatientDetailsDto>()
+                .ForMember(x => x.AccountId, opt => opt.MapFrom(m => m.Id))
                 .ReverseMap();
             CreateMap<MedicineClassification, CategoriesDetailsDto>()
                 .ForMember(x => x.CateName, opt => opt.MapFrom(m => m.ClassificationName))
@@ -42,6 +43,12 @@ namespace Business
                 .ReverseMap();
             CreateMap<User, ChangePasswordDto>()
                 .ReverseMap();
+            CreateMap<User, UpdatePatientProfileDto>()
+               .ForMember(x => x.AccountId, opt => opt.MapFrom(m => m.Id))
+               .ReverseMap();
+            CreateMap<Patient, PatientDetailsDto>()
+               .ForMember(x => x.AccountId, opt => opt.MapFrom(m => m.Id))
+               .ReverseMap();
 
             CreateMap<Appointment, AppointmentRescheduleDto>().ReverseMap();
 

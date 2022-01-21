@@ -53,7 +53,7 @@ namespace AppointmentService.Controllers
 
         [HttpPost]
         [Route("Booking/{userId}")]
-        public async Task<IActionResult> Post([FromBody] AppointmentCreateDto createDto,string userId)
+        public async Task<IActionResult> Post([FromBody] AppointmentCreateDto createDto, string userId)
         {
             var appointmentDto = await _appointmentService.BookingAppointment(createDto, userId);
             if(userId == null)

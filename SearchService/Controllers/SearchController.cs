@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SearchService.Controllers
 {
-    //[Route("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class SearchController : ControllerBase
     {
