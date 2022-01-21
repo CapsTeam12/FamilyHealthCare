@@ -9,16 +9,19 @@ namespace Contract.DTOs.AuthService
 {
     public class ChangePasswordDto
     {
-        //public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
-        //[DataType(DataType.Password)]
-        //public string CurrentPassword { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        public string CurrentPassword { get; set; }
 
-        //[DataType(DataType.Password)]
-        //public string NewPassword { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        public string NewPassword { get; set; }
 
-        //[DataType(DataType.Password)]
-        //[Compare("NewPassword")]
-        //public string ConfirmNewPassword { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        [Compare("NewPassword", ErrorMessage = "Passwords do not match")]
+        public string ConfirmNewPassword { get; set; }
     }
 }

@@ -5,13 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Validators\**" />
-    <Content Remove="Validators\**" />
-    <EmbeddedResource Remove="Validators\**" />
-    <None Remove="Validators\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\assets-ud\css\bootstrap.css.map" />
     <None Include="wwwroot\assets-ud\css\bootstrap.min.css.map" />
     <None Include="wwwroot\assets-ud\fonts\Feather.svg" />

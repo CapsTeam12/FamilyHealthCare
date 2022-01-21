@@ -17,7 +17,7 @@ namespace Business.Services
         private readonly IBaseRepository<Doctor> _doctorRepos;
         private readonly IBaseRepository<Pharmacy> _pharmacyRepos;
         private readonly IBaseRepository<MedicineClassification> _cateRepos;
-        private readonly IBaseRepository<User> _patientRepos;
+        private readonly IBaseRepository<Patient> _patientRepos;
         private readonly IBaseRepository<Specialities> _specializedRepos;
         private readonly IMapper _mapper;
         
@@ -25,7 +25,7 @@ namespace Business.Services
                                     IBaseRepository<MedicineClassification> cateRepos,
                                     IBaseRepository<Doctor> doctorRepos,
                                     IBaseRepository<Pharmacy> pharmacyRepos,
-                                    IBaseRepository<User> patientRepos,
+                                    IBaseRepository<Patient> patientRepos,
                                     IBaseRepository<Specialities> specializedRepos)
         {
             _cateRepos = cateRepos;
@@ -36,7 +36,7 @@ namespace Business.Services
             _mapper = mapper;
         }
 
-        public async Task<List<CategoriesDetailsDto>> GetCategoriestAsync()
+        public async Task<List<CategoriesDetailsDto>> GetCategoriesAsync()
         {
             var categories = await _cateRepos
                               .Entities
@@ -48,10 +48,10 @@ namespace Business.Services
 
         public async Task<List<DoctorDetailsDto>> GetDoctorsAsync()
         {
-            var doctors = await _doctorRepos
+            var doctors = await _patientRepos
                                .Entities
                                .Include(a => a.User)
-                               .OrderByDescending(a => a.User.UserName)
+                               .OrderByDescending(a => a.FullName)
                                .ToListAsync();
             var doctorDtos = _mapper.Map<List<DoctorDetailsDto>>(doctors);
             return doctorDtos;
@@ -62,7 +62,7 @@ namespace Business.Services
             var patients = await _doctorRepos
                               .Entities
                               .Include(a => a.User)
-                              .OrderByDescending(a => a.User.UserName)
+                              .OrderByDescending(a => a.FullName)
                               .ToListAsync();
             var patientsDtos = _mapper.Map<List<PatientDetailsDto>>(patients);
             return Ok(patientsDtos);
@@ -73,7 +73,7 @@ namespace Business.Services
             var pharmacies = await _pharmacyRepos
                               .Entities
                               .Include(a => a.User)
-                              .OrderByDescending(a => a.User.UserName)
+                              .OrderByDescending(a => a.PharmacyName)
                               .ToListAsync();
             var pharmaciesDtos = _mapper.Map<List<PharmacyDetailsDto>>(pharmacies);
             return Ok(pharmaciesDtos);
@@ -87,6 +87,37 @@ namespace Business.Services
                               .ToListAsync();
             var specialitiesDtos = _mapper.Map<List<SpecialitiesDetailsDto>>(specialities);
             return Ok(specialitiesDtos);
+        }
+
+        public Task<IActionResult> GetCategoryDetailsAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IActionResult> GetDoctorDetailsAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<PatientDetailsDto> GetPatientDetailsAsync(string id)
+        {
+            var patient = _patientRepos
+                              .Entities
+                              .Include(a => a.User)
+                              .Where(x => x.AccountId == id)
+                              .FirstOrDefault();
+            var patientsDtos = _mapper.Map<PatientDetailsDto>(patient);
+            return patientsDtos;
+        }
+
+        public Task <IActionResult> GetPharmacyDetailsAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task <IActionResult> GetSpecializedDetailsAsync(string id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

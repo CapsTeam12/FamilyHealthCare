@@ -12,8 +12,23 @@ namespace FamilyHealthCare.SharedLibrary
 
         public static class ManagementService
         {
-            public static string DOCTORS = "/Management/doctors";
-            public static string CATEGORIES = "/api/Management/categories";
+            public static string DOCTORS = "api/Management/doctors";
+            public static string CATEGORIES = "api/Management/categories";
+            public static string DOCTORDETAILS = "api/Management/doctors/{id}";
+            public static string CATEGORYSDETAILS = "api/Management/categories";
+            public static string PATIENTDETAILS = "api/Management/patients";
+
+        }
+        public static class AuthService
+        {
+            public static string CHANGEPASSWORD = "api/Auth/change-password";
+            public static string PATIENTPROFILE = "api/Auth/update-profile";
+        }
+
+        public static class SearchService
+        {
+            public static string SEARCH = "api/Search/search/medicine";
+            public static string PATIENTPROFILE = "api/Auth/update-profile";
         }
 
         public static class AppointmentService

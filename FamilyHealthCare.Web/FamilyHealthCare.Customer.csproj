@@ -20,6 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\images\patients\" />
+
     <Folder Include="wwwroot\lib\fullcalendar\" />
   </ItemGroup>
 

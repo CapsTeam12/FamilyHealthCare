@@ -2,9 +2,11 @@ using Business;
 using Business.IServices;
 using Business.Services;
 using Data;
+using Data.Entities;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,7 +38,19 @@ namespace AppointmentService
             services.Configure<MongoDbConfig>(Configuration);
             
             services.AddBusinessLayer();
-            services.AddDataAccessorLayer(Configuration);               
+            services.AddDataAccessorLayer(Configuration);
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireUppercase = false;
+            })
+               .AddEntityFrameworkStores<ApplicationDbContext>()
+               .AddDefaultTokenProviders();
             services.AddControllers()
                 .AddFluentValidation(fv =>
                 {

@@ -24,6 +24,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static IdentityServer4.IdentityServerConstants;
+using Business;
 
 namespace AuthService
 {
@@ -40,7 +41,7 @@ namespace AuthService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDataAccessorLayer(Configuration);
-
+            services.AddBusinessLayer();
             services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
@@ -136,6 +137,7 @@ namespace AuthService
             app.UseRouting();
 
             app.UseIdentityServer();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

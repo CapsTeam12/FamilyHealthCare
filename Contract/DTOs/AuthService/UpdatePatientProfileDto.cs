@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contract.DTOs.ManagementService
+namespace Contract.DTOs.AuthService
 {
-    public class PatientDetailsDto
+    public class UpdatePatientProfileDto
     {
         public string AccountId { get; set; }
         public string FullName { get; set; }
@@ -17,7 +17,6 @@ namespace Contract.DTOs.ManagementService
         public string Address { get; set; }
         public int? Languages { get; set; }
         public int? PostalCode { get; set; }
-        public IFormFile Avatar { get; set; }
-        public string Email { get; set; }
+        public string Avatar { get; set; }
     }
 }
