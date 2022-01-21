@@ -1,6 +1,5 @@
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Identity
-
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
 @{
     var userId = _httpContextAccessor.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -40,7 +39,7 @@
                             <span></span>
                         </span>
                     </a>
-                    <a href="index.html" class="navbar-brand logo">
+                    <a asp-controller="Home" asp-action="Index" class="navbar-brand logo">
                         <img src=@Url.Content("~/assets/img/LogoFHC.png") class="img-fluid" alt="Logo">
                     </a>
                 </div>
@@ -55,7 +54,7 @@
                     </div>
                     <ul class="main-nav">
                         <li class="has-submenu ">
-                            <a href="index.html">Home </a>
+                            <a asp-controller="Home" asp-action="Index">Home </a>
 
                         </li>
                         <li class="has-submenu">
@@ -185,14 +184,14 @@
                                     </div>
                                 </div>
                                 <a class="dropdown-item" href="patient-dashboard.html">Dashboard</a>
-                          <a class="dropdown-item" asp-controller="Appointment" asp-action="Index" asp-route-userId="@userId">Appointments</a>
+                                <a class="dropdown-item" asp-controller="Appointment" asp-action="Index">Appointments</a>
                                 <a class="dropdown-item" asp-controller="Account" asp-action="ProfileSetting">Profile Settings</a>
-                                 <a class="dropdown-item" asp-controller="Schedule" asp-action="Calendar" asp-route-userId="@userId">Calendar</a>
+                                <a class="dropdown-item" asp-controller="Schedule" asp-action="Calendar">Calendar</a>
                                 <a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
                                 <a class="dropdown-item" asp-controller="Account" asp-action="SignOut">Logout</a>
                             </div>
                         </li>
-}
+                    }
                     else
                     {
                         <a class="nav-link header-login" asp-controller="Account" asp-action="SignIn">Log In / Sign Up</a>

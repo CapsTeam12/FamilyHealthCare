@@ -48,7 +48,7 @@ namespace Business.Services
 
         public async Task<List<DoctorDetailsDto>> GetDoctorsAsync()
         {
-            var doctors = await _patientRepos
+            var doctors = await _doctorRepos
                                .Entities
                                .Include(a => a.User)
                                .OrderByDescending(a => a.FullName)
@@ -59,7 +59,7 @@ namespace Business.Services
 
         public async Task<IActionResult> GetPatientsAsync()
         {
-            var patients = await _doctorRepos
+            var patients = await _patientRepos
                               .Entities
                               .Include(a => a.User)
                               .OrderByDescending(a => a.FullName)
