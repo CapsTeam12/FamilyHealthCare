@@ -1,4 +1,5 @@
 ﻿using Business.IServices;
+using Contract.DTOs.SearchService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -18,11 +19,11 @@ namespace SearchService.Controllers
             _searchService = searchService;
         }
 
-        [HttpGet("search/medicine")]
-        public async Task<IActionResult> GetMedicinesAsync(string search)
+        [HttpPost("search/medicine")]
+        public async Task<IEnumerable<SearchMedicineDto>> GetMedicinesAsync(SearchCategoryDto searchCategoryDto)
         {
-            var medicines = await _searchService.GetSearchMedicineResultAsync(search);
-            return Ok(medicines);
+            var medicines = await _searchService.GetSearchMedicineResultAsync(searchCategoryDto);
+            return medicines;
         }
 
         [HttpGet("search/medicine/{id}")]

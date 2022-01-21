@@ -106,8 +106,9 @@ namespace Business.Services
                               .Include(a => a.User)
                               .Where(x => x.AccountId == id)
                               .FirstOrDefault();
-            var patientsDtos = _mapper.Map<PatientDetailsDto>(patient);
-            return patientsDtos;
+            var patientsDto = _mapper.Map<PatientDetailsDto>(patient);
+            patientsDto.Email = patient.User.Email;
+            return patientsDto;
         }
 
         public Task <IActionResult> GetPharmacyDetailsAsync(string id)

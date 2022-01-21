@@ -220,7 +220,6 @@ namespace IdentityServerHost.Quickstart.UI
                 await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId: context?.Client.ClientId));
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
             }
-
             // something went wrong, show form with error
             var vm = await BuildLoginViewModelAsync(model);
             if (vm.ClientId == ClientIdConstants.User)
@@ -304,6 +303,7 @@ namespace IdentityServerHost.Quickstart.UI
         [HttpPost]
         public async Task<IActionResult> Register(RegisterAuthModelVM RegisterVm)
         {
+            RegisterAuthModelVMValidator(RegisterVm);
             if (!ModelState.IsValid)
             {
                 return View("Register", RegisterVm);
@@ -482,6 +482,28 @@ namespace IdentityServerHost.Quickstart.UI
             }
 
             return vm;
+        }
+
+        public void RegisterAuthModelVMValidator(RegisterAuthModelVM vm)
+        {
+            if (string.IsNullOrWhiteSpace(vm.Username))
+                ModelState.AddModelError("Username", "Username is required");
+            if (string.IsNullOrWhiteSpace(vm.Name))
+                ModelState.AddModelError("Name", "Name is required");
+            if (string.IsNullOrWhiteSpace(vm.MobileNumber))
+                ModelState.AddModelError("MobileNumber", "Mobile number is required");
+            if (string.IsNullOrWhiteSpace(vm.Password))
+                ModelState.AddModelError("Password", "Password is required");
+            if (string.IsNullOrWhiteSpace(vm.PasswordConfirm))
+                ModelState.AddModelError("PasswordConfirm", "Password confirm is required");
+            if (!string.IsNullOrWhiteSpace(vm.Password))
+            {
+                if (!string.IsNullOrWhiteSpace(vm.PasswordConfirm))
+                {
+                    if(vm.Password != vm.PasswordConfirm)
+                        ModelState.AddModelError("PasswordConfirm", "Password and password confirm is not match");
+                }
+            }
         }
     }
 }

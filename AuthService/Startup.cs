@@ -25,6 +25,8 @@ using System.Text;
 using System.Threading.Tasks;
 using static IdentityServer4.IdentityServerConstants;
 using Business;
+using FluentValidation.AspNetCore;
+using System.Reflection;
 
 namespace AuthService
 {
@@ -105,7 +107,13 @@ namespace AuthService
                 options.AddPolicy("ADMIN_ROLE_POLICY", policy =>
                     policy.Requirements.Add(new AdminRoleRequirement()));
             });
-
+            services.AddControllers()
+                .AddFluentValidation(fv =>
+                {
+                    fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+                    fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
+                }
+            );
             services.AddSingleton<IAuthorizationHandler, AdminRoleHandler>();
             services.AddControllersWithViews();
             services.AddRazorPages();

@@ -12,7 +12,7 @@ namespace Business.IServices
     public interface IAuthService 
     {
         public Task<IActionResult> ChangePasswordAsync(ChangePasswordDto changePasswordDto);
-        public Task<IActionResult> UpdatePatientProfileAsync(PatientDetailsDto patientDetailsDto);
+        public Task<IActionResult> UpdatePatientProfileAsync(PatientUpdateDto patientDetailsDto);
         public Task<IActionResult> UpdateDoctorProfileAsync();
         public Task<IActionResult> UpdatePharmacyProfileAsync();
         public Task<IActionResult> UpdateAdminProfileAsync();

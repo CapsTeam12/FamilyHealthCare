@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Business.IServices;
+using Business.Services;
 using Contract.DTOs.AuthService;
 using Contract.DTOs.ManagementService;
 using Data.Entities;
@@ -21,7 +22,7 @@ namespace Business
         private readonly IBaseRepository<Doctor> _doctorRepos;
         private readonly IBaseRepository<Pharmacy> _pharmacyRepos;
         private readonly IBaseRepository<Patient> _patientRepos;
-        //private readonly IFileService _fileService;
+        private readonly IFileService _fileService;
 
         private readonly IMapper _mapper;
 
@@ -29,15 +30,15 @@ namespace Business
                                 UserManager<User> userManager,
                                 IBaseRepository<Doctor> doctorRepos,
                                 IBaseRepository<Pharmacy> pharmacyRepos,
-                                IBaseRepository<Patient> patientRepos
-                                )
+                                IBaseRepository<Patient> patientRepos,
+                                IFileService fileService)
         {
             _userManager = userManager;
             _userRepos = userRepos;
             _doctorRepos = doctorRepos;
             _pharmacyRepos = pharmacyRepos;
             _patientRepos = patientRepos;
-            //_fileService = fileService; IFileService fileService
+            _fileService = fileService; 
             _mapper = mapper;
         }
         public async Task<IActionResult> ChangePasswordAsync(ChangePasswordDto changePasswordDto)
@@ -65,7 +66,7 @@ namespace Business
             throw new NotImplementedException();
         }
 
-        public async Task<IActionResult> UpdatePatientProfileAsync(PatientDetailsDto patientDetailsDto)
+        public async Task<IActionResult> UpdatePatientProfileAsync([FromForm] PatientUpdateDto patientDetailsDto)
         {
             //var patientModel = _mapper.Map<Patient>(patientDetailsDto);
             var user = _patientRepos
@@ -84,11 +85,14 @@ namespace Business
             user.DateOfBirth = patientDetailsDto.DateOfBirth;
             user.Address = patientDetailsDto.Address;
 
-            //if (patientDetailsDto.Avatar != null)
-            //{
-            //    await _fileService.DeleteFile(user.Avatar, ImageConstants.PATIENTS_PATH);
-            //    user.Avatar = await _fileService.SaveFile(patientDetailsDto.Avatar, ImageConstants.PATIENTS_PATH);
-            //}
+            if (patientDetailsDto.Avatar != null)
+            {
+                if(user.Avatar != null)
+                {
+                    await _fileService.DeleteFile(user.Avatar, ImageConstants.PATIENTS_PATH);
+                }
+                user.Avatar = await _fileService.SaveFile(patientDetailsDto.Avatar, ImageConstants.PATIENTS_PATH);
+            }
 
             var updatedPatient = await _patientRepos.Update(user);
             var patientDto = _mapper.Map<PatientDetailsDto>(updatedPatient);

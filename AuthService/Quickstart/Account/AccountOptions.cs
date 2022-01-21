@@ -17,5 +17,6 @@ namespace IdentityServerHost.Quickstart.UI
 
         public static string InvalidCredentialsErrorMessage = "Invalid username or password";
         public static string InvalidRoleErrorMessage = "Invalid role";
+        //public static string InvalidRequiredValue = "Username and password can not empty";
     }
 }

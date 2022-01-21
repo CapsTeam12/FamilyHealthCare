@@ -215,4 +215,8 @@
     <ProjectReference Include="..\Data\Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\patients\" />
+  </ItemGroup>
+
 </Project>

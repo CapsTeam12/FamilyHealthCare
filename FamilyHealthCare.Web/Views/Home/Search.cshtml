@@ -1,8 +1,9 @@
-﻿@using Contract.DTOs.SearchService
-@model SearchMedicineDto
+﻿@using FamilyHealthCare.Customer.Models;
+@model SearchViewModel
 @{ 
     ViewData["Title"] = "Searching";
-    var search = ViewBag.search;
+    var resultCount = ViewBag.resultCount;
+    var keyword = ViewBag.keyword;
 }
 <div class="breadcrumb-bar">
     <div class="container-fluid">
@@ -14,7 +15,7 @@
                         <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
                     </ol>
                 </nav>
-                <h2 class="breadcrumb-title">@ViewData["Title"]	<span class="text-small text-white ms-2"> <b>70 Products</b></span></h2>
+                <h2 class="breadcrumb-title">@ViewData["Title"]	<span class="text-small text-white ms-2"> <b>@keyword</b></span></h2>
             </div>
         </div>
     </div>
@@ -38,54 +39,24 @@
                                 <input type="text" class="form-control datetimepicker" placeholder="Select Date">
                             </div>
                         </div> -->
-                        <div class="filter-widget">
-                            <h4>Categories</h4>
-                            <div>
-                                <label class="custom_check">
-                                    <input type="checkbox" name="gender_type" checked>
-                                    <span class="checkmark"></span> Family Care
-                                </label>
+                        <form asp-controller="Home" asp-action="Search" method="post">
+                            <div class="filter-widget">
+                                <h4>Categories</h4>
+                                @for (int i = 0; i < Model.FilterCates.Count; i++)
+                                {
+                                    <div>
+                                        <label class="custom_check">
+                                            <input type="checkbox" value="@Model.FilterCates[i].Name" name="FilterCates" checked="@Model.FilterCates[i].IsSelected">
+                                            <span class="checkmark"></span> @Model.FilterCates[i].Name
+                                        </label>
+                                    </div>
+                                }
+                                <input name="Search" hidden value="@keyword" />
                             </div>
-                            <div>
-                                <label class="custom_check">
-                                    <input type="checkbox" name="gender_type">
-                                    <span class="checkmark"></span> Skin Care
-                                </label>
+                            <div class="btn-search">
+                                <button type="submit" class="btn w-100">Search</button>
                             </div>
-                            <div>
-                                <label class="custom_check">
-                                    <input type="checkbox" name="gender_type">
-                                    <span class="checkmark"></span> Hair Care
-                                </label>
-                            </div>
-                            <div>
-                                <label class="custom_check">
-                                    <input type="checkbox" name="gender_type">
-                                    <span class="checkmark"></span> Lip Care
-                                </label>
-                            </div>
-                            <div>
-                                <label class="custom_check">
-                                    <input type="checkbox" name="gender_type">
-                                    <span class="checkmark"></span> Men's Care
-                                </label>
-                            </div>
-                            <div>
-                                <label class="custom_check">
-                                    <input type="checkbox" name="gender_type">
-                                    <span class="checkmark"></span> Women's Care
-                                </label>
-                            </div>
-                            <div>
-                                <label class="custom_check">
-                                    <input type="checkbox" name="gender_type">
-                                    <span class="checkmark"></span> Baby care
-                                </label>
-                            </div>
-                        </div>
-                        <div class="btn-search">
-                            <button type="button" class="btn w-100">Search</button>
-                        </div>
+                        </form>
                     </div>
                 </div>
                 <!-- /Search Filter -->
@@ -96,9 +67,16 @@
 
                 <div class="row align-items-center pb-3">
                     <div class="col-md-4 col-12 d-md-block d-none custom-short-by">
-                        <h3 class="title pharmacy-title">Medlife Medical</h3>
-                        <p class="doc-location mb-2 text-ellipse pharmacy-location"><i class="fas fa-map-marker-alt me-1"></i> 96 Red Hawk Road Cyrus, MN 56323 </p>
-                        <span class="sort-title">Showing 6 of 98 products</span>
+                        <h3 class="title pharmacy-title">@keyword</h3>
+                        @*<p class="doc-location mb-2 text-ellipse pharmacy-location"><i class="fas fa-map-marker-alt me-1"></i> 96 Red Hawk Road Cyrus, MN 56323 </p>*@
+                        @if (Model.SearchMedicineDtos.Count != 0 && Model.SearchMedicineDtos.Count > 6)
+                        {
+                            <span class="sort-title">Showing 6 of @resultCount products</span>
+                        }
+                        else if (Model.SearchMedicineDtos.Count < 6)
+                        {
+                            <span class="sort-title">Showing @resultCount products</span>
+                        }
                     </div>
                     <div class="col-md-8 col-12 d-md-block d-none custom-short-by">
                         <div class="sort-by pb-3">
@@ -115,268 +93,40 @@
                         </div>
                     </div>
                 </div>
+                @if (Model.SearchMedicineDtos.Count != 0)
+                {
+                    <div class="row">
+                        @foreach (var medicine in Model.SearchMedicineDtos)
+                        {
+                            <div class="col-md-12 col-lg-4 col-xl-4 product-custom">
+                                <div class="profile-widget">
+                                    <div class="doc-img">
+                                        <a href="product-description.html" tabindex="-1">
+                                            <img class="img-fluid" alt="Medicine image" src="~/assets/img/products/product.jpg">
+                                        </a>
+                                        <a href="javascript:void(0)" class="fav-btn" tabindex="-1">
+                                            <i class="far fa-bookmark"></i>
+                                        </a>
+                                    </div>
+                                    <div class="pro-content">
+                                        <h3 class="title pb-4">
+                                            <a href="product-description.html" tabindex="-1">@medicine.MedicineName</a>
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        }
 
-                <div class="row">
-                    <div class="col-md-12 col-lg-4 col-xl-4 product-custom">
-                        <div class="profile-widget">
-                            <div class="doc-img">
-                                <a href="product-description.html" tabindex="-1">
-                                    <img class="img-fluid" alt="Product image" src="assets/img/products/product.jpg">
-                                </a>
-                                <a href="javascript:void(0)" class="fav-btn" tabindex="-1">
-                                    <i class="far fa-bookmark"></i>
-                                </a>
-                            </div>
-                            <div class="pro-content">
-                                <h3 class="title pb-4">
-                                    <a href="product-description.html" tabindex="-1">Benzaxapine Croplex</a>
-                                </h3>
-                            </div>
-                        </div>
                     </div>
-                    <div class="col-md-12 col-lg-4 col-xl-4 product-custom">
-                        <div class="profile-widget">
-                            <div class="doc-img">
-                                <a href="product-description.html" tabindex="-1">
-                                    <img class="img-fluid" alt="Product image" src="assets/img/products/product13.jpg">
-                                </a>
-                                <a href="javascript:void(0)" class="fav-btn" tabindex="-1">
-                                    <i class="far fa-bookmark"></i>
-                                </a>
-                            </div>
-                            <div class="pro-content">
-                                <h3 class="title pb-4">
-                                    <a href="product-description.html" tabindex="-1">Rapalac Neuronium</a>
-                                </h3>
-                            </div>
-                        </div>
+                    <div class="col-md-12 text-center">
+                        <a href="#" class="btn book-btn1 mb-4">Load More</a>
                     </div>
-                    <div class="col-md-12 col-lg-4 col-xl-4 product-custom">
-                        <div class="profile-widget">
-                            <div class="doc-img">
-                                <a href="product-description.html" tabindex="-1">
-                                    <img class="img-fluid" alt="Product image" src="assets/img/products/product1.jpg">
-                                </a>
-                                <a href="javascript:void(0)" class="fav-btn" tabindex="-1">
-                                    <i class="far fa-bookmark"></i>
-                                </a>
-                            </div>
-                            <div class="pro-content">
-                                <h3 class="title pb-4">
-                                    <a href="product-description.html" tabindex="-1">Ombinazol Bonibamol</a>
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-lg-4 col-xl-4 product-custom">
-                        <div class="profile-widget">
-                            <div class="doc-img">
-                                <a href="product-description.html" tabindex="-1">
-                                    <img class="img-fluid" alt="Product image" src="assets/img/products/product2.jpg">
-                                </a>
-                                <a href="javascript:void(0)" class="fav-btn" tabindex="-1">
-                                    <i class="far fa-bookmark"></i>
-                                </a>
-                            </div>
-                            <div class="pro-content">
-                                <h3 class="title pb-4">
-                                    <a href="product-description.html" tabindex="-1">Dantotate Dantodazole</a>
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-lg-4 col-xl-4 product-custom">
-                        <div class="profile-widget">
-                            <div class="doc-img">
-                                <a href="product-description.html" tabindex="-1">
-                                    <img class="img-fluid" alt="Product image" src="assets/img/products/product12.jpg">
-                                </a>
-                                <a href="javascript:void(0)" class="fav-btn" tabindex="-1">
-                                    <i class="far fa-bookmark"></i>
-                                </a>
-                            </div>
-                            <div class="pro-content">
-                                <h3 class="title pb-4">
-                                    <a href="product-description.html" tabindex="-1">Acetrace Amionel</a>
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-lg-4 col-xl-4 product-custom">
-                        <div class="profile-widget">
-                            <div class="doc-img">
-                                <a href="product-description.html" tabindex="-1">
-                                    <img class="img-fluid" alt="Product image" src="assets/img/products/product11.jpg">
-                                </a>
-                                <a href="javascript:void(0)" class="fav-btn" tabindex="-1">
-                                    <i class="far fa-bookmark"></i>
-                                </a>
-                            </div>
-                            <div class="pro-content">
-                                <h3 class="title pb-4">
-                                    <a href="product-description.html" tabindex="-1">Ergorinex Caffeigestin</a>
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-lg-4 col-xl-4 product-custom">
-                        <div class="profile-widget">
-                            <div class="doc-img">
-                                <a href="product-description.html" tabindex="-1">
-                                    <img class="img-fluid" alt="Product image" src="assets/img/products/product3.jpg">
-                                </a>
-                                <a href="javascript:void(0)" class="fav-btn" tabindex="-1">
-                                    <i class="far fa-bookmark"></i>
-                                </a>
-                            </div>
-                            <div class="pro-content">
-                                <h3 class="title pb-4">
-                                    <a href="product-description.html" tabindex="-1">Alispirox Aerorenone</a>
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-lg-4 col-xl-4 product-custom">
-                        <div class="profile-widget">
-                            <div class="doc-img">
-                                <a href="product-description.html" tabindex="-1">
-                                    <img class="img-fluid" alt="Product image" src="assets/img/products/product10.jpg">
-                                </a>
-                                <a href="javascript:void(0)" class="fav-btn" tabindex="-1">
-                                    <i class="far fa-bookmark"></i>
-                                </a>
-                            </div>
-                            <div class="pro-content">
-                                <h3 class="title pb-4">
-                                    <a href="product-description.html" tabindex="-1">Lysofranil Dorzostin</a>
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-lg-4 col-xl-4 product-custom">
-                        <div class="profile-widget">
-                            <div class="doc-img">
-                                <a href="product-description.html" tabindex="-1">
-                                    <img class="img-fluid" alt="Product image" src="assets/img/products/product4.jpg">
-                                </a>
-                                <a href="javascript:void(0)" class="fav-btn" tabindex="-1">
-                                    <i class="far fa-bookmark"></i>
-                                </a>
-                            </div>
-                            <div class="pro-content">
-                                <h3 class="title pb-4">
-                                    <a href="product-description.html" tabindex="-1">Nitrolozin Zithrotropin</a>
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-lg-4 col-xl-4 product-custom">
-                        <div class="profile-widget">
-                            <div class="doc-img">
-                                <a href="product-description.html" tabindex="-1">
-                                    <img class="img-fluid" alt="Product image" src="assets/img/products/product14.jpg">
-                                </a>
-                                <a href="javascript:void(0)" class="fav-btn" tabindex="-1">
-                                    <i class="far fa-bookmark"></i>
-                                </a>
-                            </div>
-                            <div class="pro-content">
-                                <h3 class="title pb-4">
-                                    <a href="product-description.html" tabindex="-1">Cordacriptine Mardipine</a>
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-lg-4 col-xl-4 product-custom">
-                        <div class="profile-widget">
-                            <div class="doc-img">
-                                <a href="product-description.html" tabindex="-1">
-                                    <img class="img-fluid" alt="Product image" src="assets/img/products/product5.jpg">
-                                </a>
-                                <a href="javascript:void(0)" class="fav-btn" tabindex="-1">
-                                    <i class="far fa-bookmark"></i>
-                                </a>
-                            </div>
-                            <div class="pro-content">
-                                <h3 class="title pb-4">
-                                    <a href="product-description.html" tabindex="-1">Iconevist Ampyplex</a>
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-lg-4 col-xl-4 product-custom">
-                        <div class="profile-widget">
-                            <div class="doc-img">
-                                <a href="product-description.html" tabindex="-1">
-                                    <img class="img-fluid" alt="Product image" src="assets/img/products/product6.jpg">
-                                </a>
-                                <a href="javascript:void(0)" class="fav-btn" tabindex="-1">
-                                    <i class="far fa-bookmark"></i>
-                                </a>
-                            </div>
-                            <div class="pro-content">
-                                <h3 class="title pb-4">
-                                    <a href="product-description.html" tabindex="-1">Alcafsteride Omebide</a>
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-lg-4 col-xl-4 product-custom">
-                        <div class="profile-widget">
-                            <div class="doc-img">
-                                <a href="product-description.html" tabindex="-1">
-                                    <img class="img-fluid" alt="Product image" src="assets/img/products/product15.jpg">
-                                </a>
-                                <a href="javascript:void(0)" class="fav-btn" tabindex="-1">
-                                    <i class="far fa-bookmark"></i>
-                                </a>
-                            </div>
-                            <div class="pro-content">
-                                <h3 class="title pb-4">
-                                    <a href="product-description.html" tabindex="-1">Neubide Aborase</a>
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-lg-4 col-xl-4 product-custom">
-                        <div class="profile-widget">
-                            <div class="doc-img">
-                                <a href="product-description.html" tabindex="-1">
-                                    <img class="img-fluid" alt="Product image" src="assets/img/products/product7.jpg">
-                                </a>
-                                <a href="javascript:void(0)" class="fav-btn" tabindex="-1">
-                                    <i class="far fa-bookmark"></i>
-                                </a>
-                            </div>
-                            <div class="pro-content">
-                                <h3 class="title pb-4">
-                                    <a href="product-description.html" tabindex="-1">ITONE eye drops 10ml</a>
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-lg-4 col-xl-4 product-custom">
-                        <div class="profile-widget">
-                            <div class="doc-img">
-                                <a href="product-description.html" tabindex="-1">
-                                    <img class="img-fluid" alt="Product image" src="assets/img/products/product8.jpg">
-                                </a>
-                                <a href="javascript:void(0)" class="fav-btn" tabindex="-1">
-                                    <i class="far fa-bookmark"></i>
-                                </a>
-                            </div>
-                            <div class="pro-content">
-                                <h3 class="title pb-4">
-                                    <a href="product-description.html" tabindex="-1">Antatriene Drospiletra</a>
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
+                }
+            else
+            {
+                <h4>There are no results for searching @keyword</h4>
+            }
 
-                </div>
-                <div class="col-md-12 text-center">
-                    <a href="#" class="btn book-btn1 mb-4">Load More</a>
-                </div>
             </div>
         </div>
     </div>
