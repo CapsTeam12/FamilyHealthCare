@@ -18,7 +18,7 @@ namespace Business
     {
         public AutoMapperProfiles()
         {
-            CreateMap<Appointment, AppointmentDetailsDto>()
+            CreateMap<Appointment, AppointmentDetailsDto>().ForMember(dst => dst.Therapist, opt => opt.MapFrom(s => s.Therapist))
                 .ReverseMap();
             CreateMap<Appointment, AppointmentCreateDto>()
                 .ReverseMap();

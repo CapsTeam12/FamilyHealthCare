@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,8 +30,9 @@ namespace FamilyHealthCare.Doctor.Controllers
             _httpContext = httpContext;
         }
 
-        public async Task<IActionResult> Calendar(string userId)
+        public async Task<IActionResult> Calendar()
         {
+            var userId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
             var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
             var response = await client.GetAsync(EndpointConstants.ScheduleService.CALENDAR + "/" + userId);
             string jsonData = await response.Content.ReadAsStringAsync();
@@ -48,8 +50,9 @@ namespace FamilyHealthCare.Doctor.Controllers
             return data;
         }
 
-        public async Task<IActionResult> AvailableTimings(string userId, DateTime date)
+        public async Task<IActionResult> AvailableTimings(DateTime date)
         {
+            var userId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
             var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
             var response = await client.GetAsync(EndpointConstants.ScheduleService.DOCTOR_SCHEDULES + "/" + userId + "/" + date.ToString("yyyy-MM-dd"));
             string jsonData = await response.Content.ReadAsStringAsync();
@@ -70,13 +73,14 @@ namespace FamilyHealthCare.Doctor.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateScheduleDoctor(ScheduleDoctorCreateDto model)
         {
+            var userId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
             var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
             var stringModel = JsonConvert.SerializeObject(model);
             var data = new StringContent(stringModel, Encoding.UTF8, "application/json");
             var response = await client.PostAsync(EndpointConstants.ScheduleService.DOCTOR_SCHEDULES, data);
             if (response != null && response.IsSuccessStatusCode)
             {
-                return RedirectToAction("AvailableTimings", "Schedule", new { userId = model.AccountId, date = model.Date });
+                return RedirectToAction("AvailableTimings", "Schedule", new {date = model.Date });
             }
             return View(model);
 

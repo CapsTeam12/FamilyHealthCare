@@ -79,7 +79,7 @@ namespace FamilyHealthCare.Customer.Controllers
             var response = await client.PutAsync(EndpointConstants.AppointmentService.DETAILS + id, data);
             if (response != null && response.IsSuccessStatusCode)
             {
-                return RedirectToAction(nameof(Index), new { userId = model.UserId });
+                return RedirectToAction(nameof(Index));
             }
             return View(model);
         }

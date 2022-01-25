@@ -23,11 +23,14 @@ namespace FamilyHealthCare.Customer.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IHttpClientFactory _clientFactory;
-        public HomeController(ILogger<HomeController> logger, IHttpClientFactory clientFactory)
+        private readonly IHttpContextAccessor _httpContext;
+        public HomeController(ILogger<HomeController> logger, IHttpClientFactory clientFactory, IHttpContextAccessor httpContext)
         {
             _logger = logger;
             _clientFactory = clientFactory;
+            _httpContext = httpContext;
         }
+
 
         public async Task<IActionResult> Index()
         {

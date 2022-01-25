@@ -10,7 +10,7 @@ namespace Business.Services
         public async Task DeleteFile(string fileName, string folder)
         {
             string folderPath = Path.Combine(WebHostEnviromentHelper.GetWebRootPath(), folder);
-            string path = Path.Combine(folderPath, fileName);
+            string path = Path.Combine(folderPath, fileName);          
             if(File.Exists(path)) {
                 await Task.Run(() => File.Delete(path));
             }

@@ -1,12 +1,4 @@
-﻿@using System.Security.Claims
-@using Microsoft.AspNetCore.Identity
-
-@inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
-@{
-    var userId = _httpContextAccessor.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
-    var userName = User.FindFirst(ClaimTypes.Name)?.Value;
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -73,8 +65,8 @@
                         <li class="has-submenu">
                             <a href="">Doctors <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
-                                <li><a asp-area="" asp-controller="Schedule" asp-action="Calendar" asp-route-userId="@userId">Calendar</a></li>
-                                <li><a asp-area="" asp-controller="Schedule" asp-action="AvailableTimings" asp-route-userId="@userId" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")">Schedule Timing</a></li>
+                                <li><a asp-area="" asp-controller="Schedule" asp-action="Calendar">Calendar</a></li>
+                                <li><a asp-area="" asp-controller="Schedule" asp-action="AvailableTimings" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")">Schedule Timing</a></li>
                                 <li><a asp-area="" asp-controller="MedicalRecords" asp-action="MedicalRecord">Medical Records</a></li>
                                 <li><a asp-area="" asp-controller="Prescriptions" asp-action="Prescription">Prescription</a></li>
                                 <li><a asp-area="" asp-controller="MyPatient" asp-action="MyPatients">My Patients</a></li>

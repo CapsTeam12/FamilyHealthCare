@@ -5,6 +5,8 @@
 }
 
 <!-- Page Content -->
+<div class="content">
+    <div class="container">
         <div class="row">
             <div class="col-md-7 col-lg-8">
                 <div class="card">
@@ -12,10 +14,10 @@
 
                         <!-- Checkout Form -->
                         <form asp-action="BookingSummary" asp-controller="Appointment" method="post">
-                            <input type="text" asp-for="therapistId" hidden/>
-                            <input type="text" asp-for="userId" hidden/>
-                            <input type="text" asp-for="StartTime" hidden/>
-                            <input type="text" asp-for="EndTime" hidden/>
+                            <input type="text" asp-for="therapistId" hidden />
+                            <input type="text" asp-for="userId" hidden />
+                            <input type="text" asp-for="StartTime" hidden />
+                            <input type="text" asp-for="EndTime" hidden />
                             <input type="text" asp-for="doctorName" hidden />
                             <input type="text" asp-for="Date" hidden />
                             <!-- Personal Information -->
@@ -68,16 +70,16 @@
                             <div class="booking-info">
                                 <h4><a href="doctor-profile.html">Dr. @Model.doctorName</a></h4>
                                 @*<div class="rating">
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star"></i>
-                                    <span class="d-inline-block average-rating">35</span>
-                                </div>
-                                <div class="clinic-details">
-                                    <p class="doc-location"><i class="fas fa-map-marker-alt"></i> Newyork, USA</p>
-                                </div>*@
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span class="d-inline-block average-rating">35</span>
+                                    </div>
+                                    <div class="clinic-details">
+                                        <p class="doc-location"><i class="fas fa-map-marker-alt"></i> Newyork, USA</p>
+                                    </div>*@
                             </div>
                         </div>
                         <!-- Booking Doctor Info -->
@@ -97,3 +99,5 @@
 
             </div>
         </div>
+    </div>
+</div>

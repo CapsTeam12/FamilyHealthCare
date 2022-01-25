@@ -67,7 +67,6 @@ namespace Business.Services
         public async Task<AppointmentDetailsDto> BookingAppointment(AppointmentCreateDto model, string userId) // Booking Appointment
         {
             var therapist = await _db.Doctors.FirstOrDefaultAsync(x => x.Id == model.TherapistId); // Find therapist
-            var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == userId);  
             var patient = await _db.Patients.FirstOrDefaultAsync(x => x.AccountId == userId); // Find patient
             var appointmentModel = _mapper.Map<Appointment>(model);
             appointmentModel.AccountId = userId;
@@ -77,7 +76,7 @@ namespace Business.Services
             appointmentModel.Status = 1;           
             string timeSlot = model.StartTime.ToString("HH:mm:ss") + "-" + model.EndTime.ToString("HH:mm:ss");
             var scheduleOfDoctor = await _db.ScheduleDoctors.FirstOrDefaultAsync(x => x.Date == Convert.ToDateTime(model.Date.ToString("yyyy-MM-dd"))
-            && x.Shift.TimeSlot == timeSlot); // Find schedule of doctor when patient book 
+            && x.Shift.TimeSlot == timeSlot && x.AccountId == therapist.AccountId); // Find schedule of doctor when patient book 
             if (scheduleOfDoctor != null) // Check if exist schedule of Doctor in view booking
             {                
                 await _appointments.InsertOneAsync(appointmentModel); // Insert appointment data
@@ -125,13 +124,26 @@ namespace Business.Services
             var therapist = await _db.Doctors.FirstOrDefaultAsync(x => x.Id == model.TherapistId); // Find therapist
             appointmentModel.Therapist = therapist;
             appointmentModel.Id = id;
-            await _appointments.ReplaceOneAsync(x => x.Id == id, appointmentModel);
+            var schedulesOfAppointment = await _db.Schedules.Where(x => x.AppointmentId == appointmentModel.Id).ToListAsync(); // Find scheduled appointments to reschedule
+            if(schedulesOfAppointment != null)
+            {
+                await _appointments.ReplaceOneAsync(x => x.Id == id, appointmentModel);
+                foreach(var schedules in schedulesOfAppointment)
+                {
+                    schedules.StartTime = model.StartTime;
+                    schedules.EndTime = model.EndTime;
+                    _db.Schedules.Update(schedules);
+                }
+            }
+            await _db.SaveChangesAsync();
             var appointmentDto = _mapper.Map<AppointmentDetailsDto>(appointmentModel);
             return appointmentDto;
         }
 
         public async Task CancelAppointment(string id)
         {
+            var appointment = await _appointments.Find(x => x.Id == id).FirstOrDefaultAsync();
+            if (appointment != null)
             await _appointments.DeleteOneAsync(x => x.Id == id);
         }
     }
