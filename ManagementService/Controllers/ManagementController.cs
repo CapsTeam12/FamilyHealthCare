@@ -29,10 +29,10 @@ namespace ManagementService.Controllers
         }
 
         [HttpGet("patients")]
-        public async Task<IActionResult> GetPatientsAsync()
+        public async Task<List<PatientDetailsDto>> GetPatientsAsync()
         {
             var patients = await _managementService.GetPatientsAsync();
-            return Ok(patients);
+            return patients;
         }
 
         [HttpGet("pharmacies")]

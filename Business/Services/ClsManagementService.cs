@@ -57,7 +57,7 @@ namespace Business.Services
             return doctorDtos;
         }
 
-        public async Task<IActionResult> GetPatientsAsync()
+        public async Task<List<PatientDetailsDto>> GetPatientsAsync()
         {
             var patients = await _patientRepos
                               .Entities
@@ -65,7 +65,7 @@ namespace Business.Services
                               .OrderByDescending(a => a.FullName)
                               .ToListAsync();
             var patientsDtos = _mapper.Map<List<PatientDetailsDto>>(patients);
-            return Ok(patientsDtos);
+            return patientsDtos;
         }
 
         public async Task<IActionResult> GetPharmaciesAsync()

@@ -14,6 +14,7 @@ namespace FamilyHealthCare.SharedLibrary
         {
             public static string DOCTORS = "/Management/doctors";
             public static string CATEGORIES = "api/Management/categories";
+            public static string PATIENTS = "api/Management/patients";
             public static string DOCTORDETAILS = "api/Management/doctors/{id}";
             public static string CATEGORYSDETAILS = "api/Management/categories";
             public static string PATIENTDETAILS = "api/Management/patients";
