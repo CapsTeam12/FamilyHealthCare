@@ -158,7 +158,7 @@
                                                     @foreach (var shifts in Model.Shifts)
                                                     {
                                                         count++;
-                                                        var shiftTimeslot = Convert.ToDateTime(getDateSearch + " " + shifts.TimeSlot.Split("-")[0]);
+                                                        var shiftTimeslot = Convert.ToDateTime(getDateSearch + " " + shifts.TimeSlot.Split("-")[1]);
                                                         if (DateTime.Compare(currentTime, shiftTimeslot) > 0)
                                                         {
                                                             <div class="form-check-inline visits me-0">
@@ -172,7 +172,7 @@
                                                         {
                                                             <div class="form-check-inline visits me-0">
                                                                 <label class="visit-btns">
-                                                                    <input type="checkbox" class="form-check-input" name="ShiftsId" value="@shifts.Id">  @*Change color when schedule booked*@
+                                                                    <input type="checkbox" class="form-check-input" name="ShiftsId" value="@shifts.Id" disabled>  @*Change color when schedule booked*@
                                                                     <span class="visit-rsn" style="background-color:gold" data-bs-toggle="tooltip" title="@shifts.TimeSlot.Split("-")[0].Substring(0, 5)">@shifts.TimeSlot.Split("-")[0].Substring(0, 5)</span>
                                                                 </label>
                                                             </div>

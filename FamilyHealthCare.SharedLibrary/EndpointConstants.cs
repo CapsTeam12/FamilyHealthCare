@@ -37,6 +37,7 @@ namespace FamilyHealthCare.SharedLibrary
             public static string DETAILS = "/Appointment/";
             public static string BOOKING = "/Appointment/Booking/";
             public static string RESCHEDULE = "/Appointment/Reschedule/";
+            public static string CANCEL = "/Appointment/Cancel/";
         }
 
         public static class ScheduleService
