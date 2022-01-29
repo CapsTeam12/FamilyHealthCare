@@ -53,7 +53,9 @@ namespace Business
             if (validPass)
                 return NotFound();
             var result = await _userManager.ChangePasswordAsync(user, changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
-            return Ok(result);
+            if(result.Succeeded)
+                return Ok(result);
+            return BadRequest();
         }
 
         public async Task<IActionResult> UpdateAdminProfileAsync()

@@ -12,14 +12,14 @@ namespace Business.IServices
     {
         public Task<List<PatientDetailsDto>> GetPatientsAsync();
         public Task<List<DoctorDetailsDto>> GetDoctorsAsync();
-        public Task<IActionResult> GetPharmaciesAsync();
-        public Task<IActionResult> GetSpecialitiesAsync();
+        public Task<List<PharmacyDetailsDto>> GetPharmaciesAsync();
+        public Task<List<SpecialitiesDetailsDto>> GetSpecialitiesAsync();
         public Task<List<CategoriesDetailsDto>> GetCategoriesAsync();
 
         public Task<PatientDetailsDto> GetPatientDetailsAsync(string id);
-        public Task<IActionResult> GetDoctorDetailsAsync(string id);
-        public Task<IActionResult> GetPharmacyDetailsAsync(string id);
-        public Task<IActionResult> GetSpecializedDetailsAsync(string id);
-        public Task<IActionResult> GetCategoryDetailsAsync(string id);
+        public Task<DoctorDetailsDto> GetDoctorDetailsAsync(string id);
+        public Task<PharmacyDetailsDto> GetPharmacyDetailsAsync(string id);
+        public Task<SpecialitiesDetailsDto> GetSpecializedDetailsAsync(string id);
+        public Task<CategoriesDetailsDto> GetCategoryDetailsAsync(string id);
     }
 }

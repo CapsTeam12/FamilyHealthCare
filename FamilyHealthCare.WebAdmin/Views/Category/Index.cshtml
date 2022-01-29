@@ -1,7 +1,7 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using Contract.DTOs.ManagementService;
+@model IEnumerable<CategoriesDetailsDto>;
 @{
+    var cateCount = 1;
 }
 <div class="sidebar" id="sidebar">
     <div class="sidebar-inner slimscroll">
@@ -80,106 +80,34 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Name</th>
-                                        <th>Description</th>
+                                        @*<th>Description</th>*@
                                         <th class="text-end">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>#SP001</td>
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                <a data-bs-toggle="modal" href="#categories_details">Khẩu trang y tế</a>
-                                            </h2>
-                                        </td>
-                                        <td>Mặt nạ bảo vệ chống bụi bẩn,vi khuẩn</td>
-                                        <td class="text-end">
-                                            <div class="actions">
-                                                <a class="btn btn-sm bg-success-light" data-bs-toggle="modal" href="#edit_categories">
-                                                    <i class="fe fe-pencil"></i> Edit
-                                                </a>
-                                                <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
-                                                    <i class="fe fe-trash"></i> Delete
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#SP002</td>
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                <a data-bs-toggle="modal" href="#categories_details">Thực phẩm dinh dưỡng</a>
-                                            </h2>
-                                        </td>
-                                        <td>Thực phẩm chức năng cung cấp dinh dưỡng</td>
-                                        <td class="text-end">
-                                            <div class="actions">
-                                                <a class="btn btn-sm bg-success-light" data-bs-toggle="modal" href="#edit_categories">
-                                                    <i class="fe fe-pencil"></i> Edit
-                                                </a>
-                                                <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
-                                                    <i class="fe fe-trash"></i> Delete
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#SP003</td>
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                <a data-bs-toggle="modal" href="#categories_details">Dược mỹ phẩm</a>
-                                            </h2>
-                                        </td>
-                                        <td>Sản phẩm mỹ phẩm y tế phục hồi tổn thương và nuôi dưỡng..</td>
-                                        <td class="text-end">
-                                            <div class="actions">
-                                                <a class="btn btn-sm bg-success-light" data-bs-toggle="modal" href="#edit_categories">
-                                                    <i class="fe fe-pencil"></i> Edit
-                                                </a>
-                                                <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
-                                                    <i class="fe fe-trash"></i> Delete
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#SP004</td>
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                <a data-bs-toggle="modal" href="#categories_details">Dụng cụ sơ cứu</a>
-                                            </h2>
-                                        </td>
-                                        <td>Sản phẩm & dụng cụ hỗ trợ chăm sóc vết thương</td>
-                                        <td class="text-end">
-                                            <div class="actions">
-                                                <a class="btn btn-sm bg-success-light" data-bs-toggle="modal" href="#edit_categories">
-                                                    <i class="fe fe-pencil"></i> Edit
-                                                </a>
-                                                <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
-                                                    <i class="fe fe-trash"></i> Delete
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#SP005</td>
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                <a data-bs-toggle="modal" href="#categories_details">Chăm sóc cá nhân</a>
-                                            </h2>
-                                        </td>
-                                        <td>Thiết bị & dụng cụ chăm sóc cá nhân</td>
-                                        <td class="text-end">
-                                            <div class="actions">
-                                                <a class="btn btn-sm bg-success-light" data-bs-toggle="modal" href="#edit_categories">
-                                                    <i class="fe fe-pencil"></i> Edit
-                                                </a>
-                                                <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
-                                                    <i class="fe fe-trash"></i> Delete
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    @foreach (var cate in Model)
+                                    {
+                                        <tr>
+                                            <td>@(cateCount++)</td>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <a data-bs-toggle="modal" href="#categories_details">@cate.CateName</a>
+                                                </h2>
+                                            </td>
+                                            @*<td>Mặt nạ bảo vệ chống bụi bẩn,vi khuẩn</td>*@
+                                            <td class="text-end">
+                                                <div class="actions">
+                                                    <a class="btn btn-sm bg-success-light" data-bs-toggle="modal" href="#edit_categories">
+                                                        <i class="fe fe-pencil"></i> Edit
+                                                    </a>
+                                                    <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
+                                                        <i class="fe fe-trash"></i> Delete
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+
                                 </tbody>
                             </table>
                         </div>
@@ -238,7 +166,7 @@
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
                                 <label>Name</label>
-                                <p class="text">Khẩu trang y tế</p>
+                                <p class="text">@Model.</p>
                             </div>
                         </div>
 

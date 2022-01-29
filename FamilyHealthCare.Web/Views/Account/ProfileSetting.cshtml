@@ -3,6 +3,7 @@
 @{
     Layout = "_LayoutManagement";
     ViewData["Title"] = "Profile Settings";
+    var success = ViewBag.Success;
 }
 <div class="col-md-7 col-lg-8 col-xl-9">
     <div class="card">
@@ -15,7 +16,7 @@
                         <div class="form-group">
                             <div class="change-avatar">
                                 <div class="profile-img">
-                                    <img src="@(ImageConstants.PATIENTS+Model.Avatar)" alt="Patient Image" id="avatar" >
+                                    <img src="@(ImageConstants.PATIENTS+Model.Avatar)" alt="Patient Image" id="avatar">
                                 </div>
                                 <div class="upload-img">
                                     <div class="change-photo-btn">
@@ -65,7 +66,7 @@
                     <div class="col-12 col-md-6">
                         <div class="form-group">
                             <label>Phone</label>
-                            <input type="text" class="form-control" asp-for="Phone" required>
+                            <input type="text" class="form-control" asp-for="Phone" pattern=".{10}" title="The Phone must be 10 numberic" required>
                             <span asp-validation-for="Phone" class="text-danger"></span>
                         </div>
                     </div>
@@ -116,5 +117,22 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
+    </script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var state = "@success";
+            if (state == "Successfully!") {
+                swal({
+                    title: "Successfully!",
+                    icon: "success",
+                    text: "Update profile successfully!",
+                    type: "success",
+                    showCloseButton: "Close"
+                }).then((value) => {
+                    state = "";
+                });
+            }
+    });
     </script>
 }

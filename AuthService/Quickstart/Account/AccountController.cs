@@ -23,6 +23,7 @@ using AuthService.ViewModel.CustomAuthentication;
 using Business.IServices;
 using System.Security.Claims;
 using Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace IdentityServerHost.Quickstart.UI
 {
@@ -35,8 +36,8 @@ namespace IdentityServerHost.Quickstart.UI
     [AllowAnonymous]
     public class AccountController : Controller
     {
-		private readonly UserManager<User> _userManager;
-		private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IClientStore _clientStore;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
@@ -69,7 +70,7 @@ namespace IdentityServerHost.Quickstart.UI
         public async Task<IActionResult> Login(string returnUrl)
         {
             // build a model so we know what to show on the login page
-            
+
             var vm = await BuildLoginViewModelAsync(returnUrl);
 
             if (vm.IsExternalLoginOnly)
@@ -78,11 +79,11 @@ namespace IdentityServerHost.Quickstart.UI
                 return RedirectToAction("Challenge", "External", new { scheme = vm.ExternalLoginScheme, returnUrl });
             }
 
-            if(vm.ClientId == ClientIdConstants.User)
+            if (vm.ClientId == ClientIdConstants.User)
             {
                 return View(vm);
             }
-            else if(vm.ClientId == ClientIdConstants.Doctor)
+            else if (vm.ClientId == ClientIdConstants.Doctor)
             {
                 return View("~/Views/Account/LoginDoctor.cshtml", vm);
             }
@@ -107,7 +108,7 @@ namespace IdentityServerHost.Quickstart.UI
         {
             // check if we are in the context of an authorization request
             var context = await _interaction.GetAuthorizationContextAsync(model.ReturnUrl);
-
+            LoginInputVMValidator(model);
             // the user clicked the "cancel" button
             if (button != "login")
             {
@@ -138,7 +139,7 @@ namespace IdentityServerHost.Quickstart.UI
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByNameAsync(model.Username);
-                if(user != null)
+                if (user != null)
                 {
                     var resultCheckPassword = await _userManager.CheckPasswordAsync(user, model.Password);
                     if (resultCheckPassword)
@@ -206,7 +207,7 @@ namespace IdentityServerHost.Quickstart.UI
                                         throw new Exception("invalid return URL");
                                     }
                                 }
-                                
+
                             }
                             else
                             {
@@ -215,7 +216,7 @@ namespace IdentityServerHost.Quickstart.UI
                             }
                         }
                     }
-                    
+
                 }
                 await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId: context?.Client.ClientId));
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
@@ -240,7 +241,7 @@ namespace IdentityServerHost.Quickstart.UI
             }
         }
 
-        
+
         /// <summary>
         /// Show logout page
         /// </summary>
@@ -304,6 +305,13 @@ namespace IdentityServerHost.Quickstart.UI
         public async Task<IActionResult> Register(RegisterAuthModelVM RegisterVm)
         {
             RegisterAuthModelVMValidator(RegisterVm);
+            var users = await _userManager.Users.ToListAsync();
+            foreach (var userExist in users)
+            {
+                if (RegisterVm.Username == userExist.UserName)
+                    ModelState.AddModelError("Username", "The Username has already exist in the system");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View("Register", RegisterVm);
@@ -314,7 +322,7 @@ namespace IdentityServerHost.Quickstart.UI
             user.Email = RegisterVm.Username;
 
             var result = await _userManager.CreateAsync(user, RegisterVm.Password);
-       
+
 
             var info = new Patient();
             info.AccountId = user.Id;
@@ -498,12 +506,79 @@ namespace IdentityServerHost.Quickstart.UI
                 ModelState.AddModelError("PasswordConfirm", "Password confirm is required");
             if (!string.IsNullOrWhiteSpace(vm.Password))
             {
-                if (!string.IsNullOrWhiteSpace(vm.PasswordConfirm))
+                if (!CheckPasswordConstraint(vm.Password))
+                    ModelState.AddModelError("Password", "Password requires at least 8 characters including a number, a lowercase and a uppercase letter");
+                else if (!string.IsNullOrWhiteSpace(vm.PasswordConfirm))
                 {
-                    if(vm.Password != vm.PasswordConfirm)
+                    if (vm.Password != vm.PasswordConfirm)
                         ModelState.AddModelError("PasswordConfirm", "Password and password confirm is not match");
                 }
+            }  
+            if (!string.IsNullOrWhiteSpace(vm.MobileNumber))
+            {
+                if (!NotEnoughLength(vm.MobileNumber))
+                    ModelState.AddModelError("MobileNumber", "Mobile number must be 10 numbers");
             }
+        }
+
+        public bool NotEnoughLength(string phone)
+        {
+            foreach (char c in phone)
+            {
+                if (c < '0' || c > '9')
+                    return false;
+                if (phone.Length != 10)
+                    return false;
+            }
+
+            return true;
+        }
+        public bool CheckPasswordConstraint(string password)
+        {
+            int validConditions = 0;
+            foreach (char c in password)
+            {
+                if (c >= 'a' && c <= 'z')
+                {
+                    validConditions++;
+                    break;
+                }
+            }
+            foreach (char c in password)
+            {
+                if (c >= 'A' && c <= 'Z')
+                {
+                    validConditions++;
+                    break;
+                }
+            }
+            if (validConditions == 0) return false;
+            foreach (char c in password)
+            {
+                if (c >= '0' && c <= '9')
+                {
+                    validConditions++;
+                    break;
+                }
+            }
+            if (validConditions == 1) return false;
+            if (validConditions == 2)
+            {
+                if (password.Length < 8)
+                    return false;
+                char[] special = { '@', '#', '$', '%', '^', '&', '+', '=' };
+                if (password.IndexOfAny(special) == -1) 
+                    return false;
+            }
+            return true;
+        }
+ 
+        public void LoginInputVMValidator(LoginInputModel vm)
+        {
+            if (string.IsNullOrWhiteSpace(vm.Username))
+                ModelState.AddModelError("Username", "Username is required");
+            if (string.IsNullOrWhiteSpace(vm.Password))
+                ModelState.AddModelError("Password", "Password is required");
         }
     }
 }
