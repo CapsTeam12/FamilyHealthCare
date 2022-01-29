@@ -1,8 +1,9 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using Contract.DTOs.ManagementService;
+@model IEnumerable<DoctorDetailsDto>;
 @{
+    var doctorCount = 1;
 }
+
 <div class="sidebar" id="sidebar">
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
@@ -79,178 +80,37 @@
                                         <th>Doctor ID</th>
                                         <th>Doctor Name</th>
                                         <th>Speciality</th>
-                                        <th>Member Since</th>
+                                        <th>Address</th>
                                         <th>Account Status</th>
 
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>#DT001</td>
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-01.jpg") alt="User Image"></a>
-                                                <a asp-controller="Doctor" asp-action="DetailsDoctor">Dr. Ruby Perrin</a>
-                                            </h2>
-                                        </td>
-                                        <td>Dental</td>
+                                    @foreach (var doctor in Model)
+                                    {
 
-                                        <td>14 Jan 2019 <br><small>02.59 AM</small></td>
+                                        <tr>
+                                            <td>@(doctorCount++)</td>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-01.jpg") alt="User Image"></a>
+                                                    <a asp-controller="Doctor" asp-action="DetailsDoctor">@doctor.FullName</a>
+                                                </h2>
+                                            </td>
+                                            <td>@doctor.Specialities</td>
 
-
-                                        <td>
-                                            <div class="status-toggle">
-                                                <input type="checkbox" id="status_1" class="check" checked>
-                                                <label for="status_1" class="checktoggle">checkbox</label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#DT002</td>
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-02.jpg") alt="User Image"></a>
-                                                <a asp-controller="Doctor" asp-action="DetailsDoctor">Dr. Darren Elder</a>
-                                            </h2>
-                                        </td>
-                                        <td>Dental</td>
-
-                                        <td>11 Jun 2019 <br><small>4.50 AM</small></td>
+                                            <td>@doctor.Address</td>
 
 
-                                        <td>
-                                            <div class="status-toggle">
-                                                <input type="checkbox" id="status_2" class="check" checked>
-                                                <label for="status_2" class="checktoggle">checkbox</label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#DT003</td>
-
-                                        <td>
-
-                                            <h2 class="table-avatar">
-                                                <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-03.jpg") alt="User Image"></a>
-                                                <a asp-controller="Doctor" asp-action="DetailsDoctor">Dr. Deborah Angel</a>
-                                            </h2>
-                                        </td>
-                                        <td>Cardiology</td>
-
-                                        <td>4 Jan 2018 <br><small>9.40 AM</small></td>
-
-
-                                        <td>
-                                            <div class="status-toggle">
-                                                <input type="checkbox" id="status_3" class="check" checked>
-                                                <label for="status_3" class="checktoggle">checkbox</label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#DT004</td>
-                                        <td>
-
-                                            <h2 class="table-avatar">
-                                                <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-04.jpg") alt="User Image"></a>
-                                                <a asp-controller="Doctor" asp-action="DetailsDoctor">Dr. Sofia Brient</a>
-                                            </h2>
-                                        </td>
-                                        <td>Urology</td>
-
-                                        <td>5 Jul 2019 <br><small>12.59 AM</small></td>
-
-
-                                        <td>
-                                            <div class="status-toggle">
-                                                <input type="checkbox" id="status_4" class="check" checked>
-                                                <label for="status_4" class="checktoggle">checkbox</label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#DT005</td>
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-05.jpg") alt="User Image"></a>
-                                                <a asp-controller="Doctor" asp-action="DetailsDoctor">Dr. Marvin Campbell</a>
-                                            </h2>
-                                        </td>
-                                        <td>Orthopaedics</td>
-
-                                        <td>24 Jan 2019 <br><small>02.59 AM</small></td>
-
-
-                                        <td>
-                                            <div class="status-toggle">
-                                                <input type="checkbox" id="status_5" class="check" checked>
-                                                <label for="status_5" class="checktoggle">checkbox</label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#DT006</td>
-
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-06.jpg") alt="User Image"></a>
-                                                <a asp-controller="Doctor" asp-action="DetailsDoctor">Dr. Katharine Berthold</a>
-                                            </h2>
-                                        </td>
-                                        <td>Orthopaedics</td>
-
-                                        <td>23 Mar 2019 <br><small>02.50 PM</small></td>
-
-
-                                        <td>
-                                            <div class="status-toggle">
-                                                <input type="checkbox" id="status_6" class="check" checked>
-                                                <label for="status_6" class="checktoggle">checkbox</label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#DT007</td>
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-07.jpg") alt="User Image"></a>
-                                                <a asp-controller="Doctor" asp-action="DetailsDoctor">Dr. Linda Tobin</a>
-                                            </h2>
-                                        </td>
-                                        <td>Neurology</td>
-
-                                        <td>14 Dec 2018 <br><small>01.59 AM</small></td>
-
-
-                                        <td>
-                                            <div class="status-toggle">
-                                                <input type="checkbox" id="status_7" class="check" checked>
-                                                <label for="status_7" class="checktoggle">checkbox</label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#DT008</td>
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-08.jpg") alt="User Image"></a>
-                                                <a asp-controller="Doctor" asp-action="DetailsDoctor">Dr. Paul Richard</a>
-                                            </h2>
-                                        </td>
-                                        <td>Dermatology</td>
-
-                                        <td>11 Jan 2019 <br><small>02.59 AM</small></td>
-
-
-                                        <td>
-                                            <div class="status-toggle">
-                                                <input type="checkbox" id="status_8" class="check" checked>
-                                                <label for="status_8" class="checktoggle">checkbox</label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                            <td>
+                                                <div class="status-toggle">
+                                                    <input type="checkbox" id="status_1" class="check" checked>
+                                                    <label for="status_1" class="checktoggle">checkbox</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+</table>
                         </div>
                     </div>
                 </div>

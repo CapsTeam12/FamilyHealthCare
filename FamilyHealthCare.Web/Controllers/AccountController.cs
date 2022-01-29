@@ -1,5 +1,7 @@
-﻿using Contract.DTOs.AuthService;
+﻿using Business.IServices;
+using Contract.DTOs.AuthService;
 using Contract.DTOs.ManagementService;
+using Data.Entities;
 using FamilyHealthCare.Customer.Models;
 using FamilyHealthCare.SharedLibrary;
 using Microsoft.AspNetCore.Authentication;
@@ -26,7 +28,8 @@ namespace FamilyHealthCare.Customer.Controllers
         private readonly IHttpClientFactory _clientFactory;
         private readonly ILogger<AppointmentController> _logger;
         private readonly IHttpContextAccessor _httpContext;
-        public AccountController(ILogger<AppointmentController> logger, IHttpClientFactory clientFactory, IHttpContextAccessor httpContext)
+        public AccountController(ILogger<AppointmentController> logger,
+            IHttpClientFactory clientFactory, IHttpContextAccessor httpContext)
         {
             _logger = logger;
             _clientFactory = clientFactory;
@@ -58,7 +61,7 @@ namespace FamilyHealthCare.Customer.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordDto model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 model.UserId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
                 var json = JsonConvert.SerializeObject(model);
@@ -68,10 +71,16 @@ namespace FamilyHealthCare.Customer.Controllers
                 var response = await client.PutAsync(EndpointConstants.AuthService.CHANGEPASSWORD, data);
                 if (response.StatusCode.ToString() == "NoContent")
                     ModelState.AddModelError("CurrentPassword", "Invalid Password");
-                else if(response.StatusCode.ToString() == "NotFound")
+                else if (response.StatusCode.ToString() == "NotFound")
                     ModelState.AddModelError("NewPassword", "Password must differ from old password");
+                else if (response.StatusCode.ToString() == "BadRequest")
+                    ModelState.AddModelError("NewPassword", "Password requires at least 8 characters including a number, a lowercase and a uppercase letter");
                 else if (response.IsSuccessStatusCode)
-                    return RedirectToAction("Index", "Home");
+                {
+                    ViewBag.Success = "Successfully!";
+                    //return RedirectToAction("Index", "Home");
+                }
+
             }
             return View();
         }
@@ -91,9 +100,27 @@ namespace FamilyHealthCare.Customer.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ProfileSetting([FromForm] PatientUpdateDto model)
+        public async Task<IActionResult> ProfileSetting([FromForm] PatientUpdateDto model, PatientDetailsDto detailsDto)
         {
+            if (model.Gender == 0)
+            {
+                ModelState.AddModelError("Gender", "The Gender field is required");
+            }
+            if (model.Languages == 0)
+            {
+                ModelState.AddModelError("Languages", "The Languages field is required");
+            }
+            if (model.DateOfBirth == DateTime.MinValue)
+            {
+                ModelState.AddModelError("DateOfBirth", "The Date of Birth field is required");
+            }
+            if (model.Phone.Length != 10)
+            {
+                ModelState.AddModelError("Phone", "Phone must have 10 numberic");
+            }
+
             if (ModelState.IsValid)
             {
                 model.AccountId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -138,10 +165,17 @@ namespace FamilyHealthCare.Customer.Controllers
 
                 var client = _clientFactory.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
                 var response = await client.PutAsync(EndpointConstants.AuthService.PATIENTPROFILE, form);
-                if (response.IsSuccessStatusCode)
-                    return RedirectToAction("Index", "Home");
+                if (response.StatusCode.ToString() == "NoContent")
+                    ModelState.AddModelError("Email", "This Email has already exist in the system");
+                else if (response.StatusCode.ToString() == "NotFound")
+                    ModelState.AddModelError("Phone", "This Phone number has already exist in the system");
+                else if (response.IsSuccessStatusCode)
+                {
+                    ViewBag.Success = "Successfully!";
+                }
+                    
             }
-            return View(model);
+            return View("ProfileSetting", detailsDto);
         }
     }
 }

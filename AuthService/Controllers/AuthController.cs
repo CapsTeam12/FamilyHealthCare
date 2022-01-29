@@ -30,14 +30,16 @@ namespace AuthService.Controllers
         private readonly IAuthService _authService;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IBaseRepository<Patient> _patientRepos;
 
         public AuthController(UserManager<User> userManager,
                               RoleManager<IdentityRole> roleManager,
-                              IAuthService authService)
+                              IAuthService authService, IBaseRepository<Patient> patientRepos)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _authService = authService;
+            _patientRepos = patientRepos;
         }
 
 
@@ -190,14 +192,32 @@ namespace AuthService.Controllers
 
         [HttpPut]
         [Route("update-profile")]
-        public async Task<IActionResult> UpdatePatientProfile([FromForm] PatientUpdateDto patientDetailsDto)
+        public async Task<IActionResult> UpdatePatientProfile([FromForm] PatientUpdateDto patientUpdateDto)
         {
-            //var identity = HttpContext.User.Identity as ClaimsIdentity;
-            if (patientDetailsDto.AccountId.ToString() == null)
+            if (patientUpdateDto.AccountId.ToString() == null)
             {
                 return Unauthorized();
             }
-            var updatePatientProfile = await _authService.UpdatePatientProfileAsync(patientDetailsDto);
+            var patients = await _patientRepos.Entities.ToListAsync();
+            var users = await _userManager.Users.ToListAsync();
+            foreach (var user in users)
+            {
+                if (user.Id != patientUpdateDto.AccountId)
+                {
+                    if (patientUpdateDto.Email == user.Email)
+                        return NoContent();
+                }
+                
+            }
+            foreach (var patient in patients)
+            {
+                if (patient.AccountId != patientUpdateDto.AccountId)
+                {
+                    if (patientUpdateDto.Phone == patient.Phone)
+                        return NotFound();
+                }
+            }
+            var updatePatientProfile = await _authService.UpdatePatientProfileAsync(patientUpdateDto);
 
             return Ok(updatePatientProfile);
         }

@@ -68,7 +68,7 @@ namespace Business.Services
             return patientsDtos;
         }
 
-        public async Task<IActionResult> GetPharmaciesAsync()
+        public async Task<List<PharmacyDetailsDto>> GetPharmaciesAsync()
         {
             var pharmacies = await _pharmacyRepos
                               .Entities
@@ -76,25 +76,25 @@ namespace Business.Services
                               .OrderByDescending(a => a.PharmacyName)
                               .ToListAsync();
             var pharmaciesDtos = _mapper.Map<List<PharmacyDetailsDto>>(pharmacies);
-            return Ok(pharmaciesDtos);
+            return pharmaciesDtos;
         }
 
-        public async Task<IActionResult> GetSpecialitiesAsync()
+        public async Task<List<SpecialitiesDetailsDto>> GetSpecialitiesAsync()
         {
             var specialities = await _specializedRepos
                               .Entities
                               .OrderByDescending(a => a.SpecializedName)
                               .ToListAsync();
             var specialitiesDtos = _mapper.Map<List<SpecialitiesDetailsDto>>(specialities);
-            return Ok(specialitiesDtos);
+            return specialitiesDtos;
         }
 
-        public Task<IActionResult> GetCategoryDetailsAsync(string id)
+        public Task<CategoriesDetailsDto> GetCategoryDetailsAsync(string id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IActionResult> GetDoctorDetailsAsync(string id)
+        public Task<DoctorDetailsDto> GetDoctorDetailsAsync(string id)
         {
             throw new NotImplementedException();
         }
@@ -111,12 +111,12 @@ namespace Business.Services
             return patientsDto;
         }
 
-        public Task <IActionResult> GetPharmacyDetailsAsync(string id)
+        public Task <PharmacyDetailsDto> GetPharmacyDetailsAsync(string id)
         {
             throw new NotImplementedException();
         }
 
-        public Task <IActionResult> GetSpecializedDetailsAsync(string id)
+        public Task <SpecialitiesDetailsDto> GetSpecializedDetailsAsync(string id)
         {
             throw new NotImplementedException();
         }

@@ -1,7 +1,7 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using Contract.DTOs.ManagementService;
+@model IEnumerable<PharmacyDetailsDto>;
 @{
+    var pharmacyCount = 1;
 }
 <div class="sidebar" id="sidebar">
     <div class="sidebar-inner slimscroll">
@@ -9,7 +9,7 @@
             <ul>
                 <li class="menu-title">
                     <span>Main</span>
-                </li>             
+                </li>
                 <li>
                     <a asp-controller="Home" asp-action="Index"><i class="fe fe-home"></i> <span>Dashboard</span></a>
                 </li>
@@ -45,7 +45,7 @@
                         <li><a asp-controller="Blog" asp-action="AddBlog"> Add Blog </a></li>
                     </ul>
                 </li>
-            </ul>                                      
+            </ul>
         </div>
     </div>
 </div>
@@ -78,84 +78,37 @@
                                         <th>#Pharmacy ID</th>
                                         <th>Pharmacy Name</th>
                                         <th>Pharmacy Address</th>
-                                        <th>Created Date</th>
                                         <th>Phone</th>
                                         <th>Pharmacy Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>#PN001</td>
+                                    @foreach (var pharmacy in Model)
+                                    {
 
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                <a asp-controller="Pharmacy" asp-action="DetailsPharmacy" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-01.jpg") alt="User Image"></a>
-                                                <a asp-controller="Pharmacy" asp-action="DetailsPharmacy">Long Chau</a>
-                                            </h2>
-                                        </td>
+                                        <tr>
+                                            <td>@(pharmacyCount++)</td>
 
-                                        <td>96 Red Hawk Road<br> Cyrus, MN 56323 </td>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <a asp-controller="Pharmacy" asp-action="DetailsPharmacy" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-01.jpg") alt="User Image"></a>
+                                                    <a asp-controller="Pharmacy" asp-action="DetailsPharmacy">@pharmacy.PharmacyName</a>
+                                                </h2>
+                                            </td>
 
-                                        <td>12-05-2020</td>
+                                            <td>@pharmacy.Address</td>
 
-                                        <td>320-795-8815</td>
+                                            <td>@pharmacy.Phone</td>
 
-                                        <td>
-                                            <div class="status-toggle">
-                                                <input type="checkbox" id="status_1" class="check" checked>
-                                                <label for="status_1" class="checktoggle">checkbox</label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#SP002</td>
-
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                <a asp-controller="Pharmacy" asp-action="DetailsPharmacy" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-01.jpg") alt="User Image"></a>
-                                                <a asp-controller="Pharmacy" asp-action="DetailsPharmacy">Phuc Bao </a>
-                                            </h2>
-                                        </td>
-                                        <td>3130 Murry Street<br>Princess Anne, VA 23456</td>
-
-                                        <td>13-05-2020</td>
-
-                                        <td>913-631-2538</td>
-
-
-                                        <td>
-                                            <div class="status-toggle">
-                                                <input type="checkbox" id="status_2" class="check" checked>
-                                                <label for="status_2" class="checktoggle">checkbox</label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#SP002</td>
-
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                <a asp-controller="Pharmacy" asp-action="DetailsPharmacy" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-01.jpg") alt="User Image"></a>
-                                                <a asp-controller="Pharmacy" asp-action="DetailsPharmacy">Pharmacy</a>
-                                            </h2>
-                                        </td>
-
-                                        <td>3503 Flint Street<br>Saipan, MP 96950</td>
-
-                                        <td>14-05-2020</td>
-
-                                        <td>816-270-2336</td>
-
-
-                                        <td>
-                                            <div class="status-toggle">
-                                                <input type="checkbox" id="status_3" class="check" checked>
-                                                <label for="status_3" class="checktoggle">checkbox</label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                            <td>
+                                                <div class="status-toggle">
+                                                    <input type="checkbox" id="status_1" class="check" checked>
+                                                    <label for="status_1" class="checktoggle">checkbox</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+</table>
                         </div>
                     </div>
                 </div>

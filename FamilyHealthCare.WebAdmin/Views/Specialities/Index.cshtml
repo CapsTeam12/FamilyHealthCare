@@ -1,7 +1,7 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using Contract.DTOs.ManagementService;
+@model IEnumerable<SpecialitiesDetailsDto>;
 @{
+    var specializedCount = 1;
 }
 <div class="sidebar" id="sidebar">
     <div class="sidebar-inner slimscroll">
@@ -84,123 +84,34 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>#SP001</td>
+                                    @foreach (var specialized in Model)
+                                    {
 
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                <a href="#" class="avatar avatar-sm me-2">
-                                                    <img class="avatar-img" src=@Url.Content("~/assets/img/specialities/specialities-01.png") alt="Speciality">
-                                                </a>
-                                                <a href="#">Urology</a>
-                                            </h2>
-                                        </td>
+                                        <tr>
+                                            <td>@(specializedCount++)</td>
 
-                                        <td class="text-end">
-                                            <div class="actions">
-                                                <a class="btn btn-sm bg-success-light" data-bs-toggle="modal" href="#edit_specialities_details">
-                                                    <i class="fe fe-pencil"></i> Edit
-                                                </a>
-                                                <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
-                                                    <i class="fe fe-trash"></i> Delete
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#SP002</td>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <a href="#" class="avatar avatar-sm me-2">
+                                                        <img class="avatar-img" src=@Url.Content("~/assets/img/specialities/specialities-01.png") alt="Speciality">
+                                                    </a>
+                                                    <a href="#">@specialized.SpecializedName</a>
+                                                </h2>
+                                            </td>
 
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                <a href="#" class="avatar avatar-sm me-2">
-                                                    <img class="avatar-img" src=@Url.Content("~/assets/img/specialities/specialities-02.png") alt="Speciality">
-                                                </a>
-                                                <a href="#">Neurology</a>
-                                            </h2>
-                                        </td>
-
-                                        <td class="text-end">
-                                            <div class="actions">
-                                                <a class="btn btn-sm bg-success-light" data-bs-toggle="modal" href="#edit_specialities_details">
-                                                    <i class="fe fe-pencil"></i> Edit
-                                                </a>
-                                                <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
-                                                    <i class="fe fe-trash"></i> Delete
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#SP003</td>
-
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                <a href="#" class="avatar avatar-sm me-2">
-                                                    <img class="avatar-img" src=@Url.Content("~/assets/img/specialities/specialities-03.png") alt="Speciality">
-                                                </a>
-                                                <a href="#">Orthopedic</a>
-                                            </h2>
-                                        </td>
-
-                                        <td class="text-end">
-                                            <div class="actions">
-                                                <a class="btn btn-sm bg-success-light" data-bs-toggle="modal" href="#edit_specialities_details">
-                                                    <i class="fe fe-pencil"></i> Edit
-                                                </a>
-                                                <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
-                                                    <i class="fe fe-trash"></i> Delete
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#SP004</td>
-
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                <a href="#" class="avatar avatar-sm me-2">
-                                                    <img class="avatar-img" src=@Url.Content("~/assets/img/specialities/specialities-04.png") alt="Speciality">
-                                                </a>
-                                                <a href="#">Cardiologist</a>
-                                            </h2>
-                                        </td>
-
-                                        <td class="text-end">
-                                            <div class="actions">
-                                                <a class="btn btn-sm bg-success-light" data-bs-toggle="modal" href="#edit_specialities_details">
-                                                    <i class="fe fe-pencil"></i> Edit
-                                                </a>
-                                                <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
-                                                    <i class="fe fe-trash"></i> Delete
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#SP005</td>
-
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                <a href="#" class="avatar avatar-sm me-2">
-                                                    <img class="avatar-img" src=@Url.Content("~/assets/img/specialities/specialities-05.png") alt="Speciality">
-                                                </a>
-                                                <a href="#">Dentist</a>
-                                            </h2>
-                                        </td>
-
-                                        <td class="text-end">
-                                            <div class="actions">
-                                                <a class="btn btn-sm bg-success-light" data-bs-toggle="modal" href="#edit_specialities_details">
-                                                    <i class="fe fe-pencil"></i> Edit
-                                                </a>
-                                                <a class="btn btn-sm bg-danger-light" data-bs-toggle="modal" href="#delete_modal">
-                                                    <i class="fe fe-trash"></i> Delete
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                            <td class="text-end">
+                                                <div class="actions">
+                                                    <a class="btn btn-sm bg-success-light" data-bs-toggle="modal" href="#edit_specialities_details">
+                                                        <i class="fe fe-pencil"></i> Edit
+                                                    </a>
+                                                    <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
+                                                        <i class="fe fe-trash"></i> Delete
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+</table>
                         </div>
                     </div>
                 </div>

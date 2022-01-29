@@ -36,10 +36,10 @@ namespace ManagementService.Controllers
         }
 
         [HttpGet("pharmacies")]
-        public async Task<IActionResult> GetPharmacysAsync()
+        public async Task<List<PharmacyDetailsDto>> GetPharmacysAsync()
         {
             var pharmacies = await _managementService.GetPharmaciesAsync();
-            return Ok(pharmacies);
+            return pharmacies;
         }
 
         [HttpGet("categories")]
@@ -50,14 +50,14 @@ namespace ManagementService.Controllers
         }
 
         [HttpGet("specialities")]
-        public async Task<IActionResult> GetSpecialitiesAsync()
+        public async Task<List<SpecialitiesDetailsDto>> GetSpecialitiesAsync()
         {
             var specialities = await _managementService.GetSpecialitiesAsync();
-            return Ok(specialities);
+            return specialities;
         }
 
         [HttpGet("doctors/{id}")]
-        public async Task<IActionResult> GetDoctorDetailsAsync(string id)
+        public async Task<DoctorDetailsDto> GetDoctorDetailsAsync(string id)
         {
             var doctors = await _managementService.GetDoctorDetailsAsync(id);
             return doctors;
@@ -71,24 +71,24 @@ namespace ManagementService.Controllers
         }
 
         [HttpGet("pharmacies/{id}")]
-        public async Task<IActionResult> GetPharmacyDetailssAsync(string id)
+        public async Task<PharmacyDetailsDto> GetPharmacyDetailssAsync(string id)
         {
             var pharmacies = await _managementService.GetPharmacyDetailsAsync(id);
-            return Ok(pharmacies);
+            return pharmacies;
         }
 
         [HttpGet("categories/{id}")]
-        public async Task<IActionResult> GetCategoryDetailsAsync(string id)
+        public async Task<CategoriesDetailsDto> GetCategoryDetailsAsync(string id)
         {
             var categories = await _managementService.GetCategoryDetailsAsync(id);
-            return Ok(categories);
+            return categories;
         }
 
         [HttpGet("specialities/{id}")]
-        public async Task<IActionResult> GetSpecializedDetailsAsync(string id)
+        public async Task<SpecialitiesDetailsDto> GetSpecializedDetailsAsync(string id)
         {
             var specialities = await _managementService.GetSpecializedDetailsAsync(id);
-            return Ok(specialities);
+            return specialities;
         }
     }
 }
