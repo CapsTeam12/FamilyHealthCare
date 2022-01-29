@@ -1,49 +1,368 @@
-﻿@model IEnumerable<Contract.DTOs.AppointmentDetailsDto>
-@using Data
-@{
+﻿@{
     ViewData["Title"] = "Appointments";
     Layout = "_LayoutManagement";
-    var getNameOfUser = User.Identity.Name;
-    var userId = ViewBag.UserId;
 }
 <div class="col-md-7 col-lg-8 col-xl-9">
-    <div class="appointments">
-        @if (Model != null)
-        {
-            <!-- Appointment List -->
-            foreach (var ap in Model)
-            {
-                <div class="appointment-list">
-                    <div class="profile-info-widget">
-                        <a class="booking-doc-img">
-                            <img src="~/assets/img/patients/patient.jpg" alt="User Image">
-                        </a>
-                        <div class="profile-det-info">
-                            <h3>@ap.Therapist.FullName</h3>
-                            <div class="patient-details">
-                                <h5><i class="far fa-clock"></i> @ap.StartTime.ToLocalTime()</h5>
-                                <h5><i class="fas fa-map-marker-alt"></i> @ap.Therapist.Address</h5>
-                                <h5><i class="fas fa-envelope"></i> richard@example.com</h5>
-                                <h5 class="mb-0"><i class="fas fa-phone"></i> @ap.Therapist.Phone</h5>
+    <div class="appointments" id="show_data"></div>
+    <div id="pagination"></div>
+</div>
+
+
+<!-- Appointment Details Modal -->
+<div class="modal fade custom-modal" id="appt_details">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Appointment Details</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="info-details">
+                    <li>
+                        <div class="details-header">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <span class="title" id="titleAp"></span>
+                                    <span class="text" id="startTimeAp"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="text-end">
+                                        <button type="button" class="btn btn-sm" id="topup_status"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="title">Description:</span>
+                        <span class="text" id="descriptionAp"></span>
+                    </li>
+                    <li>
+                        <span class="title">End Date:</span>
+                        <span class="text" id="endTimeAp"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Appointment Details Modal -->
+<!-- Appointment Reschedule Modal-->
+<div class="modal fade custom-modal" id="reschedule_modal">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Reschedule</h3>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <form>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <span class="label label-info">Date:</span>
+                                <div class="form-group">
+                                    <input type="text" id="apRescheduleId" value="" hidden />
+                                    <input type="text" id="apDoctorId" value="" hidden />
+                                    <input type="text" id="therapistId" value="" hidden/>
+                                    <input type="text" id="timeslotReschedule" value="" hidden/>
+                                    <div class="schedule-calendar-col justify-content-start">
+                                        <input type="date" class="form-control" id="reschedule_date" value="">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="appointment-action">
-                        <a href="#" class="btn btn-sm bg-info-light" data-bs-toggle="modal" data-bs-target="#appt_details">
-                            <i class="far fa-eye"></i> View
-                        </a>
-                        <a asp-action="Reschedule" asp-controller="Appointment" asp-route-id="@ap.Id" class="btn btn-sm bg-success-light">
-                            <i class="fas fa-edit"></i> Reschedule
-                        </a>
-                        <a class="btn btn-sm bg-danger-light" data-bs-toggle="modal" href="#delete_modal">
-                            <i class="fas fa-times"></i> Cancel
-                        </a>
+                    <span class="label label-info">Time:</span>
+                    <div class="card booking-schedule schedule-widget">
+                        <div class="schedule-cont">
+                            <div class="row">
+                                <div class="time-slot" id="timeslot">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Description ( Optional )</label>
+                        <textarea id="description" class="form-control"></textarea>
+                    </div>
+                    <div class="submit-section text-center">
+                        <button type="button" id="btnSubmit" class="btn btn-primary submit-btn">Submit</button>
+                        <button type="button" class="btn btn-secondary submit-btn" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </div>
-            }
-            <!-- /Appointment List -->
-        }
-
+            </form>
+        </div>
     </div>
 </div>
-<!-- /Page Content-->
+<!-- /Appointment Reschedule Modal-->
+<!-- Appointment Cancel Modal-->
+<div class="modal fade" id="cancel_modal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-medium" id="exampleModalLabel"><i class="fas fa-exclamation-circle text-danger"></i> Cancel Appointment</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-content p-2">
+                    <input type="text" id="apId" hidden value="0" />
+                    <p>Are you sure you want to cancel this appointment ?</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnYes" class="btn btn-primary">Yes</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Appointment Cancel Modal-->
+
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+             LoadData();
+            
+
+            $('body').on('click', '.btnView', function () {
+                var _id = $(this).data('id');
+                $.ajax({
+                    url: '/Appointment/Details',
+                    type: 'GET',
+                    data: { id: _id },
+                    success: function (res) {
+                        if (res.data != null) {
+                            $('#titleAp').text(res.data.therapist.fullName);
+                            $('#startTimeAp').text(moment(res.data.startTime).format("YYYY-MM-DD HH:mm"));   //moment(items[i].startTime).format("YYYY-MM-DD HH:mm")
+                            if (res.data.status === 1) {
+                                $('#topup_status').removeClass();
+                                $('#topup_status').addClass('btn bg-warning-light btn-sm');
+                                $('#topup_status').text('Coming');
+                            } else if (res.data.status === 2) {
+                                $('#topup_status').removeClass();
+                                $('#topup_status').addClass('btn bg-info-light btn-sm');
+                                $('#topup_status').text('In Progress');
+                            } else if (res.data.status === 3) {
+                                $('#topup_status').removeClass();
+                                $('#topup_status').addClass('btn bg-success-light btn-sm');
+                                $('#topup_status').text('Completed');
+                            } else if (res.data.status === 4) {
+                                $('#topup_status').removeClass();
+                                $('#topup_status').addClass('btn bg-danger-light btn-sm');
+                                $('#topup_status').text('Canceled');
+                            }
+                            $('#descriptionAp').text(res.data.description);
+                            $('#endTimeAp').text(moment(res.data.endTime).format("YYYY-MM-DD HH:mm"));
+                            $('#appt_details').modal('show');
+                        }
+                    }
+                });
+            });
+
+            $('body').on('click', '.btnReschedule', function () {
+                $('#reschedule_modal').modal('show');
+                $('#timeslotReschedule').val('');
+                $('#description').val('');
+                var _id = $(this).data('id');
+                var doctorId = $(this).data('doctor');
+                var rescheduleDate = $(this).data('date');
+                var therapistId = $(this).data('therapist');
+                console.log(therapistId);
+                $('#apRescheduleId').val(_id); // assign id appointment
+                $('#apDoctorId').val(doctorId); // assign doctor accountId appointment
+                $('#reschedule_date').val(rescheduleDate); // assign date of appointment
+                $('#reschedule_date').attr({ "max": rescheduleDate, "min": rescheduleDate });
+                $('#therapistId').val(therapistId); // assign doctorId appointment
+                var model = {
+                    doctor: doctorId,
+                    date: rescheduleDate
+                };
+                $.ajax({
+                    url: '/Appointment/Reschedule',
+                    type: 'GET',
+                    data: model,
+                    success: function (res) {
+                        if (res.dataSchedules != null) {
+                            var html = '';
+                            var currentDateTime = moment().format("YYYY-MM-DD HH:mm:ss");
+                            $.each(res.dataShifts, function (i) {
+                                $.each(res.dataSchedules, function (j) {
+                                    if (res.dataSchedules[j].shiftId === res.dataShifts[i].id) {
+                                        var timeOfShifts = moment(res.dataSchedules[j].date).format("YYYY-MM-DD") + ' ' + res.dataShifts[i].timeSlot.split('-')[0];
+                                        if (res.dataSchedules[j].isBooking === true || currentDateTime > timeOfShifts) {
+                                            html += "<input type='radio' class='btn-check' name='Time' data-id='" + res.dataSchedules[j].shiftId +"' id='" + res.dataSchedules[j].shiftId + "' value='' autocomplete='off' disabled>";
+                                            html += "<label class='btn btn-secondary' for='" + res.dataSchedules[j].shiftId + "'>" + res.dataShifts[i].timeSlot.split('-')[0].substring(0, 5) + "</label>";
+                                        } else {
+                                            html += "<input type='radio' class='btn-check btnShift' name='Time' data-id='" + res.dataSchedules[j].shiftId +"' id='" + res.dataSchedules[j].shiftId + "' value='" + res.dataShifts[i].timeSlot +"' autocomplete='off' required>";
+                                            html += "<label class='btn btn-outline-success' for='" + res.dataSchedules[j].shiftId + "'>" + res.dataShifts[i].timeSlot.split('-')[0].substring(0, 5) + "</label>";
+                                        }
+                                    }
+                                });
+                            });
+                        } else {
+                            html += "<b>No appointments on " + rescheduleDate + "</b>";
+                        }
+                        $('#timeslot').html(html);
+                    }
+                });
+            });
+
+            $('body').on('click', '.btnShift', function () {
+                var timeSlot = $(this).val();
+                $('#timeslotReschedule').val(timeSlot);
+            });
+            $('#btnSubmit').click(function () {
+                var _id = $('#apRescheduleId').val();
+                var doctorid = $('#therapistId').val();
+                var description = $('#description').val();
+                var date = $('#reschedule_date').val();
+                var timeslot = $('#timeslotReschedule').val();
+                console.log(timeslot);
+                if (typeof timeslot != 'undefined' && timeslot) { //  will evaluate to true if value is not: null, undefined,NaN,empty string(""), 0 , false
+                    var startTime = moment(date).format("YYYY-MM-DD") + ' ' + timeslot.split('-')[0];
+                    var endTime = moment(date).format("YYYY-MM-DD") + ' ' + timeslot.split('-')[1];
+                }
+                console.log(startTime, endTime);
+                RescheduleAppointment(_id, doctorid, startTime,endTime,description);                
+            });
+          
+
+            $('body').on('click', '.btnCancel', function () {
+                var _id = $(this).data('id');
+                $('#cancel_modal').modal('show');
+                $('#apId').val(_id); // assign id appointment
+            });
+
+            $('#btnYes').click(function () {
+                var id = $('#apId').val(); // get id appointment
+                CancelAppointment(id);
+            });
+
+
+
+        });
+
+
+        //function reschedule appointment
+        function RescheduleAppointment(Id, TherapistId, StartTime, EndTime, Description)
+        {
+            var rescheduleModel = {
+                TherapistId: TherapistId,
+                StartTime: StartTime,
+                EndTime: EndTime,
+                Description: Description,
+                Status : 1
+            };
+            $.ajax({
+                url: '/Appointment/RescheduleAppointment',
+                type: 'POST',
+                data: { id: Id, model: rescheduleModel },
+                success: function (res) {
+                    if (res.errorMessage) {
+                        $('#reschedule_modal').modal('hide');
+                        alert(res.errorMessage);
+                    }
+                    else if (res.data != null) {
+                        LoadData();
+                        $('#reschedule_modal').modal('hide');
+                        alert("Successfully rescheduled appointment.");
+                    } else {
+                        $('#reschedule_modal').modal('hide');
+                        alert(res.content);
+                    }
+                }
+            });
+        }
+
+
+        // function cancel appointment
+        function CancelAppointment(id) {
+            $.ajax({
+                url: '/Appointment/CancelAppointment',
+                type: 'GET',
+                data: { id: id },
+                success: function (res) {
+                    if (res.data != null) {
+                        LoadData();
+                        $('#cancel_modal').modal('hide');
+                        alert("Successfully canceled appointment.");
+                    } else {
+                        $('#cancel_modal').modal('hide');
+                        alert(res.content);
+                    }
+                }
+            });
+        }
+
+        // function load data appointments
+        function LoadData(page, pageSize) {
+            $.ajax({
+                url: '/Appointment/GetData',
+                type: 'GET',
+                data: { page: page, pageSize: pageSize },
+                contentType: 'application/json',
+                success: function (res) {
+                    if (res.totalItem > 0) {
+                        var items = res.data;
+                        var html = '';
+                        $.each(res.data, function (i) {
+                            html += "<div class='appointment-list'>";
+                            html += "<div class='profile-info-widget'>";
+                            html += "<a class='booking-doc-img'>";
+                            html += "<img src='assets/img/patients/patient.jpg' alt='User Image'></a>";
+                            html += "<div class='profile-det-info'><h3>" + items[i].therapist.fullName + "</h3><div class='patient-details'><h5><i class='far fa-clock'></i>" + moment(items[i].startTime).format("YYYY-MM-DD HH:mm") + "</h5><h5><i class='fas fa-map-marker-alt'></i>" + items[i].therapist.address + "</h5><h5><i class='fas fa-envelope'></i> richard@example.com</h5><h5 class='mb-0'><i class='fas fa-phone'></i>" + items[i].therapist.phone + "</h5></div></div></div>";
+                            html += "<div class='appointment-action'>";
+                            if (items[i].status === 4 || items[i].status === 3 || items[i].status === 2) {
+                                html += "<a href='javascript:void(0);' class='btn btn-sm bg-info-light btnView' data-id='" + items[i].id + "'><i class='far fa-eye'></i> View</a>";
+                            } else {
+                                html += "<a href='javascript:void(0);' class='btn btn-sm bg-info-light btnView' data-id='" + items[i].id + "'><i class='far fa-eye'></i> View</a>";
+                                html += "<a href='javascript:void(0);' class='btn btn-sm bg-success-light btnReschedule' data-date='" + moment(items[i].startTime).format("YYYY-MM-DD") + "' data-therapist='" + items[i].therapistId + "' data-doctor='" + items[i].therapist.accountId + "' data-id='" + items[i].id + "'><i class='fas fa-edit'></i> Reschedule</a>";
+                                html += "<a href='javascript:void(0);' class='btn btn-sm bg-danger-light btnCancel' data-id='" + items[i].id + "'><i class='fas fa-times'></i> Cancel</a>";
+                            }
+                            html += "</div></div>";
+                        });
+                        $('#show_data').html(html);
+                        Pagination(res.currentPage, res.numberPage, res.pageSize);
+                    }
+                }
+            });
+        }
+
+        // function pagination
+        function Pagination(currentPage, NumberPage, pageSize) {
+            if (NumberPage > 0) {
+                var str = `<nav aria-label="Page navigation example"><ul class = "pagination">`;
+                if (currentPage != 1) {
+                    str += `<li class="page-item"><a class="page-link" onclick="NextPage(${currentPage - 1},${pageSize})"  href="javascript:void(0);">Previous</a></li>`;
+                }
+                for (let i = 1; i <= NumberPage; i++) {
+                    if (currentPage === i) {
+                        str += `<li class="page-item active"><a class="page-link"  href="javascript:void(0);">${i}</a></li>`;
+                    }
+                    else {
+                        str += `<li class="page-item"><a class="page-link" onclick="NextPage(${i},${pageSize})" href="javascript:void(0);">${i}</a></li>`;
+                    }
+
+                }
+                if (currentPage != NumberPage) {
+                    str += `<li class="page-item"><a class="page-link" onclick="NextPage(${currentPage + 1},${pageSize})"  href="javascript:void(0);">Next</a></li>`;
+                }
+                str += "</ul></nav>";
+                $('#pagination').html(str);
+            }
+        };
+
+        function NextPage(page, pageSize) {
+            LoadData(page, pageSize);
+        }
+    </script>
+
+}
+
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

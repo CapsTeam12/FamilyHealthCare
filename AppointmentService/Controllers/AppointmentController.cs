@@ -23,13 +23,6 @@ namespace AppointmentService.Controllers
             _appointmentService = appointmentService;
         }
 
-        // GET: api/<AppointmentController>
-        //[HttpGet]
-        //public async Task<IActionResult> GetAppoinmentsAsync(string search)
-        //{
-        //    return await _appointmentService.GetAppointmentsAsync(search);
-        //}
-
         [HttpGet]
         [Route("List/{userId}")]
         //[Authorize(AuthenticationSchemes = "Bearer")]
@@ -71,33 +64,52 @@ namespace AppointmentService.Controllers
         //[Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> Put([FromBody] AppointmentRescheduleDto appointmentDto,string id)
         {
+            var appointment = await _appointmentService.GetAppointmentById(id);
+            DateTime startTime = appointment.StartTime.ToLocalTime(); // Thời gian bắt đầu của cuộc hẹn
+            DateTime currentTime = DateTime.Now; // Thời gian hiện tại 
+            var HourDistance = (startTime - currentTime).TotalHours; // Khoảng cách giờ giữa thời gian bắt đầu cuộc hẹn và thời gian hiện tại 
+            if(HourDistance < 2)
+            {
+                return Content("Can only reschedule the appointment at least two hour!");
+            }
             var model = await _appointmentService.RescheduleAppointment(appointmentDto, id);
-            if(model == null)
+            if (model == null)
             {
                 return NotFound();
             }
             return Ok(model);
         }
 
-        [HttpDelete("{id}")]
+        [HttpGet("Cancel/{id}")]
         //[Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Cancel(string id)
         {
             var model = await _appointmentService.GetAppointmentById(id);
             if(model == null)
             {
                 return NotFound();
             }
-            await _appointmentService.CancelAppointment(id);
-            return NoContent();
+            if(model.Status == 4)
+            {
+                return Content("This appointment has been canceled before!");
+            }
+            var appointment = await _appointmentService.CancelAppointment(id);
+            DateTime startTime = appointment.StartTime.ToLocalTime(); // Thời gian bắt đầu của cuộc hẹn
+            DateTime currentTime = DateTime.Now; // Thời gian hiện tại 
+            var HourDistance = (startTime - currentTime).TotalHours; // Khoảng cách giờ giữa thời gian bắt đầu cuộc hẹn và thời gian hiện tại 
+            if (appointment.Status == 3)
+            {
+                return Content("Appointment completed!");
+            }
+            else if(appointment.Status == 2)
+            {
+                return Content("Appointment is in progress!");
+            }else if(appointment.Status == 1 && HourDistance < 2)
+            {
+                return Content("Can only cancel the appointment at least two hour!");
+            }
+            return Ok(appointment);
         }
 
-
-
-        //[HttpPost("create")]
-        //public async Task<IActionResult> CreateAppoinmentsAsync([FromBody] AppointmentCreateDto appointmentCreateDto)
-        //{
-        //    return Ok();
-        //}
     }
 }

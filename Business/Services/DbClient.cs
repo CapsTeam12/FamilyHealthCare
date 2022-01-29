@@ -21,7 +21,7 @@ namespace Business.Services
             _appointments = database.GetCollection<Appointment>(mongoDbConfig.Value.Appointments_Collection_Name);
         }
         public IMongoCollection<Appointment> GetAppointmentsCollection()
-        {
+        {            
             return _appointments;
         }
     }
