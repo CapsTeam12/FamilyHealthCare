@@ -1,7 +1,7 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using FamilyHealthCare.SharedLibrary;
+@model Contract.DTOs.ManagementService.PatientDetailsDto;
 @{
+    ViewData["Title"] = "Patient Details";
 }
 <div class="sidebar" id="sidebar">
     <div class="sidebar-inner slimscroll">
@@ -62,7 +62,7 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
                         <li class="breadcrumb-item active">Profile Patient</li>
-                        <li class="breadcrumb-item active">Trung Trần</li>
+                        <li class="breadcrumb-item active">@Model.FullName</li>
                     </ul>
                 </div>
             </div>
@@ -75,14 +75,21 @@
                     <div class="row align-items-center">
                         <div class="col-auto profile-image">
                             <a href="#">
-                                <img class="rounded-circle" alt="User Image" src=@Url.Content("~/assets/img/profiles/avatar-01.jpg")>
+                                <img class="rounded-circle" alt="User Image" src=@(ImageConstants.PATIENTS+Model.Avatar)>
                             </a>
                         </div>
                         <div class="col ml-md-n2 profile-user-info">
-                            <h4 class="user-name mb-0">Trung Trần</h4>
-                            <h6 class="text-muted">Hellomoinguoi@gmail.com</h6>
-                            <div class="user-Location"><i class="fa fa-map-marker"></i> TP HCM, VietNam</div>
-                            <div class="about-text">Thích đá bóng, cầu lông</div>
+                            <h4 class="user-name mb-0">@Model.FullName</h4>
+                            <h6 class="text-muted">@Model.Email</h6>
+                            @if (Model.Address != null)
+                            {
+                                <div class="user-Location"><i class="fa fa-map-marker"></i>@Model.Address</div>
+                            }
+                            else
+                            {
+                                <div class="user-Location"><i class="fa fa-map-marker"></i>N/A</div>
+                            }
+                            @*<div class="about-text">@Model.</div>*@
                         </div>
                     </div>
                 </div>
@@ -108,55 +115,81 @@
                                         </h5>
                                         <div class="row">
                                             <p class="col-sm-2 text-muted text-sm-end mb-0 mb-sm-3">Name</p>
-                                            <p class="col-sm-10">Trần Lê Anh Trung</p>
+                                            <p class="col-sm-10">@Model.FullName</p>
                                         </div>
                                         <div class="row">
                                             <p class="col-sm-2 text-muted text-sm-end mb-0 mb-sm-3">Gender</p>
-                                            <p class="col-sm-10">Male</p>
+                                            @if (Model.Gender == 1)
+                                            {
+                                                <p class="col-sm-10">Male</p>
+                                            }
+                                            else if (Model.Gender == 2)
+                                            {
+                                                <p class="col-sm-10">Female</p>
+                                            }
+                                            else if (Model.Gender == null)
+                                            {
+                                                <p class="col-sm-10">N/A</p>
+                                            }
                                         </div>
                                         <div class="row">
                                             <p class="col-sm-2 text-muted text-sm-end mb-0 mb-sm-3">Date of Birth</p>
-                                            <p class="col-sm-10">6 July 2000</p>
+                                            @if (Model.DateOfBirth != DateTime.MinValue)
+                                            {
+                                                <p class="col-sm-10">@Model.DateOfBirth</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="col-sm-10">N/A</p>
+                                            }
                                         </div>
                                         <div class="row">
-                                            <p class="col-sm-2 text-muted text-sm-end mb-0 mb-sm-3">Email ID</p>
-                                            <p class="col-sm-10">Hellomoinguoi@gmail.com</p>
+                                            <p class="col-sm-2 text-muted text-sm-end mb-0 mb-sm-3">Email</p>
+                                            <p class="col-sm-10">@Model.Email</p>
                                         </div>
                                         <div class="row">
                                             <p class="col-sm-2 text-muted text-sm-end mb-0 mb-sm-3">Mobile</p>
-                                            <p class="col-sm-10">082826960x</p>
+                                            @if (Model.Phone != null)
+                                            {
+                                                <p class="col-sm-10">@Model.Phone</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="col-sm-10">N/A</p>
+                                            }
                                         </div>
                                         <div class="row">
                                             <p class="col-sm-2 text-muted text-sm-end mb-0">Address</p>
-                                            <p class="col-sm-10 mb-0">
-                                                197B Hoàng Văn Thụ,<br>
-                                                Phú Nhuận,<br>
-                                                Thành Phố Hồ Chí Minh,<br>
-                                                Việt Nam.
-                                            </p>
+                                            @if (Model.Address != null)
+                                            {
+                                                <p class="col-sm-10 mb-0">@Model.Address</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="col-sm-10 mb-0">N/A</p>
+                                            }
                                         </div>
                                     </div>
-                                </div>                       
+                                </div>
                             </div>
-                        </div>                      
-                    </div>                                   
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </div>
-
     </div>
-</div>
-<script src=@Url.Content("~/assets/js/jquery-3.6.0.min.js")></script>
+    <script src=@Url.Content("~/assets/js/jquery-3.6.0.min.js")></script>
 
-<!-- Bootstrap Core JS -->
-<script src=@Url.Content("~/assets/js/bootstrap.bundle.min.js")></script>
+    <!-- Bootstrap Core JS -->
+    <script src=@Url.Content("~/assets/js/bootstrap.bundle.min.js")></script>
 
-<!-- Slimscroll JS -->
-<script src=@Url.Content("~/assets/plugins/slimscroll/jquery.slimscroll.min.js")></script>
+    <!-- Slimscroll JS -->
+    <script src=@Url.Content("~/assets/plugins/slimscroll/jquery.slimscroll.min.js")></script>
 
-<!-- Bootstrap Datetimepicker JS -->
-<script src=@Url.Content("~/assets/js/moment.min.js")></script>
-<script src=@Url.Content("~/assets/js/bootstrap-datetimepicker.min.js")></script>
+    <!-- Bootstrap Datetimepicker JS -->
+    <script src=@Url.Content("~/assets/js/moment.min.js")></script>
+    <script src=@Url.Content("~/assets/js/bootstrap-datetimepicker.min.js")></script>
 
-<!-- Custom JS -->
-<script src=@Url.Content("~/assets/js/script.js")></script>
+    <!-- Custom JS -->
+    <script src=@Url.Content("~/assets/js/script.js")></script>

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FamilyHealthCare.WebAdmin.Controllers
@@ -34,9 +35,20 @@ namespace FamilyHealthCare.WebAdmin.Controllers
             }
             return View(data);
         }
-        public IActionResult DetailsPatient()
+
+        [HttpGet]
+        public async Task<IActionResult> DetailsPatient(string id)
         {
-            return View();
+            //var id = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            //var id = patient;
+            var httpClient = _clientFactory.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
+            var response = await httpClient.GetAsync($"{EndpointConstants.ManagementService.PATIENTDETAILS}/{id}");
+            var model = new PatientDetailsDto();
+            if (response.IsSuccessStatusCode)
+            {
+                model = await response.Content.ReadAsAsync<PatientDetailsDto>();
+            }
+            return View(model);
         }
     }
 }

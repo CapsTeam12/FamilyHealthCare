@@ -94,7 +94,7 @@
                                             <td>
                                                 <h2 class="table-avatar">
                                                     <a asp-controller="Patient" asp-action="DetailsPatient" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/patients/patient1.jpg") alt="User Image"></a>
-                                                    <a asp-controller="Patient" asp-action="DetailsPatient">@patient.FullName </a>
+                                                    <a asp-controller="Patient" asp-action="DetailsPatient" asp-route-id="@patient.AccountId">@patient.FullName </a>
                                                 </h2>
                                             </td>
                                             @if (patient.DateOfBirth == DateTime.MinValue)
