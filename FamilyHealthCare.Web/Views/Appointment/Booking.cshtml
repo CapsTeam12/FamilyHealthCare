@@ -5,8 +5,8 @@
     DateTime currentDate = ViewBag.CurrentDate; // currentDate for search
     var Doctor = ViewBag.doctor; // userId of doctor
     var doctorId = ViewBag.doctorId; // doctorId
-    var userId = ViewBag.userId; // userId
     var doctorName = ViewBag.doctorName; // doctor fullname
+    var doctorEmail = ViewBag.doctorEmail; // doctor Email
 
     var currentTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 }
@@ -46,10 +46,11 @@
                     <div class="col-12 col-sm-4 col-md-6">
                         <h4 class="mb-1">@currentDate.ToLongDateString()</h4>
                         <form method="get" asp-controller="Appointment" asp-action="Booking">
-                            <input type="text" name="doctor" value="@Doctor" hidden />
+                            <input type="text" name="accountDoctorId" value="@Doctor" hidden />
                             <input type="text" name="doctorName" value="@doctorName" hidden />
-                            <input type="text" name="Id" value="@doctorId" hidden />
-                            <input type="date" id="scheduleDate" class="form-control" name="date" value="@currentDate.ToString("yyyy-MM-dd")" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                            <input type="text" name="doctorEmail" value="@doctorEmail" hidden />
+                            <input type="text" name="therapistId" value="@doctorId" hidden />
+                            <input type="date" id="scheduleDate" class="form-control" name="Date" value="@currentDate.ToString("yyyy-MM-dd")" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
                             <input type="submit" class="btn btn-secondary" value="Search" />
                         </form>
                     </div>
@@ -57,11 +58,11 @@
                 </div>
                 <!-- Schedule Widget -->
                 <form asp-controller="Appointment" asp-action="BookingSummary" method="get">
-                    <input type="text" name="TherapistId" value="@doctorId" hidden />
-                    <input type="text" name="doctor" value="@Doctor" hidden />
-                    <input type="text" name="userId" value="@userId" hidden />
+                    <input type="text" name="therapistId" value="@doctorId" hidden />
+                    <input type="text" name="accountDoctorId" value="@Doctor" hidden />
                     <input type="text" name="doctorName" value="@doctorName" hidden />
-                    <input type="text" name="date" value="@currentDate" hidden />
+                    <input type="text" name="doctorEmail" value="@doctorEmail" hidden />
+                    <input type="text" name="Date" value="@currentDate" hidden />
                     <div class="card booking-schedule schedule-widget">
                         <!-- Schedule Content -->
                         <div class="schedule-cont">

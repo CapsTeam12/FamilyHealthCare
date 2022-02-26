@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Business.IServices;
+using Contract.DTOs;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,36 +14,26 @@ namespace BookingAppoimentService.Controllers
     [ApiController]
     public class BookingAppointmentController : ControllerBase
     {
-        // GET: api/<BookingAppointmentController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly IAppointmentService _appointmentService;
+        public BookingAppointmentController(IAppointmentService appointmentService)
         {
-            return new string[] { "value1", "value2" };
+            _appointmentService = appointmentService;
         }
 
-        // GET api/<BookingAppointmentController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<BookingAppointmentController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [Route("Booking/{userId}")]
+        public async Task<IActionResult> Post([FromBody] AppointmentCreateDto createDto, string userId)
         {
-        }
-
-        // PUT api/<BookingAppointmentController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<BookingAppointmentController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            if (userId == null)
+            {
+                return BadRequest();
+            }
+            var appointmentDto = await _appointmentService.BookingAppointment(createDto, userId);
+            if (appointmentDto == null)
+            {
+                return NotFound();
+            }
+            return Ok(appointmentDto);
         }
     }
 }

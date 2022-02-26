@@ -15,7 +15,8 @@
                         <!-- Checkout Form -->
                         <form asp-action="BookingSummary" asp-controller="Appointment" method="post">
                             <input type="text" asp-for="therapistId" hidden />
-                            <input type="text" asp-for="userId" hidden />
+                            <input type="text" asp-for="accountDoctorId" hidden />
+                            <input type="text" asp-for="doctorEmail" hidden />
                             <input type="text" asp-for="StartTime" hidden />
                             <input type="text" asp-for="EndTime" hidden />
                             <input type="text" asp-for="doctorName" hidden />

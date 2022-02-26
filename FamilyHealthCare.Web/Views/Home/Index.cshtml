@@ -185,7 +185,7 @@
                         </div>
                         <div class="pro-content">
                             <h3 class="title">
-                                <a href="doctor-profile.html">@doctor.FullName</a>
+                                <a href="doctor-profile.html">@doctor.FullName</a>                                
                                 <i class="fas fa-check-circle verified"></i>
                             </h3>
                             <p class="speciality">MBBS, MD - General Medicine, DM - Neurology</p>
@@ -211,8 +211,8 @@
                                 </div>
                                 <div class="col-6">
                                     <a asp-controller="Appointment" asp-action="Booking" 
-                                       asp-route-doctor="@doctor.AccountId" asp-route-Id="@doctor.Id" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")" 
-                                       asp-route-doctorName="@doctor.FullName" class="btn book-btn">Book Now</a>
+                                       asp-route-accountDoctorId="@doctor.AccountId" asp-route-therapistId="@doctor.Id" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")" 
+                                       asp-route-doctorName="@doctor.FullName" asp-route-doctorEmail ="@doctor.Email" class="btn book-btn">Book Now</a>
                                 </div>
                             </div>
                         </div>

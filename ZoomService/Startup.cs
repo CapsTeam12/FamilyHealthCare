@@ -1,9 +1,9 @@
 using Business;
 using Data;
 using Data.Entities;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -15,10 +15,9 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
-namespace BookingAppoimentService
+namespace ZoomService
 {
     public class Startup
     {
@@ -32,8 +31,6 @@ namespace BookingAppoimentService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<MongoDbConfig>(Configuration);
-
             services.AddBusinessLayer();
             services.AddDataAccessorLayer(Configuration);
             services.AddIdentity<User, IdentityRole>(options =>
@@ -46,15 +43,10 @@ namespace BookingAppoimentService
                 options.Password.RequireUppercase = false;
                 options.Password.RequireUppercase = false;
             })
-              .AddEntityFrameworkStores<ApplicationDbContext>()
-              .AddDefaultTokenProviders();
-            services.AddControllers()
-                .AddFluentValidation(fv =>
-                {
-                    fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-                    fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
-                }
-            );
+             .AddEntityFrameworkStores<ApplicationDbContext>()
+             .AddDefaultTokenProviders();
+
+
 
             services.AddAuthentication("Bearer")
                .AddJwtBearer("Bearer", options =>
@@ -71,7 +63,7 @@ namespace BookingAppoimentService
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "BookingAppoimentService", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ZoomService", Version = "v1" });
             });
         }
 
@@ -82,8 +74,10 @@ namespace BookingAppoimentService
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BookingAppoimentService v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ZoomService v1"));
             }
+
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 

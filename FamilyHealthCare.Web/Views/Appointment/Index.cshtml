@@ -2,8 +2,11 @@
     ViewData["Title"] = "Appointments";
     Layout = "_LayoutManagement";
 }
+
 <div class="col-md-7 col-lg-8 col-xl-9">
-    <div class="appointments" id="show_data"></div>
+    <div id="wait" class="spinner-border text-muted" style="position:absolute;top:50%;left:60%;"></div>
+    <div class="appointments" id="show_data">
+    </div>
     <div id="pagination"></div>
 </div>
 
@@ -66,8 +69,8 @@
                                 <div class="form-group">
                                     <input type="text" id="apRescheduleId" value="" hidden />
                                     <input type="text" id="apDoctorId" value="" hidden />
-                                    <input type="text" id="therapistId" value="" hidden/>
-                                    <input type="text" id="timeslotReschedule" value="" hidden/>
+                                    <input type="text" id="therapistId" value="" hidden />
+                                    <input type="text" id="timeslotReschedule" value="" hidden />
                                     <div class="schedule-calendar-col justify-content-start">
                                         <input type="date" class="form-control" id="reschedule_date" value="">
                                     </div>
@@ -122,11 +125,12 @@
 
 
 
+
+
 @section scripts{
     <script>
         $(document).ready(function () {
-             LoadData();
-            
+            LoadData();
 
             $('body').on('click', '.btnView', function () {
                 var _id = $(this).data('id');
@@ -194,10 +198,10 @@
                                     if (res.dataSchedules[j].shiftId === res.dataShifts[i].id) {
                                         var timeOfShifts = moment(res.dataSchedules[j].date).format("YYYY-MM-DD") + ' ' + res.dataShifts[i].timeSlot.split('-')[0];
                                         if (res.dataSchedules[j].isBooking === true || currentDateTime > timeOfShifts) {
-                                            html += "<input type='radio' class='btn-check' name='Time' data-id='" + res.dataSchedules[j].shiftId +"' id='" + res.dataSchedules[j].shiftId + "' value='' autocomplete='off' disabled>";
+                                            html += "<input type='radio' class='btn-check' name='Time' data-id='" + res.dataSchedules[j].shiftId + "' id='" + res.dataSchedules[j].shiftId + "' value='' autocomplete='off' disabled>";
                                             html += "<label class='btn btn-secondary' for='" + res.dataSchedules[j].shiftId + "'>" + res.dataShifts[i].timeSlot.split('-')[0].substring(0, 5) + "</label>";
                                         } else {
-                                            html += "<input type='radio' class='btn-check btnShift' name='Time' data-id='" + res.dataSchedules[j].shiftId +"' id='" + res.dataSchedules[j].shiftId + "' value='" + res.dataShifts[i].timeSlot +"' autocomplete='off' required>";
+                                            html += "<input type='radio' class='btn-check btnShift' name='Time' data-id='" + res.dataSchedules[j].shiftId + "' id='" + res.dataSchedules[j].shiftId + "' value='" + res.dataShifts[i].timeSlot + "' autocomplete='off' required>";
                                             html += "<label class='btn btn-outline-success' for='" + res.dataSchedules[j].shiftId + "'>" + res.dataShifts[i].timeSlot.split('-')[0].substring(0, 5) + "</label>";
                                         }
                                     }
@@ -227,9 +231,8 @@
                     var endTime = moment(date).format("YYYY-MM-DD") + ' ' + timeslot.split('-')[1];
                 }
                 console.log(startTime, endTime);
-                RescheduleAppointment(_id, doctorid, startTime,endTime,description);                
+                RescheduleAppointment(_id, doctorid, startTime, endTime, description);
             });
-          
 
             $('body').on('click', '.btnCancel', function () {
                 var _id = $(this).data('id');
@@ -242,20 +245,53 @@
                 CancelAppointment(id);
             });
 
-
-
         });
 
 
+        // function load data appointments
+        function LoadData(page, pageSize) {
+            $('#wait').show();
+            $.ajax({
+                url: '/Appointment/GetData',
+                type: 'GET',
+                data: { page: page, pageSize: pageSize },
+                contentType: 'application/json',
+                success: function (res) {
+                    if (res.totalItem > 0) {
+                        var items = res.data;
+                        var html = '';
+                        $.each(res.data, function (i) {
+                            html += "<div class='appointment-list'>";
+                            html += "<div class='profile-info-widget'>";
+                            html += "<a class='booking-doc-img'>";
+                            html += "<img src='assets/img/patients/patient.jpg' alt='User Image'></a>";
+                            html += "<div class='profile-det-info'><h3>" + items[i].therapist.fullName + "</h3><div class='patient-details'><h5><i class='far fa-clock'></i>" + moment(items[i].startTime).format("YYYY-MM-DD HH:mm") + "</h5><h5><i class='fas fa-map-marker-alt'></i>" + items[i].therapist.address + "</h5><h5><i class='fas fa-envelope'></i>" + items[i].therapist.email + "</h5><h5 class='mb-0'><i class='fas fa-phone'></i>" + items[i].therapist.phone + "</h5></div></div></div>";
+                            html += "<div class='appointment-action'>";
+                            if (items[i].status === 4 || items[i].status === 3 || items[i].status === 2) {
+                                html += "<a href='javascript:void(0);' class='btn btn-sm bg-info-light btnView' data-id='" + items[i].id + "'><i class='far fa-eye'></i> View</a>";
+                            } else {
+                                html += "<a href='javascript:void(0);' class='btn btn-sm bg-info-light btnView' data-id='" + items[i].id + "'><i class='far fa-eye'></i> View</a>";
+                                html += "<a href='javascript:void(0);' class='btn btn-sm bg-success-light btnReschedule' data-date='" + moment(items[i].startTime).format("YYYY-MM-DD") + "' data-therapist='" + items[i].therapistId + "' data-doctor='" + items[i].therapist.accountId + "' data-id='" + items[i].id + "'><i class='fas fa-edit'></i> Reschedule</a>";
+                                html += "<a href='javascript:void(0);' class='btn btn-sm bg-danger-light btnCancel' data-id='" + items[i].id + "'><i class='fas fa-times'></i> Cancel</a>";
+                            }
+                            html += "</div></div>";
+                        });
+                        $('#show_data').html(html);
+                        Pagination(res.currentPage, res.numberPage, res.pageSize);
+                        $('#wait').hide();
+                    }
+                }
+            });
+        }
+
         //function reschedule appointment
-        function RescheduleAppointment(Id, TherapistId, StartTime, EndTime, Description)
-        {
+        function RescheduleAppointment(Id, TherapistId, StartTime, EndTime, Description) {
             var rescheduleModel = {
                 TherapistId: TherapistId,
                 StartTime: StartTime,
                 EndTime: EndTime,
                 Description: Description,
-                Status : 1
+                Status: 1
             };
             $.ajax({
                 url: '/Appointment/RescheduleAppointment',
@@ -264,15 +300,24 @@
                 success: function (res) {
                     if (res.errorMessage) {
                         $('#reschedule_modal').modal('hide');
-                        alert(res.errorMessage);
+                        swal({
+                            icon: "error",
+                            title: res.errorMessage
+                        });
                     }
                     else if (res.data != null) {
                         LoadData();
                         $('#reschedule_modal').modal('hide');
-                        alert("Successfully rescheduled appointment.");
+                        swal({
+                            icon: "success",
+                            title: "Successfully rescheduled appointment."
+                        });
                     } else {
                         $('#reschedule_modal').modal('hide');
-                        alert(res.content);
+                        swal({
+                            icon: "info",
+                            title: res.content
+                        });
                     }
                 }
             });
@@ -289,44 +334,16 @@
                     if (res.data != null) {
                         LoadData();
                         $('#cancel_modal').modal('hide');
-                        alert("Successfully canceled appointment.");
+                        swal({
+                            icon: "success",
+                            title: "Successfully canceled appointment."
+                        });
                     } else {
                         $('#cancel_modal').modal('hide');
-                        alert(res.content);
-                    }
-                }
-            });
-        }
-
-        // function load data appointments
-        function LoadData(page, pageSize) {
-            $.ajax({
-                url: '/Appointment/GetData',
-                type: 'GET',
-                data: { page: page, pageSize: pageSize },
-                contentType: 'application/json',
-                success: function (res) {
-                    if (res.totalItem > 0) {
-                        var items = res.data;
-                        var html = '';
-                        $.each(res.data, function (i) {
-                            html += "<div class='appointment-list'>";
-                            html += "<div class='profile-info-widget'>";
-                            html += "<a class='booking-doc-img'>";
-                            html += "<img src='assets/img/patients/patient.jpg' alt='User Image'></a>";
-                            html += "<div class='profile-det-info'><h3>" + items[i].therapist.fullName + "</h3><div class='patient-details'><h5><i class='far fa-clock'></i>" + moment(items[i].startTime).format("YYYY-MM-DD HH:mm") + "</h5><h5><i class='fas fa-map-marker-alt'></i>" + items[i].therapist.address + "</h5><h5><i class='fas fa-envelope'></i> richard@example.com</h5><h5 class='mb-0'><i class='fas fa-phone'></i>" + items[i].therapist.phone + "</h5></div></div></div>";
-                            html += "<div class='appointment-action'>";
-                            if (items[i].status === 4 || items[i].status === 3 || items[i].status === 2) {
-                                html += "<a href='javascript:void(0);' class='btn btn-sm bg-info-light btnView' data-id='" + items[i].id + "'><i class='far fa-eye'></i> View</a>";
-                            } else {
-                                html += "<a href='javascript:void(0);' class='btn btn-sm bg-info-light btnView' data-id='" + items[i].id + "'><i class='far fa-eye'></i> View</a>";
-                                html += "<a href='javascript:void(0);' class='btn btn-sm bg-success-light btnReschedule' data-date='" + moment(items[i].startTime).format("YYYY-MM-DD") + "' data-therapist='" + items[i].therapistId + "' data-doctor='" + items[i].therapist.accountId + "' data-id='" + items[i].id + "'><i class='fas fa-edit'></i> Reschedule</a>";
-                                html += "<a href='javascript:void(0);' class='btn btn-sm bg-danger-light btnCancel' data-id='" + items[i].id + "'><i class='fas fa-times'></i> Cancel</a>";
-                            }
-                            html += "</div></div>";
+                        swal({
+                            icon: "info",
+                            title: res.content
                         });
-                        $('#show_data').html(html);
-                        Pagination(res.currentPage, res.numberPage, res.pageSize);
                     }
                 }
             });
@@ -337,19 +354,19 @@
             if (NumberPage > 0) {
                 var str = `<nav aria-label="Page navigation example"><ul class = "pagination">`;
                 if (currentPage != 1) {
-                    str += `<li class="page-item"><a class="page-link" onclick="NextPage(${currentPage - 1},${pageSize})"  href="javascript:void(0);">Previous</a></li>`;
+                    str += `<li class="page-item"><a class="page-link" onclick="NextPage(${currentPage - 1},${pageSize})"  href="#">Previous</a></li>`;
                 }
                 for (let i = 1; i <= NumberPage; i++) {
                     if (currentPage === i) {
                         str += `<li class="page-item active"><a class="page-link"  href="javascript:void(0);">${i}</a></li>`;
                     }
                     else {
-                        str += `<li class="page-item"><a class="page-link" onclick="NextPage(${i},${pageSize})" href="javascript:void(0);">${i}</a></li>`;
+                        str += `<li class="page-item"><a class="page-link" onclick="NextPage(${i},${pageSize})" href="#">${i}</a></li>`;
                     }
 
                 }
                 if (currentPage != NumberPage) {
-                    str += `<li class="page-item"><a class="page-link" onclick="NextPage(${currentPage + 1},${pageSize})"  href="javascript:void(0);">Next</a></li>`;
+                    str += `<li class="page-item"><a class="page-link" onclick="NextPage(${currentPage + 1},${pageSize})"  href="#">Next</a></li>`;
                 }
                 str += "</ul></nav>";
                 $('#pagination').html(str);

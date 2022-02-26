@@ -35,7 +35,7 @@ namespace FamilyHealthCare.Customer.Controllers
             _httpContext = httpContext;
         }
 
-        public ActionResult Index() 
+        public ActionResult Index()
         {
             return View();
         }
@@ -70,7 +70,7 @@ namespace FamilyHealthCare.Customer.Controllers
             var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
             var response = await client.GetAsync(EndpointConstants.AppointmentService.CANCEL + id);
             string jsonData = await response.Content.ReadAsStringAsync();
-            if(jsonData.Equals("Appointment completed!") || jsonData.Equals("Appointment is in progress!") || jsonData.Equals("Can only cancel the appointment at least two hour!") || jsonData.Equals("This appointment has been canceled before!"))
+            if (jsonData.Equals("Appointment completed!") || jsonData.Equals("Appointment is in progress!") || jsonData.Equals("Can only cancel the appointment at least two hour!") || jsonData.Equals("This appointment has been canceled before!"))
             {
                 return Json(new { content = jsonData });
             }
@@ -90,7 +90,7 @@ namespace FamilyHealthCare.Customer.Controllers
 
 
 
-        public async Task<IActionResult> Reschedule(string doctor,DateTime date)
+        public async Task<IActionResult> Reschedule(string doctor, DateTime date)
         {
             var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
             var response = await client.GetAsync(EndpointConstants.ScheduleService.DOCTOR_SCHEDULES + "/" + doctor + "/" + date.ToString("yyyy-MM-dd"));
@@ -109,13 +109,14 @@ namespace FamilyHealthCare.Customer.Controllers
         [IgnoreAntiforgeryToken]
         public async Task<IActionResult> RescheduleAppointment(AppointmentRescheduleDto model, string id)
         {
-            if(model.StartTime.ToString() == "1/1/0001 12:00:00 AM")
+            if (model.StartTime.ToString() == "1/1/0001 12:00:00 AM")
             {
                 return Json(new { errorMessage = "No appointment selected!" });
-            }else if(model.Status == 4)
+            }
+            else if (model.Status == 4)
             {
                 return Json(new { errorMessage = "This appointment has been canceled before!" });
-            }            
+            }
 
             if (string.IsNullOrEmpty(model.Description))
             {
@@ -131,7 +132,8 @@ namespace FamilyHealthCare.Customer.Controllers
             if (response != null && response.IsSuccessStatusCode && jsonData.Equals("Can only reschedule the appointment at least two hour!"))
             {
                 return Json(new { content = jsonData });
-            }else
+            }
+            else
             {
                 return Json(new { data = jsonData });
             }
@@ -147,10 +149,10 @@ namespace FamilyHealthCare.Customer.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Booking(string doctor, DateTime date, string doctorName, int Id)
+        public async Task<IActionResult> Booking(BookingViewModel model) 
         {
             var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
-            var response = await client.GetAsync(EndpointConstants.ScheduleService.DOCTOR_SCHEDULES + "/" + doctor + "/" + date.ToString("yyyy-MM-dd"));
+            var response = await client.GetAsync(EndpointConstants.ScheduleService.DOCTOR_SCHEDULES + "/" + model.accountDoctorId + "/" + model.Date.ToString("yyyy-MM-dd"));
             string jsonData = await response.Content.ReadAsStringAsync();
             List<ScheduleDoctorDto> data = JsonConvert.DeserializeObject<List<ScheduleDoctorDto>>(jsonData);
             List<Shift> shiftdata = await GetShifts();
@@ -159,30 +161,31 @@ namespace FamilyHealthCare.Customer.Controllers
                 Shifts = shiftdata,
                 ScheduleDoctors = data
             };
-            ViewBag.doctorId = Id; // get doctorId
-            ViewBag.doctor = doctor; // get userId of doctor
-            ViewBag.userId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier); //get userId of current user logged in
-            ViewBag.CurrentDate = date; //get currentDate
-            ViewBag.doctorName = doctorName; // get doctor fullname
+            ViewBag.doctorEmail = model.doctorEmail;
+            ViewBag.doctorId = model.therapistId; // get doctorId
+            ViewBag.doctor = model.accountDoctorId; // get userId of doctor
+            ViewBag.CurrentDate = model.Date; //get currentDate
+            ViewBag.doctorName = model.doctorName; // get doctor fullname
             return View(ScheduleView);
         }
 
 
-        public IActionResult BookingSummary(string Time, string userId, int therapistId, string doctorName, DateTime date, string doctor)
+        public IActionResult BookingSummary(string Time, BookingViewModel model)
         {
             if (Time == null)
             {
                 TempData["StatusMessage"] = "No appointment has been selected";
-                return RedirectToAction("Booking", "Appointment", new { doctor = doctor, date = date, doctorName = doctorName, Id = therapistId });
+                return RedirectToAction("Booking", "Appointment", new { accountDoctorId = model.accountDoctorId, Date = model.Date, doctorName = model.doctorName, therapistId = model.therapistId,doctorEmail = model.doctorEmail });
             }
             var bookingView = new BookingViewModel()
             {
-                therapistId = therapistId,
-                userId = userId,
-                doctorName = doctorName,
-                StartTime = Convert.ToDateTime(date.ToString("yyyy-MM-dd") + " " + Time.Split("-")[0]),
-                EndTime = Convert.ToDateTime(date.ToString("yyyy-MM-dd") + " " + Time.Split("-")[1]),
-                Date = date
+                therapistId = model.therapistId,
+                accountDoctorId = model.accountDoctorId,
+                doctorName = model.doctorName,
+                doctorEmail = model.doctorEmail,
+                StartTime = Convert.ToDateTime(model.Date.ToString("yyyy-MM-dd") + " " + Time.Split("-")[0]),
+                EndTime = Convert.ToDateTime(model.Date.ToString("yyyy-MM-dd") + " " + Time.Split("-")[1]),
+                Date = model.Date
             };
             return View(bookingView);
 
@@ -190,15 +193,43 @@ namespace FamilyHealthCare.Customer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> BookingSummary(BookingViewModel model, string userId)
+        public async Task<IActionResult> BookingSummary(BookingViewModel model)
         {
+            var userId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier); //get userId of current user logged in
             if (String.IsNullOrEmpty(model.Description)) model.Description = "No information";
+
             var stringModel = JsonConvert.SerializeObject(model);
             var data = new StringContent(stringModel, Encoding.UTF8, "application/json");
             var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
-            var response = await client.PostAsync(EndpointConstants.AppointmentService.BOOKING + userId, data);
-            string jsonData = await response.Content.ReadAsStringAsync();
-            if (response != null && response.IsSuccessStatusCode)
+            var response = await client.PostAsync(EndpointConstants.BookingAppointmentService.BOOKING + userId, data);
+            var inforAppointment = await response.Content.ReadAsAsync<AppointmentDetailsDto>();
+
+            var meetingObj = new Meeting()
+            {
+                Topic = "Meeting with Dr." + model.doctorName,
+                Agenda = model.Description,
+                StartTime = model.StartTime,
+                Duration = model.EndTime.Minute - model.StartTime.Minute,
+            };
+            var meetingModel = JsonConvert.SerializeObject(meetingObj);
+            var dataMeeting = new StringContent(meetingModel, Encoding.UTF8, "application/json");
+            var responseZoomCreate = await client.PostAsync(EndpointConstants.ZoomService.CREATE + model.doctorEmail, dataMeeting);
+            var inforMeeting = await responseZoomCreate.Content.ReadAsAsync<ZoomMeeting>();
+
+            var scheduleObj = new Schedule()
+            {
+                AppointmentId = inforAppointment.Id,
+                Join_Url = inforMeeting.Join_Url,
+                Start_Url = inforMeeting.Start_Url
+            };
+
+            var scheduleModel = JsonConvert.SerializeObject(scheduleObj);
+            var dataSchedule = new StringContent(scheduleModel, Encoding.UTF8, "application/json");
+            var responseSchedule = await client.PostAsync(EndpointConstants.ScheduleService.MEETING_SCHEDULES + model.accountDoctorId + "/" + userId, dataSchedule);
+
+            if ((response != null && response.IsSuccessStatusCode)
+                && (responseZoomCreate != null && responseZoomCreate.IsSuccessStatusCode)
+                && (responseSchedule != null && responseSchedule.IsSuccessStatusCode))
             {
                 return RedirectToAction("BookingSuccess", "Appointment", new { doctorName = model.doctorName, StartTime = model.StartTime, EndTime = model.EndTime, date = model.Date });
             }

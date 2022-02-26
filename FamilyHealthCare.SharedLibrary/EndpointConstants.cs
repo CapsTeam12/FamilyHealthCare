@@ -40,11 +40,23 @@ namespace FamilyHealthCare.SharedLibrary
             public static string CANCEL = "/Appointment/Cancel/";
         }
 
+        public static class BookingAppointmentService
+        {
+            public static string BOOKING = "/BookingAppointment/Booking/";
+        }
+
         public static class ScheduleService
         {
+            public static string EVENT_CREATE = "/Schedule";
             public static string CALENDAR = "/Schedule";
             public static string SHIFTS = "/Schedule/Shifts";
             public static string DOCTOR_SCHEDULES = "/Schedule/Doctor";
+            public static string MEETING_SCHEDULES = "/Schedule/UpdateScheduleMeeting/";
+        }
+
+        public static class ZoomService
+        {
+            public static string CREATE = "/Zoom/CreateMeeting/";
         }
     }
 }

@@ -17,6 +17,8 @@ namespace Data.Entities
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public User User { get; set; }
+        public string Join_Url { get; set; }
+        public string Start_Url { get; set; }
 
     }
 }
