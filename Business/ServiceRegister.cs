@@ -27,9 +27,6 @@ namespace Business
             services.AddSingleton<IDbClient, DbClient>();
             services.AddTransient<IAuthService, ClsAuthService>();
             services.AddSingleton<IFileService, FileService>();
-
-            services.AddSignalR();
-            services.AddTransient<INotificationService, ClsNotificationService>();
         }
     }
 }

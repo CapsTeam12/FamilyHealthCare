@@ -8,7 +8,7 @@ namespace Business.IServices
     public interface INotificationService
     {
         public Task<List<NotificationListDto>> GetNotificationListAsync(string id);
-        public Task<IActionResult> CreateNotificationAsync();
-        public Task<IActionResult> MarkNotificationAsReadAsync();
+        public Task<NotificationListDto> CreateNotificationAsync(NotificationCreateDto notificationCreateDto);
+        public Task<IActionResult> MarkNotificationAsReadAsync(int notificationId);
     }
 }

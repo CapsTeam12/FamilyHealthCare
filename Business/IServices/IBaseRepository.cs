@@ -11,7 +11,7 @@ namespace Business.IServices
     {
         IQueryable<T> Entities { get; }
 
-        Task<T> GetById(Guid id);
+        Task<T> GetById(int id);
 
         Task<T> GetByAsync(Expression<Func<T, bool>> filter = null, string includeProperties = "");
 

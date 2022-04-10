@@ -30,19 +30,46 @@ namespace Business.Services
 
         public async Task<List<NotificationListDto>> GetNotificationListAsync(string id)
         {
-            var notifications = await _notificationRepository.Entities.Where(n => n.UserID == id).ToListAsync();
+            var notifications = await _notificationRepository
+                .Entities.Where(n => n.UserID == id).OrderByDescending(n => n.Time).ToListAsync();
             var notificationDtos = _mapper.Map<List<NotificationListDto>>(notifications);
             return notificationDtos;
         }
 
-        public Task<IActionResult> CreateNotificationAsync()
+        public async Task<NotificationListDto> CreateNotificationAsync(NotificationCreateDto notificationCreateDto)
         {
-            throw new NotImplementedException();
+            var newNotification = new Notification
+            {
+                UserID = notificationCreateDto.UserID,
+                Content = notificationCreateDto.Content,
+                AvatarSender = notificationCreateDto.AvatarSender,
+                IsRead = false,
+                Time = DateTime.Now
+            };
+
+            await _notificationRepository.Create(newNotification);
+            var newNotificationDto = _mapper.Map<NotificationListDto>(newNotification);
+
+            //await _hubContext.Clients.User(notificationCreateDto.UserID.ToString())
+            //                .SendAsync("SendNotification", newNotificationDto);
+
+            return newNotificationDto;
         }
 
-        public Task<IActionResult> MarkNotificationAsReadAsync()
+        public async Task<IActionResult> MarkNotificationAsReadAsync(int notificationId)
         {
-            throw new NotImplementedException();
+            var notification = await _notificationRepository.GetById(notificationId);
+            if(notification == null)
+            {
+                return NotFound();
+            }
+            notification.IsRead = true;
+            var notificationDto = _mapper.Map<NotificationListDto>(notification);
+
+            //await _hubContext.Clients.User(notification.UserID.ToString())
+            //                .SendAsync("MarkNotificationAsRead", notificationDto);
+
+            return Ok(notificationDto);
         }
     }
 }
