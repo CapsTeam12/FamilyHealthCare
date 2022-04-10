@@ -30,6 +30,16 @@ namespace NotificationService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins("http://localhost:44367")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
             services.AddSignalR();
             services.AddTransient<INotificationService, ClsNotificationService>();
             services.AddBusinessLayer();
@@ -119,6 +129,15 @@ namespace NotificationService
 
             app.UseRouting();
 
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("https://localhost:44367")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            });
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

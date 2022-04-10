@@ -143,8 +143,9 @@ namespace FamilyHealthCare.Customer.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                var userId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
                 var httpClient = _clientFactory.CreateClient(ServiceConstants.NOTIFICATION_NAMED_CLIENT);
-                var response = await httpClient.GetAsync(EndpointConstants.ManagementService.DOCTORS);
+                var response = await httpClient.GetAsync($"{EndpointConstants.NotificationService.NOTIFICAITON}/{userId}");
                 var data = new List<NotificationListDto>();
                 if (response.IsSuccessStatusCode)
                 {

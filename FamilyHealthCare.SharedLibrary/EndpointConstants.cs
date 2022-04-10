@@ -49,5 +49,10 @@ namespace FamilyHealthCare.SharedLibrary
             public static string SHIFTS = "/Schedule/Shifts";
             public static string DOCTOR_SCHEDULES = "/Schedule/Doctor";
         }
+
+        public static class NotificationService
+        {
+            public static string NOTIFICAITON = "/notification";
+        }
     }
 }

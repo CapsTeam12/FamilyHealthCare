@@ -1,14 +1,14 @@
 @using System.Security.Claims
 @using Contract.DTOs.NotificationServiceDtos
-@using Microsoft.AspNetCore.Http
 @using Microsoft.AspNetCore.Identity
 @using FamilyHealthCare.SharedLibrary;
 @using FamilyHealthCare.Customer.Models
+@using Newtonsoft.Json
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
 @{
     var userId = _httpContextAccessor.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
     var userName = User.FindFirst(ClaimTypes.Name)?.Value;
-    var notifications = Context.Session.GetComplexData<List<NotificationListDto>>("notification")
+    var notifications = _httpContextAccessor.HttpContext.Session.GetComplexData<List<NotificationListDto>>("notification") 
                             ?? new List<NotificationListDto>();
 }
 <!DOCTYPE html>
@@ -129,7 +129,7 @@
                                 <!-- Notifications -->
                                 <li class="nav-item dropdown noti-dropdown">
                                     <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                                        <i class="fas fa-bell"></i> <span class="badge rounded-pill">3</span>
+                                        <i class="fas fa-bell"></i> <span class="badge rounded-pill">@(notifications.Count)</span>
                                     </a>
                                     <div class="dropdown-menu notifications">
                                         <div class="topnav-dropdown-header">
@@ -144,14 +144,21 @@
                                                     <a href="#">
                                                         <div class="media d-flex">
                                                             <span class="avatar avatar-sm flex-shrink-0">
-                                                                <img class="avatar-img rounded-circle" alt="User Image" src=@Url.Content("~/assets/img/doctors/doctor-thumb-01.jpg")>
+                                                                <img class="avatar-img rounded-circle" alt="User Image" src=@(ImageConstants.PATIENTS+noti.AvatarSender)>
                                                             </span>
                                                             <div class="media-body flex-grow-1">
                                                                 <p class="noti-details">
                                                                     @*<span class="noti-title">Dr. Ruby Perrin</span> 
                                                                     Schedule 
                                                                     <span class="noti-title">her appointment</span>*@
-                                                                    @noti.Content
+                                                                        @if(!noti.IsRead)
+                                                                        {
+                                                                            <span class="noti-title">@noti.Content</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            @noti.Content
+                                                                        }
                                                                 </p>
                                                                 <p class="noti-time">
                                                                     <span class="notification-time">@noti.Time.GetRelativeTime()</span>
@@ -163,9 +170,9 @@
                                             } 
                                             </ul>
                                         </div>
-                                        <div class="topnav-dropdown-footer">
+                                     @*   <div class="topnav-dropdown-footer">
                                             <a href="#">View all Notifications</a>
-                                        </div>
+                                        </div>*@
                                     </div>
                                 </li>
                                 <!-- /Notifications -->
@@ -365,7 +372,7 @@
             <!-- Custom JS -->
             <script src=@Url.Content("~/assets/js/script.js")></script>
             <script src=@Url.Content("~/js/signalr/dist/browser/signalr.js")></script>
-            <script src=@Url.Content("~/js/chat.js")></script>
+            <script src=@Url.Content("~/js/notification.js")></script>
             @await RenderSectionAsync("Scripts", required: false)
         </div>
     </body>
