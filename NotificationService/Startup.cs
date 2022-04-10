@@ -1,10 +1,11 @@
+using Business;
+using Business.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using NotificationService.Hubs;
 
 namespace NotificationService
 {
@@ -20,7 +21,7 @@ namespace NotificationService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSignalR();
+            services.AddBusinessLayer();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

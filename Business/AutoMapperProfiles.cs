@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Contract.DTOs.AuthService;
+using Contract.DTOs.NotificationServiceDtos;
 
 namespace Business
 {
@@ -57,6 +58,8 @@ namespace Business
 
             CreateMap<ScheduleDoctor, ScheduleDoctorDto>().ReverseMap();
             CreateMap<ScheduleDoctor, ScheduleDoctorCreateDto>().ReverseMap();
+
+            CreateMap<Notification, NotificationListDto>().ReverseMap();
 
         }
     }

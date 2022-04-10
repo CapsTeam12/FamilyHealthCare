@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.Entities
+namespace Contract.DTOs.NotificationServiceDtos
 {
-    public class Notification
+    public class NotificationListDto
     {
         public int Id { get; set; }
-        public string UserID { get; set; }  
-        public User User { get; set; }
+        public string UserID { get; set; }
         public string Content { get; set; }
         public DateTime Time { get; set; }
         public bool IsRead { get; set; }
