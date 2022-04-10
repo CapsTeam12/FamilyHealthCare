@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31702.278
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{36115D13-E085-4B18-8CCA-6857223DB2AB}"
 EndProject
@@ -58,6 +58,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHealthCare.Doctor", "FamilyHealthCare.Doctor\FamilyHealthCare.Doctor.csproj", "{8281E350-A17C-4322-872C-586A3AA41F63}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHealthCare.Pharmacy", "FamilyHealthCare.Pharmacy\FamilyHealthCare.Pharmacy.csproj", "{6C532A4F-143B-482D-A851-C83C31D4D125}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService", "NotificationService\NotificationService.csproj", "{FFE5C76C-E849-410C-9B34-A537E227DA2D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -157,6 +159,10 @@ Global
 		{6C532A4F-143B-482D-A851-C83C31D4D125}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C532A4F-143B-482D-A851-C83C31D4D125}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C532A4F-143B-482D-A851-C83C31D4D125}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFE5C76C-E849-410C-9B34-A537E227DA2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFE5C76C-E849-410C-9B34-A537E227DA2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFE5C76C-E849-410C-9B34-A537E227DA2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFE5C76C-E849-410C-9B34-A537E227DA2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -185,6 +191,7 @@ Global
 		{CB4DA355-2352-4464-91B2-6F5C39E2B0A5} = {69A346EC-2F4C-41DB-9506-F76BF8D7B5E6}
 		{8281E350-A17C-4322-872C-586A3AA41F63} = {69A346EC-2F4C-41DB-9506-F76BF8D7B5E6}
 		{6C532A4F-143B-482D-A851-C83C31D4D125} = {69A346EC-2F4C-41DB-9506-F76BF8D7B5E6}
+		{FFE5C76C-E849-410C-9B34-A537E227DA2D} = {36115D13-E085-4B18-8CCA-6857223DB2AB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6E1DB9E2-2E03-4480-A307-2CEF29BDC7FD}
