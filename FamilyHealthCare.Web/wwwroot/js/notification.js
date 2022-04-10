@@ -1,6 +1,6 @@
 ﻿"use strict";
 
-var connection = new signalR.HubConnectionBuilder().withUrl("/notification-hub").build();
+var connection = new signalR.HubConnectionBuilder().withUrl("http://localhost:52409/notification-hub").build();
 
 connection.on("SendNotification", function (message) {
     var li = document.createElement("li");
@@ -8,7 +8,7 @@ connection.on("SendNotification", function (message) {
     // We can assign user-supplied strings to an element's textContent because it
     // is not interpreted as markup. If you're assigning in any other way, you 
     // should be aware of possible script injection concerns.
-
+    alert("new noti")
 });
 
 connection.start();

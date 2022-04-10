@@ -1,4 +1,6 @@
 @using System.Security.Claims
+@using Contract.DTOs.NotificationServiceDtos
+@using Microsoft.AspNetCore.Http
 @using Microsoft.AspNetCore.Identity
 @using FamilyHealthCare.SharedLibrary;
 @using FamilyHealthCare.Customer.Models
@@ -6,6 +8,8 @@
 @{
     var userId = _httpContextAccessor.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
     var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+    var notifications = Context.Session.GetComplexData<List<NotificationListDto>>("notification")
+                            ?? new List<NotificationListDto>();
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -134,6 +138,8 @@
                                         </div>
                                         <div class="noti-content">
                                             <ul class="notification-list" id="notification">
+                                            @foreach(var noti in notifications)
+                                            {
                                                 <li class="notification-message">
                                                     <a href="#">
                                                         <div class="media d-flex">
@@ -141,12 +147,20 @@
                                                                 <img class="avatar-img rounded-circle" alt="User Image" src=@Url.Content("~/assets/img/doctors/doctor-thumb-01.jpg")>
                                                             </span>
                                                             <div class="media-body flex-grow-1">
-                                                                <p class="noti-details"><span class="noti-title">Dr. Ruby Perrin</span> Schedule <span class="noti-title">her appointment</span></p>
-                                                                <p class="noti-time"><span class="notification-time">4 mins ago</span></p>
+                                                                <p class="noti-details">
+                                                                    @*<span class="noti-title">Dr. Ruby Perrin</span> 
+                                                                    Schedule 
+                                                                    <span class="noti-title">her appointment</span>*@
+                                                                    @noti.Content
+                                                                </p>
+                                                                <p class="noti-time">
+                                                                    <span class="notification-time">@noti.Time.GetRelativeTime()</span>
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     </a>
                                                 </li>
+                                            } 
                                             </ul>
                                         </div>
                                         <div class="topnav-dropdown-footer">
@@ -350,6 +364,8 @@
 
             <!-- Custom JS -->
             <script src=@Url.Content("~/assets/js/script.js")></script>
+            <script src=@Url.Content("~/js/signalr/dist/browser/signalr.js")></script>
+            <script src=@Url.Content("~/js/chat.js")></script>
             @await RenderSectionAsync("Scripts", required: false)
         </div>
     </body>

@@ -59,6 +59,7 @@ namespace FamilyHealthCare.Customer
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
             services.AddCustomHttpClient(Configuration);
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,6 +79,8 @@ namespace FamilyHealthCare.Customer
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

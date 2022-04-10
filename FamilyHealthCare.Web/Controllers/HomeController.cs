@@ -16,6 +16,7 @@ using System.Net.Http;
 using System.Text;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Contract.DTOs.NotificationServiceDtos;
 
 namespace FamilyHealthCare.Customer.Controllers
 {
@@ -41,6 +42,9 @@ namespace FamilyHealthCare.Customer.Controllers
             {
                 data = await response.Content.ReadAsAsync<List<DoctorDetailsDto>>();
             }
+
+            GetNotification();
+
             HomeViewModel homeVM = new HomeViewModel
             {
                 Doctors = data,
@@ -133,6 +137,21 @@ namespace FamilyHealthCare.Customer.Controllers
                 FilterCates = filteredCates
             };
             return View(model);
+        }
+
+        private async void GetNotification()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var httpClient = _clientFactory.CreateClient(ServiceConstants.NOTIFICATION_NAMED_CLIENT);
+                var response = await httpClient.GetAsync(EndpointConstants.ManagementService.DOCTORS);
+                var data = new List<NotificationListDto>();
+                if (response.IsSuccessStatusCode)
+                {
+                    data = await response.Content.ReadAsAsync<List<NotificationListDto>>();
+                }
+                HttpContext.Session.SetComplexData("notification", data);
+            }
         }
     }
 }
