@@ -14,9 +14,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using Contract.DTOs.NotificationServiceDtos;
 
 namespace FamilyHealthCare.Customer.Controllers
 {
@@ -24,12 +22,10 @@ namespace FamilyHealthCare.Customer.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IHttpClientFactory _clientFactory;
-        private readonly IHttpContextAccessor _httpContext;
-        public HomeController(ILogger<HomeController> logger, IHttpClientFactory clientFactory, IHttpContextAccessor httpContext)
+        public HomeController(ILogger<HomeController> logger, IHttpClientFactory clientFactory)
         {
             _logger = logger;
             _clientFactory = clientFactory;
-            _httpContext = httpContext;
         }
 
 
@@ -42,8 +38,6 @@ namespace FamilyHealthCare.Customer.Controllers
             {
                 data = await response.Content.ReadAsAsync<List<DoctorDetailsDto>>();
             }
-
-            GetNotification();
 
             HomeViewModel homeVM = new HomeViewModel
             {
@@ -137,22 +131,6 @@ namespace FamilyHealthCare.Customer.Controllers
                 FilterCates = filteredCates
             };
             return View(model);
-        }
-
-        private async void GetNotification()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                var userId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
-                var httpClient = _clientFactory.CreateClient(ServiceConstants.NOTIFICATION_NAMED_CLIENT);
-                var response = await httpClient.GetAsync($"{EndpointConstants.NotificationService.NOTIFICAITON}/{userId}");
-                var data = new List<NotificationListDto>();
-                if (response.IsSuccessStatusCode)
-                {
-                    data = await response.Content.ReadAsAsync<List<NotificationListDto>>();
-                }
-                HttpContext.Session.SetComplexData("notification", data);
-            }
         }
     }
 }

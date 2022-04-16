@@ -34,7 +34,11 @@ namespace NotificationService
             {
                 options.AddDefaultPolicy(builder =>
                 {
-                    builder.WithOrigins("http://localhost:44367")
+                    builder.WithOrigins("https://localhost:44367")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                    builder.WithOrigins("https://localhost:44369")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
@@ -132,6 +136,10 @@ namespace NotificationService
             app.UseCors(builder =>
             {
                 builder.WithOrigins("https://localhost:44367")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+                builder.WithOrigins("https://localhost:44369")
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials();

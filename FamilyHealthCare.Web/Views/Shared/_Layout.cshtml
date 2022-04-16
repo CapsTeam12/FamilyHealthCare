@@ -148,9 +148,6 @@
                                                             </span>
                                                             <div class="media-body flex-grow-1">
                                                                 <p class="noti-details">
-                                                                    @*<span class="noti-title">Dr. Ruby Perrin</span> 
-                                                                    Schedule 
-                                                                    <span class="noti-title">her appointment</span>*@
                                                                         @if(!noti.IsRead)
                                                                         {
                                                                             <span class="noti-title">@noti.Content</span>
@@ -373,6 +370,30 @@
             <script src=@Url.Content("~/assets/js/script.js")></script>
             <script src=@Url.Content("~/js/signalr/dist/browser/signalr.js")></script>
             <script src=@Url.Content("~/js/notification.js")></script>
+            <script src=@Url.Content("~/lib/handlebars-v4.7.7.js")></script>
+            <script id="NotificationTemplate" type="text/x-handlebars-template">
+                <li class="notification-message">
+                    <a href="#">
+                        <div class="media d-flex">
+                            <span class="avatar avatar-sm flex-shrink-0">
+                                <img class="avatar-img rounded-circle" alt="User Image" src={{Notification.AvatarSender}})>
+                            </span>
+                            <div class="media-body flex-grow-1">
+                                <p class="noti-details">
+                                    {{#if Notification.IsRead}}
+                                        <span class="noti-title">{{Notification.Content}}</span>
+                                    {{else}}
+                                        {{Notification.Content}}
+                                    {{/if}}
+                                </p>
+                                <p class="noti-time">
+                                    <span class="notification-time">{{Notification.Time}}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </script>
             @await RenderSectionAsync("Scripts", required: false)
         </div>
     </body>

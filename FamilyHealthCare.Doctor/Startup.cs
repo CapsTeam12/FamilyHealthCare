@@ -1,4 +1,5 @@
 using FamilyHealthCare.SharedLibrary;
+using FamilyHealthCare.SharedLibrary.IServices;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
@@ -6,10 +7,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FamilyHealthCare.Doctor
 {
@@ -57,6 +54,8 @@ namespace FamilyHealthCare.Doctor
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
             services.AddCustomHttpClient(Configuration);
+            services.AddSession();
+            services.AddTransient<INotificationHelperClient, NotificationHelperClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

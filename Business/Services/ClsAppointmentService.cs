@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Business.IServices;
+using Contract.Constants;
 using Contract.DTOs;
 using Contract.DTOs.AppoimentService;
+using Contract.DTOs.NotificationServiceDtos;
 using Data;
 using Data.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -126,6 +128,16 @@ namespace Business.Services
                 await _db.SaveChangesAsync();
             }
             var appointmentDtos = _mapper.Map<AppointmentDetailsDto>(appointmentModel);
+
+
+            var notification = new NotificationCreateDto
+            {
+                UserID = userId,
+                Content = string.Format(NotificationContentTemplate.RescheduledAppointment, model.Description),
+                AvatarSender = therapist.Avatar,
+            };
+            Task.Run(() => new NotificationHelper().CallApiCreateNotification(notification));
+
             return appointmentDtos;
         }
 
@@ -174,6 +186,7 @@ namespace Business.Services
             }
             await _db.SaveChangesAsync();
             var appointmentDto = _mapper.Map<AppointmentDetailsDto>(appointmentModel);
+
             return appointmentDto;
         }
 

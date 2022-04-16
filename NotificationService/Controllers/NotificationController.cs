@@ -22,5 +22,17 @@ namespace NotificationService.Controllers
         {
             return await _notificationService.GetNotificationListAsync(id);
         }
+
+        [HttpPost("create")]
+        public async Task<NotificationListDto> CreateNotification(NotificationCreateDto notificationCreateDto)
+        {
+            return await _notificationService.CreateNotificationAsync(notificationCreateDto);
+        }
+
+        [HttpGet("mark-as-read/{notificationId}")]
+        public async Task<NotificationListDto> MarkAsRead(int notificationId)
+        {
+            return await _notificationService.MarkNotificationAsReadAsync(notificationId);
+        }
     }
 }

@@ -50,26 +50,22 @@ namespace Business.Services
             await _notificationRepository.Create(newNotification);
             var newNotificationDto = _mapper.Map<NotificationListDto>(newNotification);
 
-            //await _hubContext.Clients.User(notificationCreateDto.UserID.ToString())
-            //                .SendAsync("SendNotification", newNotificationDto);
+            await _hubContext.Clients.User(notificationCreateDto.UserID.ToString())
+                            .SendAsync("SendNotification", newNotificationDto);
 
             return newNotificationDto;
         }
 
-        public async Task<IActionResult> MarkNotificationAsReadAsync(int notificationId)
+        public async Task<NotificationListDto> MarkNotificationAsReadAsync(int notificationId)
         {
             var notification = await _notificationRepository.GetById(notificationId);
-            if(notification == null)
-            {
-                return NotFound();
-            }
             notification.IsRead = true;
             var notificationDto = _mapper.Map<NotificationListDto>(notification);
 
-            //await _hubContext.Clients.User(notification.UserID.ToString())
-            //                .SendAsync("MarkNotificationAsRead", notificationDto);
+            await _hubContext.Clients.User(notification.UserID.ToString())
+                            .SendAsync("MarkNotificationAsRead", notificationDto);
 
-            return Ok(notificationDto);
+            return notificationDto;
         }
     }
 }

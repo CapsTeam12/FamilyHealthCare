@@ -9,6 +9,6 @@ namespace Business.IServices
     {
         public Task<List<NotificationListDto>> GetNotificationListAsync(string id);
         public Task<NotificationListDto> CreateNotificationAsync(NotificationCreateDto notificationCreateDto);
-        public Task<IActionResult> MarkNotificationAsReadAsync(int notificationId);
+        public Task<NotificationListDto> MarkNotificationAsReadAsync(int notificationId);
     }
 }
