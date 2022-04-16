@@ -1,11 +1,13 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using Contract.DTOs.NotificationServiceDtos
+@using FamilyHealthCare.SharedLibrary
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
 @{
+    var notifications = _httpContextAccessor.HttpContext.Session.GetComplexData<List<NotificationListDto>>("notification")
+                            ?? new List<NotificationListDto>();
 }
 <li class="nav-item dropdown noti-dropdown">
     <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-        <i class="fas fa-bell"></i> <span class="badge rounded-pill">3</span>
+        <i class="fas fa-bell"></i> <span class="badge rounded-pill">@(notifications.Count)</span>
     </a>
     <div class="dropdown-menu notifications">
         <div class="topnav-dropdown-header">
@@ -13,33 +15,34 @@
             <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
         </div>
         <div class="noti-content">
-            <ul class="notification-list">
-                <li class="notification-message">
-                    <a href="#">
-                        <div class="media d-flex">
-                            <span class="avatar avatar-sm flex-shrink-0">
-                                <img class="avatar-img rounded-circle" alt="User Image" src="~/assets/img/doctors/doctor-thumb-01.jpg">
-                            </span>
-                            <div class="media-body flex-grow-1">
-                                <p class="noti-details"><span class="noti-title">Dr. Ruby Perrin</span> Schedule <span class="noti-title">her appointment</span></p>
-                                <p class="noti-time"><span class="notification-time">4 mins ago</span></p>
+            <ul class="notification-list" id="notification">
+                @foreach (var noti in notifications)
+                {
+                    <li class="notification-message">
+                        <a href="#">
+                            <div class="media d-flex">
+                                <span class="avatar avatar-sm flex-shrink-0">
+                                    <img class="avatar-img rounded-circle" alt="User Image" src=@(ImageConstants.PATIENTS+noti.AvatarSender)>
+                                </span>
+                                <div class="media-body flex-grow-1">
+                                    <p class="noti-details">
+                                        @if (!noti.IsRead)
+                                        {
+                                            <span class="noti-title">@noti.Content</span>
+                                        }
+                                        else
+                                        {
+                                            @noti.Content
+                                        }
+                                    </p>
+                                    <p class="noti-time">
+                                        <span class="notification-time">@noti.Time.GetRelativeTime()</span>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                </li>
-                <li class="notification-message">
-                    <a href="#">
-                        <div class="media d-flex">
-                            <span class="avatar avatar-sm flex-shrink-0">
-                                <img class="avatar-img rounded-circle" alt="User Image" src="~/assets/img/patients/patient1.jpg">
-                            </span>
-                            <div class="media-body flex-grow-1">
-                                <p class="noti-details"><span class="noti-title">Charlene Reed</span> has booked her appointment to <span class="noti-title">Dr. Ruby Perrin</span></p>
-                                <p class="noti-time"><span class="notification-time">6 mins ago</span></p>
-                            </div>
-                        </div>
-                    </a>
-                </li>
+                        </a>
+                    </li>
+                }
             </ul>
         </div>
         <div class="topnav-dropdown-footer">

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FamilyHealthCare.SharedLibrary
 {
-    public class NotificationHelperClient : ControllerBase, INotificationHelperClient
+    public class NotificationHelperClient : INotificationHelperClient
     {
         private readonly IHttpClientFactory _clientFactory;
         private readonly IHttpContextAccessor _httpContext;
@@ -18,7 +18,7 @@ namespace FamilyHealthCare.SharedLibrary
             _clientFactory = clientFactory;
             _httpContext = httpContext;
         }
-        public async Task GetNotification()
+        public async Task<List<NotificationListDto>> GetNotification()
         {
             var userId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
             var httpClient = _clientFactory.CreateClient(ServiceConstants.NOTIFICATION_NAMED_CLIENT);
@@ -28,7 +28,7 @@ namespace FamilyHealthCare.SharedLibrary
             {
                 data = await response.Content.ReadAsAsync<List<NotificationListDto>>();
             }
-            HttpContext.Session.SetComplexData("notification", data);
+            return data;
         }
     }
 }

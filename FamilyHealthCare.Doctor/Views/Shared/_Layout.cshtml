@@ -99,11 +99,13 @@
                             </div>
                         </div>
                     </li>
-                    <ul class="nav user-menu">
-                        <!-- Notifications -->
-                        @await Component.InvokeAsync("Notification");
-                        <!-- /Notifications -->
-                    </ul>
+                    <li class="nav-item">
+                        <ul class="nav user-menu">
+                            <!-- Notifications -->
+                            @await Component.InvokeAsync("Notification")
+                            <!-- /Notifications -->
+                        </ul>
+                    </li>
                     <!-- User Menu -->
                     <li class="nav-item dropdown has-arrow logged-item">
                         <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
