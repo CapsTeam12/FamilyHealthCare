@@ -130,12 +130,15 @@ namespace Business.Services
             var appointmentDtos = _mapper.Map<AppointmentDetailsDto>(appointmentModel);
 
 
-            var notification = new NotificationCreateDto
-            {
-                UserID = userId,
-                Content = string.Format(NotificationContentTemplate.RescheduledAppointment, model.Description),
-                AvatarSender = therapist.Avatar,
-            };
+            var notification = new NotificationCreateDto();
+
+            notification.UserID = therapist.AccountId;
+            notification.Content = string.Format(
+                                    NotificationContentTemplate.NewAppointment, 
+                                    patient.FullName,
+                                    model.StartTime.ToString("HH:mm dd/MM/yyyy"));
+            notification.AvatarSender = therapist.Avatar;
+            
             Task.Run(() => new NotificationHelper().CallApiCreateNotification(notification));
 
             return appointmentDtos;

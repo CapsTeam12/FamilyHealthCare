@@ -30,6 +30,7 @@ namespace MedicineService
             services.AddBusinessLayer();
             services.AddDataAccessorLayer(Configuration);
             services.AddControllers();
+            services.AddAuthenticationAuthorization();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MedicineService", Version = "v1" });
@@ -48,6 +49,7 @@ namespace MedicineService
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

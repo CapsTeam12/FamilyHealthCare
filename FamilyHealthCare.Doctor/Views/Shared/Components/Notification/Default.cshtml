@@ -1,5 +1,6 @@
 ﻿@using Contract.DTOs.NotificationServiceDtos
 @using FamilyHealthCare.SharedLibrary
+@using System.Security.Claims
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
 @{
     var notifications = _httpContextAccessor.HttpContext.Session.GetComplexData<List<NotificationListDto>>("notification")
@@ -50,3 +51,52 @@
         </div>
     </div>
 </li>
+
+
+<script src=@Url.Content("~/js/signalr/dist/browser/signalr.js")></script>
+<script type="text/javascript">
+    function noti () {
+        console.log("notification start")
+        let accessToken = `@(_httpContextAccessor.HttpContext.User.Claims)`;
+        console.log(`accessToken: ${accessToken}`);
+        var connection = new signalR.HubConnectionBuilder()
+            .withUrl("http://localhost:52409/notification-hub", {
+                accessTokenFactory: () => accessToken
+            }).build();
+
+        connection.on("SendNotification", function (message) {
+            console.log(message)
+            var HandlerbarTemplate = $("#NotificationTemplate").html();
+            var CompileHtml = Handlebars.compile(HandlerbarTemplate);
+            var NotificationHTML = CompileHtml({ Notification: message });
+            $('#notification').append(NotificationHTML);
+        });
+
+        connection.start();
+    };
+    noti();
+</script>
+<script src=@Url.Content("~/lib/handlebars-v4.7.7.js")></script>
+<script id="NotificationTemplate" type="text/x-handlebars-template">
+    <li class="notification-message">
+        <a href="#">
+            <div class="media d-flex">
+                <span class="avatar avatar-sm flex-shrink-0">
+                    <img class="avatar-img rounded-circle" alt="User Image" src={{Notification.AvatarSender}})>
+                </span>
+                <div class="media-body flex-grow-1">
+                    <p class="noti-details">
+                        {{#if Notification.IsRead}}
+                            <span class="noti-title">{{Notification.Content}}</span>
+                        {{else}}
+                            {{Notification.Content}}
+                        {{/if}}
+                    </p>
+                    <p class="noti-time">
+                        <span class="notification-time">{{Notification.Time}}</span>
+                    </p>
+                </div>
+            </div>
+        </a>
+    </li>
+</script>

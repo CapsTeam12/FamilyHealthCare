@@ -1,8 +1,13 @@
 ﻿"use strict";
+let accessToken = localStorage.getItem("accessToken");
 
-var connection = new signalR.HubConnectionBuilder().withUrl("http://localhost:52409/notification-hub").build();
+var connection = new signalR.HubConnectionBuilder()
+    .withUrl("https://localhost:52409/notification-hub", {
+        accessTokenFactory: () => accessToken
+    }).build();
 
 connection.on("SendNotification", function (message) {
+    console.log(message)
     var HandlerbarTemplate = $("#NotificationTemplate").html(); // GET TEMPLATE
     var CompileHtml = Handlebars.compile(HandlerbarTemplate);
     var NotificationHTML = CompileHtml({ Notification: message }); //SET RECORD LIST TO HANDLEBARS OBJECT
@@ -16,12 +21,3 @@ connection.on("SendNotification", function (message) {
 });
 
 connection.start();
-
-document.getElementById("sendButton").addEventListener("click", function (event) {
-    var user = document.getElementById("userInput").value;
-    var message = document.getElementById("messageInput").value;
-    connection.invoke("SendMessage", user, message).catch(function (err) {
-        return console.error(err.toString());
-    });
-    event.preventDefault();
-});

@@ -33,6 +33,7 @@ namespace SearchService
         {
             services.AddBusinessLayer();
             services.AddDataAccessorLayer(Configuration);
+            services.AddAuthenticationAuthorization();
             services.AddControllers()
                 .AddFluentValidation(fv =>
                 {
@@ -40,18 +41,6 @@ namespace SearchService
                     fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
                 }
             );
-            services.AddIdentity<User, IdentityRole>(options =>
-            {
-                options.SignIn.RequireConfirmedAccount = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireUppercase = false;
-            })
-               .AddEntityFrameworkStores<ApplicationDbContext>()
-               .AddDefaultTokenProviders();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SearchService", Version = "v1" });
@@ -70,6 +59,7 @@ namespace SearchService
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
