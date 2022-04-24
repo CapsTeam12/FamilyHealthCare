@@ -50,7 +50,7 @@
                 <a href="index.html" class="logo">
                     <img src=@Url.Content("~/assetsPhar/img/logo25.jpg") alt="Logo">
                 </a>
-                <a href="index.html" class="logo logo-small>
+                <a href="index.html" class="logo logo-small">
                     <img src=@Url.Content("~/assetsPhar/img/logo-small.png") alt="Logo" width="30" height="30">
                 </a>
             </div>
@@ -148,25 +148,7 @@
                 </li>
                 <!-- /Notifications -->
                 <!-- User Menu -->
-                <li class="nav-item dropdown has-arrow">
-                    <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                        <span class="user-img"><img class="rounded-circle" src=@Url.Content("~/assetsPhar/img/profiles/avatar-01.jpg") width="31" alt="Ryan Taylor"></span>
-                    </a>
-                    <div class="dropdown-menu">
-                        <div class="user-header">
-                            <div class="avatar avatar-sm">
-                                <img src=@Url.Content("~/assetsPhar/img/profiles/avatar-01.jpg") alt="User Image" class="avatar-img rounded-circle">
-                            </div>
-                            <div class="user-text">
-                                <h6>Ryan Taylor</h6>
-                                <p class="text-muted mb-0">Administrator</p>
-                            </div>
-                        </div>
-                        <a class="dropdown-item" href="profile.html">My Profile</a>
-                        <a class="dropdown-item" href="settings.html">Settings</a>
-                        <a class="dropdown-item" asp-controller="Account" asp-action="SignOut">Logout</a>
-                    </div>
-                </li>
+                @await Component.InvokeAsync("Profile");               
                 <!-- /User Menu -->
 
             </ul>
@@ -174,9 +156,33 @@
 
         </div>
         <!-- /Header -->
+        <partial name="_sideBarMenu" />
+        <!-- Page Wrapper -->
+        <div class="page-wrapper">
+            <div class="content container-fluid">
 
-        @RenderBody()
-
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-7 col-auto">
+                            <h3 class="page-title">@ViewData["Title"]</h3>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Home @ViewData["PharmacyId"]</a></li>
+                                <li class="breadcrumb-item active">@ViewData["breadcumb-title"]</li>
+                            </ul>
+                        </div>
+                        @if (Convert.ToBoolean(ViewData["MedicinesIndex"]) == true)
+                        {
+                            <div class="col-sm-5 col">
+                                <a class="btn btn-primary float-end mt-2" data-bs-toggle="modal" href="#AddMedicineModal">Add New</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- /Page Header -->
+                @RenderBody()
+            </div>
+        </div>
     </div>
     <!-- /Main Wrapper -->
     <!-- jQuery -->
@@ -203,6 +209,25 @@
 
     <!-- Custom JS -->
     <script src=@Url.Content("~/assetsPhar/js/script.js")></script>
-
+    @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        $(document).ready(function () {
+            var url = window.location.pathname;
+            $('#sidebar-menu a').each(function () {
+                var pathName = this.getAttribute('href'); // Get attribute href
+                if (url === pathName.split('?')[0]) {
+                    var element = $(this).closest('.submenu'); // Check if have submenu 
+                    if (element.length === 0) {
+                        $(this).parent().addClass('active');
+                    }                   
+                    if (element.length > 0) {
+                        element.children('a').addClass('active subdrop'); 
+                        element.children('ul').css("display", "block");
+                        $(this).addClass('active');
+                    }                                      
+                }
+            });
+        });
+    </script>
 </body>
 </html>

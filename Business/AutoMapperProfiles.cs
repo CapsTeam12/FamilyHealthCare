@@ -11,6 +11,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Contract.DTOs.AuthService;
+using Contract.DTOs.PartnerService;
+using Contract.DTOs.MedicineService;
+using Contract.DTOs.MedicalRecordService;
 
 namespace Business
 {
@@ -22,14 +25,14 @@ namespace Business
                 .ReverseMap();
             CreateMap<Appointment, AppointmentCreateDto>()
                 .ReverseMap();
-            CreateMap<Medicine , SearchMedicineDto>()
+            CreateMap<Medicine, SearchMedicineDto>()
                 .ForMember(d => d.ClassificationName, t => t.MapFrom(m => m.MedicineClass.ClassificationName))
                 .ReverseMap();
             CreateMap<Doctor, SearchDoctorDto>()
                 .ReverseMap();
             CreateMap<Pharmacy, SearchPharmacyDto>()
                .ReverseMap();
-            CreateMap<Doctor, DoctorDetailsDto>().ForMember(d =>d.Specialities, t => t.MapFrom(m => m.Specialized.SpecializedName))
+            CreateMap<Doctor, DoctorDetailsDto>().ForMember(d => d.Specialities, t => t.MapFrom(m => m.Specialized.SpecializedName))
                 .ReverseMap();
             CreateMap<Pharmacy, PharmacyDetailsDto>()
                 .ReverseMap();
@@ -58,6 +61,30 @@ namespace Business
             CreateMap<ScheduleDoctor, ScheduleDoctorDto>().ReverseMap();
             CreateMap<ScheduleDoctor, ScheduleDoctorCreateDto>().ReverseMap();
 
+
+            CreateMap<Doctor, DoctorRegisterDto>().ReverseMap();
+            CreateMap<Experience, ExperiencesDto>().ReverseMap();
+
+            CreateMap<Pharmacy, PharmacyRegisterDto>().ReverseMap();
+            CreateMap<Awards, AwardsDto>().ReverseMap();
+
+            CreateMap<Doctor, DoctorRequestDetailsDto>().ForMember(x => x.Specialized, opt => opt.MapFrom(m => m.Specialized.SpecializedName)).ReverseMap();
+            CreateMap<Pharmacy, PharmacyRequestDetailsDto>().ReverseMap();
+
+            CreateMap<Medicine, MedicineDto>().ReverseMap();
+            CreateMap<Pharmacy, PharmacyDto>().ReverseMap();
+            CreateMap<MedicineClassification, MedicineClassificationDto>().ReverseMap();
+            CreateMap<AddUpdateMedicineDto, Medicine>()
+                .ForMember(dest => dest.Images, act => act.Ignore())
+                .ForMember(dest => dest.Id, act => act.Ignore());
+
+
+            CreateMap<MedicalRecord, MedicalRecordDto>()
+                .ReverseMap();
+            CreateMap<Doctor, DoctorDto>().ForMember(dest => dest.DoctorId, opt => opt.MapFrom(src => src.Id)).ReverseMap();
+            CreateMap<Patient, PatientDto>().ForMember(dest => dest.PatientId, opt => opt.MapFrom(src => src.Id)).ReverseMap();
+            CreateMap<AddUpdateMedicalRecordDto, MedicalRecord>()
+                .ForMember(dest => dest.Id, act => act.Ignore());
         }
     }
 }

@@ -10,15 +10,15 @@ namespace Business.IServices
 {
     public interface IManagementService
     {
-        public Task<IActionResult> GetPatientsAsync();
+        public Task<List<PatientDetailsDto>> GetPatientsAsync();
         public Task<List<DoctorDetailsDto>> GetDoctorsAsync();
         public Task<IActionResult> GetPharmaciesAsync();
-        public Task<IActionResult> GetSpecialitiesAsync();
-        public Task<List<CategoriesDetailsDto>> GetCategoriesAsync();
-
+        public Task<List<SpecialitiesDetailsDto>> GetSpecialitiesAsync();
+        public Task<SpecialitiesDetailsDto> UpdateSpecialities(SpecialitiesUpdateDto specialitiesUpdateDto);
+        public Task<List<CategoriesDetailsDto>> GetCategoriesAsync();        
         public Task<PatientDetailsDto> GetPatientDetailsAsync(string id);
-        public Task<IActionResult> GetDoctorDetailsAsync(string id);
-        public Task<IActionResult> GetPharmacyDetailsAsync(string id);
+        public Task<DoctorDetailsDto> GetDoctorDetailsAsync(string id);
+        public Task<PharmacyDetailsDto> GetPharmacyDetailsAsync(string id);
         public Task<IActionResult> GetSpecializedDetailsAsync(string id);
         public Task<IActionResult> GetCategoryDetailsAsync(string id);
     }

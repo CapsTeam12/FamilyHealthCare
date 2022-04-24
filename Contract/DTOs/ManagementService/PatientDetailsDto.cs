@@ -8,6 +8,7 @@ namespace Contract.DTOs.ManagementService
 {
     public class PatientDetailsDto
     {
+        public int Id { get; set; }
         public string AccountId { get; set; }
         public string FullName { get; set; }
         public int? Gender { get; set; }

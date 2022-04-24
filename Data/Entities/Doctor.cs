@@ -25,5 +25,6 @@ namespace Data.Entities
         public string Address { get; set; }
         public int Languages { get; set; }
         public string Biography { get; set; }
+        public string Avatar { get; set; }
     }
 }

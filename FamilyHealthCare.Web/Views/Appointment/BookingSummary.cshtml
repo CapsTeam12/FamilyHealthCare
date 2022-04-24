@@ -1,9 +1,10 @@
 ﻿@model FamilyHealthCare.Customer.Models.BookingViewModel
 @using Data
+@using FamilyHealthCare.SharedLibrary
 @{
     ViewData["Title"] = "Booking Summary";
 }
-
+<link href="~/css/Loader.css" rel="stylesheet" />
 <!-- Page Content -->
 <div class="content">
     <div class="container">
@@ -11,9 +12,8 @@
             <div class="col-md-7 col-lg-8">
                 <div class="card">
                     <div class="card-body">
-
                         <!-- Checkout Form -->
-                        <form asp-action="BookingSummary" asp-controller="Appointment" method="post">
+                        <form id="bookingForm" asp-action="BookingSummary" asp-controller="Appointment" method="post">
                             <input type="text" asp-for="therapistId" hidden />
                             <input type="text" asp-for="accountDoctorId" hidden />
                             <input type="text" asp-for="doctorEmail" hidden />
@@ -31,17 +31,9 @@
                                 </div>
                             </div>
                             <!-- /Personal Information -->
-
                             <div class="payment-widget">
-
-                                <!-- /Credit Card Payment -->
-                                <!-- Paypal Payment -->
-                                <!-- /Paypal Payment -->
-                                <!-- Terms Accept -->
-                                <!-- /Terms Accept -->
-                                <!-- Submit Section -->
                                 <div class="submit-section mt-1">
-                                    <input type="submit" value="Booking" class="btn btn-primary submit-btn" />
+                                    <input type="button" value="Booking" class="btn btn-primary submit-btn" />
                                 </div>
                                 <!-- /Submit Section -->
 
@@ -66,25 +58,22 @@
                         <!-- Booking Doctor Info -->
                         <div class="booking-doc-info">
                             <a href="doctor-profile.html" class="booking-doc-img">
-                                <img src="~/assets/img/doctors/doctor-thumb-02.jpg" alt="User Image">
+                                @if (Model.doctorDetails.Avatar != null)
+                                {
+                                    <img src=@(ImageConstants.DOCTORS+Model.doctorDetails.Avatar) alt="User Image">
+                                }
+                                else
+                                {
+                                    <img src="~/assets/img/doctors/doctor-thumb-02.jpg" alt="User Image">
+                                }
                             </a>
                             <div class="booking-info">
-                                <h4><a href="doctor-profile.html">Dr. @Model.doctorName</a></h4>
-                                @*<div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">35</span>
-                                    </div>
-                                    <div class="clinic-details">
-                                        <p class="doc-location"><i class="fas fa-map-marker-alt"></i> Newyork, USA</p>
-                                    </div>*@
+                                <h4><a href="doctor-profile.html">Dr. @Model.doctorDetails.FullName</a></h4>
+                                <h5>@Model.doctorDetails.Specialities</h5>
+                                <p class="text-muted mb-0"><i class="fas fa-map-marker-alt"></i> @Model.doctorDetails.Address</p>
                             </div>
                         </div>
                         <!-- Booking Doctor Info -->
-
                         <div class="booking-summary">
                             <div class="booking-item-wrap">
                                 <ul class="booking-date">
@@ -102,3 +91,38 @@
         </div>
     </div>
 </div>
+<!--Loader-->
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="width: 48px">
+            <span class="fa fa-spinner fa-spin fa-3x"></span>
+        </div>
+    </div>
+</div>
+<!--/Loader-->
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('.submit-btn').click(function () {
+                $('.modal').modal('show');
+                var form = $('#bookingForm').serialize();
+                
+                $.ajax({
+                    url: '/Appointment/BookingSummary',
+                    type: 'POST',
+                    data: form,
+                    success: function (res) {
+                        if (res.success == true) {
+                            $('.modal').modal('hide');
+                            window.location.href = res.successUrl;
+                        }
+                        else if (res.success == false) {
+                            $('.modal').modal('hide');
+                            alert(res.message);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

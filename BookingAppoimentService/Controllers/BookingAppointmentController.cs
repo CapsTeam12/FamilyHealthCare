@@ -31,7 +31,7 @@ namespace BookingAppoimentService.Controllers
             var appointmentDto = await _appointmentService.BookingAppointment(createDto, userId);
             if (appointmentDto == null)
             {
-                return NotFound();
+                return BadRequest();
             }
             return Ok(appointmentDto);
         }

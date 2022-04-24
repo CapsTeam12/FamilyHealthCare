@@ -2,100 +2,8 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="breadcrumb-bar">
-    <div class="container-fluid">
-        <div class="row align-items-center">
-            <div class="col-md-12 col-12">
-                <nav aria-label="breadcrumb" class="page-breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-                    </ol>
-                </nav>
-                <h2 class="breadcrumb-title">Dashboard</h2>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="content">
-    <div class="container-fluid">
-
-        <div class="row">
-            <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
-
-                <!-- Profile Sidebar -->
-                <div class="profile-sidebar">
-                    <div class="widget-profile pro-widget-content">
-                        <div class="profile-info-widget">
-                            <a href="#" class="booking-doc-img">
-                                <img src=@Url.Content("~/assets/img/doctors/doctor-thumb-02.jpg") alt="User Image">
-                            </a>
-                            <div class="profile-det-info">
-                                <h3>Dr. @User.Identity.Name</h3>
-
-                                <div class="patient-details">
-                                    <h5 class="mb-0">BDS, MDS - Oral & Maxillofacial Surgery</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="dashboard-widget">
-                        <nav class="dashboard-menu">
-                            <ul>
-                                <li class="active">
-                                    <a asp-area="" asp-controller="Home" asp-action="Index">
-                                        <i class="fas fa-columns"></i>
-                                        <span>Dashboard</span>
-                                    </a>
-                                </li>
-                                <li>
-
-                                    <a asp-area="" asp-controller="MyPatient" asp-action="MyPatients">
-                                        <i class="fas fa-user-injured"></i>
-                                        <span>My Patients</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a asp-area="" asp-controller="Schedule" asp-action="AvailableTimings" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")">
-                                        <i class="fas fa-hourglass-start"></i>
-                                        <span>Schedule Timings</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a asp-area="" asp-controller="MedicalRecords" asp-action="MedicalRecord">
-                                        <i class="fas fa-file-invoice"></i>
-                                        <span>Medical Records</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a asp-area="" asp-controller="Prescriptions" asp-action="Prescription">
-                                        <i class="fas fa-share-alt"></i>
-                                        <span>Prescription</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a asp-area="" asp-controller="Schedule" asp-action="Calendar">
-                                        <i class="fas fa-calendar-check"></i>
-                                        <span>Calendar</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a asp-area="" asp-controller="ProfileSettings" asp-action="ProfileSetting">
-                                        <i class="fas fa-user-cog"></i>
-                                        <span>Profile Settings</span>
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-                <!-- /Profile Sidebar -->
-
-            </div>
-
-            <div class="col-md-7 col-lg-8 col-xl-9">
-
+           
+ <div class="col-md-7 col-lg-8 col-xl-9">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card dash-card">
@@ -310,11 +218,7 @@
                 </div>
 
             </div>
-        </div>
 
-    </div>
-
-</div>
 <div class="modal fade" id="cancel_modal" aria-hidden="true" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">

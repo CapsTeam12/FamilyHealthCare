@@ -54,6 +54,29 @@ namespace Data.Migrations
                     b.ToTable("Appointment");
                 });
 
+            modelBuilder.Entity("Data.Entities.Awards", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Award")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PharmacyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Year")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PharmacyId");
+
+                    b.ToTable("Awards");
+                });
+
             modelBuilder.Entity("Data.Entities.Doctor", b =>
                 {
                     b.Property<int>("Id")
@@ -65,6 +88,9 @@ namespace Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Avatar")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Biography")
@@ -101,6 +127,35 @@ namespace Data.Migrations
                     b.HasIndex("SpecializedId");
 
                     b.ToTable("Doctors");
+                });
+
+            modelBuilder.Entity("Data.Entities.Experience", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Designation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("From")
+                        .HasColumnType("int");
+
+                    b.Property<string>("HospitalName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("To")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("Experiences");
                 });
 
             modelBuilder.Entity("Data.Entities.MedicalRecord", b =>
@@ -281,10 +336,16 @@ namespace Data.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Avatar")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Biography")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Certifications")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Languages")
@@ -408,6 +469,9 @@ namespace Data.Migrations
                     b.Property<string>("Join_Url")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("MeetingId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
@@ -470,6 +534,9 @@ namespace Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SpecializedName")
                         .HasColumnType("nvarchar(max)");
@@ -690,6 +757,17 @@ namespace Data.Migrations
                     b.Navigation("Therapist");
                 });
 
+            modelBuilder.Entity("Data.Entities.Awards", b =>
+                {
+                    b.HasOne("Data.Entities.Pharmacy", "Pharmacy")
+                        .WithMany()
+                        .HasForeignKey("PharmacyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pharmacy");
+                });
+
             modelBuilder.Entity("Data.Entities.Doctor", b =>
                 {
                     b.HasOne("Data.Entities.User", "User")
@@ -705,6 +783,17 @@ namespace Data.Migrations
                     b.Navigation("Specialized");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Data.Entities.Experience", b =>
+                {
+                    b.HasOne("Data.Entities.Doctor", "Doctor")
+                        .WithMany()
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
                 });
 
             modelBuilder.Entity("Data.Entities.MedicalRecord", b =>

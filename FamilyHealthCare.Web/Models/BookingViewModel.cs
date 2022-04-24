@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Contract.DTOs.ManagementService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace FamilyHealthCare.Customer.Models
         public DateTime EndTime { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }
+        public DoctorDetailsDto doctorDetails { get; set; }
 
 
 

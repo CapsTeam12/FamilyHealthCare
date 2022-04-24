@@ -38,7 +38,10 @@ namespace Business.Services
             var scheduleOfUser = await _db.Schedules.FirstOrDefaultAsync(x => x.AccountId == userId && x.AppointmentId == createDto.AppointmentId);
             var scheduleOfDoctor = await _db.Schedules.FirstOrDefaultAsync(x => x.AccountId == doctorAccountId && x.AppointmentId == createDto.AppointmentId);
             // Update
+            scheduleOfUser.MeetingId = createDto.MeetingId;
             scheduleOfUser.Join_Url = createDto.Join_Url;
+
+            scheduleOfDoctor.MeetingId = createDto.MeetingId;
             scheduleOfDoctor.Start_Url = createDto.Start_Url;
             _db.Schedules.Update(scheduleOfUser);
             _db.Schedules.Update(scheduleOfDoctor);

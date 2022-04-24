@@ -81,5 +81,29 @@ namespace ZoomService.Controllers
             return NoContent();
         }
 
+        [HttpPatch]
+        [Route("UpdateMeeting/{identifier}")]
+        public async Task<IActionResult> UpdateMeeting([FromBody] Meeting meeting, string identifier)
+        {
+            var meetingOfUser = await _zoomService.UpdateMeeting(identifier, meeting);
+            if (meetingOfUser == true)
+            {
+                return NoContent();
+            }
+            return BadRequest();
+        }
+
+        [HttpDelete]
+        [Route("DeleteMeeting/{identifier}")]
+        public async Task<IActionResult> DeleteMeeting(string identifier)
+        {
+            var meeting = await _zoomService.DeleteMeeting(identifier);
+            if (meeting == true)
+            {
+                return NoContent();
+            }
+            return BadRequest();
+        }
+
     }
 }

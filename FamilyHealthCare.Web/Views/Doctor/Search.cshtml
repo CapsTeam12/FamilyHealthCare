@@ -1,0 +1,281 @@
+﻿@model FamilyHealthCare.Customer.Models.DoctorSearchViewModel
+@using FamilyHealthCare.SharedLibrary 
+@{
+    ViewData["Title"] = "Search";
+    List<string> specializeChecked = ViewBag.filterSpecialize;
+    List<int?> genderChecked = ViewBag.filterGender;
+}
+
+<style>
+    .card.slice{
+        display: none;
+    }
+</style>
+
+<!-- Breadcrumb -->
+<div class="breadcrumb-bar">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-8 col-12">
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Search</li>
+                    </ol>
+                </nav>
+                @if (ViewBag.resultCount > 0)
+                {
+                    <h2 class="breadcrumb-title">@ViewBag.resultCount matches found</h2>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Breadcrumb -->
+<!-- Page Content -->
+<div class="content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12 col-lg-4 col-xl-3 theiaStickySidebar">
+
+                <!-- Search Filter -->
+                <div class="card search-filter">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Search Filter</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" asp-action="SearchByFilters">
+                            <div class="filter-widget">
+                                <h4>Gender</h4>
+                                @if (genderChecked != null)
+                                {
+                                    if (genderChecked.Count < 2)
+                                    {
+                                        foreach (var gender in genderChecked)
+                                        {
+                                            if (gender == 1)
+                                            {
+                                                <div>
+                                                    <label class="custom_check">
+                                                        <input type="checkbox" name="Gender" value="1" checked>
+                                                        <span class="checkmark"></span> Male Doctor
+                                                    </label>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div>
+                                                    <label class="custom_check">
+                                                        <input type="checkbox" name="Gender" value="1">
+                                                        <span class="checkmark"></span> Male Doctor
+                                                    </label>
+                                                </div>
+                                            }
+                                            if (gender == 0)
+                                            {
+                                                <div>
+                                                    <label class="custom_check">
+                                                        <input type="checkbox" name="Gender" value="0" checked>
+                                                        <span class="checkmark"></span> Female Doctor
+                                                    </label>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div>
+                                                    <label class="custom_check">
+                                                        <input type="checkbox" name="Gender" value="0">
+                                                        <span class="checkmark"></span> Female Doctor
+                                                    </label>
+                                                </div>
+                                            }
+
+
+                                        }
+                                    }
+                                    else if (genderChecked.Count == 2)
+                                    {
+                                        foreach (var gender in genderChecked)
+                                        {
+                                            if (gender == 1)
+                                            {
+                                                <div>
+                                                    <label class="custom_check">
+                                                        <input type="checkbox" name="Gender" value="1" checked>
+                                                        <span class="checkmark"></span> Male Doctor
+                                                    </label>
+                                                </div>
+                                            }
+                                            if (gender == 0)
+                                            {
+                                                <div>
+                                                    <label class="custom_check">
+                                                        <input type="checkbox" name="Gender" value="0" checked>
+                                                        <span class="checkmark"></span> Female Doctor
+                                                    </label>
+                                                </div>
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <div>
+                                        <label class="custom_check">
+                                            <input type="checkbox" name="Gender" value="1">
+                                            <span class="checkmark"></span> Male Doctor
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="custom_check">
+                                            <input type="checkbox" name="Gender" value="0">
+                                            <span class="checkmark"></span> Female Doctor
+                                        </label>
+                                    </div>
+                                }
+
+                            </div>
+                            <div class="filter-widget">
+                                <h4>Select Specialist</h4>
+
+                                @if (specializeChecked != null)
+                                {
+
+                                    foreach (var specialize in Model.Specialities)
+                                    {
+                                        foreach (var specializeCheck in specializeChecked)
+                                        {
+                                            if (specialize.SpecializedName == specializeCheck)
+                                            {
+                                                <div>
+                                                    <label class="custom_check">
+                                                        <input type="checkbox" name="Specialities" value="@specializeCheck" checked>
+                                                        <span class="checkmark"></span> @specializeCheck
+                                                    </label>
+                                                </div>
+                                                ViewData["specializeIsSelected"] = specializeCheck;
+                                            }
+
+                                        }
+                                        if (specialize.SpecializedName != (string)ViewData["specializeIsSelected"])
+                                        {
+                                            <div>
+                                                <label class="custom_check">
+                                                    <input type="checkbox" name="Specialities" value="@specialize.SpecializedName">
+                                                    <span class="checkmark"></span> @specialize.SpecializedName
+                                                </label>
+                                            </div>
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    foreach (var specialize in Model.Specialities)
+                                    {
+                                        <div>
+                                            <label class="custom_check">
+                                                <input type="checkbox" name="Specialities" value="@specialize.SpecializedName">
+                                                <span class="checkmark"></span> @specialize.SpecializedName
+                                            </label>
+                                        </div>
+                                    }
+                                }
+
+
+
+
+                            </div>
+                            <div class="btn-search">
+                                <button class="btn w-100">Search</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- /Search Filter -->
+
+            </div>
+
+            <div class="col-md-12 col-lg-8 col-xl-9">
+                @if (Model.Doctors.Count > 0)
+                {
+                    foreach (var doctor in Model.Doctors)
+                    {
+                        <!-- Doctor Widget -->
+                        <div class="card slice">
+                            <div class="card-body">
+                                <div class="doctor-widget">
+                                    <div class="doc-info-left">
+                                        <div class="doctor-img">
+                                            <a href="doctor-profile.html">
+                                                @if (doctor.Avatar != null)
+                                                {
+                                                    <img src=@(ImageConstants.DOCTORS+doctor.Avatar) class="img-fluid" alt="User Image" />
+                                                }
+                                                else
+                                                {
+                                                    <img src="~/assets/img/doctors/doctor-05.jpg" class="img-fluid" alt="User Image" />
+                                                }
+
+                                            </a>
+                                        </div>
+                                        <div class="doc-info-cont">
+                                            <h4 class="doc-name"><a href="doctor-profile.html">Dr. @doctor.FullName</a></h4>
+                                            <p class="doc-speciality">@doctor.Email</p>
+                                            @foreach (var specialize in Model.Specialities.Where(s => s.SpecializedName.Equals(doctor.Specialities)))
+                                            {
+                                                <h5 class="doc-department"><img src="@(ImageConstants.SPECIALIST + specialize.Image)" class="img-fluid" alt="Speciality">@doctor.Specialities</h5>
+                                            }
+
+                                            <div class="clinic-details">
+                                                <p class="doc-location"><i class="fas fa-map-marker-alt"></i> @doctor.Address</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="doc-info-right">
+                                        <div class="clini-infos">
+                                            <ul>
+                                                <li><i class="fas fa-map-marker-alt"></i> @doctor.Address</li>
+                                            </ul>
+                                        </div>
+                                        <div class="clinic-booking">
+                                            <a class="view-pro-btn" href="doctor-profile.html">View Profile</a>
+                                            <a asp-controller="Appointment" asp-action="Booking"
+                                               asp-route-accountDoctorId="@doctor.AccountId" asp-route-therapistId="@doctor.Id" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")"
+                                               asp-route-doctorName="@doctor.FullName" asp-route-doctorEmail="@doctor.Email" class="apt-btn">Book Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Doctor Widget -->
+                    }
+                    <div class="load-more text-center">
+                        <a id="loadMore" class="btn btn-primary btn-sm" href="javascript:void(0);">Load More</a>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- /Page Content -->
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("div.card.slice").slice(0, 4).show();
+            $("#loadMore").on('click', function (e) {
+                e.preventDefault();
+                $("div.card.slice:hidden").slice(0, 4).slideDown();
+                if ($("div.card.slice:hidden").length == 0) {
+                    $("#load").fadeOut('slow');
+                }
+                $('html,body').animate({
+                    scrollTop: $(this).offset().top
+                }, 1500);
+            });
+        });
+    </script>
+
+ }

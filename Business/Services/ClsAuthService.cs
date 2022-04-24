@@ -22,6 +22,7 @@ namespace Business
         private readonly IBaseRepository<Doctor> _doctorRepos;
         private readonly IBaseRepository<Pharmacy> _pharmacyRepos;
         private readonly IBaseRepository<Patient> _patientRepos;
+        private readonly IBaseRepository<Specialities> _specializedRepos;
         private readonly IFileService _fileService;
 
         private readonly IMapper _mapper;
@@ -31,6 +32,7 @@ namespace Business
                                 IBaseRepository<Doctor> doctorRepos,
                                 IBaseRepository<Pharmacy> pharmacyRepos,
                                 IBaseRepository<Patient> patientRepos,
+                                IBaseRepository<Specialities> specializedRepos,
                                 IFileService fileService)
         {
             _userManager = userManager;
@@ -98,6 +100,8 @@ namespace Business
             var patientDto = _mapper.Map<PatientDetailsDto>(updatedPatient);
             return Ok(patientDto);
         }
+
+       
 
         public Task<IActionResult> UpdatePharmacyProfileAsync()
         {

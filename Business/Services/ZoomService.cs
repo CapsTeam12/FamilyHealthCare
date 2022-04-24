@@ -83,6 +83,50 @@ namespace Business.Services
             return null;
         }
 
+        public async Task<bool> UpdateMeeting(string identifier, Meeting meeting)
+        {
+            string token = new ZoomToken(ApiKey, ApiSecret).Token;
+
+            RestClient restClient = new RestClient($"https://api.zoom.us/v2/meetings/{identifier}");
+            RestRequest restRequest = new RestRequest();
+
+            restRequest.AddHeader("Content-Type", "application/json");
+            restRequest.AddHeader("Authorization", "Bearer " + token);
+            //restRequest.AddParameter("application/json", model, ParameterType.RequestBody);
+            restRequest.AddJsonBody(new
+            {
+                topic = meeting.Topic,
+                agenda = meeting.Agenda,
+                start_time = meeting.StartTime.ToString("yyyy-MM-dd'T'HH:mm:ss"),
+                duration = meeting.Duration
+            }, "application/json");
+
+            var response = await restClient.PatchAsync(restRequest);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> DeleteMeeting(string identifier)
+        {
+            string token = new ZoomToken(ApiKey, ApiSecret).Token;
+            RestClient restClient = new RestClient($"https://api.zoom.us/v2/meetings/{identifier}");
+            RestRequest restRequest = new RestRequest();
+
+            restRequest.AddHeader("Authorization", "Bearer " + token);
+
+            var response = await restClient.DeleteAsync(restRequest);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public async Task<UserZoomDetail> CreateUser(UserZoomDetail userZoom)
         {
             string token = new ZoomToken(ApiKey, ApiSecret).Token;

@@ -28,6 +28,10 @@ namespace Business
             services.AddTransient<IAuthService, ClsAuthService>();
             services.AddSingleton<IFileService, FileService>();
             services.AddTransient<IZoomService, ZoomService>();
+            services.AddTransient<IParnerService, PartnerService>();
+            services.AddTransient<ISendMailService, SendMailService>();
+            services.AddTransient<IMedicineService, MedicineService>();
+            services.AddTransient<IMedicalRecordService, MedicalRecordService>();
         }
     }
 }

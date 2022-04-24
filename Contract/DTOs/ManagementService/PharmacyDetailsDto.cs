@@ -8,5 +8,16 @@ namespace Contract.DTOs.ManagementService
 {
     public class PharmacyDetailsDto
     {
+        public int Id { get; set; }
+        public string AccountId { get; set; }
+        public string Certifications { get; set; }
+        public string PharmacyName { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string Address { get; set; }
+        public int Languages { get; set; }
+        public string Biography { get; set; }
+        public int PostalCode { get; set; }
+        public string Avatar { get; set; }
     }
 }

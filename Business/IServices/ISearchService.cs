@@ -1,4 +1,5 @@
-﻿using Contract.DTOs.SearchService;
+﻿using Contract.DTOs.ManagementService;
+using Contract.DTOs.SearchService;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -16,5 +17,6 @@ namespace Business.IServices
         public Task<IActionResult> GetDetailsSearchDoctorAsync(int id);
         public Task<IActionResult> GetSearchPharmacyResultAsync(string search);
         public Task<IActionResult> GetDetailsSearchPharmacyAsync(int id);
+        public Task<IEnumerable<DoctorDetailsDto>> SearchDoctor(SearchDoctorDto searchDoctorDto);
     }
 }

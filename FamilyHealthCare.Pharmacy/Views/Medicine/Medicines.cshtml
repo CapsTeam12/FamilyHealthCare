@@ -1,0 +1,872 @@
+﻿@using FamilyHealthCare.SharedLibrary;
+@using Contract.DTOs.MedicineService;
+@model MedicineViewModel
+@{
+    ViewData["Title"] = "Medicines";
+    ViewData["breadcumb-title"] = "Medicines";
+    ViewData["MedicinesIndex"] = true;
+    var pharmacyId = Model.Medicines.Select(m => m.PharmacyId).First();
+    int count = 0;
+}
+<style>
+    .error {
+        font-weight: 700;
+        display: block;
+        color: #f00;
+        font-size: 14px;
+    }
+</style>
+<h2 hidden id="imageConstants">@ImageConstants.MEDICINES</h2>
+<div class="row">
+    <div class="col-md-12">
+        <!-- Recent Orders -->
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="medicineTable" class="datatable table table-hover table-center mb-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Medicine Name</th>
+                                <th style="display:none"></th>
+                                <th style="display:none"></th>
+                                <th style="display:none"></th>
+                                <th style="display:none"></th>
+                                <th>Category</th>
+                                <th>Import Date</th>
+                                <th>Expiration Date</th>
+                                <th>Quantity</th>
+                                <th style="display:none"></th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var medicine in Model.Medicines)
+                            {
+                                count++;
+                                <tr>
+                                    <td>@count</td>
+                                    <td>
+                                        <h2 class="table-avatar">
+                                            @if (medicine.Images != null)
+                                            {
+                                                <a href="view-detail.html">
+                                                    <span class="avatar avatar-sm me-2"><img class="avatar-img" src=@(ImageConstants.MEDICINES+medicine.Images) alt="product image"></span>
+                                                </a>
+                                                <a id="detail@(count)" class="btnDetails" href="#DetailsMedicineModal" data-bs-toggle="modal" data-bs-dismiss="modal">@medicine.MedicineName</a>
+                                            }
+                                            else
+                                            {
+                                                <a href="view-detail.html">
+                                                    <span class="avatar avatar-sm me-2"><img class="avatar-img" src=@Url.Content("~/assetsPhar/img/product/product10.jpg") alt="product image"></span>
+                                                </a>
+                                                <a id="detail@(count)" class="btnDetails" href="#DetailsMedicineModal" data-bs-toggle="modal" data-bs-dismiss="modal">@medicine.MedicineName</a>
+                                            }
+                                        </h2>
+                                    </td>
+                                    <td style="display:none">@medicine.ClassificationID</td>
+                                    <td style="display:none">@medicine.Ingredients</td>
+                                    <td style="display:none">@medicine.Description</td>
+                                    <td style="display:none">@medicine.Direction</td>
+                                    <td>@medicine.MedicineClass.ClassificationName</td>
+                                    <td>@medicine.ImportDate.ToString("MM-dd-yyyy")</td>
+                                    <td>@medicine.ExpirationDate.ToString("MM-dd-yyyy")</td>
+                                    <td>@medicine.Quantity</td>
+                                    @if (medicine.Status == 1)
+                                    {
+                                        <td style="display:none">@medicine.Status</td>
+                                        <td>STOCKING</td>
+                                    }
+                                    else if (medicine.Status == 2)
+                                    {
+                                        <td style="display:none">@medicine.Status</td>
+                                        <td>OUT OF STOCK</td>
+                                    }
+                                    else if (medicine.Status == 3)
+                                    {
+                                        <td style="display:none">@medicine.Status</td>
+                                        <td>RETURNED</td>
+                                    }
+                                    <td>
+                                        <div class="appointment-action">
+                                            <a id="editMedicine@(count)" data-id="@medicine.Id" data-bs-toggle="modal" href="#EditMedicineModal" class="btn btn-sm bg-success-light me-2 btnEdit">
+                                                <i class="fe fe-pencil"></i> Edit
+                                            </a>
+                                            <a id="returnMedicine@(count)" data-id="@medicine.Id" class="btn btn-sm bg-info-light btnReturn" data-bs-toggle="modal" href="#return_modal">
+                                                <i class="fas fa-undo"></i> Return
+                                            </a>
+                                            <a id="deleteMedicine@(count)" data-id="@medicine.Id" class="btn btn-sm bg-danger-light btnDelete" data-bs-toggle="modal" href="#delete_modal">
+                                                <i class="fe fe-trash"></i> Delete
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /Recent Orders -->
+
+    </div>
+</div>
+<h5 hidden id="count">@count</h5>
+<!-- /Page Wrapper -->
+<!-- Add Medicine Modal -->
+<div class="modal fade" id="AddMedicineModal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Medicine</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addMedicineForm">
+                    <div class="row form-row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Medicine Name</label>
+                                <input id="medicineName" name="MedicineName" type="text" class="form-control" value="">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Category</label>
+                                <select id="category" name="ClassificationID" class="form-select">
+                                    <option value="">Select Category</option>
+                                    @foreach (var category in Model.Categories)
+                                    {
+                                        <option value="@category.Id">@category.CateName</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Main Active Ingredients</label>
+                                <textarea id="ingredients" name="Ingredients" rows="2" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Content Medicine</label>
+                                <textarea id="description" name="Description" rows="2" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Direction</label>
+                                <textarea id="direction" name="Direction" rows="2" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Import Date</label>
+                                <input id="importDate" name="ImportDate" type="date" class="form-control" value="">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Expiration Date</label>
+                                <input id="expirationDate" name="ExpirationDate" type="date" class="form-control" value="">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Quantity</label>
+                                <input id="quantity" name="Quantity" type="text" class="form-control" value="">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select id="status" name="Status" class="form-select">
+                                    <option value="">Select Option</option>
+                                    <option value="1">Stocking</option>
+                                    <option value="2">Out Of Stock</option>
+                                    <option value="3">Returned</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Image</label>
+                                <input id="imageUpload" name="Images" type="file" class="form-control">
+                            </div>
+                        </div>
+                        <input type="hidden" name="PharmacyId" value="@pharmacyId" />
+
+                    </div>
+                    <button type="button" class="btn btn-primary w-100 btnAdd">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Add Medicine Modal -->
+<!-- Edit Details Modal -->
+<div class="modal fade" id="EditMedicineModal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Medicine</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editMedicineForm">
+                    <input type="hidden" id="medicineId" name="Id" value="" />
+                    <div class="row form-row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Medicine Name</label>
+                                <input id="medicineName2" name="MedicineName" type="text" class="form-control" value="">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Category</label>
+                                <select id="category2" name="ClassificationID" class="form-select">
+                                    @foreach (var category in Model.Categories)
+                                    {
+                                        <option value="@category.Id">@category.CateName</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Main Active Ingredients</label>
+                                <textarea id="ingredients2" name="Ingredients" rows="2" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Content Medicine</label>
+                                <textarea id="description2" name="Description" rows="2" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Direction</label>
+                                <textarea id="direction2" name="Direction" rows="2" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Import Date</label>
+                                <input id="importDate2" name="ImportDate" type="date" class="form-control" value="">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Expiration Date</label>
+                                <input id="expirationDate2" name="ExpirationDate" type="date" class="form-control" value="">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Quantity</label>
+                                <input id="quantity2" name="Quantity" type="text" class="form-control" value="">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select id="status2" name="Status" class="form-select">
+                                    <option value="">Select Option</option>
+                                    <option value="1">Stocking</option>
+                                    <option value="2">Out Of Stock</option>
+                                    <option value="3">Returned</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Image</label>
+                                <input id="imageUpload2" name="Images" type="file" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <div class="avatar avatar-xl">
+                                    <img id="medicineImage" class="avatar-img rounded" alt="User Image" src="" />
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="PharmacyId" value="@pharmacyId" />
+
+
+                    </div>
+                    <button type="button" class="btn btn-primary w-100 btnSave">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Edit Details Modal -->
+<!-- Details Modal -->
+<div class="modal fade" id="DetailsMedicineModal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Medicine Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row form-row">
+                    <div class="col-12">
+                        <h5 class="form-title"><span>Image</span></h5>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <div class="avatar avatar-xl">
+                                <img id="medicineImage3" style="margin: 5px 200px 5px 200px;"
+                                     class="avatar-img rounded-circle" alt="Product Image" src="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <h5 class="form-title"><span>Information</span></h5>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label>Medicine Name</label>
+                            <input id="medicineName3" type="text" class="form-control" value="" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label>Categories</label>
+                            <input id="categories3" type="text" class="form-control" value="" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label>Main Active Ingredients</label>
+                            <textarea id="ingredients3" name="Ingredients" rows="2" class="form-control" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label>Content Medicine</label>
+                            <textarea id="description3" name="Description" rows="2" class="form-control" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label>Direction</label>
+                            <textarea id="direction3" name="Direction" rows="2" class="form-control" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label>Import Date</label>
+                            <input id="importDate3" name="ImportDate" type="date" class="form-control" value="" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label>Expiration Date</label>
+                            <input id="expirationDate3" name="ExpirationDate" type="date" class="form-control" value="" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label>Quantity</label>
+                            <input id="quantity3" name="Quantity" type="text" class="form-control" value="" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label>Status</label>
+                            <input id="status3" type="text" class="form-control" value="" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Details Modal -->
+<!-- Return Modal -->
+<div class="modal fade" id="return_modal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-content p-2">
+                    <h4 class="modal-title">Return</h4>
+                    <input type="hidden" id="medicineId2" name="Id" value="" />
+                    <p class="mb-4">Are you sure want to return?</p>
+                    <button type="button" class="btn btn-primary btnReturn">Return</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Return Modal -->
+<!-- Delete Modal -->
+<div class="modal fade" id="delete_modal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-content p-2">
+                    <h4 class="modal-title">Delete</h4>
+                    <input type="hidden" id="medicineId3" name="Id" value="" />
+                    <p class="mb-4">Are you sure want to delete?</p>
+                    <button type="button" class="btn btn-primary btnDelete">Delete</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Delete Modal -->
+
+
+@section scripts{
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#AddMedicineModal').on('hidden.bs.modal', function () { // Clear form modal when close
+                var validator = $("#addMedicineForm").validate();
+                validator.resetForm();
+                $("#addMedicineForm").find("*").removeClass('error');
+                $(this).find('#addMedicineForm')[0].reset();
+            });
+
+            $('body').on('click', '.btnAdd', function () {
+                if ($('#addMedicineForm').valid()) {
+                    var formData = new FormData();
+
+                    // Form Data
+                    var form = $('#addMedicineForm').serializeArray();
+                    $.each(form, function (key, input) {
+                        //console.log(input.name + " " + input.value);
+                        formData.append(input.name, input.value)
+                    });
+                    //File Data
+                    var fileUpload = $('#imageUpload').get(0);
+                    var files = fileUpload.files;
+                    formData.append("Images", files[0]);
+
+                    // Custom Data
+                    //formData.append('key', 'value');
+
+                    $.ajax({
+                        url: '/Medicine/CreateMedicine',
+                        type: 'POST',
+                        processData: false,
+                        contentType: false,
+                        data: formData,
+                        success: function (res) {
+                            if (res.success) {
+                                $('#AddMedicineModal').modal('hide');
+                                var medicine = res.item;
+                                var count = Number($('#count').text()) + 1;
+                                $('#count').text(count);
+                                //console.log(count);
+                                var medicineImage = $('#imageConstants').text() + medicine.images;
+                                var element = $('<tr></tr>');
+                                element.append('<td>' + count + '</td>');
+                                element.append('<td><h2 class="table-avatar"><a href="view-detail.html"><span class="avatar avatar-sm me-2"><img class="avatar-img" src="' + medicineImage + '" alt="product image"></span></a>' + '<a asp-area="" asp-controller="Pharmacy" asp-action="DetailMedicine">' + medicine.medicineName + '</a>' + '</h2></td>');
+                                element.append('<td style="display:none">' + medicine.classificationID + '</td>');
+                                element.append('<td hidden>' + medicine.ingredients + '</td>');
+                                element.append('<td hidden>' + medicine.description + '</td>');
+                                element.append('<td hidden>' + medicine.direction + '</td>');
+                                element.append('<td>' + medicine.medicineClass.classificationName + '</td>');
+                                element.append('<td>' + moment(medicine.importDate).format('MM-DD-YYYY') + '</td>');
+                                element.append('<td>' + moment(medicine.expirationDate).format('MM-DD-YYYY') + '</td>');
+                                element.append('<td>' + medicine.quantity + '</td>');
+                                if (medicine.status == 1) {
+                                    element.append('<td hidden>' + medicine.status + '</td>');
+                                    element.append('<td>STOCKING</td>');
+                                }
+                                else if (medicine.status == 2) {
+                                    element.append('<td hidden>' + medicine.status + '</td>');
+                                    element.append('<td>OUT OF STOCK</td>');
+                                }
+                                else if (medicine.status == 3) {
+                                    element.append('<td hidden>' + medicine.status + '</td>');
+                                    element.append('<td>RETURNED</td>');
+                                }
+                                var lastTdElement = '<td><div class="appointment-action">' +
+                                    '<a id="editMedicine' + count + '" data-id="' + medicine.id + '" data-bs-toggle="modal" href="#EditMedicineModal" class="btn btn-sm bg-success-light me-2 btnEdit"><i class="fe fe-pencil"></i> Edit</a>' +
+                                    '<a id="returnMedicine' + count + '" data-id="' + medicine.id + '" class="btn btn-sm bg-info-light btnReturn" data-bs-toggle="modal" href="#return_modal"><i class="fas fa-undo"></i> Return</a>' +
+                                    '<a id="deleteMedicine' + count + '" data-id="' + medicine.id + '" class="btn btn-sm bg-danger-light btnDelete" data-bs-toggle="modal" href="#delete_modal"><i class="fe fe-trash"></i> Delete</a>' +
+                                    '</div></td>';
+                                element.append(lastTdElement);
+                                element.appendTo('#medicineTable tbody');
+                                $('#AddMedicineModal form')[0].reset();
+                            }
+                        }
+                    });
+                }
+            }); // Add Medicine Modal
+
+            $('body').on('click', '.btnEdit', function () {
+                var medicineId = $(this).data('id');
+                $('#medicineId').val(medicineId);
+                var id = $(this).attr('id');
+                $('#EditMedicineModal').data('id', id);
+                var modalId = $('#EditMedicineModal').data('id');
+                var tdElements = $('#' + modalId).parents('tr').children();
+                let image = tdElements[1].getElementsByTagName('img');
+                $('#medicineImage').attr('src', image[0].getAttribute('src'));
+                $('#medicineName2').val(tdElements[1].innerText);
+                $('#category2').val(tdElements[2].innerText);
+                $('#ingredients2').val(tdElements[3].innerText);
+                $('#description2').val(tdElements[4].innerText);
+                $('#direction2').val(tdElements[5].innerText);
+                // Date control in HTML 5 accepts in the format of Year - month - day as we use in SQL. Format : YYYY-MM-DD
+                var ImportDate = new Date(tdElements[7].innerText);
+                var ExpirationDate = new Date(tdElements[8].innerText);
+                $('#importDate2').val(ImportDate.getFullYear() + "-" + ("0" + (ImportDate.getMonth() + 1)).slice(-2) + "-" + ("0" + ImportDate.getDate()).slice(-2));
+                $('#expirationDate2').val(ExpirationDate.getFullYear() + "-" + ("0" + (ExpirationDate.getMonth() + 1)).slice(-2) + "-" + ("0" + ExpirationDate.getDate()).slice(-2));
+                $('#quantity2').val(tdElements[9].innerText);
+                $('#status2').val(tdElements[10].innerText);
+            }); // button Edit click Edit Medicine Modal
+
+            $('body').on('click', '.btnSave', function () {
+                if ($('#editMedicineForm').valid()) {
+                    var formData = new FormData();
+
+                    // Form Data
+                    var form = $('#editMedicineForm').serializeArray();
+                    $.each(form, function (key, input) {
+                        //console.log(input.name + " " + input.value);
+                        formData.append(input.name, input.value)
+                    });
+                    //File Data
+                    var fileUpload = $('#imageUpload2').get(0);
+                    var files = fileUpload.files;
+                    formData.append("Images", files[0]);
+
+                    // Custom Data
+                    //formData.append('key', 'value');
+                    $.ajax({
+                        url: '/Medicine/UpdateMedicine',
+                        type: 'PUT',
+                        processData: false,
+                        contentType: false,
+                        data: formData,
+                        success: function (res) {
+                            if (res.success) {
+                                var modalId = $('#EditMedicineModal').data('id');
+                                $('#EditMedicineModal').modal('hide');
+                                var tdElements = $('#' + modalId).parents('tr').children();
+                                var medicine = res.item;
+                                var medicineImage = $('#imageConstants').text() + medicine.images;
+                                let image = tdElements[1].getElementsByTagName('img');
+                                image[0].setAttribute('src', medicineImage);
+                                var aElement = tdElements[1].getElementsByTagName("a");
+                                aElement[1].innerText = medicine.medicineName;
+                                tdElements[2].innerText = medicine.classificationID;
+                                tdElements[3].innerText = medicine.ingredients;
+                                tdElements[4].innerText = medicine.description;
+                                tdElements[5].innerText = medicine.direction;
+                                tdElements[6].innerText = medicine.medicineClass.classificationName;
+                                tdElements[7].innerText = moment(medicine.importDate).format('MM-DD-YYYY');
+                                tdElements[8].innerText = moment(medicine.expirationDate).format('MM-DD-YYYY');
+                                tdElements[9].innerText = medicine.quantity;
+                                tdElements[10].innerText = medicine.status;
+                                if (medicine.status == 1) {
+                                    tdElements[11].innerText = "STOCKING";
+                                } else if (medicine.status == 2) {
+                                    tdElements[11].innerText = "OUT OF STOCK";
+                                } else if (medicine.status == 3) {
+                                    tdElements[11].innerText = "RETURNED";
+                                }
+
+                            }
+                        }
+
+                    });
+                }
+
+            }) // button Save click Edit Medicine Modal
+
+            $('body').on('click', '.btnDetails', function () {
+                var id = $(this).attr('id');
+                $('#DetailsMedicineModal').data('id', id);
+                var modalId = $('#DetailsMedicineModal').data('id');
+                var tdElements = $('#' + modalId).parents("tr").children();
+                let image = tdElements[1].getElementsByTagName('img');
+                var imagePath = image[0].getAttribute('src');
+                $('#medicineImage3').attr('src', imagePath);
+                $('#medicineName3').val(tdElements[1].innerText);
+                $('#categories3').val(tdElements[6].innerText);
+                $('#ingredients3').val(tdElements[3].innerText);
+                $('#description3').val(tdElements[4].innerText);
+                $('#direction3').val(tdElements[5].innerText);
+                // Date control in HTML 5 accepts in the format of Year - month - day as we use in SQL. Format : YYYY-MM-DD
+                var ImportDate = new Date(tdElements[7].innerText);
+                var ExpirationDate = new Date(tdElements[8].innerText);
+                $('#importDate3').val(ImportDate.getFullYear() + "-" + ("0" + (ImportDate.getMonth() + 1)).slice(-2) + "-" + ("0" + ImportDate.getDate()).slice(-2));
+                $('#expirationDate3').val(ExpirationDate.getFullYear() + "-" + ("0" + (ExpirationDate.getMonth() + 1)).slice(-2) + "-" + ("0" + ExpirationDate.getDate()).slice(-2));
+                $('#quantity3').val(tdElements[9].innerText);
+                $('#status3').val(tdElements[11].innerText);
+            });
+
+            $('body').on('click', '.btnReturn', function () {
+                var id = $(this).attr('id');
+                var medicineId = $(this).data('id');
+                $('#medicineId2').val(medicineId);
+                $('#return_modal').data('id', id);
+            });   // Return Medicine Modal
+
+            $('#return_modal').on('click', '.btnReturn', function () {
+                var medicineId = $('#medicineId2').val();
+                $.ajax({
+                    url: '/Medicine/ReturnMedicine',
+                    type: 'GET',
+                    data: { id: medicineId },
+                    success: function (res) {
+                        if (res.success) {
+                            var medicine = res.item;
+                            var id = $('#return_modal').data('id');
+                            $('#return_modal').modal('hide');
+                            var tdElements = $('#' + id).parents("tr").children();
+                            var medicineImage = $('#imageConstants').text() + medicine.images;
+                            let image = tdElements[1].getElementsByTagName('img');
+                            image[0].setAttribute('src', medicineImage);
+                            tdElements[10].innerText = medicine.status;
+                            if (medicine.status == 1) {
+                                tdElements[11].innerText = "STOCKING";
+                            } else if (medicine.status == 2) {
+                                tdElements[11].innerText = "OUT OF STOCK";
+                            } else if (medicine.status == 3) {
+                                tdElements[11].innerText = "RETURNED";
+                            }
+                        } else {
+                            alert("FAILED");
+                        }
+                    }
+                });
+            }); // Return Medicine Modal
+
+            $('body').on('click', '.btnDelete', function () {
+                var id = $(this).attr('id');
+                var medicineId = $(this).data('id');
+                $('#medicineId3').val(medicineId);
+                $('#delete_modal').data('id', id);
+            });   // Delete Medicine Modal
+
+            $('#delete_modal').on('click', '.btnDelete', function () {
+                var medicineId = $('#medicineId3').val();
+                $.ajax({
+                    url: '/Medicine/DeleteMedicine',
+                    type: 'DELETE',
+                    data: { id: medicineId },
+                    success: function (res) {
+                        if (res.success) {
+                            var id = $('#delete_modal').data('id');
+                            var tdElements = $('#' + id).parents("tr").children();
+                            var currentNumber = Number(tdElements[0].innerText);
+                            var count = Number($('#count').text()) - 1;
+                            $('#count').text(count);
+                            $('#' + id).parents("tr").remove();
+                            var trElements = $('#medicineTable tbody').children();
+                            for (var i = currentNumber - 1; i < count; i++) {
+                                let td = trElements[i].getElementsByTagName("td");
+                                td[0].innerText = currentNumber;
+                                currentNumber++;
+                            }
+                            $('#delete_modal').modal('hide');
+                        }
+                    }
+                });
+            }); // Delete Medicine Modal
+
+            $.validator.addMethod('filesize', function (value, element, param) {
+                return this.optional(element) || (element.files[0].size <= param)
+            }); // Custom method
+
+            $.validator.addMethod('noSpace', function (value, element) {
+                return value == '' || value.trim().length != 0;
+            }, "Space are not allowed");
+
+            $('#addMedicineForm').validate({
+                rules: {
+                    Images: {
+                        required: true,
+                        extension: "jpg|jpeg|png",
+                        filesize: 2097152 // <- 2 MB
+                    },
+                    MedicineName: {
+                        required: true,
+                        minlength: 5,
+                        noSpace: true
+                    },
+                    ClassificationID: {
+                        required: true
+                    },
+                    Ingredients: {
+                        required: true,
+                        minlength: 10,
+                        noSpace: true
+                    },
+                    Description: {
+                        required: true,
+                        minlength: 10,
+                        noSpace: true
+                    },
+                    Direction: {
+                        required: true,
+                        minlength: 10,
+                        noSpace: true
+                    },
+                    ImportDate: {
+                        required: true
+                    },
+                    ExpirationDate: {
+                        required: true
+                    },
+                    Quantity: {
+                        required: true,
+                        number: true,
+                        noSpace: true
+                    },
+                    Status: {
+                        required: true
+                    }
+                },
+                messages: {
+                    Images: {
+                        required: "Please choose your image file!",
+                        extension: "Allowed JPG or PNG",
+                        filesize: "File must be less than 2MB"
+                    },
+                    MedicineName: {
+                        required: "Please enter medicine name!",
+                        minlength: "Medicine name at least 5 characters!"
+                    },
+                    ClassificationID: {
+                        required: "Please select option!"
+                    },
+                    Ingredients: {
+                        required: "Please enter ingredients!",
+                        minlength: "Ingredients at least 10 characters!"
+                    },
+                    Description: {
+                        required: "Please enter Description!",
+                        minlength: "Description at least 10 characters!"
+                    },
+                    Direction: {
+                        required: "Please enter direction!",
+                        minlength: "Direction at least 10 characters!"
+                    },
+                    ImportDate: {
+                        required: "Please enter import date!"
+                    },
+                    ExpirationDate: {
+                        required: "Please enter expiration date!"
+                    },
+                    Quantity: {
+                        required: "Please enter quantity!",
+                        number: "You can only enter numbers!"
+                    },
+                    Status: {
+                        required: "Please select option!"
+                    }
+                }
+
+            });
+
+            $('#editMedicineForm').validate({
+                rules: {
+                    Images: {
+                        required: true,
+                        extension: "jpg|jpeg|png",
+                        filesize: 2097152 // <- 2 MB
+                    },
+                    MedicineName: {
+                        required: true,
+                        minlength: 5,
+                        noSpace: true
+                    },
+                    ClassificationID: {
+                        required: true
+                    },
+                    Ingredients: {
+                        required: true,
+                        minlength: 10,
+                        noSpace: true
+                    },
+                    Description: {
+                        required: true,
+                        minlength: 10,
+                        noSpace: true
+                    },
+                    Direction: {
+                        required: true,
+                        minlength: 10,
+                        noSpace: true
+                    },
+                    ImportDate: {
+                        required: true
+                    },
+                    ExpirationDate: {
+                        required: true
+                    },
+                    Quantity: {
+                        required: true,
+                        number: true,
+                        noSpace: true
+                    },
+                    Status: {
+                        required: true
+                    }
+                },
+                messages: {
+                    Images: {
+                        required: "Please choose your image file!",
+                        extension: "Allowed JPG or PNG",
+                        filesize: "File must be less than 2MB"
+                    },
+                    MedicineName: {
+                        required: "Please enter medicine name!",
+                        minlength: "Medicine name at least 5 characters!"
+                    },
+                    ClassificationID: {
+                        required: "Please select option!"
+                    },
+                    Ingredients: {
+                        required: "Please enter ingredients!",
+                        minlength: "Ingredients at least 10 characters!"
+                    },
+                    Description: {
+                        required: "Please enter Description!",
+                        minlength: "Description at least 10 characters!"
+                    },
+                    Direction: {
+                        required: "Please enter direction!",
+                        minlength: "Direction at least 10 characters!"
+                    },
+                    ImportDate: {
+                        required: "Please enter import date!"
+                    },
+                    ExpirationDate: {
+                        required: "Please enter expiration date!"
+                    },
+                    Quantity: {
+                        required: "Please enter quantity!",
+                        number: "You can only enter numbers!"
+                    },
+                    Status: {
+                        required: "Please select option!"
+                    }
+                }
+
+            });
+        });
+    </script>
+}

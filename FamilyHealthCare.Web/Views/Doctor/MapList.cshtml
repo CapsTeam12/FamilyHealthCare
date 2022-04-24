@@ -1,0 +1,353 @@
+﻿@model FamilyHealthCare.Customer.Models.DoctorSearchViewModel
+@using FamilyHealthCare.SharedLibrary;
+@{
+    var lat = ViewBag.Lat;
+    var lng = ViewBag.Lng;
+    var name = ViewBag.Name;
+    ViewData["MapList"] = true;
+}
+<style>
+    .card.slice {
+        display: none;
+    }
+</style>
+<table id="doctorList" hidden>
+    @foreach (var doctor in Model.Doctors)
+    {
+        int i = 1;
+        <tr>
+            <td>@i</td>
+            <td>@doctor.FullName</td>
+            <td>@doctor.Address</td>
+            <td>@doctor.Specialities</td>
+            <td>@(ImageConstants.DOCTORS+doctor.Avatar)</td>
+        </tr>
+        i++;
+    }
+</table>
+
+<input type="text" id="lat" value="@lat" hidden />
+<input type="text" id="lng" value="@lng" hidden />
+<input type="text" id="name" value="@name" hidden />
+
+<!-- Page Content -->
+<div class="content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-xl-7 col-lg-12 order-md-last order-sm-last order-last map-left">
+
+                <div class="row align-items-center mb-4">
+                    <div class="col-md-6 col">
+                        <h4>@Model.Doctors.Count Doctors found</h4>
+                    </div>
+                </div>
+
+
+                @if (Model.Doctors.Any())
+                {
+                    foreach (var doctor in Model.Doctors)
+                    {
+                        <!-- Doctor Widget -->
+                        <div class="card slice">
+                            <div class="card-body">
+                                <div class="doctor-widget">
+                                    <div class="doc-info-left">
+                                        <div class="doctor-img">
+                                            <a href="doctor-profile.html">
+                                                @if (doctor.Avatar != null)
+                                                {
+                                                    <img src=@(ImageConstants.DOCTORS+doctor.Avatar) class="img-fluid" alt="User Image">
+                                                }
+                                                else
+                                                {
+                                                    <img src="assets/img/doctors/doctor-thumb-01.jpg" class="img-fluid" alt="User Image">
+                                                }
+
+                                            </a>
+                                        </div>
+                                        <div class="doc-info-cont">
+                                            <h4 class="doc-name"><a href="doctor-profile.html">Dr. @doctor.FullName</a></h4>
+                                            <p class="doc-speciality">@doctor.Email</p>
+                                            @foreach (var specialize in Model.Specialities.Where(s => s.SpecializedName.Equals(doctor.Specialities)))
+                                            {
+                                                <h5 class="doc-department"><img src="@(ImageConstants.SPECIALIST + specialize.Image)" class="img-fluid" alt="Speciality">@doctor.Specialities</h5>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="doc-info-right">
+                                        <div class="clini-infos">
+                                            <ul>
+                                                <li><i class="fas fa-map-marker-alt"></i> @doctor.Address</li>
+                                            </ul>
+                                        </div>
+                                        <div class="clinic-booking">
+                                            <a class="view-pro-btn" href="doctor-profile.html">View Profile</a>
+                                            <a asp-controller="Appointment" asp-action="Booking"
+                                               asp-route-accountDoctorId="@doctor.AccountId" asp-route-therapistId="@doctor.Id" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")"
+                                               asp-route-doctorName="@doctor.FullName" asp-route-doctorEmail="@doctor.Email" class="apt-btn">Book Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Doctor Widget -->
+                    }
+
+                }
+
+                <div class="load-more text-center">
+                    <a id="loadMore" class="btn btn-primary btn-sm" href="javascript:void(0);">Load More</a>
+                </div>
+            </div>
+            <!-- /content-left-->
+            <div class="col-xl-5 col-lg-12 map-right">
+                <div id="map" class="map-listing"></div>
+                <!-- map-->
+            </div>
+            <!-- /map-right-->
+        </div>
+        <!-- /row-->
+
+    </div>
+
+</div>
+<!-- /Page Content -->
+@section scripts{
+    <script async
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWCz7q4jUk_b-wBeMFZ_hkKqE4mstZUEc&libraries=places&callback=initMap">
+    </script>
+    <script>
+        var x = document.getElementById('demo');
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(initMap);
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+            x.innerHTML = "Latitude: " + position.coords.latitude +
+                "<br>Longitude: " + position.coords.longitude;
+        }
+    </script>
+    <script>
+        let doctorList = document.getElementById('doctorList');
+        var locations = [];
+        var arrMarkers = [];
+
+        let trElements = doctorList.getElementsByTagName("tr");
+        for (let tr of trElements) {
+            let tdElements = tr.getElementsByTagName("td");
+            let doctorObj = {
+                id: tdElements[0].innerText,
+                name: tdElements[1].innerText,
+                address: tdElements[2].innerText,
+                speciality: tdElements[3].innerText,
+                image: tdElements[4].innerText,
+                icons: "default"
+            };
+            locations.push(doctorObj);
+        }
+
+        var icons = {
+            default: "../assets/img/marker.png",
+        };
+        // Load Map
+        let map;
+        let infowindow;
+        let geocoder;
+        let dDisplay;
+        let bounds;
+
+        let currentLat = document.getElementById('lat').value;
+        let currentLng = document.getElementById('lng').value;
+        let currentName = document.getElementById('name').value;
+        var position = {
+            name: currentName,
+            lat: Number(currentLat),
+            lng: Number(currentLng)
+        };
+
+        function initMap() {
+            var HCMcityBounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(10.62767854316657, 106.52284289843753),
+                new google.maps.LatLng(10.897505071368673, 106.79750110156253));
+            // initialize
+            infowindow = new google.maps.InfoWindow();
+            geocoder = new google.maps.Geocoder();
+            bounds = new google.maps.LatLngBounds();
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 10.762622, lng: 106.660172 }, // 10.762622, 106.660172. HCM City,
+                restriction: {
+                    latLngBounds: HCMcityBounds,
+                    strictBounds: true,
+                },
+                zoom: 14
+            });
+
+            if ((position.lat && position.lng) !== 0) {
+                console.log(position)
+                var marker = new google.maps.Marker({
+                    position: { lat: position.lat, lng: position.lng },
+                    map: map
+                });
+
+                var request = {
+                    location: { lat: position.lat, lng: position.lng },
+                    radius: '5000',
+                    type: ['hospital']
+                };
+
+                var service = new google.maps.places.PlacesService(map);
+                service.nearbySearch(request, function (results, status) {
+                    if (status == google.maps.places.PlacesServiceStatus.OK) {
+                        for (var i in results) {
+                            var place = results[i];
+                            var ico = {
+                                url: place.icon,
+                                size: new google.maps.Size(70, 70),
+                                origin: new google.maps.Point(0, 0),
+                                anchor: new google.maps.Point(17, 34),
+                                scaledSize: new google.maps.Size(20, 20),
+                            };
+                            let marker = new google.maps.Marker({
+                                map: map,
+                                icon: ico,
+                                title: place.name,
+                                content:
+                                    "<strong>" + place.name + "</strong></br>" + place.vicinity,
+                                position: place.geometry.location,
+                                data: place,
+                            });
+                            if (currentName == marker.title) {
+                                infowindow.setContent(marker.content);
+                                infowindow.open(map, marker);
+                                getDirection(position, marker.position);
+                            }
+                            google.maps.event.addListener(marker, "click", function () {
+                                infowindow.setContent(marker.content);
+                                infowindow.open(map, marker);
+                                getDirection(position, marker.position);
+                            });
+                        }
+                    }
+                });
+            }
+
+
+
+            setMarkers(position, map, locations);
+            google.maps.event.addListener(infowindow, "closeclick", function () {
+                infowindow.close();
+            });
+        }
+
+        function setMarkers(position, map, markers) {
+            for (var i in markers) {
+                let item = markers[i];
+                var req = {
+                    address: item.address,
+                    componentRestrictions: { country: 'VN' },
+                    region: 'VN'
+                };
+                geocoder.geocode(req, function (results, status) {
+                    if (status == "OK") {
+                        let marker = new google.maps.Marker({
+                            position: results[0].geometry.location,
+                            map: map,
+                            doc_name: item.name,
+                            address: item.address,
+                            speciality: item.speciality,
+                            image: item.image,
+                            icon: icons[item.icons],
+                            animation: google.maps.Animation.DROP
+                        });
+                        bounds.extend(marker.position);
+                        if (currentName == marker.doc_name) {
+                            setInfo(marker);
+                            infowindow.open(map, marker);
+                            getDirection(position, marker.position);
+                        }
+                        google.maps.event.addListener(marker, "click", function () {
+                            setInfo(this);
+                            infowindow.open(map, this);
+                            if (position) getDirection(position, marker.position);
+                        });
+                    }
+                });
+            }
+            map.fitBounds(bounds);
+        }
+
+        function setInfo(marker) {
+            var content =
+                '<div class="profile-widget" style="width: 100%; display: inline-block;">' +
+                '<div class="doc-img">' +
+                '<a href="' +
+                marker.profile_link +
+                '" tabindex="0" target="_blank">' +
+                '<img class="img-fluid" alt="' +
+                marker.doc_name +
+                '" src="' +
+                marker.image +
+                '">' +
+                "</a>" +
+                "</div>" +
+                '<div class="pro-content">' +
+                '<h3 class="title">' +
+                '<a href="' +
+                marker.profile_link +
+                '" tabindex="0">' +
+                marker.doc_name +
+                "</a>" +
+                '<i class="fas fa-check-circle verified"></i>' +
+                "</h3>" +
+                '<p class="speciality">' +
+                marker.speciality +
+                "</p>" +
+                '<ul class="available-info">' +
+                '<li><i class="fas fa-map-marker-alt"></i> ' +
+                marker.address +
+                " </li>" +
+                "</ul>" +
+                "</div>" +
+                "</div>";
+            infowindow.setContent(content);
+        }
+
+        function getDirection(origin, destination) {
+            var dService = new google.maps.DirectionsService();
+            if (dDisplay) dDisplay.setMap(null);
+            dDisplay = new google.maps.DirectionsRenderer();
+            dDisplay.setMap(map);
+            var req = {
+                origin: { lat: origin.lat, lng: origin.lng },
+                destination: destination,
+                travelMode: "DRIVING",
+                provideRouteAlternatives: true,
+            };
+            dService.route(req, function (result, status) {
+                if (status == "OK") dDisplay.setDirections(result);
+            });
+        }
+        google.maps.event.addDomListener(window, 'load', initMap);
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("div.card.slice").slice(0, 4).show();
+            $("#loadMore").on('click', function (e) {
+                e.preventDefault();
+                $("div.card.slice:hidden").slice(0, 4).slideDown();
+                if ($("div.card.slice:hidden").length == 0) {
+                    $("#load").fadeOut('slow');
+                }
+                $('html,body').animate({
+                    scrollTop: $(this).offset().top
+                }, 1500);
+            });
+        });
+    </script>
+}

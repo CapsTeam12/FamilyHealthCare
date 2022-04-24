@@ -9,7 +9,7 @@ namespace Contract.DTOs.SearchService
 {
     public class SearchDoctorDto
     {
-        public string DoctorFullName { get; set; }
-        public string Certifications { get; set; }
+        public List<int?> Gender { get; set; }
+        public List<string> Specialities { get; set; }
     }
 }

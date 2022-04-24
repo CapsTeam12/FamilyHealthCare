@@ -1,0 +1,378 @@
+﻿@{
+}
+<style>
+    .error {
+        font-weight: 700;
+        display: block;
+        color: #f00;
+        font-size: 14px;
+    }
+</style>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-7 col-lg-8 col-xl-12">
+                <!-- Basic Information -->
+                <form id="formRequest">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Pharmacy Information</h4>
+                            <div class="row form-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="change-avatar">
+                                            <div class="profile-img">
+                                                <img id="imageuploadAvatar" src="../assets/img/doctors/doctor-thumb-02.jpg" alt="User Image">
+                                            </div>
+                                            <div class="upload-img">
+                                                <div class="change-photo-btn">
+                                                    <span><i class="fa fa-upload"></i> Upload Photo</span>
+                                                    <input id="uploadAvatar" type="file" class="upload" name="Avatar" onchange="readPicture(this);">
+                                                </div>
+                                                <small class="form-text text-muted">Allowed JPG, or PNG. Max size of 2MB</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Name of Pharmacy <span class="text-danger">*</span></label>
+                                        <input id="pharmacyName" type="text" name="PharmacyName" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Email <span class="text-danger">*</span></label>
+                                        <input id="email" type="text" name="Email" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Phone Number</label>
+                                        <input id="phone" type="text" name="Phone" class="form-control" required> 
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Address <span class="text-danger">*</span></label>
+                                        <input id="address" name="Address" type="text" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Basic Information -->
+                    <!-- About Me -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">About us</h4>
+                            <div class="form-group mb-0">
+                                <label>Biography</label>
+                                <textarea id="biography" name="Biography" class="form-control" rows="5"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /About Me -->
+                    <!-- Education -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Certification</h4>
+                            <div class="row form-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Certification Image</label>
+                                        <div class="change-avatar">
+                                            <div class="profile-img">
+                                                <img id="imageuploadCertification" src="../assets/img/doctors/doctor-thumb-02.jpg" alt="User Image">
+                                            </div>
+                                            <div class="upload-img">
+                                                <div class="change-photo-btn">
+                                                    <span><i class="fa fa-upload"></i> Upload Photo</span>
+                                                    <input id="uploadCertification" type="file" name="Certification" class="upload" onchange="readPicture(this);">
+                                                </div>
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Education -->
+                    <!-- Awards -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Awards</h4>
+                            <div class="awards-info">
+                                <div class="row form-row awards-cont">
+                                    <div class="col-12 col-md-5">
+                                        <div class="form-group">
+                                            <label>Awards</label>
+                                            <input id="award" type="text" name="Award" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-5">
+                                        <div class="form-group">
+                                            <label>Year</label>
+                                            <input id="year" type="month" name="Year" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="add-more">
+                                <a href="javascript:void(0);" class="add-award"><i class="fa fa-plus-circle"></i> Add More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Awards -->
+                    <!-- Memberships -->
+                    <!-- /Registrations -->
+
+                    <div class="submit-section submit-btn-bottom">
+                        <button type="button" class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+@section scripts{
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>
+    <script>
+        function readPicture(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var selector = 'img#image' + input.id;
+                    $(selector).attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $()
+    </script>
+    <script>
+        $(document).ready(function () {
+            var awardsCount = 1; // Dem so
+            var awardsCountArr = []; // Luu awardsCount
+            awardsCountArr.push(1);
+            $(".awards-info").on('click', '.trash', function () {
+                $(this).closest('.awards-cont').remove();
+                let numBeRemoved = $(this).attr('id');
+                for (var i = 0; i < awardsCountArr.length; i++) {
+                    if (awardsCountArr[i] === Number(numBeRemoved)) {
+                        awardsCountArr.splice(i, 1);
+                    }
+                }
+                RemoveValidateAddMoreAwards();
+                return false;
+            });
+
+            function RemoveValidateAddMoreAwards() {
+                $("#award" + awardsCount).rules("remove");
+                $("#year" + awardsCount).rules("remove");
+            }
+
+            $(".add-award").on('click', function () {
+                awardsCount++;
+                awardsCountArr.push(awardsCount);
+                var regcontent = '<div class="row form-row awards-cont">' +
+                    '<div class="col-12 col-md-5">' +
+                    '<div class="form-group">' +
+                    '<label>Awards</label>' +
+                    '<input id="award' + awardsCount + '" type="text" name="Award' + awardsCount + '" class="form-control">' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-12 col-md-5">' +
+                    '<div class="form-group">' +
+                    '<label>Year</label>' +
+                    '<input id="year' + awardsCount + '" type="month" name="Year' + awardsCount + '" class="form-control">' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-12 col-md-2">' +
+                    '<label class="d-md-block d-sm-none d-none">&nbsp;</label>' +
+                    '<a id="' + awardsCount + '" href="#" class="btn btn-danger trash"><i class="far fa-trash-alt"></i></a>' +
+                    '</div>' +
+                    '</div>';
+
+                $(".awards-info").append(regcontent);
+                ValidateAddMoreAwards();
+                return false;
+            });
+
+            function ValidateAddMoreAwards() {
+                $('#award' + awardsCount).rules('add', {
+                    required: true,
+                    messages: {
+                        required: "Please enter your award!",
+                    }
+                });
+                $('#year' + awardsCount).rules('add', {
+                    required: true,
+                    messages: {
+                        required: "Please enter this field!",
+                    }
+                });
+            }
+
+            var arrItems = [];
+            $('.submit-btn').click(function () {
+                if ($('#formRequest').valid()) {
+                    //alert('OKE');
+                    var formData = new FormData();
+                    var fileUpload = $('#uploadAvatar').get(0);
+                    var files = fileUpload.files;
+                    var certificationUpload = $('#uploadCertification').get(0);
+                    var certificationFiles = certificationUpload.files;
+                    formData.append("Avatar", files[0]);
+                    formData.append("Certifications", certificationFiles[0]);
+                    formData.append("PharmacyName", $('#pharmacyName').val());
+                    formData.append("Address", $('#address').val());
+                    formData.append("Email", $('#email').val());
+                    formData.append("Phone", $('#phone').val());
+                    formData.append("Biography", $('#biography').val());
+                    for (var i = 0; i < awardsCountArr.length; i++) {
+                        console.log(awardsCountArr[i]);
+                        if (Number(awardsCountArr[i]) === 1) {
+                            var awards = {
+                                Award: $('#award').val(),
+                                Year: $('#year').val(),
+                            };
+
+                            arrItems.push(awards);
+                        } else {
+                            var AwardName = '#award' + awardsCountArr[i];
+                            var Year = '#year' + awardsCountArr[i];
+                            var awards = {
+                                Award: $(AwardName).val(),
+                                Year: $(Year).val(),
+                            };
+                            arrItems.push(awards);
+                        }
+                    }
+                    for (var i = 0; i < arrItems.length; i++) {
+                        formData.append("Awards[" + i + "].Award", arrItems[i].Award);
+                        formData.append("Awards[" + i + "].Year", arrItems[i].Year);
+                    }
+                    console.log(formData);
+                    $.ajax({
+                        url: '/Partner/PharmacyRegister',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (res) {
+                            if (res.success == true) {
+                                swal({
+                                    icon: "success",
+                                    title: "You have successfully registered as a partner. Please wait for our response in your email, we will contact you directly soon."
+                                }).then((confirm) => {
+                                    if (confirm) {
+                                        window.location.href = '/Home/Index';
+                                    }
+                                });
+
+                            } else {
+                                swal({
+                                    icon: "info",
+                                    title: "Please check again your information!"
+                                });
+                            }
+                        }
+
+                    });
+
+                }              
+            });
+
+            $.validator.addMethod('filesize', function (value, element, param) {
+                return this.optional(element) || (element.files[0].size <= param)
+            });
+
+            $('#formRequest').validate({
+                rules: {
+                    Avatar: {
+                        required: true,
+                        extension: "jpg|jpeg|png",
+                        filesize: 2097152 // <- 2 MB
+                    },
+                    PharmacyName: {
+                        required: true,
+                        minlength: 10
+                    },
+                    Email: {
+                        email: true,
+                        required: true
+                    },
+                    Phone: {
+                        number: true,
+                        minlength: 10,
+                        maxlength: 10
+                    },
+                    Address: {
+                        required: true
+                    },
+                    Biography: {
+                        required: true
+                    },                    
+                    Certification: {
+                        required: true,
+                        extension: "jpg|jpeg|png",
+                        filesize: 2097152 // <- 2 MB
+                    },
+                    Award: {
+                        required: true
+                    },
+                    Year: {
+                        required: true
+                    }
+                },
+                messages: {
+                    Avatar: {
+                        required: "Please choose your avatar file!",
+                        extension: "Allowed JPG or PNG",
+                        filesize: "File must be less than 2MB"
+                    },
+                    PharmacyName: {
+                        required: "Please enter your pharmacy name!",
+                        minlength: "Full name at least 10 characters!"
+                    },
+                    Email: {
+                        required: "Please enter your email!",
+                        email: "Please enter a valid email address!"
+                    },
+                    Phone: {
+                        required: "Please enter your phone number!",
+                        minlength: "Enter all 10 numbers!",
+                        maxlength: "Enter all 10 numbers!"
+                    },
+                    Address: {
+                        required: "Please enter your address!"
+                    },
+                    Biography: {
+                        required: "Please enter your biography!"
+                    },
+                    Certification: {
+                        required: "Please choose your certification file!",
+                        extension: "Allowed JPG or PNG",
+                        filesize: "File must be less than 2MB"
+                    },
+                    Award: {
+                        required: "Please enter your award!"
+                    },
+                    Year: {
+                        required: "Please enter this field!"
+                    }
+                }
+
+            });
+        })
+    </script>
+}

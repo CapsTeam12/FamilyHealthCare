@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>FHC - Dashboard</title>
+    <title>FHC - @ViewData["Title"]</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href=@Url.Content("~/assets/img/favicon.png")>
@@ -166,7 +166,67 @@
             </ul>
             <!-- /Header Right Menu -->
         </div>
-        @RenderBody()
+        <!-- /Header -->
+        <partial name="_sideBarMenu" />
+
+        <div class="page-wrapper">
+            <div class="content container-fluid">
+
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3 class="page-title">List of @ViewData["breadcumb-title"]</h3>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                                <li class="breadcrumb-item active">@ViewData["breadcumb-title"]</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Page Header -->
+                @RenderBody()
+            </div>
+        </div>
     </div>
+    <!-- jQuery -->
+    <script src="@Url.Content("~/assets/js/jquery-3.6.0.min.js")"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="@Url.Content("~/assets/js/bootstrap.bundle.min.js")"></script>
+
+    <!-- Slimscroll JS -->
+    <script src="@Url.Content("~/assets/plugins/slimscroll/jquery.slimscroll.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/plugins/raphael/raphael.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/morris/morris.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/chart.morris.js")"></script>
+
+    <!-- Datatables JS -->
+    <script src=@Url.Content("~/assets/plugins/datatables/jquery.dataTables.min.js")></script>
+    <script src=@Url.Content("~/assets/plugins/datatables/datatables.min.js")></script>
+
+    <!-- Custom JS -->
+    <script src="@Url.Content("~/assets/js/script.js")"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        $(document).ready(function () {
+            var url = window.location.pathname;
+            $('#sidebar-menu a').each(function () {
+                var pathName = this.getAttribute('href'); // Get attribute href
+                if (url === pathName.split('?')[0]) {
+                    var element = $(this).closest('.submenu'); // Check if have submenu 
+                    if (element.length === 0) {
+                        $(this).parent().addClass('active');
+                    }
+                    if (element.length > 0) {
+                        element.children('a').addClass('active subdrop');
+                        element.children('ul').css("display", "block");
+                        $(this).addClass('active');
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>

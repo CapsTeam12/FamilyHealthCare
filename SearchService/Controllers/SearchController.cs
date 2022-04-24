@@ -40,6 +40,13 @@ namespace SearchService.Controllers
             return Ok(doctors);
         }
 
+        [HttpPost("specialist/doctor")]
+        public async Task<IActionResult> SearchDoctorAsync(SearchDoctorDto searchDoctorDto)
+        {
+            var doctors = await _searchService.SearchDoctor(searchDoctorDto);
+            return Ok(doctors);
+        }
+
         [HttpGet("search/doctor/{id}")]
         public async Task<IActionResult> GetDetailsDoctorAsync(int id)
         {

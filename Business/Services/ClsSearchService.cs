@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Business.IServices;
 using Contract.Constants;
+using Contract.DTOs.ManagementService;
 using Contract.DTOs.SearchService;
 using Data.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -19,8 +20,8 @@ namespace Business.Services
         private readonly IBaseRepository<Doctor> _doctorRepos;
         private readonly IBaseRepository<Pharmacy> _pharmacyRepos;
         private readonly IMapper _mapper;
-        public ClsSearchService(IBaseRepository<Medicine> medicineRepos, IMapper mapper, 
-                                IBaseRepository<Doctor> doctorRepos, 
+        public ClsSearchService(IBaseRepository<Medicine> medicineRepos, IMapper mapper,
+                                IBaseRepository<Doctor> doctorRepos,
                                 IBaseRepository<Pharmacy> pharmacyRepos)
         {
             _medicineRepos = medicineRepos;
@@ -79,6 +80,27 @@ namespace Business.Services
             return Ok(doctorDtos);
         }
 
+        public async Task<IEnumerable<DoctorDetailsDto>> SearchDoctor(SearchDoctorDto searchDoctorDto)
+        {
+            var doctor = new List<Doctor>();
+            if(searchDoctorDto.Specialities == null)
+            {
+                doctor = await _doctorRepos.Entities.Include(d => d.Specialized).Where(d => searchDoctorDto.Gender.Contains(d.Gender)).ToListAsync();
+            }else if(searchDoctorDto.Gender == null)
+            {
+                doctor = await _doctorRepos.Entities.Include(d => d.Specialized).Where(d => searchDoctorDto.Specialities.Contains(d.Specialized.SpecializedName)).ToListAsync();
+            }
+            else
+            {
+                doctor = await _doctorRepos.Entities
+                .Include(d => d.Specialized)
+                .Where(d => searchDoctorDto.Gender.Contains(d.Gender) && searchDoctorDto.Specialities.Contains(d.Specialized.SpecializedName))
+                .ToListAsync();
+            }            
+            var doctorDtos = _mapper.Map<IEnumerable<DoctorDetailsDto>>(doctor);
+            return doctorDtos;
+        }
+
         public async Task<IEnumerable<SearchMedicineDto>> GetSearchMedicineResultAsync(SearchCategoryDto searchCategoryDto)
         {
             var medicine = await _medicineRepos
@@ -88,7 +110,7 @@ namespace Business.Services
                                          || a.Description.ToLower().Contains(searchCategoryDto.Search.ToLower()))
                                 .ToListAsync();
             var medicineDtos = _mapper.Map<IEnumerable<SearchMedicineDto>>(medicine);
-            if(searchCategoryDto.FilterCates != null)
+            if (searchCategoryDto.FilterCates != null)
             {
                 medicineDtos = medicineDtos
                     .Where(m => searchCategoryDto.FilterCates.Contains(m.ClassificationName));

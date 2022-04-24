@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Contract\Contract.csproj" />
     <ProjectReference Include="..\FamilyHealthCare.SharedLibrary\FamilyHealthCare.SharedLibrary.csproj" />
   </ItemGroup>
 

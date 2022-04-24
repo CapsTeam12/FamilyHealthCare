@@ -75,7 +75,7 @@ namespace AppointmentService.Controllers
             var model = await _appointmentService.RescheduleAppointment(appointmentDto, id);
             if (model == null)
             {
-                return NotFound();
+                return Content("You had an appointment at the same time before!");
             }
             return Ok(model);
         }

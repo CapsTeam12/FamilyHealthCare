@@ -24,10 +24,12 @@ namespace Data
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Specialities> Specialities { get; set; }
         public DbSet<Patient> Patients { get; set; }
-
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<Shift> Shifts { get; set; }
         public DbSet<ScheduleDoctor> ScheduleDoctors { get; set; }
+        public DbSet<Experience> Experiences { get; set; }
+        public DbSet<Awards> Awards { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

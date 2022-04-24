@@ -24,10 +24,19 @@ namespace ScheduleService.Controllers
 
 
         [HttpGet("Doctor/{userId}/{date}")]
-        public async Task<IActionResult> GetSchedulesOfDoctor(string userId, DateTime date) // Get list schedule of doctor
+        public async Task<IActionResult> GetSchedulesOfDoctor(string userId, DateTime date) // Get list schedule of doctor with date
         {
 
             var scheduleDto = await _scheduleDoctorService.GetSchedulesAsync(userId, date);
+            return Ok(scheduleDto);
+        }
+
+        [HttpGet("Doctor/{userId}")]
+        public async Task<IActionResult> GetSchedulesOfDoctor(string userId) // Get list schedule of doctor
+        {
+            if (userId == null) return BadRequest();
+            var scheduleDto = await _scheduleDoctorService.GetAllSchedulesAsync(userId);
+            if (scheduleDto == null) return NoContent();
             return Ok(scheduleDto);
         }
 

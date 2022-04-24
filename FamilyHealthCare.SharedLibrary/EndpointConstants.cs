@@ -14,10 +14,19 @@ namespace FamilyHealthCare.SharedLibrary
         {
             public static string DOCTORS = "/Management/doctors";
             public static string CATEGORIES = "api/Management/categories";
-            public static string DOCTORDETAILS = "api/Management/doctors/{id}";
             public static string CATEGORYSDETAILS = "api/Management/categories";
             public static string PATIENTDETAILS = "api/Management/patients";
-
+            public static string DOCTORDETAILS = "api/Management/doctors";
+            public static string PHARMACYDETAILS = "api/Management/pharmacies";
+            public static string SPECIALIST = "/Management/specialities";
+            public static string DOCTORS_REQUESTS = "/Management/DoctorRequestList";
+            public static string ACCEPT_DOCTORS_REQUESTS = "/Management/AcceptDoctorRequest";
+            public static string DENY_DOCTORS_REQUESTS = "/Management/DenyDoctorRequest";
+            public static string DETAILS_DOCTORS_REQUESTS = "/Management/GetDetailsDoctorRequest";
+            public static string PHARMACIES_REQUESTS = "/Management/PharmacyRequestList";
+            public static string ACCEPT_PHARMACIES_REQUESTS = "/Management/AcceptPharmacyRequest";
+            public static string DENY_PHARMACIES_REQUESTS = "/Management/DenyPharmacyRequest";
+            public static string DETAILS_PHARMACIES_REQUESTS = "/Management/GetDetailsPharmacyRequest";
         }
         public static class AuthService
         {
@@ -29,6 +38,7 @@ namespace FamilyHealthCare.SharedLibrary
         {
             public static string SEARCH = "api/Search/search/medicine";
             public static string PATIENTPROFILE = "api/Auth/update-profile";
+            public static string DOCTORSEARCH = "/Search/specialist/doctor";
         }
 
         public static class AppointmentService
@@ -45,6 +55,29 @@ namespace FamilyHealthCare.SharedLibrary
             public static string BOOKING = "/BookingAppointment/Booking/";
         }
 
+        public static class MedicineService
+        {
+            public static string MEDICINES = "/Medicine/GetMedicines";
+            public static string MEDICINES_PHARMACY = "/Medicine/GetMedicinesByPharmacy";
+            public static string CREATE_MEDICINE = "/Medicine/CreateMedicine";
+            public static string UPDATE_MEDICINE = "/Medicine/UpdateMedicine";
+            public static string RETURN_MEDICINE = "/Medicine/ReturnMedicine";
+            public static string DELETE_MEDICINE = "/Medicine/DeleteMedicine";
+        }
+
+        public static class MedicalRecordService
+        {
+            public static string LIST_BY_DOCTOR = "/MedicalRecord/GetMedicalRecords";
+            public static string CREATE = "/MedicalRecord/CreateMedicalRecord";
+        }
+
+        public static class PatientService
+        {
+            public static string DOCTOR_REGISTER = "/Patient/DoctorRegister";
+            public static string PHARMACY_REGISTER = "/Patient/PharmacyRegister";
+            public static string CHECK_EMAIL_EXIST = "/Patient/CheckEmailExist";
+        }
+
         public static class ScheduleService
         {
             public static string EVENT_CREATE = "/Schedule";
@@ -57,6 +90,7 @@ namespace FamilyHealthCare.SharedLibrary
         public static class ZoomService
         {
             public static string CREATE = "/Zoom/CreateMeeting/";
+            public static string CREATE_USER = "/Zoom/CreateUser";
         }
     }
 }

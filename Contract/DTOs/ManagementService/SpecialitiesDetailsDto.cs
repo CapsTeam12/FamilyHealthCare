@@ -8,5 +8,8 @@ namespace Contract.DTOs.ManagementService
 {
     public class SpecialitiesDetailsDto
     {
+        public int Id { get; set; }
+        public string SpecializedName { get; set; }
+        public string Image { get; set; }
     }
 }
