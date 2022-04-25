@@ -22,13 +22,15 @@ namespace Business.Services
         private readonly IMapper _mapper;
         private readonly IMongoCollection<Appointment> _appointments;
         private readonly ApplicationDbContext _db;
+        private readonly IZoomService _zoomService;
 
-        public ClsAppointmentService(IMapper mapper, IDbClient dbClient, ApplicationDbContext db)
+        public ClsAppointmentService(IMapper mapper, IDbClient dbClient, ApplicationDbContext db,IZoomService zoomService)
         {
             //_repository = repository;
             _mapper = mapper;
             _appointments = dbClient.GetAppointmentsCollection();
             _db = db;
+            _zoomService = zoomService;
         }
 
         private bool CheckIfExistAppointment(string userId, DateTime date, DateTime startTime)
@@ -185,7 +187,7 @@ namespace Business.Services
                 {
                     schedules.StartTime = model.StartTime;
                     schedules.EndTime = model.EndTime;
-                    _db.Schedules.Update(schedules);
+                    _db.Schedules.Update(schedules);                    
                 }
                 OldscheduleOfDoctor.IsBooking = false; // set isbooking false after appointment rescheduled
                 // Find schedule of doctor after change 
@@ -194,6 +196,13 @@ namespace Business.Services
                 && x.Date == model.StartTime.Date && x.Shift.TimeSlot == timeSlotNewAppointment);
                 NewscheduleOfDoctor.IsBooking = true; // set isbooking true with new schedule appointment
                 await _db.SaveChangesAsync();
+                var meeting = new Meeting
+                {
+                    Id = schedulesOfAppointment.Select(s => s.MeetingId).First(),
+                    StartTime = model.StartTime,
+                    Duration = model.EndTime.Minute - model.StartTime.Minute
+                };
+                await _zoomService.UpdateMeeting(meeting.Id, meeting);
                 var appointmentDto = _mapper.Map<AppointmentDetailsDto>(appointmentModel);
                 return appointmentDto;
             }
@@ -224,6 +233,8 @@ namespace Business.Services
                 await _db.SaveChangesAsync();
                 // Replace status of appointment already canceled
                 await _appointments.ReplaceOneAsync(x => x.Id == id, appointment);
+                var meetingId = schedulesOfAppointment.Select(m => m.MeetingId).First();
+                await _zoomService.DeleteMeeting(meetingId);
             }
             var appointmentDto = _mapper.Map<AppointmentDetailsDto>(appointment);
             return appointmentDto;
