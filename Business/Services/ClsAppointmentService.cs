@@ -137,7 +137,7 @@ namespace Business.Services
                                     NotificationContentTemplate.NewAppointment, 
                                     patient.FullName,
                                     model.StartTime.ToString("HH:mm dd/MM/yyyy"));
-            notification.AvatarSender = therapist.Avatar;
+            notification.AvatarSender = patient.Avatar;
             
             Task.Run(() => new NotificationHelper().CallApiCreateNotification(notification));
 

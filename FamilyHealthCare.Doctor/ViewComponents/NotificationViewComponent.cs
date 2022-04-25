@@ -16,13 +16,8 @@ namespace FamilyHealthCare.Doctor.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            byte[] value;
-            HttpContext.Session.TryGetValue("notification", out value);
-            if (value == null)
-            {
-                var data = await _notificaitonHelperClient.GetNotification();
-                HttpContext.Session.SetComplexData("notification", data);
-            }
+            var data = await _notificaitonHelperClient.GetNotification();
+            HttpContext.Session.SetComplexData("notification", data);
             return await Task.FromResult((IViewComponentResult)View());
         }
     }

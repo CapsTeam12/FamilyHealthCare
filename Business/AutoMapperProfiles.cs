@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Contract.DTOs.AuthService;
 using Contract.DTOs.NotificationServiceDtos;
+using FamilyHealthCare.SharedLibrary;
 
 namespace Business
 {
@@ -60,6 +61,11 @@ namespace Business
             CreateMap<ScheduleDoctor, ScheduleDoctorCreateDto>().ReverseMap();
 
             CreateMap<Notification, NotificationListDto>().ReverseMap();
+            CreateMap<Notification, NewNotificationDto>()
+                .ForMember(d => d.Time, n => n.MapFrom(t => t.Time.GetRelativeTime()))
+                .ForMember(d => d.AvatarSender, n => n.MapFrom(a => $"{ImageConstants.AVATARS}{a.AvatarSender}"))
+                .ForMember(d => d.ActualTime, n => n.MapFrom(t => t.Time))
+                .ReverseMap();
 
         }
     }

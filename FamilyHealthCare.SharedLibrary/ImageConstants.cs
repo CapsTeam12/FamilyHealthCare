@@ -8,7 +8,7 @@ namespace FamilyHealthCare.SharedLibrary
 {
     public class ImageConstants
     {
-        public static string PATIENTS = "https://localhost:44315/images/patients/";
-        public static string PATIENTS_PATH = "images/patients/";
+        public static string AVATARS = "https://localhost:44315/images/avatars/";
+        public static string AVATARS_PATH = "images/avatars/";
     }
 }

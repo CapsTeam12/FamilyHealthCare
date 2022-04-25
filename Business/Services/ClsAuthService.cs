@@ -91,9 +91,9 @@ namespace Business
             {
                 if(user.Avatar != null)
                 {
-                    await _fileService.DeleteFile(user.Avatar, ImageConstants.PATIENTS_PATH);
+                    await _fileService.DeleteFile(user.Avatar, ImageConstants.AVATARS_PATH);
                 }
-                user.Avatar = await _fileService.SaveFile(patientDetailsDto.Avatar, ImageConstants.PATIENTS_PATH);
+                user.Avatar = await _fileService.SaveFile(patientDetailsDto.Avatar, ImageConstants.AVATARS_PATH);
             }
 
             var updatedPatient = await _patientRepos.Update(user);
