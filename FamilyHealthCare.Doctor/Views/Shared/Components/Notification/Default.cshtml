@@ -57,7 +57,7 @@
 <script type="text/javascript">
     function noti () {
         console.log("notification start")
-        let accessToken = `@(_httpContextAccessor.HttpContext.User.Claims)`;
+        let accessToken = `@(_httpContextAccessor.HttpContext.User?.FindFirst("access_token")?.Value)`;
         console.log(`accessToken: ${accessToken}`);
         var connection = new signalR.HubConnectionBuilder()
             .withUrl("http://localhost:52409/notification-hub", {

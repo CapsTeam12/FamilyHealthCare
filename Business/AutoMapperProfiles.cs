@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Contract.DTOs.AuthService;
 using Contract.DTOs.NotificationServiceDtos;
+using Contract.DTOs.HealthCheck;
 
 namespace Business
 {
@@ -61,6 +62,7 @@ namespace Business
 
             CreateMap<Notification, NotificationListDto>().ReverseMap();
 
+            CreateMap<HealthCheck, HealthCheckDto>().ReverseMap();
         }
     }
 }

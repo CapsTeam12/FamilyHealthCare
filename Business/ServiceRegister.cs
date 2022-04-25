@@ -29,6 +29,7 @@ namespace Business
             services.AddTransient<IAuthService, ClsAuthService>();
             services.AddSingleton<IFileService, FileService>();
             services.AddSingleton<IUserIdProvider, UserIdProvider>();
+            services.AddTransient<IHealthCheckService, ClsHealthCheckService>();
         }
 
         public static void AddAuthenticationAuthorization(this IServiceCollection services)

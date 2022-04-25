@@ -1,3 +1,6 @@
+using Business;
+using Data;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +12,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace HealCheckService
@@ -26,10 +30,20 @@ namespace HealCheckService
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddBusinessLayer();
+            services.AddDataAccessorLayer(Configuration);
+            services.AddAuthenticationAuthorization();
+
+            services.AddControllers()
+                .AddFluentValidation(fv =>
+                {
+                    fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+                    fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
+                }
+            );
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "HealCheckService", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "HealthCheckService", Version = "v1" });
             });
         }
 

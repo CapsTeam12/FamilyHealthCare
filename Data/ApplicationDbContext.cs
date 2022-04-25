@@ -28,6 +28,7 @@ namespace Data
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<Shift> Shifts { get; set; }
         public DbSet<ScheduleDoctor> ScheduleDoctors { get; set; }
+        public DbSet<HealthCheck> HealthChecks { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
