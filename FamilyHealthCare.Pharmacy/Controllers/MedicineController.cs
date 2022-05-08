@@ -33,21 +33,29 @@ namespace FamilyHealthCare.Pharmacy.Controllers
             return categories;
         }
 
+        private async Task<PharmacyDetailsDto> GetPharmacyDetails()
+        {
+            var accountId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
+            var response = await client.GetAsync($"{EndpointConstants.ManagementService.PHARMACYDETAILS}/{accountId}");
+            var pharmacy = await response.Content.ReadAsAsync<PharmacyDetailsDto>();
+            return pharmacy;
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetMedicinesByPharmacy()
         {
             var accountId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
             var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
             var response = await client.GetAsync($"{EndpointConstants.MedicineService.MEDICINES_PHARMACY}/{accountId}");
+            var medicineViewModel = new MedicineViewModel();
+            medicineViewModel.Categories = await GetCategories();
+            medicineViewModel.Pharmacy = await GetPharmacyDetails();
             if (response.IsSuccessStatusCode)
             {
                 var medicines = await response.Content.ReadAsAsync<IEnumerable<MedicineDto>>();
-                var medicineViewModel = new MedicineViewModel()
-                {
-                    Categories = await GetCategories(),
-                    Medicines = medicines
-                };
-                return View("Medicines",medicineViewModel);
+                medicineViewModel.Medicines = medicines;
+                return View("Medicines", medicineViewModel);
             }
             return NotFound();
         }
@@ -95,7 +103,7 @@ namespace FamilyHealthCare.Pharmacy.Controllers
                     return Json(new { success = false });
                 }
             }
-            
+
 
             return View();
         }
@@ -136,7 +144,7 @@ namespace FamilyHealthCare.Pharmacy.Controllers
                 if (response.IsSuccessStatusCode && response != null)
                 {
                     var medicine = await response.Content.ReadAsAsync<MedicineDto>();
-                    return Json(new { success = true,item = medicine });
+                    return Json(new { success = true, item = medicine });
                 }
                 else
                 {
@@ -169,7 +177,7 @@ namespace FamilyHealthCare.Pharmacy.Controllers
             if (response.IsSuccessStatusCode && response != null)
             {
                 var medicine = await response.Content.ReadAsAsync<MedicineDto>();
-                return Json(new { success = true});
+                return Json(new { success = true });
             }
             return Json(new { success = false });
         }

@@ -36,7 +36,13 @@ namespace AppointmentService
         {
             //services.AddSingleton<IDbClient, DbClient>();
             services.Configure<MongoDbConfig>(Configuration);
-            
+            services.AddCors(c => {
+                c.AddPolicy("CorsAppointmentApi", p => {
+                    p.WithOrigins("https://localhost:44367","https://localhost:44369").AllowAnyMethod().AllowAnyHeader();
+                    //p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                });
+            });
+
             services.AddBusinessLayer();
             services.AddDataAccessorLayer(Configuration);
             services.AddIdentity<User, IdentityRole>(options =>
@@ -123,6 +129,7 @@ namespace AppointmentService
             }
 
             app.UseRouting();
+            app.UseCors("CorsAppointmentApi");
             app.UseAuthentication();
             app.UseAuthorization();
 

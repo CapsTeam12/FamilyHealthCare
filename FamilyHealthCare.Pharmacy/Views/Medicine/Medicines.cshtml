@@ -5,7 +5,7 @@
     ViewData["Title"] = "Medicines";
     ViewData["breadcumb-title"] = "Medicines";
     ViewData["MedicinesIndex"] = true;
-    var pharmacyId = Model.Medicines.Select(m => m.PharmacyId).First();
+    var pharmacyId = Model.Pharmacy.Id;
     int count = 0;
 }
 <style>

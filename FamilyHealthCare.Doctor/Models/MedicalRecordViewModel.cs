@@ -1,5 +1,6 @@
 ﻿using Contract.DTOs.ManagementService;
 using Contract.DTOs.MedicalRecordService;
+using Contract.DTOs.MedicineService;
 using System;
 using System.Collections.Generic;
 using System.Linq;

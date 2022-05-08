@@ -69,6 +69,8 @@ namespace FamilyHealthCare.SharedLibrary
         {
             public static string LIST_BY_DOCTOR = "/MedicalRecord/GetMedicalRecords";
             public static string CREATE = "/MedicalRecord/CreateMedicalRecord";
+            public static string UPDATE = "/MedicalRecord/UpdateMedicalRecord";
+            public static string DELETE = "/MedicalRecord/DeleteMedicalRecord";
         }
 
         public static class PatientService
@@ -76,6 +78,16 @@ namespace FamilyHealthCare.SharedLibrary
             public static string DOCTOR_REGISTER = "/Patient/DoctorRegister";
             public static string PHARMACY_REGISTER = "/Patient/PharmacyRegister";
             public static string CHECK_EMAIL_EXIST = "/Patient/CheckEmailExist";
+        }
+
+        public static class PrescriptionService
+        {
+            public static string LIST_BY_DOCTOR = "/Presciption/GetPrecriptionsByDoctor";
+            public static string LIST_BY_PHARMACY = "/Presciption/GetPrecriptionsByPharmacy";
+            public static string DETAILS = "/Presciption/GetPrescrionDetails";
+            public static string CREATE = "/Presciption/CreatePrescription";
+            public static string UPDATE = "/Presciption/UpdatePrescription";
+            public static string DELETE = "/Presciption/DeletePrescription";
         }
 
         public static class ScheduleService

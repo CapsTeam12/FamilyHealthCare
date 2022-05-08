@@ -72,6 +72,10 @@ namespace Business.Services
             if (medicineInDb != null)
             {
                 _db.Medicines.Remove(medicineInDb);
+                if (medicineInDb.Images != null)
+                {
+                    await _fileService.DeleteFile(medicineInDb.Images, ImageConstants.MEDICINES_PATH);
+                }
                 await _db.SaveChangesAsync();
                 var medicineDto = _mapper.Map<MedicineDto>(medicineInDb);
                 return medicineDto;

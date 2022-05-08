@@ -32,6 +32,7 @@ namespace Business
             services.AddTransient<ISendMailService, SendMailService>();
             services.AddTransient<IMedicineService, MedicineService>();
             services.AddTransient<IMedicalRecordService, MedicalRecordService>();
+            services.AddTransient<IPrescriptionService, PrescriptionService>();
         }
     }
 }

@@ -79,7 +79,10 @@ namespace Business.Services
 
         public async Task<MedicalRecordDto> UpdateMedicalRecord(int id, AddUpdateMedicalRecordDto medicalRecordDto)
         {
-            var medicalRecordInDb = await _db.MedicalRecords.Where(m => m.Id == id).FirstOrDefaultAsync();
+            var medicalRecordInDb = await _db.MedicalRecords.Where(m => m.Id == id)
+                                                            .Include(p => p.Patient)
+                                                            .Include(d => d.Doctor)
+                                                            .FirstOrDefaultAsync();
             if(medicalRecordInDb != null)
             {
                 medicalRecordInDb = _mapper.Map<AddUpdateMedicalRecordDto, MedicalRecord>(medicalRecordDto, medicalRecordInDb);

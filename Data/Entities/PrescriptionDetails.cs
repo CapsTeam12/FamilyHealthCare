@@ -11,12 +11,11 @@ namespace Data.Entities
     {
         public int Id { get; set; }
         [ForeignKey("Prescription")]
-        public int? PrescriptionId { get; set; }
+        public int PrescriptionId { get; set; }
         public Prescription Prescription { get; set; }
-        [ForeignKey("Medicine")]
-        public int? MedicineId { get; set; }
-        public Medicine Medicine { get; set; }
+        public string MedicineName { get; set; }
         public int Quantity { get; set; }
-        public string Notes { get; set; }
+        public int Days { get; set; }
+        public int Time { get; set; }
     }
 }

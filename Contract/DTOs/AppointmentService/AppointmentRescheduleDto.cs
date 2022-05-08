@@ -10,6 +10,7 @@ namespace Contract.DTOs.AppoimentService
     public class AppointmentRescheduleDto
     {
         public string AccountId { get; set; }
+        public int PatientId { get; set; }
         public int TherapistId { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }

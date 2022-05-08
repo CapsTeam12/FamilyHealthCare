@@ -111,6 +111,7 @@ namespace Business.Services
             var appointmentModel = _mapper.Map<Appointment>(model);
             appointmentModel.AccountId = userId;
             appointmentModel.Therapist = therapist;
+            appointmentModel.Patient = patient;
             appointmentModel.StartTime = Convert.ToDateTime(model.Date.ToString("yyyy-MM-dd") + " " + appointmentModel.StartTime.ToString("HH:mm:ss"));
             appointmentModel.EndTime = Convert.ToDateTime(model.Date.ToString("yyyy-MM-dd") + " " + appointmentModel.EndTime.ToString("HH:mm:ss"));
             appointmentModel.Status = 1; // status Coming
@@ -171,6 +172,8 @@ namespace Business.Services
             // Reshedule
             var appointmentModel = _mapper.Map<Appointment>(model);
             var therapist = await _db.Doctors.FirstOrDefaultAsync(x => x.Id == model.TherapistId); // Find therapist
+            var patient = await _db.Patients.FirstOrDefaultAsync(x => x.Id == model.PatientId); // Find patient
+            appointmentModel.Patient = patient;
             appointmentModel.Therapist = therapist;
             appointmentModel.Id = id;
             var schedulesOfAppointment = await _db.Schedules.Where(x => x.AppointmentId == appointmentModel.Id).ToListAsync(); // Find scheduled appointments to reschedule

@@ -17,6 +17,10 @@
     <link rel="stylesheet" href=@Url.Content("~/assets/plugins/fontawesome/css/fontawesome.min.css")>
     <link rel="stylesheet" href=@Url.Content("~/assets/plugins/fontawesome/css/all.min.css")>
 
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" href=@Url.Content("~/assets/plugins/select2/css/select2.min.css")>
+    <!-- DataTable CSS-->
+    <link href=@Url.Content("~/assets/plugins/datatables/datatables.min.css") rel="stylesheet" />
     <!-- Main CSS -->
     <link rel="stylesheet" href=@Url.Content("~/assets/css/style.css")>
 
@@ -174,12 +178,12 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                        <!--Profile Sidebar-->
-                        <partial name="_sideBar.cshtml" />
-                        <!--/Profile Sidebar-->
-                        @RenderBody()
-                    </div>
+                    <!--Profile Sidebar-->
+                    <partial name="_sideBar.cshtml" />
+                    <!--/Profile Sidebar-->
+                    @RenderBody()
                 </div>
+            </div>
         </div>
         <footer class="footer">
 
@@ -310,9 +314,13 @@
 
     <!-- Circle Progress JS -->
     <script src=@Url.Content("~/assets/js/circle-progress.min.js")></script>
-    <script src=@Url.Content("~/assets/plugins/select2/js/select2.min.js")></script>
+
     <!-- Select2 JS -->
     <script src=@Url.Content("~/assets/plugins/select2/js/select2.min.js")></script>
+
+    <!-- DataTable JS-->
+    <script src=@Url.Content("~/assets/plugins/datatables/jquery.dataTables.min.js")></script>
+    <script src=@Url.Content("~/assets/plugins/datatables/datatables.min.js")></script>
 
     <!-- Custom JS -->
     <script src=@Url.Content("~/assets/js/script.js")></script>

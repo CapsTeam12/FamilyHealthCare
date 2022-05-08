@@ -226,9 +226,9 @@
                         experiencesCountArr.splice(i, 1);
                     }
                 }
-                for (var i = 0; i < experiencesCountArr.length; i++) {
-                    //console.log(i + ": " + experiencesCountArr[i]);
-                }
+                //for (var i = 0; i < experiencesCountArr.length; i++) {
+                //    //console.log(i + ": " + experiencesCountArr[i]);
+                //}
                 //console.log("Array have: " + experiencesCountArr.length);
                 RemoveValidateAddMoreExperiences();
                 return false;
@@ -352,7 +352,6 @@
                     formData.append("DateOfBirth", $('#dob').val());
                     formData.append("Biography", $('#biography').val());
                     for (var i = 0; i < experiencesCountArr.length; i++) {
-                        //console.log(experiencesCountArr[i]);
                         if (Number(experiencesCountArr[i]) === 1) {
                             var experiences = {
                                 HospitalName: $('#hospitalName').val(),
@@ -361,13 +360,11 @@
                                 Designation: $('#designation').val()
                             };
                             arrItems.push(experiences);
-                            //arrItems.push(JSON.stringify(experiences));
                         } else {
                             var HospitalName = '#hospitalName' + experiencesCountArr[i];
                             var From = '#from' + experiencesCountArr[i];
                             var To = '#to' + experiencesCountArr[i];
                             var Designation = '#designation' + experiencesCountArr[i];
-                            //console.log(hospitalName);
                             var experiences = {
                                 HospitalName: $(HospitalName).val(),
                                 From: Number($(From).val()),

@@ -11,5 +11,6 @@ namespace FamilyHealthCare.Pharmacy.Models
     {
         public IEnumerable<MedicineDto> Medicines { get; set; }
         public List<CategoriesDetailsDto> Categories { get; set; }
+        public PharmacyDetailsDto Pharmacy { get; set; }
     }
 }

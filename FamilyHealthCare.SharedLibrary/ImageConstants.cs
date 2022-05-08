@@ -28,6 +28,9 @@ namespace FamilyHealthCare.SharedLibrary
 
         public static string MEDICINES = "http://localhost:34005/images/medicines/";
         public static string MEDICINES_PATH = "images/medicines/";
+
+        public static string SIGNATURES = "http://localhost:18667/images/signatures/";
+        public static string SIGNATURES_PATH = "images/signatures/";
     }
 }
 

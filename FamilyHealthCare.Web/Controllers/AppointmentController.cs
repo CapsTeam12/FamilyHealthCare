@@ -107,7 +107,7 @@ namespace FamilyHealthCare.Customer.Controllers
             return Json(new { dataSchedules = ScheduleView.ScheduleDoctors, dataShifts = ScheduleView.Shifts });
         }
 
-        [HttpPost]
+        [HttpPut]
         [IgnoreAntiforgeryToken]
         public async Task<IActionResult> RescheduleAppointment(AppointmentRescheduleDto model, string id)
         {
@@ -137,10 +137,14 @@ namespace FamilyHealthCare.Customer.Controllers
             }else if(response != null && response.IsSuccessStatusCode && jsonData.Equals("You had an appointment at the same time before!"))
             {
                 return Json(new { content = jsonData });
+            }else if (response != null && response.IsSuccessStatusCode && jsonData.Equals("This appointment has been canceled before!"))
+            {
+                return Json(new { errorMessage = jsonData });
             }
             else
             {
-                return Json(new { data = jsonData });
+                var appointmentDetails = JsonConvert.DeserializeObject<AppointmentDetailsDto>(jsonData);
+                return Json(new { data = appointmentDetails });
             }
         }
 

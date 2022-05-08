@@ -2,6 +2,7 @@
 using Contract.DTOs;
 using Contract.DTOs.AppoimentService;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -68,6 +69,14 @@ namespace AppointmentService.Controllers
             DateTime startTime = appointment.StartTime.ToLocalTime(); // Thời gian bắt đầu của cuộc hẹn
             DateTime currentTime = DateTime.Now; // Thời gian hiện tại 
             var HourDistance = (startTime - currentTime).TotalHours; // Khoảng cách giờ giữa thời gian bắt đầu cuộc hẹn và thời gian hiện tại 
+            if(currentTime == startTime && currentTime <= appointment.EndTime)
+            {
+                return Content("Appointment is in progress!");
+            }
+            if(appointment.Status == 4)
+            {
+                return Content("This appointment has been canceled before!");
+            }
             if(HourDistance < 2)
             {
                 return Content("Can only reschedule the appointment at least two hour!");

@@ -368,6 +368,8 @@
             });
 
 
+        
+        });
         function initMap() {
             var scopeSearch = new google.maps.Circle({ center: new google.maps.LatLng(10.762622, 106.660172), radius: 30000 }) // HCM City radius 30.000
             var options = {
@@ -386,7 +388,7 @@
                 var placeLng = place.geometry.location.lng();
                 console.log(placeLat + " - " + placeLng);
                 nearBySearch(place);
-            }); 
+            });
         }
 
         function nearBySearch(position) {
@@ -415,7 +417,6 @@
                     }
                 }
             });
-            }
-        });
+        }
     </script>
 }

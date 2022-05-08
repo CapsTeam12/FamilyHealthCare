@@ -33,6 +33,9 @@ namespace Data.Migrations
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("PatientId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
@@ -46,6 +49,8 @@ namespace Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PatientId");
 
                     b.HasIndex("TherapistId");
 
@@ -374,13 +379,35 @@ namespace Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MedicalRecordId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PharmacyId")
+                    b.Property<int?>("PharmacyId")
                         .HasColumnType("int");
 
+                    b.Property<string>("PrescriptionName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Signature")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("MedicalRecordId");
 
                     b.HasIndex("PatientId");
 
@@ -396,10 +423,10 @@ namespace Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("MedicineId")
+                    b.Property<int>("Days")
                         .HasColumnType("int");
 
-                    b.Property<string>("Notes")
+                    b.Property<string>("MedicineName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PrescriptionId")
@@ -408,9 +435,10 @@ namespace Data.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("Time")
+                        .HasColumnType("int");
 
-                    b.HasIndex("MedicineId");
+                    b.HasKey("Id");
 
                     b.HasIndex("PrescriptionId");
 
@@ -744,6 +772,10 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.Appointment", b =>
                 {
+                    b.HasOne("Data.Entities.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId");
+
                     b.HasOne("Data.Entities.Doctor", "Therapist")
                         .WithMany()
                         .HasForeignKey("TherapistId")
@@ -753,6 +785,8 @@ namespace Data.Migrations
                     b.HasOne("Data.Entities.User", null)
                         .WithMany("Appointments")
                         .HasForeignKey("UserId");
+
+                    b.Navigation("Patient");
 
                     b.Navigation("Therapist");
                 });
@@ -863,6 +897,14 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.Prescription", b =>
                 {
+                    b.HasOne("Data.Entities.Doctor", "Doctor")
+                        .WithMany()
+                        .HasForeignKey("DoctorId");
+
+                    b.HasOne("Data.Entities.MedicalRecord", "MedicalRecord")
+                        .WithMany()
+                        .HasForeignKey("MedicalRecordId");
+
                     b.HasOne("Data.Entities.Patient", "Patient")
                         .WithMany()
                         .HasForeignKey("PatientId")
@@ -871,9 +913,11 @@ namespace Data.Migrations
 
                     b.HasOne("Data.Entities.Pharmacy", "Pharmacy")
                         .WithMany()
-                        .HasForeignKey("PharmacyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PharmacyId");
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("MedicalRecord");
 
                     b.Navigation("Patient");
 
@@ -882,15 +926,9 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.PrescriptionDetails", b =>
                 {
-                    b.HasOne("Data.Entities.Medicine", "Medicine")
-                        .WithMany()
-                        .HasForeignKey("MedicineId");
-
                     b.HasOne("Data.Entities.Prescription", "Prescription")
                         .WithMany()
                         .HasForeignKey("PrescriptionId");
-
-                    b.Navigation("Medicine");
 
                     b.Navigation("Prescription");
                 });

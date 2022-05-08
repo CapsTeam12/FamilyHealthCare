@@ -14,6 +14,7 @@ using Contract.DTOs.AuthService;
 using Contract.DTOs.PartnerService;
 using Contract.DTOs.MedicineService;
 using Contract.DTOs.MedicalRecordService;
+using Contract.DTOs.PrescriptionService;
 
 namespace Business
 {
@@ -21,7 +22,9 @@ namespace Business
     {
         public AutoMapperProfiles()
         {
-            CreateMap<Appointment, AppointmentDetailsDto>().ForMember(dst => dst.Therapist, opt => opt.MapFrom(s => s.Therapist))
+            CreateMap<Appointment, AppointmentDetailsDto>()
+                .ForMember(dst => dst.Therapist, opt => opt.MapFrom(s => s.Therapist))
+                .ForMember(dst => dst.Patient,opt => opt.MapFrom(s => s.Patient))
                 .ReverseMap();
             CreateMap<Appointment, AppointmentCreateDto>()
                 .ReverseMap();
@@ -85,6 +88,14 @@ namespace Business
             CreateMap<Patient, PatientDto>().ForMember(dest => dest.PatientId, opt => opt.MapFrom(src => src.Id)).ReverseMap();
             CreateMap<AddUpdateMedicalRecordDto, MedicalRecord>()
                 .ForMember(dest => dest.Id, act => act.Ignore());
+
+
+            CreateMap<Prescription, PrescriptionDto>().ReverseMap();
+            CreateMap<PrescriptionDetails, PrescriptionDetailsDto>().ReverseMap();
+            CreateMap<AddUpdatePrescriptionDto, Prescription>()
+                .ForMember(dest => dest.Id, act => act.Ignore())
+                .ForMember(dest => dest.Signature, act => act.Ignore());
+                
         }
     }
 }

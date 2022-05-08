@@ -80,7 +80,7 @@
                                         @foreach (var shifts in Model.Shifts)
                                         {
                                             count++;
-                                            var shiftTimeslot = Convert.ToDateTime(getDateSearch + " " + shifts.TimeSlot.Split("-")[1]);
+                                            var shiftTimeslot = Convert.ToDateTime(getDateSearch + " " + shifts.TimeSlot.Split("-")[0]);
                                             if (DateTime.Compare(currentTime, shiftTimeslot) > 0)
                                             {
                                                 <div class="form-check-inline visits me-0">
