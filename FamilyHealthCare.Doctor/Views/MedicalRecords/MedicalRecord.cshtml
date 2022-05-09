@@ -522,8 +522,8 @@
                     <div class="row">
                         <div class="col-12 col-md-6">
                             <div class="form-group">
-                                <label>Prescription Name</label>
-                                <p id="PrescriptionName" class="invoice-details invoice-details-two">
+                                <strong>Prescription Name</strong>
+                                <p id="PrescriptionName" class="form-control" style="display: inline;font-style: italic;">
                             </div>
                         </div>
                     </div>
@@ -552,8 +552,8 @@
                     <div class="row">
                         <div class="col-12 col-md-6">
                             <div class="form-group">
-                                <label>Notes</label>
-                                <p id="Notes" class="invoice-details invoice-details-two"></p>
+                                <strong>Notes</strong>
+                                <textarea id="Notes" disabled style="resize:none;font-style:italic;" class="form-control"></textarea>
                             </div>
                         </div>
                         <div class="col-md-6 text-end">
@@ -596,6 +596,7 @@
     <script src="~/js/signature.js"></script>
     <script>
         $(document).ready(function () {
+            var count = 1;
             if ($('.datatable').length > 0) {
                 var table = $('.datatable').DataTable({
                     "bFilter": true,
@@ -605,22 +606,41 @@
             }
 
             $('#prescriptionTable').on('click', '.trash', function () {
+                var tdElements = $(this).closest('tr').children();
+                for (var td of tdElements) {
+                    var inputElements = td.getElementsByTagName('input');
+                    for (var i = 0; i < inputElements.length; i++) {
+                        var elementId = inputElements[i].getAttribute('id');
+                        RemoveValidateAddMorePrescription(elementId);
+                    }
+
+                }
                 $(this).closest('tr').remove();
                 return false;
             })
 
             $('#prescriptionTableEdit').on('click', '.trash', function () {
+                var tdElements = $(this).closest('tr').children();
+                for (var td of tdElements) {
+                    var inputElements = td.getElementsByTagName('input');
+                    for (var i = 0; i < inputElements.length; i++) {
+                        var elementId = inputElements[i].getAttribute('id');
+                        RemoveValidateAddMorePrescription(elementId);
+                    }
+
+                }
                 $(this).closest('tr').remove();
                 return false;
             })
 
             $('.add-prescription').click(function () {
+                count++;
                 var table = $(this).closest('form').find('table')[0];
                 var tableId = table.getAttribute('id')
                 var prescriptionContent = $('<tr></tr>');
-                prescriptionContent.append('<td><input class="form-control" name="MedicineName" value="" type="text"></td>')
-                prescriptionContent.append('<td><input class="form-control" name="Quantity" type="text" value=""></td>')
-                prescriptionContent.append('<td><input class="form-control" name="Days" value="" type="text"></td>')
+                prescriptionContent.append('<td><input id="medicineName'+ count +'" class="form-control" name="MedicineName'+ count +'" value="" type="text"></td>')
+                prescriptionContent.append('<td><input id="quantity' + count + '" class="form-control" name="Quantity'+ count +'" type="text" value=""></td>')
+                prescriptionContent.append('<td><input id="days' + count + '" class="form-control" name="Days'+ count +'" value="" type="text"></td>')
                 var elementTdTimeCheck = '<td>' +
                     '<div class="form-check form-check-inline">' +
                     '<label class="form-check-label">' +
@@ -646,6 +666,7 @@
                 prescriptionContent.append(elementTdTimeCheck);
                 prescriptionContent.append('<td><a href="#" class="btn bg-danger-light trash"><i class="far fa-trash-alt"></i></a></td>');
                 prescriptionContent.appendTo('#' + tableId + ' tbody');
+                ValidateAddMorePrescription();
                 return false;
             });
 
@@ -693,7 +714,7 @@
                             var medical = res.item;
                             let index = 0;
                             $('p#PrescriptionName').text(medical.prescriptionName);
-                            $('p#Notes').text(medical.notes);
+                            $('textarea#Notes').text(medical.notes);
                             var imageConstants = $('#imageConstants').text();
                             $('#signatureImg').attr('src', imageConstants + medical.signature);
                             $.each(medical.prescriptionDetailsDtos, function (i) {
@@ -779,9 +800,9 @@
                 if ($('#AddMedicalRecordForm').valid()) {
                     var canvas = document.getElementById('canvas');
                     const BlankCanvas = isCanvasBlank(canvas);
-                    alert('Form OK');
+                    //alert('Form OK');
                     if (!BlankCanvas) {
-                        alert('Canvas OK');
+                        //alert('Canvas OK');
                         var dataURL = canvas.toDataURL();
                         var blob = dataURItoBlob(dataURL);
                         var file = new File([blob], "Signature", { type: blob.type });
@@ -1104,6 +1125,26 @@
                     ReExamination: {
                         required: true
                     },
+                    PrescriptionName: {
+                        required: true,
+                        noSpace: true
+                    },
+                    MedicineName: {
+                        required: true,
+                        minlength: 5,
+                        noSpace: true
+                    },
+                    Quantity: {
+                        number: true,
+                        required: true
+                    },
+                    Days: {
+                        number: true,
+                        required: true
+                    },
+                    Notes: {
+                        required: true
+                    }
                 },
                 messages: {
                     PatientId: {
@@ -1124,6 +1165,24 @@
                     ReExamination: {
                         required: "Please enter Re Examination date!"
                     },
+                    PrescriptionName: {
+                        required: "Please enter prescription name!"
+                    },
+                    MedicineName: {
+                        required: "Please enter medicine name!",
+                        minlength: "Medicine name at least 5 characters!"
+                    },
+                    Quantity: {
+                        number: "You can only to enter numbers!",
+                        required: "Please enter quantity!"
+                    },
+                    Days: {
+                        number: "You can only to enter numbers!",
+                        required: "Please enter day!"
+                    },
+                    Notes: {
+                        required: "Please enter notes!"
+                    }
                 }
 
             });
@@ -1151,6 +1210,26 @@
                     ReExamination: {
                         required: true
                     },
+                    PrescriptionName: {
+                        required: true,
+                        noSpace: true
+                    },
+                    MedicineName: {
+                        required: true,
+                        minlength: 5,
+                        noSpace: true
+                    },
+                    Quantity: {
+                        number: true,
+                        required: true
+                    },
+                    Days: {
+                        number: true,
+                        required: true
+                    },
+                    Notes: {
+                        required: true
+                    }
                 },
                 messages: {
                     PatientId: {
@@ -1171,6 +1250,24 @@
                     ReExamination: {
                         required: "Please enter Re Examination date!"
                     },
+                    PrescriptionName: {
+                        required: "Please enter prescription name!"
+                    },
+                    MedicineName: {
+                        required: "Please enter medicine name!",
+                        minlength: "Medicine name at least 5 characters!"
+                    },
+                    Quantity: {
+                        number: "You can only to enter numbers!",
+                        required: "Please enter quantity!"
+                    },
+                    Days: {
+                        number: "You can only to enter numbers!",
+                        required: "Please enter day!"
+                    },
+                    Notes: {
+                        required: "Please enter notes!"
+                    }
                 }
             });
 
@@ -1182,6 +1279,43 @@
                 );
 
                 return !pixelBuffer.some(color => color !== 0);
+            }
+            function ValidateAddMorePrescription() {
+                $('input[id*="medicineName"]').each(function () {
+                    $(this).rules('add', {
+                        required: true,
+                        noSpace: true,
+                        minlength: 5,
+                        messages: {
+                            required: "Please enter medicine name!",
+                            minlength: "Medicine name at least 5 characters!"
+                        }
+                    });
+                });
+                $('input[id*="quantity"]').each(function () {
+                    $(this).rules('add', {
+                        required: true,
+                        number: true,
+                        messages: {
+                            required: "Please enter quantity!",
+                            number: "You can only to enter numbers!",
+                        }
+                    });
+                });
+                $('input[id*="days"]').each(function () {
+                    $(this).rules('add', {
+                        required: true,
+                        number: true,
+                        messages: {
+                            required: "Please enter day!",
+                            number: "You can only to enter numbers!",
+                        }
+                    });
+                });
+            }
+
+            function RemoveValidateAddMorePrescription(elementId) {
+                $("#" + elementId).rules("remove");
             }
         })
     </script>

@@ -95,7 +95,10 @@ namespace Business
             CreateMap<AddUpdatePrescriptionDto, Prescription>()
                 .ForMember(dest => dest.Id, act => act.Ignore())
                 .ForMember(dest => dest.Signature, act => act.Ignore());
-                
+            CreateMap<AddUpdatePrescriptionPharmacyDto, Prescription>()
+                .ForMember(dest => dest.Id, act => act.Ignore())
+                .ForMember(dest => dest.Signature, act => act.Ignore());
+
         }
     }
 }

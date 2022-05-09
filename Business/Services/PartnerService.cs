@@ -186,7 +186,9 @@ namespace Business.Services
         public async Task<bool> CheckEmailExist(string email)
         {
             var emailOfDoctor = await _db.Doctors.Where(d => d.Email == email).FirstOrDefaultAsync();
-            if(emailOfDoctor != null)
+            var emailOfPharmacy = await _db.Pharmacies.Where(p => p.Email == email).FirstOrDefaultAsync();
+            var emailOfUser = await _db.Patients.Where(p => p.User.Email == email).FirstOrDefaultAsync();
+            if(emailOfDoctor != null && emailOfPharmacy != null && emailOfUser != null)
             {
                 return false;
             }

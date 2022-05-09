@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Business.IServices;
+using Contract.DTOs.ManagementService;
+using Contract.DTOs.MedicineService;
 using Contract.DTOs.PrescriptionService;
 using Data;
 using Data.Entities;
@@ -26,7 +28,7 @@ namespace Business.Services
             _fileService = fileService;
         }
 
-        public async Task<PrescriptionDto> AddPrescription(AddUpdatePrescriptionDto AddPrescriptionDto)
+        public async Task<PrescriptionDto> AddPrescriptionByDoctor(AddUpdatePrescriptionDto AddPrescriptionDto)
         {
             var prescription = _mapper.Map<Prescription>(AddPrescriptionDto);
             if (AddPrescriptionDto.Signature != null)
@@ -36,6 +38,38 @@ namespace Business.Services
             await _db.Prescriptions.AddAsync(prescription);
             await _db.SaveChangesAsync();
             var prescriptionDto = _mapper.Map<PrescriptionDto>(prescription);
+            prescriptionDto.PrescriptionDetailsDtos.AddRange(AddPrescriptionDto.PrescriptionDetailsDtos);
+            foreach (var pres in AddPrescriptionDto.PrescriptionDetailsDtos)
+            {
+                for (int i = 0; i < pres.Time.Length; i++)
+                {
+                    pres.PrescriptionId = prescription.Id;
+                    var prescriptionDetails = new PrescriptionDetails();
+                    prescriptionDetails.PrescriptionId = pres.PrescriptionId;
+                    prescriptionDetails.MedicineName = pres.MedicineName;
+                    prescriptionDetails.Quantity = pres.Quantity;
+                    prescriptionDetails.Days = pres.Days;
+                    prescriptionDetails.Time = pres.Time[i];
+                    await _db.PrescriptionDetails.AddAsync(prescriptionDetails);
+                }
+            }
+            await _db.SaveChangesAsync();
+            return prescriptionDto;
+        }
+
+        public async Task<PrescriptionDto> AddPrescriptionByPharmacy(AddUpdatePrescriptionPharmacyDto AddPrescriptionDto)
+        {
+            var prescription = _mapper.Map<Prescription>(AddPrescriptionDto);
+            var pharmacy = await _db.Pharmacies.FirstOrDefaultAsync(p => p.Id == prescription.PharmacyId);
+            var pharmacyDto = _mapper.Map<PharmacyDto>(pharmacy);
+            if (AddPrescriptionDto.Signature != null)
+            {
+                prescription.Signature = await _fileService.SaveFile(AddPrescriptionDto.Signature, ImageConstants.SIGNATURES_PATH);
+            }
+            await _db.Prescriptions.AddAsync(prescription);
+            await _db.SaveChangesAsync();
+            var prescriptionDto = _mapper.Map<PrescriptionDto>(prescription);
+            prescriptionDto.Pharmacy = pharmacyDto;
             prescriptionDto.PrescriptionDetailsDtos.AddRange(AddPrescriptionDto.PrescriptionDetailsDtos);
             foreach (var pres in AddPrescriptionDto.PrescriptionDetailsDtos)
             {
@@ -84,7 +118,7 @@ namespace Business.Services
                 var prescriptionsDetailsDto = new List<PrescriptionDetailsDto>();
                 foreach (var medicineName in medicineInPresciptionDetails)
                 {
-                    var PrescriptionDetailsByMedicine = await _db.PrescriptionDetails.Where(p => p.PrescriptionId == id || p.Prescription.MedicalRecordId == id && p.MedicineName == medicineName)
+                    var PrescriptionDetailsByMedicine = await _db.PrescriptionDetails.Where(p => (p.PrescriptionId == id || p.Prescription.MedicalRecordId == id) && p.MedicineName == medicineName)
                                                                                  .ToListAsync();
                     var prescriptionDetailsDto = new PrescriptionDetailsDto();
                     prescriptionDetailsDto.PrescriptionId = PrescriptionDetailsByMedicine.Select(p => p.PrescriptionId).First();
@@ -133,7 +167,7 @@ namespace Business.Services
             return prescriptionsDto;
         }
 
-        public async Task<PrescriptionDto> UpdatePrescription(int id, AddUpdatePrescriptionDto AddPrescriptionDto)
+        public async Task<PrescriptionDto> UpdatePrescriptionByDoctor(int id, AddUpdatePrescriptionDto AddPrescriptionDto)
         {
             var prescriptionInDb = await _db.Prescriptions.Where(p => p.Id == id || p.MedicalRecordId == id).FirstOrDefaultAsync();
             if (prescriptionInDb != null)
@@ -169,6 +203,51 @@ namespace Business.Services
                 }
                 await _db.SaveChangesAsync();
                 var prescriptionDto = _mapper.Map<PrescriptionDto>(prescriptionInDb);
+                prescriptionDto.PrescriptionDetailsDtos.AddRange(AddPrescriptionDto.PrescriptionDetailsDtos);
+                return prescriptionDto;
+            }
+            return null;
+        }
+
+        public async Task<PrescriptionDto> UpdatePrescriptionByPharmacy(int id, AddUpdatePrescriptionPharmacyDto AddPrescriptionDto)
+        {
+            var prescriptionInDb = await _db.Prescriptions.Where(p => p.Id == id || p.MedicalRecordId == id).FirstOrDefaultAsync();
+            var pharmacy = await _db.Pharmacies.FirstOrDefaultAsync(p => p.Id == AddPrescriptionDto.PharmacyId);
+            var pharmacyDto = _mapper.Map<PharmacyDto>(pharmacy);
+            if (prescriptionInDb != null)
+            {
+                prescriptionInDb = _mapper.Map<AddUpdatePrescriptionPharmacyDto, Prescription>(AddPrescriptionDto, prescriptionInDb);
+                if (AddPrescriptionDto.Signature != null)
+                {
+                    if (prescriptionInDb.Signature != null)
+                    {
+                        await _fileService.DeleteFile(prescriptionInDb.Signature, ImageConstants.SIGNATURES_PATH);
+                    }
+                    prescriptionInDb.Signature = await _fileService.SaveFile(AddPrescriptionDto.Signature, ImageConstants.SIGNATURES_PATH);
+                }
+                _db.Prescriptions.Update(prescriptionInDb);
+                var prescriptionDetails = await _db.PrescriptionDetails.Where(p => p.PrescriptionId == id || p.Prescription.MedicalRecordId == id).ToListAsync();
+                if (prescriptionDetails != null && prescriptionDetails.Count > 0)
+                {
+                    _db.PrescriptionDetails.RemoveRange(prescriptionDetails);
+                }
+                foreach (var pres in AddPrescriptionDto.PrescriptionDetailsDtos)
+                {
+                    pres.PrescriptionId = prescriptionInDb.Id;
+                    for (int i = 0; i < pres.Time.Length; i++)
+                    {
+                        var prescriptionDetailsAddMore = new PrescriptionDetails();
+                        prescriptionDetailsAddMore.PrescriptionId = pres.PrescriptionId;
+                        prescriptionDetailsAddMore.MedicineName = pres.MedicineName;
+                        prescriptionDetailsAddMore.Quantity = pres.Quantity;
+                        prescriptionDetailsAddMore.Days = pres.Days;
+                        prescriptionDetailsAddMore.Time = pres.Time[i];
+                        await _db.PrescriptionDetails.AddAsync(prescriptionDetailsAddMore);
+                    }
+                }
+                await _db.SaveChangesAsync();
+                var prescriptionDto = _mapper.Map<PrescriptionDto>(prescriptionInDb);
+                prescriptionDto.Pharmacy = pharmacyDto;
                 prescriptionDto.PrescriptionDetailsDtos.AddRange(AddPrescriptionDto.PrescriptionDetailsDtos);
                 return prescriptionDto;
             }

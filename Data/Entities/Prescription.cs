@@ -13,7 +13,7 @@ namespace Data.Entities
         public string PrescriptionName { get; set; }
         public DateTime Date { get; set; }
         [ForeignKey("Patient")]
-        public int PatientId { get; set; }
+        public int? PatientId { get; set; }
         [ForeignKey("Pharmacy")]
         public int? PharmacyId { get; set; }
         [ForeignKey("Doctor")]

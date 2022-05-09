@@ -309,7 +309,16 @@
                     },
                     Email: {
                         email: true,
-                        required: true
+                        required: true,
+                        remote: {
+                            url: "/Partner/CheckEmailExist",
+                            type: "post",
+                            data: {
+                                email: function () {
+                                    return $("#email").val();
+                                }
+                            }
+                        }
                     },
                     Phone: {
                         number: true,
@@ -346,7 +355,8 @@
                     },
                     Email: {
                         required: "Please enter your email!",
-                        email: "Please enter a valid email address!"
+                        email: "Please enter a valid email address!",
+                        remote: "Email already in use!"
                     },
                     Phone: {
                         required: "Please enter your phone number!",

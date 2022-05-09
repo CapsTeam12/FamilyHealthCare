@@ -82,11 +82,13 @@ namespace FamilyHealthCare.SharedLibrary
 
         public static class PrescriptionService
         {
-            public static string LIST_BY_DOCTOR = "/Presciption/GetPrecriptionsByDoctor";
-            public static string LIST_BY_PHARMACY = "/Presciption/GetPrecriptionsByPharmacy";
-            public static string DETAILS = "/Presciption/GetPrescrionDetails";
+            public static string LIST_BY_DOCTOR = "/Presciption/GetPrescriptionsByDoctor";
+            public static string LIST_BY_PHARMACY = "/Presciption/GetPrescriptionsByPharmacy";
+            public static string DETAILS = "/Presciption/GetPrescriptionDetails";
             public static string CREATE = "/Presciption/CreatePrescription";
+            public static string CREATE_BY_PHARMACY = "/Presciption/CreatePrescriptionByPharmacy";
             public static string UPDATE = "/Presciption/UpdatePrescription";
+            public static string UPDATE_BY_PHARMACY = "/Presciption/UpdatePrescriptionByPharmacy";
             public static string DELETE = "/Presciption/DeletePrescription";
         }
 

@@ -21,7 +21,7 @@ namespace PresciptionService.Controllers
         }
 
         [HttpGet("[action]/{accountId}")]
-        public async Task<IActionResult> GetPrescrionsByDoctor(string accountId)
+        public async Task<IActionResult> GetPrescriptionsByDoctor(string accountId)
         {
             var prescriptions = await _prescriptionService.GetPrescriptionsDoctor(accountId);
             if(prescriptions != null)
@@ -32,7 +32,7 @@ namespace PresciptionService.Controllers
         }
 
         [HttpGet("[action]/{accountId}")]
-        public async Task<IActionResult> GetPrescrionsByPharmacy(string accountId)
+        public async Task<IActionResult> GetPrescriptionsByPharmacy(string accountId)
         {
             var prescriptions = await _prescriptionService.GetPrescriptionsPharmacy(accountId);
             if (prescriptions != null)
@@ -43,7 +43,7 @@ namespace PresciptionService.Controllers
         }
 
         [HttpGet("[action]/{id}")]
-        public async Task<IActionResult> GetPrescrionDetails(int id)
+        public async Task<IActionResult> GetPrescriptionDetails(int id)
         {
             var prescriptions = await _prescriptionService.GetPrescriptionDetails(id);
             if (prescriptions != null)
@@ -56,8 +56,19 @@ namespace PresciptionService.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> CreatePrescription([FromForm] AddUpdatePrescriptionDto prescriptionDto)
         {
-            var prescriptions = await _prescriptionService.AddPrescription(prescriptionDto);
+            var prescriptions = await _prescriptionService.AddPrescriptionByDoctor(prescriptionDto);
             if(prescriptions != null)
+            {
+                return Ok(prescriptions);
+            }
+            return NotFound();
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> CreatePrescriptionByPharmacy([FromForm] AddUpdatePrescriptionPharmacyDto prescriptionDto)
+        {
+            var prescriptions = await _prescriptionService.AddPrescriptionByPharmacy(prescriptionDto);
+            if (prescriptions != null)
             {
                 return Ok(prescriptions);
             }
@@ -67,7 +78,18 @@ namespace PresciptionService.Controllers
         [HttpPut("[action]/{id}")]
         public async Task<IActionResult> UpdatePrescription(int id,[FromForm] AddUpdatePrescriptionDto prescriptionDto)
         {
-            var prescriptions = await _prescriptionService.UpdatePrescription(id,prescriptionDto);
+            var prescriptions = await _prescriptionService.UpdatePrescriptionByDoctor(id,prescriptionDto);
+            if (prescriptions != null)
+            {
+                return Ok(prescriptions);
+            }
+            return NotFound();
+        }
+
+        [HttpPut("[action]/{id}")]
+        public async Task<IActionResult> UpdatePrescriptionByPharmacy(int id, [FromForm] AddUpdatePrescriptionPharmacyDto prescriptionDto)
+        {
+            var prescriptions = await _prescriptionService.UpdatePrescriptionByPharmacy(id, prescriptionDto);
             if (prescriptions != null)
             {
                 return Ok(prescriptions);
