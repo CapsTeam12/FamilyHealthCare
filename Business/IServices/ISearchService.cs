@@ -12,11 +12,12 @@ namespace Business.IServices
     public interface ISearchService
     {
         public Task<IEnumerable<SearchMedicineDto>> GetSearchMedicineResultAsync(SearchCategoryDto searchCategoryDto);
+        public Task<IEnumerable<SearchMedicineDto>> GetSearchMedicineResultByPharmacyAsync(int pharmacyId,SearchCategoryDto searchCategoryDto);
         public Task<IActionResult> GetDetailsSearchMedicineAsync(int id);
         public Task<IActionResult> GetSearchDoctorResultAsync(string search);
         public Task<IActionResult> GetDetailsSearchDoctorAsync(int id);
         public Task<IActionResult> GetSearchPharmacyResultAsync(string search);
-        public Task<IActionResult> GetDetailsSearchPharmacyAsync(int id);
+        public Task<PharmacyDetailsDto> GetDetailsSearchPharmacyAsync(int id);
         public Task<IEnumerable<DoctorDetailsDto>> SearchDoctor(SearchDoctorDto searchDoctorDto);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Business.IServices;
 using Contract.DTOs.MedicineService;
+using Contract.DTOs.SearchService;
 using Data;
 using Data.Entities;
 using FamilyHealthCare.SharedLibrary;
@@ -93,7 +94,7 @@ namespace Business.Services
             return medicinesDto;
         }
 
-        public async Task<IEnumerable<MedicineDto>> GetMedicinesByPharmacyId(string id)
+        public async Task<IEnumerable<MedicineDto>> GetMedicinesByPharmacyAccountId(string id)
         {
             var medicines = await _db.Medicines
                            .Where(m => m.Pharmacy.AccountId == id)
@@ -101,6 +102,16 @@ namespace Business.Services
                            .Include(p => p.Pharmacy)
                            .ToListAsync();
             var medicinesDto = _mapper.Map<IEnumerable<MedicineDto>>(medicines);
+            return medicinesDto;
+        }
+
+        public async Task<IEnumerable<SearchMedicineDto>> GetMedicinesByPharmacyId(int id)
+        {
+            var medicines = await _db.Medicines
+                           .Where(m => m.Pharmacy.Id == id)
+                           .Include(c => c.MedicineClass)
+                           .ToListAsync();
+            var medicinesDto = _mapper.Map<IEnumerable<SearchMedicineDto>>(medicines);
             return medicinesDto;
         }
 
@@ -115,6 +126,20 @@ namespace Business.Services
                 medicine.Status = 3;
                 _db.Medicines.Update(medicine);
                 await _db.SaveChangesAsync();
+                var medicineDto = _mapper.Map<MedicineDto>(medicine);
+                return medicineDto;
+            }
+            return null;
+        }
+
+        public async Task<MedicineDto> GetMedicineDetails(int id)
+        {
+            var medicine = await _db.Medicines.Where(m => m.Id == id)
+                                              .Include(c => c.MedicineClass)
+                                              .Include(p => p.Pharmacy)
+                                              .FirstOrDefaultAsync();
+            if(medicine != null)
+            {
                 var medicineDto = _mapper.Map<MedicineDto>(medicine);
                 return medicineDto;
             }

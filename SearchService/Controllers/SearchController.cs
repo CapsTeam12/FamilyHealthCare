@@ -26,6 +26,13 @@ namespace SearchService.Controllers
             return medicines;
         }
 
+        [HttpPost("search/medicine/{pharmacyId}")]
+        public async Task<IEnumerable<SearchMedicineDto>> GetMedicinesByPharmacyAsync(int pharmacyId,SearchCategoryDto searchCategoryDto)
+        {
+            var medicines = await _searchService.GetSearchMedicineResultByPharmacyAsync(pharmacyId,searchCategoryDto);
+            return medicines;
+        }
+
         [HttpGet("search/medicine/{id}")]
         public async Task<IActionResult> GetDetailsMedicinesAsync(int id)
         {

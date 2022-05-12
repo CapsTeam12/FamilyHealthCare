@@ -34,6 +34,17 @@ namespace MedicineService.Controllers
         [HttpGet("[action]/{id}")]
         public async Task<IActionResult> GetMedicinesByPharmacy(string id)
         {
+            var medicines = await _medicineService.GetMedicinesByPharmacyAccountId(id);
+            if (medicines != null)
+            {
+                return Ok(medicines);
+            }
+            return NotFound();
+        }
+
+        [HttpGet("[action]/{id}")]
+        public async Task<IActionResult> GetMedicinesByPharmacyId(int id)
+        {
             var medicines = await _medicineService.GetMedicinesByPharmacyId(id);
             if (medicines != null)
             {
@@ -49,6 +60,17 @@ namespace MedicineService.Controllers
             if (medicines != null)
             {
                 return Ok(medicines);
+            }
+            return NotFound();
+        }
+
+        [HttpGet("[action]/{id}")]
+        public async Task<IActionResult> GetMedicineDetails(int id)
+        {
+            var medicine = await _medicineService.GetMedicineDetails(id);
+            if (medicine != null)
+            {
+                return Ok(medicine);
             }
             return NotFound();
         }

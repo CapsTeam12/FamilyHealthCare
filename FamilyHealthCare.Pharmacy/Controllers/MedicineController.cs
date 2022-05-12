@@ -60,6 +60,19 @@ namespace FamilyHealthCare.Pharmacy.Controllers
             return NotFound();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
+            var response = await client.GetAsync($"{EndpointConstants.MedicineService.DETAILS_MEDICINE}/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                var medicineDto = await response.Content.ReadAsAsync<MedicineDto>();
+                return Json(new {success = true,item = medicineDto });
+            }
+            return Json(new { success = false });
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateMedicine(AddUpdateMedicineDto medicineDto)
         {

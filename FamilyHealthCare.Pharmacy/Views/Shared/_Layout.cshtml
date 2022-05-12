@@ -148,7 +148,7 @@
                 </li>
                 <!-- /Notifications -->
                 <!-- User Menu -->
-                @await Component.InvokeAsync("Profile");               
+                @await Component.InvokeAsync("Profile");
                 <!-- /User Menu -->
 
             </ul>
@@ -193,9 +193,12 @@
     <!-- /Main Wrapper -->
     <!-- jQuery -->
     <script src=@Url.Content("~/assetsPhar/js/jquery-3.6.0.min.js")></script>
-
     <!-- Bootstrap Core JS -->
     <script src=@Url.Content("~/assetsPhar/js/bootstrap.bundle.min.js")></script>
+    <!-- include summernote css/js -->
+
+    <link href="~/assetsPhar/plugins/summernote/dist/summernote-lite.min.css" rel="stylesheet" />
+    <script src="~/assetsPhar/plugins/summernote/dist/summernote-lite.min.js"></script>
     <!-- Select2 JS -->
     <script src=@Url.Content("~/assetsPhar/plugins/select2/js/select2.min.js")></script>
 
@@ -222,15 +225,15 @@
             $('#sidebar-menu a').each(function () {
                 var pathName = this.getAttribute('href'); // Get attribute href
                 if (url === pathName.split('?')[0]) {
-                    var element = $(this).closest('.submenu'); // Check if have submenu 
+                    var element = $(this).closest('.submenu'); // Check if have submenu
                     if (element.length === 0) {
                         $(this).parent().addClass('active');
-                    }                   
+                    }
                     if (element.length > 0) {
-                        element.children('a').addClass('active subdrop'); 
+                        element.children('a').addClass('active subdrop');
                         element.children('ul').css("display", "block");
                         $(this).addClass('active');
-                    }                                      
+                    }
                 }
             });
         });

@@ -1,4 +1,6 @@
-﻿using Contract.DTOs.SearchService;
+﻿using Contract.DTOs.ManagementService;
+using Contract.DTOs.MedicineService;
+using Contract.DTOs.SearchService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +12,6 @@ namespace FamilyHealthCare.Customer.Models
     {
         public List<SearchMedicineDto> SearchMedicineDtos { get; set; }
         public List<FilterCate> FilterCates { get; set; }
+        public PharmacyDetailsDto Pharmacy { get; set; } 
     }
 }

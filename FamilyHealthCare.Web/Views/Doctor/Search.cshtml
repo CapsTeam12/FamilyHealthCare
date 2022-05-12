@@ -210,7 +210,7 @@
                                             <a href="doctor-profile.html">
                                                 @if (doctor.Avatar != null)
                                                 {
-                                                    <img src=@(ImageConstants.DOCTORS+doctor.Avatar) class="img-fluid" alt="User Image" />
+                                                    <img src=@(ImageConstants.DOCTORS+doctor.Avatar) class="img-fluid" alt="User Image"  style="max-height:100px"/>
                                                 }
                                                 else
                                                 {
@@ -258,7 +258,6 @@
         </div>
 
     </div>
-
 </div>
 <!-- /Page Content -->
 @section scripts{
@@ -269,7 +268,7 @@
                 e.preventDefault();
                 $("div.card.slice:hidden").slice(0, 4).slideDown();
                 if ($("div.card.slice:hidden").length == 0) {
-                    $("#load").fadeOut('slow');
+                    $("#loadMore").fadeOut('slow');
                 }
                 $('html,body').animate({
                     scrollTop: $(this).offset().top
@@ -277,5 +276,4 @@
             });
         });
     </script>
-
  }

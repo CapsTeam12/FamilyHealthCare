@@ -57,7 +57,7 @@
                                             <a href="doctor-profile.html">
                                                 @if (doctor.Avatar != null)
                                                 {
-                                                    <img src=@(ImageConstants.DOCTORS+doctor.Avatar) class="img-fluid" alt="User Image">
+                                                    <img src=@(ImageConstants.DOCTORS+doctor.Avatar) class="img-fluid" style="max-height:100px" alt="User Image">
                                                 }
                                                 else
                                                 {
@@ -289,7 +289,7 @@
                 '<a href="' +
                 marker.profile_link +
                 '" tabindex="0" target="_blank">' +
-                '<img class="img-fluid" alt="' +
+                '<img style="max-height:100px" class="img-fluid" alt="' +
                 marker.doc_name +
                 '" src="' +
                 marker.image +

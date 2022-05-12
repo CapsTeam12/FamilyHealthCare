@@ -74,15 +74,16 @@ namespace Business.Services
             return patientsDtos;
         }
 
-        public async Task<IActionResult> GetPharmaciesAsync()
+        public async Task<List<PharmacyDetailsDto>> GetPharmaciesAsync()
         {
             var pharmacies = await _pharmacyRepos
                               .Entities
+                              .Where(p => p.AccountId != null)
                               .Include(a => a.User)
                               .OrderByDescending(a => a.PharmacyName)
                               .ToListAsync();
             var pharmaciesDtos = _mapper.Map<List<PharmacyDetailsDto>>(pharmacies);
-            return Ok(pharmaciesDtos);
+            return pharmaciesDtos;
         }
 
         public async Task<List<SpecialitiesDetailsDto>> GetSpecialitiesAsync()

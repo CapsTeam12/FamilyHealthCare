@@ -1,4 +1,6 @@
-﻿@using Data.Entities
+﻿@model IEnumerable<SpecialitiesDetailsDto>
+@using Data.Entities
+@using Contract.DTOs.ManagementService
 @{
 
 }
@@ -171,11 +173,11 @@
                                         <div class="form-group">
                                             <label>Speciality</label>
                                             <select id="specialized" name="SpecializedId" class="form-select form-control">
-                                                <option value="1">Dentist</option>
-                                                <option value="2">Urology</option>
-                                                <option value="3">Neurology</option>
-                                                <option value="4">Orthopedic</option>
-                                                <option value="5">Cardiologist</option>
+                                                <option value="">-Select-</option>
+                                                @foreach (var specialize in Model)
+                                                {
+                                                    <option value="@specialize.Id">@specialize.SpecializedName</option>
+                                                }
                                             </select>
                                         </div>
                                     </div>
@@ -200,7 +202,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>
     <script>
         function readPicture(input) {
-            console.log(input.id);
+            //console.log(input.id);
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
                 reader.onload = function (e) {

@@ -13,6 +13,7 @@ namespace FamilyHealthCare.SharedLibrary
         public static class ManagementService
         {
             public static string DOCTORS = "/Management/doctors";
+            public static string PHARMACIES = "/Management/pharmacies";
             public static string CATEGORIES = "api/Management/categories";
             public static string CATEGORYSDETAILS = "api/Management/categories";
             public static string PATIENTDETAILS = "api/Management/patients";
@@ -39,6 +40,7 @@ namespace FamilyHealthCare.SharedLibrary
             public static string SEARCH = "api/Search/search/medicine";
             public static string PATIENTPROFILE = "api/Auth/update-profile";
             public static string DOCTORSEARCH = "/Search/specialist/doctor";
+            public static string PHARMACYSEARCH = "/Search/search/pharmacy";
         }
 
         public static class AppointmentService
@@ -59,7 +61,9 @@ namespace FamilyHealthCare.SharedLibrary
         {
             public static string MEDICINES = "/Medicine/GetMedicines";
             public static string MEDICINES_PHARMACY = "/Medicine/GetMedicinesByPharmacy";
+            public static string MEDICINES_PHARMACY_VIEW = "/Medicine/GetMedicinesByPharmacyId";
             public static string CREATE_MEDICINE = "/Medicine/CreateMedicine";
+            public static string DETAILS_MEDICINE = "/Medicine/GetMedicineDetails";
             public static string UPDATE_MEDICINE = "/Medicine/UpdateMedicine";
             public static string RETURN_MEDICINE = "/Medicine/ReturnMedicine";
             public static string DELETE_MEDICINE = "/Medicine/DeleteMedicine";

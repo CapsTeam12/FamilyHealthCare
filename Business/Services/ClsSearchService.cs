@@ -30,15 +30,15 @@ namespace Business.Services
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> GetDetailsSearchPharmacyAsync(int id)
+        public async Task<PharmacyDetailsDto> GetDetailsSearchPharmacyAsync(int id)
         {
             var pharmacy = await _pharmacyRepos
                                 .Entities
                                 .Include(a => a.User)
                                 .Where(a => a.Id.Equals(id))
                                 .FirstOrDefaultAsync();
-            var pharmacyDtos = _mapper.Map<SearchPharmacyDto>(pharmacy);
-            return Ok(pharmacyDtos);
+            var pharmacyDtos = _mapper.Map<PharmacyDetailsDto>(pharmacy);
+            return pharmacyDtos;
         }
 
         public async Task<IActionResult> GetDetailsSearchMedicineAsync(int id)
@@ -99,6 +99,47 @@ namespace Business.Services
             }            
             var doctorDtos = _mapper.Map<IEnumerable<DoctorDetailsDto>>(doctor);
             return doctorDtos;
+        }
+
+        public async Task<IEnumerable<SearchMedicineDto>> GetSearchMedicineResultByPharmacyAsync(int pharmacyId,SearchCategoryDto searchCategoryDto)
+        {
+            var medicine = new List<Medicine>();
+            if(searchCategoryDto.Search != null)
+            {
+                medicine = await _medicineRepos
+                                .Entities
+                                .Include(a => a.MedicineClass)
+                                .Where(a => a.PharmacyId == pharmacyId && (a.MedicineName.ToLower().Contains(searchCategoryDto.Search.ToLower())
+                                         || a.Description.ToLower().Contains(searchCategoryDto.Search.ToLower())))
+                                .ToListAsync();
+                var medicineDtos = _mapper.Map<IEnumerable<SearchMedicineDto>>(medicine);
+                if (searchCategoryDto.FilterCates != null)
+                {
+                    medicineDtos = medicineDtos
+                        .Where(m => searchCategoryDto.FilterCates.Contains(m.ClassificationName));
+                }
+                return medicineDtos;
+            }
+            else if(searchCategoryDto.FilterCates != null)
+            {
+                medicine = await _medicineRepos
+                                 .Entities
+                                 .Include(a => a.MedicineClass)
+                                 .Where(a => a.PharmacyId == pharmacyId && searchCategoryDto.FilterCates.Contains(a.MedicineClass.ClassificationName))
+                                 .ToListAsync();
+                var medicineDtos = _mapper.Map<IEnumerable<SearchMedicineDto>>(medicine);
+                return medicineDtos;
+            }
+            else
+            {
+                medicine = await _medicineRepos
+                                 .Entities
+                                 .Include(a => a.MedicineClass)
+                                 .Where(a => a.PharmacyId == pharmacyId)
+                                 .ToListAsync();
+                var medicineDtos = _mapper.Map<IEnumerable<SearchMedicineDto>>(medicine);
+                return medicineDtos;
+            }                                     
         }
 
         public async Task<IEnumerable<SearchMedicineDto>> GetSearchMedicineResultAsync(SearchCategoryDto searchCategoryDto)

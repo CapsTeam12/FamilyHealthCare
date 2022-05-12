@@ -35,8 +35,8 @@ namespace FamilyHealthCare.Customer.Controllers
 
         public async Task<IActionResult> DoctorRegister()
         {
-            //var specialities = await GetSpecialities();
-            return View();
+            var specialities = await GetSpecialities();
+            return View(specialities);
         }
 
         [HttpPost]

@@ -8,12 +8,19 @@
     var pharmacyId = Model.Pharmacy.Id;
     int count = 0;
 }
+
 <style>
     .error {
         font-weight: 700;
         display: block;
         color: #f00;
         font-size: 14px;
+    }
+
+    .limit-content {
+        overflow: hidden;
+        width: 300px;
+        text-overflow: ellipsis;
     }
 </style>
 <h2 hidden id="imageConstants">@ImageConstants.MEDICINES</h2>
@@ -23,20 +30,20 @@
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="medicineTable" class="datatable table table-hover table-center mb-0">
+                    <table id="medicineTable" class="table table-hover table-center mb-0">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Medicine Name</th>
+                                @*<th style="display:none"></th>
                                 <th style="display:none"></th>
                                 <th style="display:none"></th>
-                                <th style="display:none"></th>
-                                <th style="display:none"></th>
+                                <th style="display:none"></th>*@
                                 <th>Category</th>
                                 <th>Import Date</th>
                                 <th>Expiration Date</th>
                                 <th>Quantity</th>
-                                <th style="display:none"></th>
+                                @*<th style="display:none"></th>*@
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -54,38 +61,38 @@
                                                 <a href="view-detail.html">
                                                     <span class="avatar avatar-sm me-2"><img class="avatar-img" src=@(ImageConstants.MEDICINES+medicine.Images) alt="product image"></span>
                                                 </a>
-                                                <a id="detail@(count)" class="btnDetails" href="#DetailsMedicineModal" data-bs-toggle="modal" data-bs-dismiss="modal">@medicine.MedicineName</a>
+                                                <a id="detail@(count)" data-id="@medicine.Id" class="limit-content btnDetails" href="#DetailsMedicineModal" data-bs-toggle="modal" data-bs-dismiss="modal">@medicine.MedicineName</a>
                                             }
                                             else
                                             {
                                                 <a href="view-detail.html">
                                                     <span class="avatar avatar-sm me-2"><img class="avatar-img" src=@Url.Content("~/assetsPhar/img/product/product10.jpg") alt="product image"></span>
                                                 </a>
-                                                <a id="detail@(count)" class="btnDetails" href="#DetailsMedicineModal" data-bs-toggle="modal" data-bs-dismiss="modal">@medicine.MedicineName</a>
+                                                <a id="detail@(count)" class="limit-content btnDetails" href="#DetailsMedicineModal" data-bs-toggle="modal" data-bs-dismiss="modal">@medicine.MedicineName</a>
                                             }
                                         </h2>
                                     </td>
-                                    <td style="display:none">@medicine.ClassificationID</td>
-                                    <td style="display:none">@medicine.Ingredients</td>
-                                    <td style="display:none">@medicine.Description</td>
-                                    <td style="display:none">@medicine.Direction</td>
+                                    @*<td style="display:none">@medicine.ClassificationID</td>
+                                    <td style="display:none">@Html.Raw(medicine.Ingredients)</td>
+                                    <td style="display:none">@Html.Raw(medicine.Description)</td>
+                                    <td style="display:none">@Html.Raw(medicine.Direction)</td>*@
                                     <td>@medicine.MedicineClass.ClassificationName</td>
                                     <td>@medicine.ImportDate.ToString("MM-dd-yyyy")</td>
                                     <td>@medicine.ExpirationDate.ToString("MM-dd-yyyy")</td>
                                     <td>@medicine.Quantity</td>
                                     @if (medicine.Status == 1)
                                     {
-                                        <td style="display:none">@medicine.Status</td>
+                                        @*<td style="display:none">@medicine.Status</td>*@
                                         <td>STOCKING</td>
                                     }
                                     else if (medicine.Status == 2)
                                     {
-                                        <td style="display:none">@medicine.Status</td>
+                                        @*<td style="display:none">@medicine.Status</td>*@
                                         <td>OUT OF STOCK</td>
                                     }
                                     else if (medicine.Status == 3)
                                     {
-                                        <td style="display:none">@medicine.Status</td>
+                                        @*<td style="display:none">@medicine.Status</td>*@
                                         <td>RETURNED</td>
                                     }
                                     <td>
@@ -147,19 +154,19 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label>Main Active Ingredients</label>
-                                <textarea id="ingredients" name="Ingredients" rows="2" class="form-control"></textarea>
+                                <textarea id="ingredients" name="Ingredients" rows="2" class="form-control summernote"></textarea>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <label>Content Medicine</label>
-                                <textarea id="description" name="Description" rows="2" class="form-control"></textarea>
+                                <textarea id="description" name="Description" rows="2" class="form-control summernote"></textarea>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <label>Direction</label>
-                                <textarea id="direction" name="Direction" rows="2" class="form-control"></textarea>
+                                <textarea id="direction" name="Direction" rows="2" class="form-control summernote"></textarea>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
@@ -240,19 +247,19 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label>Main Active Ingredients</label>
-                                <textarea id="ingredients2" name="Ingredients" rows="2" class="form-control"></textarea>
+                                <textarea id="ingredients2" name="Ingredients" rows="2" class="form-control summernote"></textarea>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <label>Content Medicine</label>
-                                <textarea id="description2" name="Description" rows="2" class="form-control"></textarea>
+                                <textarea id="description2" name="Description" rows="2" class="form-control summernote"></textarea>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <label>Direction</label>
-                                <textarea id="direction2" name="Direction" rows="2" class="form-control"></textarea>
+                                <textarea id="direction2" name="Direction" rows="2" class="form-control summernote"></textarea>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
@@ -348,19 +355,19 @@
                     <div class="col-12">
                         <div class="form-group">
                             <label>Main Active Ingredients</label>
-                            <textarea id="ingredients3" name="Ingredients" rows="2" class="form-control" readonly></textarea>
+                            <div id="ingredients3" name="Ingredients" readonly></div>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="form-group">
                             <label>Content Medicine</label>
-                            <textarea id="description3" name="Description" rows="2" class="form-control" readonly></textarea>
+                            <div id="description3" name="Description" readonly></div>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="form-group">
                             <label>Direction</label>
-                            <textarea id="direction3" name="Direction" rows="2" class="form-control" readonly></textarea>
+                            <div id="direction3" name="Direction"></div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6">
@@ -436,11 +443,41 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script>
         $(document).ready(function () {
+            var table = $('#medicineTable').DataTable({
+                "bFilter": true,
+                columnDefs: [{
+                    targets: [1],
+                    className: 'limit-content'
+                }]
+            });
+
+            $('.summernote').summernote({
+                dialogsInBody: true,
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['para', ['ul', 'ol']],
+                ]
+            });
+
             $('#AddMedicineModal').on('hidden.bs.modal', function () { // Clear form modal when close
                 var validator = $("#addMedicineForm").validate();
                 validator.resetForm();
                 $("#addMedicineForm").find("*").removeClass('error');
                 $(this).find('#addMedicineForm')[0].reset();
+                //$('#ingredients').summernote('destroy');
+                //$('#description').summernote('destroy');
+                //$('#direction').summernote('destroy');
+            });
+
+            $('#EditMedicineModal').on('hidden.bs.modal', function () { // Clear form modal when close
+                var validator = $("#editMedicineForm").validate();
+                validator.resetForm();
+                $("#editMedicineForm").find("*").removeClass('error');
+                $(this).find('#editMedicineForm')[0].reset();
+                //$('#ingredients2').summernote('destroy');
+                //$('#description2').summernote('destroy');
+                //$('#direction2').summernote('destroy');
             });
 
             $('body').on('click', '.btnAdd', function () {
@@ -471,40 +508,57 @@
                             if (res.success) {
                                 $('#AddMedicineModal').modal('hide');
                                 var medicine = res.item;
+                                var imageConstants = $('#imageConstants').text();
                                 var count = Number($('#count').text()) + 1;
                                 $('#count').text(count);
                                 //console.log(count);
-                                var medicineImage = $('#imageConstants').text() + medicine.images;
-                                var element = $('<tr></tr>');
-                                element.append('<td>' + count + '</td>');
-                                element.append('<td><h2 class="table-avatar"><a href="view-detail.html"><span class="avatar avatar-sm me-2"><img class="avatar-img" src="' + medicineImage + '" alt="product image"></span></a>' + '<a asp-area="" asp-controller="Pharmacy" asp-action="DetailMedicine">' + medicine.medicineName + '</a>' + '</h2></td>');
-                                element.append('<td style="display:none">' + medicine.classificationID + '</td>');
-                                element.append('<td hidden>' + medicine.ingredients + '</td>');
-                                element.append('<td hidden>' + medicine.description + '</td>');
-                                element.append('<td hidden>' + medicine.direction + '</td>');
-                                element.append('<td>' + medicine.medicineClass.classificationName + '</td>');
-                                element.append('<td>' + moment(medicine.importDate).format('MM-DD-YYYY') + '</td>');
-                                element.append('<td>' + moment(medicine.expirationDate).format('MM-DD-YYYY') + '</td>');
-                                element.append('<td>' + medicine.quantity + '</td>');
+                                //var medicineImage = $('#imageConstants').text() + medicine.images;
+                                //var element = $('<tr></tr>');
+                                //element.append('<td>' + count + '</td>');
+                                //element.append('<td><h2 class="table-avatar"><a href="view-detail.html"><span class="avatar avatar-sm me-2"><img class="avatar-img" src="' + medicineImage + '" alt="product image"></span></a>' + '<a asp-area="" asp-controller="Pharmacy" asp-action="DetailMedicine">' + medicine.medicineName + '</a>' + '</h2></td>');
+                                //element.append('<td style="display:none">' + medicine.classificationID + '</td>');
+                                //element.append('<td hidden>' + medicine.ingredients + '</td>');
+                                //element.append('<td hidden>' + medicine.description + '</td>');
+                                //element.append('<td hidden>' + medicine.direction + '</td>');
+                                //element.append('<td>' + medicine.medicineClass.classificationName + '</td>');
+                                //element.append('<td>' + moment(medicine.importDate).format('MM-DD-YYYY') + '</td>');
+                                //element.append('<td>' + moment(medicine.expirationDate).format('MM-DD-YYYY') + '</td>');
+                                //element.append('<td>' + medicine.quantity + '</td>');
+                                //if (medicine.status == 1) {
+                                //    element.append('<td hidden>' + medicine.status + '</td>');
+                                //    element.append('<td>STOCKING</td>');
+                                //}
+                                //else if (medicine.status == 2) {
+                                //    element.append('<td hidden>' + medicine.status + '</td>');
+                                //    element.append('<td>OUT OF STOCK</td>');
+                                //}
+                                //else if (medicine.status == 3) {
+                                //    element.append('<td hidden>' + medicine.status + '</td>');
+                                //    element.append('<td>RETURNED</td>');
+                                //}
+                                var InforElement = $('<td></td>');
+                                InforElement.append('<h2 class="table-avatar"><a href="view-detail.html"><span class="avatar avatar-sm me-2"><img class="avatar-img" src="' + imageConstants+medicine.images + '" alt="product image"></span></a>' + '<a id="detail'+ count + '" data-id="'+medicine.id+'" class="limit-content btnDetails" href="#DetailsMedicineModal" data-bs-toggle="modal" data-bs-dismiss="modal">' + medicine.medicineName + '</a>' + '</h2>');
+                                var status = '';
                                 if (medicine.status == 1) {
-                                    element.append('<td hidden>' + medicine.status + '</td>');
-                                    element.append('<td>STOCKING</td>');
+                                    status = 'STOCKING';
                                 }
                                 else if (medicine.status == 2) {
-                                    element.append('<td hidden>' + medicine.status + '</td>');
-                                    element.append('<td>OUT OF STOCK</td>');
+                                    status = 'OUT OF STOCK';
                                 }
                                 else if (medicine.status == 3) {
-                                    element.append('<td hidden>' + medicine.status + '</td>');
-                                    element.append('<td>RETURNED</td>');
+                                    status = 'RETURNED';
                                 }
-                                var lastTdElement = '<td><div class="appointment-action">' +
+                                var lastTdElement = '<div class="appointment-action">' +
                                     '<a id="editMedicine' + count + '" data-id="' + medicine.id + '" data-bs-toggle="modal" href="#EditMedicineModal" class="btn btn-sm bg-success-light me-2 btnEdit"><i class="fe fe-pencil"></i> Edit</a>' +
                                     '<a id="returnMedicine' + count + '" data-id="' + medicine.id + '" class="btn btn-sm bg-info-light btnReturn" data-bs-toggle="modal" href="#return_modal"><i class="fas fa-undo"></i> Return</a>' +
                                     '<a id="deleteMedicine' + count + '" data-id="' + medicine.id + '" class="btn btn-sm bg-danger-light btnDelete" data-bs-toggle="modal" href="#delete_modal"><i class="fe fe-trash"></i> Delete</a>' +
-                                    '</div></td>';
-                                element.append(lastTdElement);
-                                element.appendTo('#medicineTable tbody');
+                                    '</div>';
+                                //element.append(lastTdElement);
+                                //element.appendTo('#medicineTable tbody');
+                                var infor = InforElement[0].innerHTML;
+                                console.log(infor);
+                                console.log(lastTdElement);
+                                table.row.add([count, infor, medicine.medicineClass.classificationName, moment(medicine.importDate).format('MM-DD-YYYY'), moment(medicine.expirationDate).format('MM-DD-YYYY'), medicine.quantity, status, lastTdElement]).draw();
                                 $('#AddMedicineModal form')[0].reset();
                             }
                         }
@@ -517,22 +571,54 @@
                 $('#medicineId').val(medicineId);
                 var id = $(this).attr('id');
                 $('#EditMedicineModal').data('id', id);
-                var modalId = $('#EditMedicineModal').data('id');
-                var tdElements = $('#' + modalId).parents('tr').children();
-                let image = tdElements[1].getElementsByTagName('img');
-                $('#medicineImage').attr('src', image[0].getAttribute('src'));
-                $('#medicineName2').val(tdElements[1].innerText);
-                $('#category2').val(tdElements[2].innerText);
-                $('#ingredients2').val(tdElements[3].innerText);
-                $('#description2').val(tdElements[4].innerText);
-                $('#direction2').val(tdElements[5].innerText);
-                // Date control in HTML 5 accepts in the format of Year - month - day as we use in SQL. Format : YYYY-MM-DD
-                var ImportDate = new Date(tdElements[7].innerText);
-                var ExpirationDate = new Date(tdElements[8].innerText);
-                $('#importDate2').val(ImportDate.getFullYear() + "-" + ("0" + (ImportDate.getMonth() + 1)).slice(-2) + "-" + ("0" + ImportDate.getDate()).slice(-2));
-                $('#expirationDate2').val(ExpirationDate.getFullYear() + "-" + ("0" + (ExpirationDate.getMonth() + 1)).slice(-2) + "-" + ("0" + ExpirationDate.getDate()).slice(-2));
-                $('#quantity2').val(tdElements[9].innerText);
-                $('#status2').val(tdElements[10].innerText);
+                $.ajax({
+                    url: '/Medicine/Details/' + medicineId,
+                    type: 'GET',
+                    success: function (res) {
+                        if (res.success && res.item != null) {
+                            var medicine = res.item;
+                            console.log(medicine);
+                            var imageConstants = $('#imageConstants').text();
+                            $('#medicineImage').attr('src', imageConstants + medicine.images);
+                            $('#medicineName2').val(medicine.medicineName);
+                            $('#category2').val(medicine.classificationID);
+                            $('#ingredients2').summernote('code', medicine.ingredients);
+                            $('#description2').summernote('code', medicine.description);
+                            $('#direction2').summernote('code', medicine.direction);
+                            // Date control in HTML 5 accepts in the format of Year - month - day as we use in SQL. Format : YYYY-MM-DD
+                            var ImportDate = new Date(medicine.importDate);
+                            var ExpirationDate = new Date(medicine.expirationDate);
+                            $('#importDate2').val(ImportDate.getFullYear() + "-" + ("0" + (ImportDate.getMonth() + 1)).slice(-2) + "-" + ("0" + ImportDate.getDate()).slice(-2));
+                            $('#expirationDate2').val(ExpirationDate.getFullYear() + "-" + ("0" + (ExpirationDate.getMonth() + 1)).slice(-2) + "-" + ("0" + ExpirationDate.getDate()).slice(-2));
+                            $('#quantity2').val(medicine.quantity);
+                            $('#status2').val(medicine.status);
+                            //if (medicine.status == 1) {
+                            //    $('#status2').val('STOCKING');
+                            //} else if (medicine.status == 2) {
+                            //    $('#status2').val('OUT OF STOCK');
+                            //} else if (medicine.status == 3) {
+                            //    $('#status2').val('RETURNED');
+                            //}
+
+                        }
+                    }
+                });
+                //var modalId = $('#EditMedicineModal').data('id');
+                //var tdElements = $('#' + modalId).parents('tr').children();
+                //let image = tdElements[1].getElementsByTagName('img');
+                //$('#medicineImage').attr('src', image[0].getAttribute('src'));
+                //$('#medicineName2').val(tdElements[1].innerText);
+                //$('#category2').val(tdElements[2].innerText);
+                //$('#ingredients2').val(tdElements[3].innerText);
+                //$('#description2').val(tdElements[4].innerText);
+                //$('#direction2').val(tdElements[5].innerText);
+                //// Date control in HTML 5 accepts in the format of Year - month - day as we use in SQL. Format : YYYY-MM-DD
+                //var ImportDate = new Date(tdElements[7].innerText);
+                //var ExpirationDate = new Date(tdElements[8].innerText);
+                //$('#importDate2').val(ImportDate.getFullYear() + "-" + ("0" + (ImportDate.getMonth() + 1)).slice(-2) + "-" + ("0" + ImportDate.getDate()).slice(-2));
+                //$('#expirationDate2').val(ExpirationDate.getFullYear() + "-" + ("0" + (ExpirationDate.getMonth() + 1)).slice(-2) + "-" + ("0" + ExpirationDate.getDate()).slice(-2));
+                //$('#quantity2').val(tdElements[9].innerText);
+                //$('#status2').val(tdElements[10].innerText);
             }); // button Edit click Edit Medicine Modal
 
             $('body').on('click', '.btnSave', function () {
@@ -562,30 +648,30 @@
                             if (res.success) {
                                 var modalId = $('#EditMedicineModal').data('id');
                                 $('#EditMedicineModal').modal('hide');
-                                var tdElements = $('#' + modalId).parents('tr').children();
+                                var trElement = table.row($('#' + modalId).parents('tr')).node();
+                                var tdElements = trElement.getElementsByTagName('td');
+                                for (var td of tdElements) {
+                                    console.log(td);
+                                }
+                                //var tableRow = table.row($('#' + modalId).parents('tr')).node();
                                 var medicine = res.item;
+                                //console.log(medicine);
                                 var medicineImage = $('#imageConstants').text() + medicine.images;
                                 let image = tdElements[1].getElementsByTagName('img');
                                 image[0].setAttribute('src', medicineImage);
                                 var aElement = tdElements[1].getElementsByTagName("a");
                                 aElement[1].innerText = medicine.medicineName;
-                                tdElements[2].innerText = medicine.classificationID;
-                                tdElements[3].innerText = medicine.ingredients;
-                                tdElements[4].innerText = medicine.description;
-                                tdElements[5].innerText = medicine.direction;
-                                tdElements[6].innerText = medicine.medicineClass.classificationName;
-                                tdElements[7].innerText = moment(medicine.importDate).format('MM-DD-YYYY');
-                                tdElements[8].innerText = moment(medicine.expirationDate).format('MM-DD-YYYY');
-                                tdElements[9].innerText = medicine.quantity;
-                                tdElements[10].innerText = medicine.status;
+                                tdElements[2].innerText = medicine.medicineClass.classificationName;
+                                tdElements[3].innerText = moment(medicine.importDate).format('MM-DD-YYYY');
+                                tdElements[4].innerText = moment(medicine.expirationDate).format('MM-DD-YYYY');
+                                tdElements[5].innerText = medicine.quantity;
                                 if (medicine.status == 1) {
-                                    tdElements[11].innerText = "STOCKING";
+                                    tdElements[6].innerText = "STOCKING";
                                 } else if (medicine.status == 2) {
-                                    tdElements[11].innerText = "OUT OF STOCK";
+                                    tdElements[6].innerText = "OUT OF STOCK";
                                 } else if (medicine.status == 3) {
-                                    tdElements[11].innerText = "RETURNED";
+                                    tdElements[6].innerText = "RETURNED";
                                 }
-
                             }
                         }
 
@@ -595,26 +681,57 @@
             }) // button Save click Edit Medicine Modal
 
             $('body').on('click', '.btnDetails', function () {
-                var id = $(this).attr('id');
-                $('#DetailsMedicineModal').data('id', id);
-                var modalId = $('#DetailsMedicineModal').data('id');
-                var tdElements = $('#' + modalId).parents("tr").children();
-                let image = tdElements[1].getElementsByTagName('img');
-                var imagePath = image[0].getAttribute('src');
-                $('#medicineImage3').attr('src', imagePath);
-                $('#medicineName3').val(tdElements[1].innerText);
-                $('#categories3').val(tdElements[6].innerText);
-                $('#ingredients3').val(tdElements[3].innerText);
-                $('#description3').val(tdElements[4].innerText);
-                $('#direction3').val(tdElements[5].innerText);
-                // Date control in HTML 5 accepts in the format of Year - month - day as we use in SQL. Format : YYYY-MM-DD
-                var ImportDate = new Date(tdElements[7].innerText);
-                var ExpirationDate = new Date(tdElements[8].innerText);
-                $('#importDate3').val(ImportDate.getFullYear() + "-" + ("0" + (ImportDate.getMonth() + 1)).slice(-2) + "-" + ("0" + ImportDate.getDate()).slice(-2));
-                $('#expirationDate3').val(ExpirationDate.getFullYear() + "-" + ("0" + (ExpirationDate.getMonth() + 1)).slice(-2) + "-" + ("0" + ExpirationDate.getDate()).slice(-2));
-                $('#quantity3').val(tdElements[9].innerText);
-                $('#status3').val(tdElements[11].innerText);
-            });
+                var medicineId = $(this).data('id');
+                $.ajax({
+                    url: '/Medicine/Details/' + medicineId,
+                    type: 'GET',
+                    success: function (res) {
+                        if (res.success && res.item != null) {
+                            var medicine = res.item;
+                            console.log(medicine);
+                            var imageConstants = $('#imageConstants').text();
+                            $('#medicineImage3').attr('src', imageConstants + medicine.images);
+                            $('#medicineName3').val(medicine.medicineName);
+                            $('#categories3').val(medicine.medicineClass.classificationName);
+                            $('#ingredients3').html(medicine.ingredients);
+                            $('#description3').html(medicine.description);
+                            $('#direction3').html(medicine.direction);
+                            // Date control in HTML 5 accepts in the format of Year - month - day as we use in SQL. Format : YYYY-MM-DD
+                            var ImportDate = new Date(medicine.importDate);
+                            var ExpirationDate = new Date(medicine.expirationDate);
+                            $('#importDate3').val(ImportDate.getFullYear() + "-" + ("0" + (ImportDate.getMonth() + 1)).slice(-2) + "-" + ("0" + ImportDate.getDate()).slice(-2));
+                            $('#expirationDate3').val(ExpirationDate.getFullYear() + "-" + ("0" + (ExpirationDate.getMonth() + 1)).slice(-2) + "-" + ("0" + ExpirationDate.getDate()).slice(-2));
+                            $('#quantity3').val(medicine.quantity);
+                            if (medicine.status == 1) {
+                                $('#status3').val('STOCKING');
+                            } else if (medicine.status == 2) {
+                                $('#status3').val('OUT OF STOCK');
+                            } else if (medicine.status == 3) {
+                                $('#status3').val('RETURNED');
+                            }
+
+                        }
+                    }
+                });
+                //$('#DetailsMedicineModal').data('id', id);
+                //var modalId = $('#DetailsMedicineModal').data('id');
+                //var tdElements = $('#' + modalId).parents("tr").children();
+                //let image = tdElements[1].getElementsByTagName('img');
+                //var imagePath = image[0].getAttribute('src');
+                //$('#medicineImage3').attr('src', imagePath);
+                //$('#medicineName3').val(tdElements[1].innerText);
+                //$('#categories3').val(tdElements[6].innerText);
+                //$('#ingredients3').html(tdElements[3].innerHTML);
+                //$('#description3').html(tdElements[4].innerHTML)
+                //$('#direction3').html(tdElements[5].innerHTML);
+                //// Date control in HTML 5 accepts in the format of Year - month - day as we use in SQL. Format : YYYY-MM-DD
+                //var ImportDate = new Date(tdElements[7].innerText);
+                //var ExpirationDate = new Date(tdElements[8].innerText);
+                //$('#importDate3').val(ImportDate.getFullYear() + "-" + ("0" + (ImportDate.getMonth() + 1)).slice(-2) + "-" + ("0" + ImportDate.getDate()).slice(-2));
+                //$('#expirationDate3').val(ExpirationDate.getFullYear() + "-" + ("0" + (ExpirationDate.getMonth() + 1)).slice(-2) + "-" + ("0" + ExpirationDate.getDate()).slice(-2));
+                //$('#quantity3').val(tdElements[9].innerText);
+                //$('#status3').val(tdElements[11].innerText);
+            }); // Details Medicine Modal
 
             $('body').on('click', '.btnReturn', function () {
                 var id = $(this).attr('id');
@@ -638,13 +755,13 @@
                             var medicineImage = $('#imageConstants').text() + medicine.images;
                             let image = tdElements[1].getElementsByTagName('img');
                             image[0].setAttribute('src', medicineImage);
-                            tdElements[10].innerText = medicine.status;
+                            //tdElements[10].innerText = medicine.status;
                             if (medicine.status == 1) {
-                                tdElements[11].innerText = "STOCKING";
+                                tdElements[6].innerText = "STOCKING";
                             } else if (medicine.status == 2) {
-                                tdElements[11].innerText = "OUT OF STOCK";
+                                tdElements[6].innerText = "OUT OF STOCK";
                             } else if (medicine.status == 3) {
-                                tdElements[11].innerText = "RETURNED";
+                                tdElements[6].innerText = "RETURNED";
                             }
                         } else {
                             alert("FAILED");
@@ -673,8 +790,8 @@
                             var currentNumber = Number(tdElements[0].innerText);
                             var count = Number($('#count').text()) - 1;
                             $('#count').text(count);
-                            $('#' + id).parents("tr").remove();
-                            var trElements = $('#medicineTable tbody').children();
+                            table.row($('#' + id).parents('tr')).remove().draw();
+                            var trElements = table.rows().nodes();
                             for (var i = currentNumber - 1; i < count; i++) {
                                 let td = trElements[i].getElementsByTagName("td");
                                 td[0].innerText = currentNumber;

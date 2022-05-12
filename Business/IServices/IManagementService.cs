@@ -12,7 +12,7 @@ namespace Business.IServices
     {
         public Task<List<PatientDetailsDto>> GetPatientsAsync();
         public Task<List<DoctorDetailsDto>> GetDoctorsAsync();
-        public Task<IActionResult> GetPharmaciesAsync();
+        public Task<List<PharmacyDetailsDto>> GetPharmaciesAsync();
         public Task<List<SpecialitiesDetailsDto>> GetSpecialitiesAsync();
         public Task<SpecialitiesDetailsDto> UpdateSpecialities(SpecialitiesUpdateDto specialitiesUpdateDto);
         public Task<List<CategoriesDetailsDto>> GetCategoriesAsync();        
