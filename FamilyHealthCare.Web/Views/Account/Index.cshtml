@@ -1,0 +1,409 @@
+﻿@using FamilyHealthCare.SharedLibrary;
+@{
+    Layout = "_LayoutManagement";
+    ViewData["Title"] = "Dashboard";
+}
+<!-- DataTable CSS-->
+<link href=@Url.Content("~/assets/plugins/datatables/datatables.min.css") rel="stylesheet" />
+<h4 id="imageConstants" hidden>@ImageConstants.DOCTORS</h4>
+<h4 id="signaturePath" hidden>@ImageConstants.SIGNATURES</h4>
+<div class="col-md-7 col-lg-8 col-xl-9">
+    <div class="row">
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3 patient-dashboard-top">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <img src="assets/img/icon-02.png" alt="" width="55">
+                    </div>
+                    <h5>Appointments</h5>
+                    <h6 id="appointments"></h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3 patient-dashboard-top">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <img src="assets/img/icon-03.png" alt="" width="55">
+                    </div>
+                    <h5>Medical Records</h5>
+                    <h6 id="medicals"></h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3 patient-dashboard-top">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <img src="assets/img/icon-02.png" style="color:lightgreen;" alt="" width="55">
+                    </div>
+                    <h5>Appointments Booked</h5>
+                    <h6 id="appointmentsBooked"></h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3 patient-dashboard-top">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <img src="assets/img/icon-02.png" style="color:red;" alt="" width="55">
+                    </div>
+                    <h5>Appointments Canceled</h5>
+                    <h6 id="appointmentsCanceled"></h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body pt-0">
+            <!-- Tab Menu -->
+            <!--<nav class="user-tabs mb-4">
+                <ul class="nav nav-tabs nav-tabs-bottom nav-justified">-->
+            @*<li class="nav-item">
+                    <a class="nav-link active" href="#pat_appointments" data-bs-toggle="tab">Appointments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#pat_prescriptions" data-bs-toggle="tab">Prescriptions</a>
+                </li>*@
+            <!--<li class="nav-item">
+                        <a class="nav-link"><span class="med-records">Medical Records</span></a>
+                    </li>
+                </ul>
+            </nav>-->
+            <!-- /Tab Menu -->
+            <!-- Tab Content -->
+            <hr />
+            <h4>Medical Records</h4>
+            <div class="card card-table mb-0">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="medicalRecordTable" class="table table-hover table-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Date </th>
+                                    <th>Symptom</th>
+                                    <th>Created By</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- /Medical Records Tab -->
+            </div>
+            <!-- Tab Content -->
+        </div>
+    </div>
+</div>
+<div class="modal fade custom-modal custom-medicalrecord-modal" id="Details_medical_records_modal"
+     style="display: none;" data-select2-id="Details_medical_records_modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Medical Records Details</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="details_medical_records_form" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Patient Name</label>
+                                <input type="hidden" name="Id" />
+                                <input id="patientName" type="text" class="form-control" value="" readonly />
+                                <input type="hidden" name="PatientId">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Symptoms</label>
+                                <input type="text" name="Symptom" class="form-control" placeholder="Symptom" readonly>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="rows">
+                            <div class="form-group">
+                                <label>Diagnosis</label>
+                                <input type="text" class="input-tags form-control" value="" name="Diagnosis" placeholder="Diagnosis" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="rows">
+                            <div class="form-group">
+                                <label>Advice</label>
+                                <textarea readonly name="Advice" rows="2" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Examination Date</label>
+                                <input type="date" class="form-control" name="Date" readonly>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label>Re-Examination</label>
+                                    <input type="date" class="form-control" name="ReExamination" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <h4 class="card-title">Prescription Details</h4>
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <strong>Prescription Name</strong>
+                                <p id="PrescriptionName" class="form-control" style="display: inline;font-style: italic;">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Prescription Item -->
+                    <div class="card card-table">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="prescriptionTableDetails" class="table table-hover table-center">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 200px">Name</th>
+                                            <th style="width: 100px">Quantity</th>
+                                            <th style="width: 100px">Days</th>
+                                            <th style="width: 100px;">Time</th>
+                                            <th style="width: 80px;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Prescription Item -->
+                    <!-- Signature -->
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <strong>Notes</strong>
+                                <textarea id="Notes" disabled style="resize:none;font-style:italic;" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <div class="signature-wrap">
+                                <div class="sign-name">
+                                    <p id="doctorName" class="mb-0"></p>
+                                    <span class="text-muted">Signature</span>
+                                    <img id="signatureImg" src="@ImageConstants.SIGNATURES">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Signature -->
+                    <h6 hidden id="endPrescriptionDetails"></h6>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <!-- DataTable JS-->
+    <script src=@Url.Content("~/assets/plugins/datatables/jquery.dataTables.min.js")></script>
+    <script src=@Url.Content("~/assets/plugins/datatables/datatables.min.js")></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#medicalRecordTable').DataTable({
+                "bFilter": true,
+                pageLength: 5,
+                lengthMenu: [[5, 10, 20], [5, 10, 20]]
+            });
+
+            $.ajax({
+                url: '/MedicalRecord/Index',
+                type: 'GET',
+                success: function (res) {
+                    if (res.success && res.item != null) {
+                        var medicals = res.item;
+                        $('#medicals').text(medicals.length);
+                        var count = 0;
+                        var imageConstants = $('#imageConstants').text();
+                        $.each(medicals, function (i) {
+                            var medical = medicals[i];
+                            console.log(medical);
+                            count++;
+                            var InforElement = '';
+                            if (medical.doctor.avatar != null) {
+                                InforElement = '<td><h2 class="table-avatar"><a href="doctor-profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=' + imageConstants + medical.doctor.avatar + ' alt="User Image"></a><a href="doctor-profile.html">Dr. ' + medical.doctor.fullName + ' <span>Dermatology</span></a></h2></td>';
+                            } else {
+                                InforElement = '<td><h2 class="table-avatar"><a href="doctor-profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="assets/img/doctors/doctor-thumb-08.jpg" alt="User Image"></a><a href="doctor-profile.html">Dr. ' + medical.doctor.fullName + ' <span>Dermatology</span></a></h2></td>';
+                            }
+                            var lastTdElement = '<td class="text">' +
+                                '<div class="table-action">' +
+                                '<div class="table-action">' +
+                                '<a id="details' + count + '" data-bs-toggle="modal" data-bs-target="#Details_medical_records_modal"' +
+                                'data-id="' + medical.id + '" data-patientName="' + medical.patient.fullName + '" data-doctorName="' + medical.doctor.fullName + '" data-patientId="' + medical.patientId + '" data-symptom="' + medical.symptom + '" data-diagnosis="' + medical.diagnosis + '" data-advice="' + medical.advice + '" data-date="' + medical.date + '" data-reExamination="' + medical.reExamination + '" class="btn btn-sm bg-info-light btnView">' +
+                                '<i class="far fa-eye"></i> View' +
+                                '</a></div></div></td>';
+                            //element.appendTo('#medicalRecordTable tbody');
+                            table.row.add([count, moment(medical.date).format("DD-MMM-yyyy"), medical.symptom, InforElement, lastTdElement]).draw();
+                        });
+                    }
+                }
+            });
+
+            // Details Medical Record
+            $('#Details_medical_records_modal').on('hidden.bs.modal', function () {
+                $(this).find('#details_medical_records_form')[0].reset();
+                var trElements = $('#prescriptionTableDetails tbody').empty();
+                $(this).find('#signatureImg').removeAttr('src');
+                var siblings = $('#details_medical_records_form').find('h4.card-title').nextUntil('h6#endPrescriptionDetails');
+                var content = $('#details_medical_records_form').find('h4.card-title')[0].textContent;
+                if (content.includes('*No prescription details within this medical record!')) {
+                    $('#details_medical_records_form').find('h4.card-title').children().remove();
+                }
+                for (var el of siblings) {
+                    if (el.hasAttribute('hidden')) {
+                        el.removeAttribute('hidden');
+                    }
+                }
+            });
+            $('body').on('click', '.btnView', function () {
+                var id = $(this).attr('id');
+                $('#Details_medical_records_modal').data('id', id);
+                var modalId = $('#Details_medical_records_modal').data('id');
+                //var tdElements = $('#' + modalId).parents('tr').children();
+                var tdElements = table.row($('#' + modalId).parents('tr')).node().children;
+                var patientName = $(this).attr('data-patientName');
+                $('#details_medical_records_form').find('#patientName').val(patientName); // Name of Patient
+                var MedicalRecordId = $(this).data('id'); // Get Id
+                $('#details_medical_records_form').find('input[name=Id]').val(MedicalRecordId); // Assign Id
+                var patientId = $(this).attr('data-patientId'); // Get PatientId
+                $('#details_medical_records_form').find('input[name=PatientId]').val(patientId); // Assign PatientId
+                var symptom = $(this).data('symptom');
+                $('#details_medical_records_form').find('input[name=Symptom]').val(symptom);
+                var diagnosis = $(this).data('diagnosis');
+                $('#details_medical_records_form').find('input[name=Diagnosis]').val(diagnosis);
+                var doctorName = $(this).attr('data-doctorName');
+                $('#details_medical_records_form').find('p#doctorName').text('( Dr. ' + doctorName + ' )');
+                var advice = $(this).data('advice');
+                $('#details_medical_records_form').find('textarea[name=Advice]').val(advice);
+                var date = new Date($(this).attr('data-date'));
+                $('#details_medical_records_form').find('input[name=Date]').val(date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2));
+                var reExamination = new Date($(this).attr('data-reExamination'));
+                $('#details_medical_records_form').find('input[name=ReExamination]').val(reExamination.getFullYear() + "-" + ("0" + (reExamination.getMonth() + 1)).slice(-2) + "-" + ("0" + reExamination.getDate()).slice(-2));
+                $.ajax({
+                    url: '/MedicalRecord/GetMedicalRecord/' + MedicalRecordId,
+                    type: 'GET',
+                    success: function (res) {
+                        if (res.success == true && res.item != null) {
+                            var medical = res.item;
+                            let index = 0;
+                            $('p#PrescriptionName').text(medical.prescriptionName);
+                            $('textarea#Notes').text(medical.notes);
+                            var imageConstants = $('#signaturePath').text();
+                            $('#signatureImg').attr('src', imageConstants + medical.signature);
+                            $.each(medical.prescriptionDetailsDtos, function (i) {
+                                var pres = medical.prescriptionDetailsDtos[i];
+                                var prescriptionContent = $('<tr></tr>');
+                                prescriptionContent.append('<td><span class="d-block text-muted">' + pres.medicineName + '</span></td>');
+                                prescriptionContent.append('<td><span class="d-block text-muted">' + pres.quantity + '</span></td>');
+                                prescriptionContent.append('<td><span class="d-block text-muted">' + pres.days + '</span></td>');
+                                var elementTdTimeCheck = '<td>' +
+                                    '<div class="form-check form-check-inline">' +
+                                    '<label class="form-check-label">' +
+                                    '<input name="Time[]" value="1" class="form-check-input" disabled type="checkbox"> Morning' +
+                                    '</label>' +
+                                    '</div>' +
+                                    '<div class="form-check form-check-inline">' +
+                                    '<label class="form-check-label">' +
+                                    '<input name="Time[]" value="2" class="form-check-input" disabled type="checkbox"> Afternoon' +
+                                    '</label>' +
+                                    '</div>' +
+                                    '<div class="form-check form-check-inline">' +
+                                    '<label class="form-check-label">' +
+                                    '<input name="Time[]" value="3" class="form-check-input" disabled type="checkbox"> Evening' +
+                                    '</label>' +
+                                    '</div>' +
+                                    '<div class="form-check form-check-inline">' +
+                                    '<label class="form-check-label">' +
+                                    '<input name="Time[]" value="4" class="form-check-input" disabled type="checkbox"> Night' +
+                                    '</label>' +
+                                    '</div>' +
+                                    '</td>';
+                                prescriptionContent.append(elementTdTimeCheck);
+                                prescriptionContent.appendTo('#prescriptionTableDetails tbody');
+                                var trElements = $('#prescriptionTableDetails tbody').children();
+                                var tdElements = trElements[index].children; // get input element inside td element
+                                //console.log(trElements[index]);
+                                var inputCheckboxes = tdElements[3].getElementsByTagName('input');
+                                for (var j = 0; j < pres.time.length; j++) // 1 2 3
+                                {
+                                    var time = pres.time[j];
+                                    for (var i = 0; i < inputCheckboxes.length; i++) // 1 2 3 4
+                                    {
+                                        //console.log(inputCheckboxes[i].value);
+                                        if (Number(inputCheckboxes[i].value) == time) {
+                                            //console.log(inputCheckboxes[i]);
+                                            inputCheckboxes[i].checked = true;
+                                        }
+                                    }
+                                }
+
+                                index++;
+                            });
+                        } else {
+                            var siblings = $('#details_medical_records_form').find('h4.card-title').nextUntil('h6#endPrescriptionDetails');
+                            var content = $('#details_medical_records_form').find('h4.card-title')[0].textContent;
+                            if (!content.includes('*No prescription details within this medical record!')) {
+                                $('#details_medical_records_form').find('h4.card-title').append('<i style="color:red;font-family:Font Awesome 5 Free;font-size: 14px;"> *No prescription details within this medical record!</i>');
+                            }
+                            for (var el of siblings) {
+                                el.setAttribute('hidden', 'hidden');
+                            }
+                        }
+                    }
+
+                });
+
+            })
+
+            $.ajax({
+                url: '/Appointment/GetData',
+                type: 'GET',
+                success: function (res) {
+                    if (res.data != null) {
+                        var appointments = res.data;
+                        var total = res.totalItem;
+                        var totalBooked = 0;
+                        var totalCanceled = 0;
+                        for (var i = 0; i < appointments.length; i++) {
+                            var appointment = appointments[i];
+                            if (appointment.status == 1 || appointment.status == 2 || appointment.status == 3) {
+                                totalBooked++;
+                            }
+                            if (appointment.status == 4) {
+                                totalCanceled++;
+                            }
+                        }
+                        $('#appointments').text(total);
+                        $('#appointmentsBooked').text(totalBooked);
+                        $('#appointmentsCanceled').text(totalCanceled);
+
+                    }
+                }
+            });
+        });
+    </script>
+}

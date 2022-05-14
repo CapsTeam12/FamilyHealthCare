@@ -2,6 +2,7 @@
 using Business.IServices;
 using Contract.Constants;
 using Contract.DTOs.ManagementService;
+using Contract.DTOs.PartnerService;
 using Contract.DTOs.SearchService;
 using Data.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -19,14 +20,20 @@ namespace Business.Services
         private readonly IBaseRepository<Medicine> _medicineRepos;
         private readonly IBaseRepository<Doctor> _doctorRepos;
         private readonly IBaseRepository<Pharmacy> _pharmacyRepos;
+        private readonly IBaseRepository<Awards> _awardRepos;
+        private readonly IBaseRepository<Experience> _experienceRepos;
         private readonly IMapper _mapper;
         public ClsSearchService(IBaseRepository<Medicine> medicineRepos, IMapper mapper,
                                 IBaseRepository<Doctor> doctorRepos,
-                                IBaseRepository<Pharmacy> pharmacyRepos)
+                                IBaseRepository<Pharmacy> pharmacyRepos,
+                                IBaseRepository<Awards> awardRepos,
+                                IBaseRepository<Experience> experienceRepos)
         {
             _medicineRepos = medicineRepos;
             _doctorRepos = doctorRepos;
             _pharmacyRepos = pharmacyRepos;
+            _awardRepos = awardRepos;
+            _experienceRepos = experienceRepos;
             _mapper = mapper;
         }
 
@@ -37,7 +44,13 @@ namespace Business.Services
                                 .Include(a => a.User)
                                 .Where(a => a.Id.Equals(id))
                                 .FirstOrDefaultAsync();
+            var awardsOfPharmacy = await _awardRepos
+                                        .Entities
+                                        .Where(p => p.PharmacyId == id)
+                                        .ToListAsync();
+            var awardDtos = _mapper.Map<List<AwardsDto>>(awardsOfPharmacy);
             var pharmacyDtos = _mapper.Map<PharmacyDetailsDto>(pharmacy);
+            pharmacyDtos.Awards = awardDtos;
             return pharmacyDtos;
         }
 
@@ -53,15 +66,21 @@ namespace Business.Services
         }
 
 
-        public async Task<IActionResult> GetDetailsSearchDoctorAsync(int id)
+        public async Task<DoctorDetailsDto> GetDetailsSearchDoctorAsync(int id)
         {
             var doctor = await _doctorRepos
                                 .Entities
                                 .Include(a => a.User)
                                 .Where(a => a.Id.Equals(id))
                                 .FirstOrDefaultAsync();
-            var doctorDtos = _mapper.Map<SearchDoctorDto>(doctor);
-            return Ok(doctorDtos);
+            var experiencesOfDoctor = await _experienceRepos
+                                        .Entities
+                                        .Where(p => p.DoctorId == id)
+                                        .ToListAsync();
+            var experienceDtos = _mapper.Map<List<ExperiencesDto>>(experiencesOfDoctor);
+            var doctorDtos = _mapper.Map<DoctorDetailsDto>(doctor);
+            doctorDtos.Experiences = experienceDtos;
+            return doctorDtos;
         }
 
         public async Task<IActionResult> GetSearchDoctorResultAsync(string search)

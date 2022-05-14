@@ -32,6 +32,13 @@ namespace MedicalRecordService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(c => {
+                c.AddPolicy("CorsMedicalRecordApi", p => {
+                    p.WithOrigins("https://localhost:44367", "https://localhost:44369").AllowAnyMethod().AllowAnyHeader();
+                    //p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                });
+            });
+
             services.AddBusinessLayer();
             services.AddDataAccessorLayer(Configuration);
             services.AddIdentity<User, IdentityRole>(options =>
@@ -117,6 +124,7 @@ namespace MedicalRecordService
             }
 
             app.UseRouting();
+            app.UseCors("CorsMedicalRecordApi");
             app.UseAuthentication();
             app.UseAuthorization();
 

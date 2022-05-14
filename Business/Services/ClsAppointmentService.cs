@@ -33,6 +33,24 @@ namespace Business.Services
             _zoomService = zoomService;
         }
 
+        public async Task<IEnumerable<AppointmentDetailsDto>> GetTotalAppointments()
+        {
+            var appointments = await _appointments.Find(x => true).ToListAsync();
+            var appoimentsDtos = _mapper.Map<IEnumerable<AppointmentDetailsDto>>(appointments);
+            return appoimentsDtos;
+        }
+
+        public int GetTotalAppointmentsByPatient(string id)
+        {
+            var appointments = _appointments.Find(x => x.AccountId == id).ToList();
+            return appointments.Count;
+        }
+
+        public int GetTotalAppointmentsByDoctor(string id)
+        {
+            var appointments = _appointments.Find(x => x.Therapist.AccountId == id).ToList();
+            return appointments.Count;
+        }
         private bool CheckIfExistAppointment(string userId, DateTime date, DateTime startTime)
         {
             var listAppointmentInDb =  _db.Schedules

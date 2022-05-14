@@ -15,13 +15,13 @@
                         <div class="col-md-12 col-lg-4">
                             <div class="dash-widget dct-border-rht">
                                 <div class="circle-bar circle-bar1">
-                                    <div class="circle-graph1" data-percent="75">
+                                    <div id="percentPatient" class="circle-graph1" data-percent="100">
                                         <img src=@Url.Content("~/assets/img/icon-01.png") class="img-fluid" alt="patient">
                                     </div>
                                 </div>
                                 <div class="dash-widget-info">
                                     <h6>Total Patient</h6>
-                                    <h3>1500</h3>
+                                    <h3 id="patientCount"></h3>
                                     <p class="text-muted">Till Today</p>
                                 </div>
                             </div>
@@ -30,14 +30,14 @@
                         <div class="col-md-12 col-lg-4">
                             <div class="dash-widget dct-border-rht">
                                 <div class="circle-bar circle-bar2">
-                                    <div class="circle-graph2" data-percent="65">
+                                    <div id="percentMedicalRecord" class="circle-graph2" data-percent="100">
                                         <img src=@Url.Content("~/assets/img/icon-02.png") class="img-fluid" alt="Patient">
                                     </div>
                                 </div>
                                 <div class="dash-widget-info">
-                                    <h6>Today Patient</h6>
-                                    <h3>160</h3>
-                                    <p class="text-muted">06, Nov 2019</p>
+                                    <h6>Total Medical Record</h6>
+                                    <h3 id="medicalRecordCount"></h3>
+                                    <p class="text-muted">Till Today</p>
                                 </div>
                             </div>
                         </div>
@@ -45,14 +45,14 @@
                         <div class="col-md-12 col-lg-4">
                             <div class="dash-widget">
                                 <div class="circle-bar circle-bar3">
-                                    <div class="circle-graph3" data-percent="50">
+                                    <div id="percentAppointment" class="circle-graph3" data-percent="100">
                                         <img src=@Url.Content("~/assets/img/icon-03.png") class="img-fluid" alt="Patient">
                                     </div>
                                 </div>
                                 <div class="dash-widget-info">
                                     <h6>Appoinments</h6>
-                                    <h3>85</h3>
-                                    <p class="text-muted">06, Apr 2019</p>
+                                    <h3 id="appointmentCount"></h3>
+                                    <p class="text-muted">Till Today</p>
                                 </div>
                             </div>
                         </div>
@@ -211,6 +211,11 @@
     <script src="~/assets/plugins/datatables/datatables.min.js"></script>
     <script>
         $(document).ready(function () {
+            GetPatients();
+            GetMedicalRecords();
+            GetAppointments();
+            animateElements();
+            
             LoadData();
 
             $('body').on('click', '.btnView', function () {
@@ -339,6 +344,8 @@
 
         });
 
+        
+
         function LoadData() {
             var userId = $('#AccountId').text();
             var imagePatientPath = $('#PatientImagePath').text();
@@ -346,11 +353,12 @@
                 url: 'http://localhost:46685/api/Appointment/List/' + userId,
                 type: 'GET',
                 success: function (res) {
-                    console.log(res);
-
+                    //console.log(res.length);
+                    //$('#percentAppointment').attr('data-percent', '100');
+                    //$('#appointmentCount').text(res.length);
                     $.each(res, function (i) {
                         var item = res[i];
-                        console.log(item);
+                        //console.log(item);
                         var element = $('<tr></tr>');
                         if (item.patient.avatar != null) {
                             element.append('<td><h2 class="table-avatar"><a href="patient-profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=' + imagePatientPath + item.patient.avatar + ' alt="User Image"></a><a href="patient-profile.html">' + item.patient.fullName + '</a></h2></td>');
@@ -466,6 +474,98 @@
                         });
                     }
                 }
+            });
+        }
+
+        // Circle Progress Bar
+        function GetMedicalRecords() {
+            $.ajax({
+                url: '/Home/getMedicalRecords',
+                type: 'GET',
+                success: function (res) {
+                    if (res.success) {
+                        $('#percentMedicalRecord').attr('data-percent', '100');
+                        $('#medicalRecordCount').text(res.item);
+                        $('.circle-bar2').each(function () {
+                            var elementPos = $(this).offset().top;
+                            var topOfWindow = $(window).scrollTop();
+                            var percent = $(this).find('.circle-graph2').attr('data-percent');
+                            var animate = $(this).data('animate');
+                            if (elementPos < topOfWindow + $(window).height() - 30 && !animate) {
+                                $(this).data('animate', true);
+                                $(this).find('.circle-graph2').circleProgress({
+                                    value: percent / 100,
+                                    size: 400,
+                                    thickness: 30,
+                                    fill: {
+                                        color: '#68dda9'
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+
+            });
+        }
+        function GetPatients() {
+            $.ajax({
+                url: '/Home/getPatients',
+                type: 'GET',
+                success: function (res) {
+                    if (res.success) {
+                        $('#percentPatient').attr('data-percent', '100');
+                        $('#patientCount').text(res.item);
+                        $('.circle-bar1').each(function () {
+                            var elementPos = $(this).offset().top;
+                            var topOfWindow = $(window).scrollTop();
+                            var percent = $(this).find('.circle-graph1').attr('data-percent');
+                            var animate = $(this).data('animate');
+                            if (elementPos < topOfWindow + $(window).height() - 30 && !animate) {
+                                $(this).data('animate', true);
+                                $(this).find('.circle-graph1').circleProgress({
+                                    value: percent / 100,
+                                    size: 400,
+                                    thickness: 30,
+                                    fill: {
+                                        color: '#da3f81'
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+
+            });
+        }
+        function GetAppointments() {
+            $.ajax({
+                url: '/Home/getAppointments',
+                type: 'GET',
+                success: function (res) {
+                    if (res.success) {
+                        $('#percentPatient').attr('data-percent', '100');
+                        $('#appointmentCount').text(res.item);
+                        $('.circle-bar3').each(function () {
+                            var elementPos = $(this).offset().top;
+                            var topOfWindow = $(window).scrollTop();
+                            var percent = $(this).find('.circle-graph3').attr('data-percent');
+                            var animate = $(this).data('animate');
+                            if (elementPos < topOfWindow + $(window).height() - 30 && !animate) {
+                                $(this).data('animate', true);
+                                $(this).find('.circle-graph3').circleProgress({
+                                    value: percent / 100,
+                                    size: 400,
+                                    thickness: 30,
+                                    fill: {
+                                        color: '#1b5a90'
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+
             });
         }
     </script>

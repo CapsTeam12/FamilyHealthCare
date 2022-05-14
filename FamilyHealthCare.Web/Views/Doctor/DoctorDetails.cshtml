@@ -1,0 +1,148 @@
+﻿@model DoctorDetailsDto
+@using Contract.DTOs.ManagementService
+@using FamilyHealthCare.SharedLibrary
+@{
+}
+<!-- Breadcrumb -->
+<div class="breadcrumb-bar">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Doctor Profile</li>
+                    </ol>
+                </nav>
+                <h2 class="breadcrumb-title">Doctor Profile</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Breadcrumb -->
+<!-- Page Content -->
+<div class="content">
+    <div class="container">
+
+        <!-- Doctor Widget -->
+        <div class="card">
+            <div class="card-body">
+                <div class="doctor-widget">
+                    <div class="doc-info-left">
+                        <div class="doctor-img">
+                            @if (Model.Avatar != null)
+                            {
+                                <img src=@(ImageConstants.DOCTORS+Model.Avatar) class="img-fluid" alt="User Image">
+                            }
+                            else
+                            {
+                                <img src="assets/img/doctors/doctor-thumb-02.jpg" class="img-fluid" alt="User Image">
+                            }
+                        </div>
+                        <div class="doc-info-cont">
+                            <h4 class="doc-name">Dr. @Model.FullName</h4>
+                            <p class="doc-speciality">@Model.Email</p>
+                            <p class="doc-department">@Model.Specialities</p>
+                            @*<div class="rating">
+                                <i class="fas fa-star filled"></i>
+                                <i class="fas fa-star filled"></i>
+                                <i class="fas fa-star filled"></i>
+                                <i class="fas fa-star filled"></i>
+                                <i class="fas fa-star"></i>
+                                <span class="d-inline-block average-rating">(35)</span>
+                            </div>*@
+                            <div class="clinic-details">
+                                <p class="doc-location"><i class="fas fa-map-marker-alt"></i> @Model.Address</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doc-info-right">
+                        <div class="clini-infos">
+                            <ul>
+                                <li><i class="fas fa-phone-volume me-1"></i>@Model.Phone</li>
+                                <li><i class="fas fa-map-marker-alt"></i> @Model.Address</li>
+                            </ul>
+                        </div>
+                        @*<div class="doctor-action">
+                                <a href="javascript:void(0)" class="btn btn-white fav-btn">
+                                    <i class="far fa-bookmark"></i>
+                                </a>
+                                <a href="javascript:void(0)" class="btn btn-white call-btn" data-bs-toggle="modal" data-bs-target="#voice_call">
+                                    <i class="fas fa-phone"></i>
+                                </a>
+                                <a href="javascript:void(0)" class="btn btn-white call-btn" data-bs-toggle="modal" data-bs-target="#video_call">
+                                    <i class="fas fa-video"></i>
+                                </a>
+                            </div>*@
+                        <div class="clinic-booking">
+                            <a class="apt-btn" asp-controller="Appointment" asp-action="Booking"
+                               asp-route-accountDoctorId="@Model.AccountId" asp-route-therapistId="@Model.Id" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")"
+                               asp-route-doctorName="@Model.FullName" asp-route-doctorEmail="@Model.Email">Book Appointment</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Doctor Widget -->
+        <!-- Doctor Details Tab -->
+        <div class="card">
+            <div class="card-body pt-0">
+
+                <!-- Tab Menu -->
+                <nav class="user-tabs mb-4">
+                    <ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#doc_overview" data-bs-toggle="tab">Overview</a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- /Tab Menu -->
+                <!-- Tab Content -->
+                <div class="tab-content pt-0">
+
+                    <!-- Overview Content -->
+                    <div role="tabpanel" id="doc_overview" class="tab-pane fade show active">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-9">
+
+                                <!-- About Details -->
+                                <div class="widget about-widget">
+                                    <h4 class="widget-title">About Me</h4>
+                                    <p>@Model.Biography</p>
+                                </div>
+                                <!-- /About Details -->
+                                <!-- Education Details -->
+                                <div class="widget education-widget">
+                                    <h4 class="widget-title">Experiences</h4>
+                                    <div class="experience-box">
+                                        <ul class="experience-list">
+                                            @foreach (var ex in Model.Experiences)
+                                            {
+                                                <li>
+                                                    <div class="experience-user">
+                                                        <div class="before-circle"></div>
+                                                    </div>
+                                                    <div class="experience-content">
+                                                        <div class="timeline-content">
+                                                            <a href="#/" class="name">@ex.HospitalName</a>
+                                                            <p>@ex.Designation</p>
+                                                            <span class="time">@ex.From - @ex.To</span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- /Education Details -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Overview Content -->
+                </div>
+            </div>
+        </div>
+        <!-- /Doctor Details Tab -->
+
+    </div>
+</div>	

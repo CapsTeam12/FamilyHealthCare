@@ -200,7 +200,9 @@
 
     <script src="@Url.Content("~/assets/plugins/raphael/raphael.min.js")"></script>
     <script src="@Url.Content("~/assets/plugins/morris/morris.min.js")"></script>
-    <script src="@Url.Content("~/assets/js/chart.morris.js")"></script>
+    @*<script src="@Url.Content("~/assets/js/chart.morris.js")"></script>*@
+
+    <script src="@Url.Content("~/assets/js/moment.min.js")"></script>
 
     <!-- Datatables JS -->
     <script src=@Url.Content("~/assets/plugins/datatables/jquery.dataTables.min.js")></script>
@@ -215,7 +217,7 @@
             $('#sidebar-menu a').each(function () {
                 var pathName = this.getAttribute('href'); // Get attribute href
                 if (url === pathName.split('?')[0]) {
-                    var element = $(this).closest('.submenu'); // Check if have submenu 
+                    var element = $(this).closest('.submenu'); // Check if have submenu
                     if (element.length === 0) {
                         $(this).parent().addClass('active');
                     }

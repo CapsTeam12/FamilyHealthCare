@@ -109,7 +109,7 @@ namespace Business.Services
 
         public async Task<PrescriptionDto> GetPrescriptionDetails(int id)
         {
-            var prescriptionDetails = await _db.PrescriptionDetails.Where(p => p.PrescriptionId == id || p.Prescription.MedicalRecordId == id)
+            var prescriptionDetails = await _db.PrescriptionDetails.Where(p => p.PrescriptionId == id)
                                                                    .Include(p => p.Prescription)
                                                                    .ToListAsync();
             var medicineInPresciptionDetails = prescriptionDetails.Select(m => m.MedicineName).Distinct();
@@ -118,7 +118,7 @@ namespace Business.Services
                 var prescriptionsDetailsDto = new List<PrescriptionDetailsDto>();
                 foreach (var medicineName in medicineInPresciptionDetails)
                 {
-                    var PrescriptionDetailsByMedicine = await _db.PrescriptionDetails.Where(p => (p.PrescriptionId == id || p.Prescription.MedicalRecordId == id) && p.MedicineName == medicineName)
+                    var PrescriptionDetailsByMedicine = await _db.PrescriptionDetails.Where(p => p.PrescriptionId == id && p.MedicineName == medicineName)
                                                                                  .ToListAsync();
                     var prescriptionDetailsDto = new PrescriptionDetailsDto();
                     prescriptionDetailsDto.PrescriptionId = PrescriptionDetailsByMedicine.Select(p => p.PrescriptionId).First();
@@ -135,7 +135,7 @@ namespace Business.Services
                 }
                 var prescriptionDto = new PrescriptionDto();
                 prescriptionDto.PrescriptionDetailsDtos = prescriptionsDetailsDto;
-                var prescription = await _db.Prescriptions.Where(p => p.Id == id || p.MedicalRecordId == id)
+                var prescription = await _db.Prescriptions.Where(p => p.Id == id)
                                                           .Include(p => p.Patient)
                                                           .Include(d => d.Doctor)
                                                           .Include(p => p.Pharmacy)
@@ -146,6 +146,48 @@ namespace Business.Services
             }
             return null;
         }
+
+        public async Task<PrescriptionDto> GetPrescriptionDetailsWithMedicalRecord(int id)
+        {
+            var prescriptionDetails = await _db.PrescriptionDetails.Where(p => p.Prescription.MedicalRecordId == id)
+                                                                   .Include(p => p.Prescription)
+                                                                   .ToListAsync();
+            var medicineInPresciptionDetails = prescriptionDetails.Select(m => m.MedicineName).Distinct();
+            if (prescriptionDetails.Count > 0)
+            {
+                var prescriptionsDetailsDto = new List<PrescriptionDetailsDto>();
+                foreach (var medicineName in medicineInPresciptionDetails)
+                {
+                    var PrescriptionDetailsByMedicine = await _db.PrescriptionDetails.Where(p => p.Prescription.MedicalRecordId == id && p.MedicineName == medicineName)
+                                                                                 .ToListAsync();
+                    var prescriptionDetailsDto = new PrescriptionDetailsDto();
+                    prescriptionDetailsDto.PrescriptionId = PrescriptionDetailsByMedicine.Select(p => p.PrescriptionId).First();
+                    prescriptionDetailsDto.MedicineName = PrescriptionDetailsByMedicine.Select(m => m.MedicineName).First();
+                    prescriptionDetailsDto.Quantity = PrescriptionDetailsByMedicine.Select(q => q.Quantity).First();
+                    prescriptionDetailsDto.Days = PrescriptionDetailsByMedicine.Select(d => d.Days).First();
+
+                    prescriptionDetailsDto.Time = new int[PrescriptionDetailsByMedicine.Count];
+                    for (int i = 0; i < PrescriptionDetailsByMedicine.Count; i++)
+                    {
+                        prescriptionDetailsDto.Time[i] = PrescriptionDetailsByMedicine[i].Time;
+                    }
+                    prescriptionsDetailsDto.Add(prescriptionDetailsDto);
+                }
+                var prescriptionDto = new PrescriptionDto();
+                prescriptionDto.PrescriptionDetailsDtos = prescriptionsDetailsDto;
+                var prescription = await _db.Prescriptions.Where(p => p.MedicalRecordId == id)
+                                                          .Include(p => p.Patient)
+                                                          .Include(d => d.Doctor)
+                                                          .Include(p => p.Pharmacy)
+                                                          .Include(m => m.MedicalRecord)
+                                                          .FirstOrDefaultAsync();
+                prescriptionDto = _mapper.Map<Prescription, PrescriptionDto>(prescription, prescriptionDto);
+                return prescriptionDto;
+            }
+            return null;
+        }
+
+
 
         public async Task<IEnumerable<PrescriptionDto>> GetPrescriptionsDoctor(string accountId)
         {
@@ -169,7 +211,7 @@ namespace Business.Services
 
         public async Task<PrescriptionDto> UpdatePrescriptionByDoctor(int id, AddUpdatePrescriptionDto AddPrescriptionDto)
         {
-            var prescriptionInDb = await _db.Prescriptions.Where(p => p.Id == id || p.MedicalRecordId == id).FirstOrDefaultAsync();
+            var prescriptionInDb = await _db.Prescriptions.Where(p => p.MedicalRecordId == id).FirstOrDefaultAsync();
             if (prescriptionInDb != null)
             {
                 prescriptionInDb = _mapper.Map<AddUpdatePrescriptionDto, Prescription>(AddPrescriptionDto, prescriptionInDb);
@@ -182,7 +224,7 @@ namespace Business.Services
                     prescriptionInDb.Signature = await _fileService.SaveFile(AddPrescriptionDto.Signature, ImageConstants.SIGNATURES_PATH);
                 }
                 _db.Prescriptions.Update(prescriptionInDb);
-                var prescriptionDetails = await _db.PrescriptionDetails.Where(p => p.PrescriptionId == id || p.Prescription.MedicalRecordId == id).ToListAsync();
+                var prescriptionDetails = await _db.PrescriptionDetails.Where(p => p.Prescription.MedicalRecordId == id).ToListAsync();
                 if (prescriptionDetails != null && prescriptionDetails.Count > 0)
                 {
                     _db.PrescriptionDetails.RemoveRange(prescriptionDetails);
@@ -211,7 +253,7 @@ namespace Business.Services
 
         public async Task<PrescriptionDto> UpdatePrescriptionByPharmacy(int id, AddUpdatePrescriptionPharmacyDto AddPrescriptionDto)
         {
-            var prescriptionInDb = await _db.Prescriptions.Where(p => p.Id == id || p.MedicalRecordId == id).FirstOrDefaultAsync();
+            var prescriptionInDb = await _db.Prescriptions.Where(p => p.Id == id).FirstOrDefaultAsync();
             var pharmacy = await _db.Pharmacies.FirstOrDefaultAsync(p => p.Id == AddPrescriptionDto.PharmacyId);
             var pharmacyDto = _mapper.Map<PharmacyDto>(pharmacy);
             if (prescriptionInDb != null)
@@ -226,7 +268,7 @@ namespace Business.Services
                     prescriptionInDb.Signature = await _fileService.SaveFile(AddPrescriptionDto.Signature, ImageConstants.SIGNATURES_PATH);
                 }
                 _db.Prescriptions.Update(prescriptionInDb);
-                var prescriptionDetails = await _db.PrescriptionDetails.Where(p => p.PrescriptionId == id || p.Prescription.MedicalRecordId == id).ToListAsync();
+                var prescriptionDetails = await _db.PrescriptionDetails.Where(p => p.PrescriptionId == id).ToListAsync();
                 if (prescriptionDetails != null && prescriptionDetails.Count > 0)
                 {
                     _db.PrescriptionDetails.RemoveRange(prescriptionDetails);

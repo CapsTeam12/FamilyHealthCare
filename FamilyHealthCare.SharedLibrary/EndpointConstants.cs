@@ -28,6 +28,13 @@ namespace FamilyHealthCare.SharedLibrary
             public static string ACCEPT_PHARMACIES_REQUESTS = "/Management/AcceptPharmacyRequest";
             public static string DENY_PHARMACIES_REQUESTS = "/Management/DenyPharmacyRequest";
             public static string DETAILS_PHARMACIES_REQUESTS = "/Management/GetDetailsPharmacyRequest";
+            public static string GET_PATIENTS = "/Management/GetTotalPatients";
+            public static string GET_DOCTORS = "/Management/GetTotalDoctors";
+            public static string GET_PHARMACIES = "/Management/GetTotalPharmacies";
+            public static string GET_MEDICALS_DOCTOR = "/Management/GetTotalMedicalsByDoctor";
+            public static string GET_MEDICALS_PATIENT = "/Management/GetTotalMedicalsByPatient";
+            public static string GET_MEDICINES = "/Management/GetTotalMedicines";
+            public static string GET_PRESCRIPTIONS = "/Management/GetTotalPrescriptions";
         }
         public static class AuthService
         {
@@ -41,6 +48,7 @@ namespace FamilyHealthCare.SharedLibrary
             public static string PATIENTPROFILE = "api/Auth/update-profile";
             public static string DOCTORSEARCH = "/Search/specialist/doctor";
             public static string PHARMACYSEARCH = "/Search/search/pharmacy";
+            public static string DOCTORDETAILS = "/Search/search/doctor";
         }
 
         public static class AppointmentService
@@ -50,6 +58,9 @@ namespace FamilyHealthCare.SharedLibrary
             public static string BOOKING = "/Appointment/Booking/";
             public static string RESCHEDULE = "/Appointment/Reschedule/";
             public static string CANCEL = "/Appointment/Cancel/";
+            public static string GET_APPOINTMENTS = "/Appointment/GetTotalAppointments";
+            public static string GET_APPOINTMENTS_DOCTOR = "/Appointment/GetTotalAppointmentsByDoctor";
+            public static string GET_APPOINTMENTS_PATIENT = "/Appointment/GetTotalAppointmentsByPatient";
         }
 
         public static class BookingAppointmentService
@@ -89,6 +100,7 @@ namespace FamilyHealthCare.SharedLibrary
             public static string LIST_BY_DOCTOR = "/Presciption/GetPrescriptionsByDoctor";
             public static string LIST_BY_PHARMACY = "/Presciption/GetPrescriptionsByPharmacy";
             public static string DETAILS = "/Presciption/GetPrescriptionDetails";
+            public static string DETAILS_BY_MEDICAL = "/Presciption/GetPrescriptionDetailsWithMedicalRecord";
             public static string CREATE = "/Presciption/CreatePrescription";
             public static string CREATE_BY_PHARMACY = "/Presciption/CreatePrescriptionByPharmacy";
             public static string UPDATE = "/Presciption/UpdatePrescription";

@@ -1,8 +1,10 @@
 ﻿@{
     ViewData["Title"] = "Dashboard";
     ViewData["breadcumb-title"] = "Dashboard";
+    int diff = (7 + (DateTime.Now.Date.DayOfWeek - DayOfWeek.Monday)) % 7;
+    DateTime DateStartOfWeek = DateTime.Now.AddDays(-1 * diff).Date;
 }
-
+<h4 id="dateStartOfWeek" hidden>@DateStartOfWeek</h4>
 <div class="row">
     <div class="col-xl-3 col-sm-6 col-12">
         <div class="card">
@@ -12,13 +14,13 @@
                         <i class="fe fe-users"></i>
                     </span>
                     <div class="dash-count">
-                        <h3>168</h3>
+                        <h3 id="doctors"></h3>
                     </div>
                 </div>
                 <div class="dash-widget-info">
                     <h6 class="text-muted">Doctors</h6>
                     <div class="progress progress-sm">
-                        <div class="progress-bar bg-primary w-50"></div>
+                        <div class="progress-bar bg-primary w-100"></div>
                     </div>
                 </div>
             </div>
@@ -32,14 +34,14 @@
                         <i class="fe fe-credit-card"></i>
                     </span>
                     <div class="dash-count">
-                        <h3>487</h3>
+                        <h3 id="patients"></h3>
                     </div>
                 </div>
                 <div class="dash-widget-info">
 
                     <h6 class="text-muted">Patients</h6>
                     <div class="progress progress-sm">
-                        <div class="progress-bar bg-success w-50"></div>
+                        <div class="progress-bar bg-success w-100"></div>
                     </div>
                 </div>
             </div>
@@ -53,14 +55,14 @@
                         <i class="fe fe-money"></i>
                     </span>
                     <div class="dash-count">
-                        <h3>485</h3>
+                        <h3 id="appointments"></h3>
                     </div>
                 </div>
                 <div class="dash-widget-info">
 
                     <h6 class="text-muted">Appointment</h6>
                     <div class="progress progress-sm">
-                        <div class="progress-bar bg-danger w-50"></div>
+                        <div class="progress-bar bg-danger w-100"></div>
                     </div>
                 </div>
             </div>
@@ -74,14 +76,14 @@
                         <i class="fe fe-folder"></i>
                     </span>
                     <div class="dash-count">
-                        <h3>53</h3>
+                        <h3 id="pharmacies"></h3>
                     </div>
                 </div>
                 <div class="dash-widget-info">
 
                     <h6 class="text-muted">Pharmacy</h6>
                     <div class="progress progress-sm">
-                        <div class="progress-bar bg-warning w-50"></div>
+                        <div class="progress-bar bg-warning w-100"></div>
                     </div>
                 </div>
             </div>
@@ -118,80 +120,153 @@
 
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12">
 
-        <!-- Recent Orders -->
-        <div class="card card-table">
-            <div class="card-header">
-                <h4 class="card-title">Appointment List</h4>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover table-center mb-0">
-                        <thead>
-                            <tr>
-                                <th>Doctor Name</th>
-                                <th>Speciality</th>
-                                <th>Patient Name</th>
-                                <th>Apointment Time</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <h2 class="table-avatar">
-                                        <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-01.jpg") alt="User Image"></a>
-                                        <a asp-controller="Doctor" asp-action="DetailsDoctor">Dr. Ruby Perrin</a>
-                                    </h2>
-                                </td>
-                                <td>Dental</td>
-                                <td>
-                                    <h2 class="table-avatar">
-                                        <a asp-controller="Patient" asp-action="DetailsPatient" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/patients/patient1.jpg") alt="User Image"></a>
-                                        <a asp-controller="Patient" asp-action="DetailsPatient">Charlene Reed </a>
-                                    </h2>
-                                </td>
-                                <td>9 Nov 2019 <span class="text-primary d-block">11.00 AM - 11.15 AM</span></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h2 class="table-avatar">
-                                        <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-02.jpg") alt="User Image"></a>
-                                        <a asp-controller="Doctor" asp-action="DetailsDoctor">Dr. Darren Elder</a>
-                                    </h2>
-                                </td>
-                                <td>Dental</td>
-                                <td>
-                                    <h2 class="table-avatar">
-                                        <a asp-controller="Patient" asp-action="DetailsPatient" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/patients/patient2.jpg") alt="User Image"></a>
-                                        <a asp-controller="Patient" asp-action="DetailsPatient">Travis Trimble </a>
-                                    </h2>
-                                </td>
+@section scripts{ 
+<script>
+    $(document).ready(function () {
+        var dateStartOfWeek = new Date($('#dateStartOfWeek').text());
+        var dataMorrisArea = [];
+        var dataMorrisLine = [];
+        Date.prototype.addDays = function (days) {
+            var date = new Date(this.valueOf());
+            date.setDate(date.getDate() + days);
+            return date;
+        }
+        GetAppointments();
+        GetDoctors();
+        GetPatients();
+        GetPharmacies();
+        $(window).on("resize", function () {
+            mA.redraw();
+            mL.redraw();
+        });
 
-                                <td>5 Nov 2019 <span class="text-primary d-block">11.00 AM - 11.35 AM</span></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h2 class="table-avatar">
-                                        <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-03.jpg") alt="User Image"></a>
-                                        <a asp-controller="Doctor" asp-action="DetailsDoctor">Dr. Deborah Angel</a>
-                                    </h2>
-                                </td>
-                                <td>Cardiology</td>
-                                <td>
-                                    <h2 class="table-avatar">
-                                        <a asp-controller="Patient" asp-action="DetailsPatient" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/patients/patient3.jpg") alt="User Image"></a>
-                                        <a asp-controller="Patient" asp-action="DetailsPatient">Carl Kelly</a>
-                                    </h2>
-                                </td>
-                                <td>11 Nov 2019 <span class="text-primary d-block">12.00 PM - 12.15 PM</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <!-- /Recent Orders -->
-    </div>
-</div>
+        function GetDoctors() {
+            $.ajax({
+                url: '/Home/GetDoctors',
+                type: 'GET',
+                success: function (res) {
+                    if (res.success) {
+                        var doctors = res.item;
+                        $('#doctors').text(doctors);
+                    }
+                }
+            });
+        }
+
+        function GetPatients() {
+            $.ajax({
+                url: '/Home/GetPatients',
+                type: 'GET',
+                success: function (res) {
+                    if (res.success) {
+                        var patients = res.item;
+                        $('#patients').text(patients);
+                    }
+                }
+            });
+        }
+
+        function GetPharmacies() {
+            $.ajax({
+                url: '/Home/GetPharmacies',
+                type: 'GET',
+                success: function (res) {
+                    if (res.success) {
+                        var pharmacies = res.item;
+                        $('#pharmacies').text(pharmacies);
+                    }
+                }
+            });
+        }
+
+        function GetAppointments() {
+            $.ajax({
+                url: '/Home/GetAppointments',
+                type: 'GET',
+                success: function (res) {
+                    if (res.success) {
+                        var appointments = res.item;
+                        console.log(appointments);
+                        $('#appointments').text(appointments.length);
+                        for (var i = 0; i < 7; i++) {
+                            var countTotal = 0; 
+                            var countBooked = 0;
+                            var countCanceled = 0;
+
+                            var dateOfWeekToCompare = dateStartOfWeek.addDays(i).toLocaleDateString();
+                            var dateOfWeek = moment(dateStartOfWeek.addDays(i)).format('YYYY-MM-DD');
+                            for (var j = 0; j < appointments.length; j++) {
+                                var appointment = appointments[j];
+                                var dateAppointment = new Date(appointment.startTime).toLocaleDateString();
+                                if (dateAppointment == dateOfWeekToCompare) {
+                                    countTotal++;
+                                }
+                                if (dateAppointment == dateOfWeekToCompare && (appointment.status === 1 || appointment.status === 2 || appointment.status === 3)) {
+                                    countBooked++;
+                                }
+                                if (dateAppointment == dateOfWeekToCompare && appointment.status === 4) {
+                                    countCanceled++;
+                                }
+
+                            }
+                            var AreaObj = {
+                                y: dateOfWeek,
+                                a: countTotal
+                            };
+                            dataMorrisArea.push(AreaObj);
+
+                            var LineObj = {
+                                y: dateOfWeek,
+                                a: countBooked,
+                                b: countCanceled
+                            };
+                            dataMorrisLine.push(LineObj);
+                            
+                        }
+                        console.log(dataMorrisArea);
+                        console.log(dataMorrisLine);
+                        /* Morris Area Chart */
+                        window.mA = Morris.Area({
+                            element: 'morrisArea',
+                            data: dataMorrisArea,
+                            xkey: 'y',
+                            ykeys: ['a'],
+                            labels: ['Appointments'],
+                            lineColors: ['#1b5a90'],
+                            lineWidth: 2,
+                            xLabelFormat: function (d) {
+                                return ("0" + d.getDate()).slice(-2) + '-' + ("0" + (d.getMonth() + 1)).slice(-2) + '-' + d.getFullYear();
+                            },
+
+                            fillOpacity: 0.5,
+                            gridTextSize: 10,
+                            hideHover: 'auto',
+                            resize: true,
+                            redraw: true
+                        });
+                        /* Morris Line Chart */
+                        window.mL = Morris.Line({
+                            element: 'morrisLine',
+                            data: dataMorrisLine,
+                            xkey: 'y',
+                            ykeys: ['a', 'b'],
+                            labels: ['Booked', 'Canceled'],
+                            lineColors: ['#1b5a90', '#ff9d00'],
+                            lineWidth: 1,
+                            xLabelFormat: function (d) {
+                                return ("0" + d.getDate()).slice(-2) + '-' + ("0" + (d.getMonth() + 1)).slice(-2) + '-' + d.getFullYear();
+                            },
+                            gridTextSize: 10,
+                            hideHover: 'auto',
+                            resize: true,
+                            redraw: true
+                        });
+                    }
+                }
+            });
+        }
+
+    });
+</script>
+}

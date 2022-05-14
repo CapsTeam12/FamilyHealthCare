@@ -35,6 +35,14 @@ namespace FamilyHealthCare.Customer.Controllers
             return pharmacy;
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> PharmacyDetails(int id)
+        {
+            var pharmacy = await GetPharmacyDetails(id);
+            return View(pharmacy);
+        }
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {

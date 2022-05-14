@@ -120,5 +120,23 @@ namespace AppointmentService.Controllers
             return Ok(appointment);
         }
 
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetTotalAppointments()
+        {
+            return Ok( await _appointmentService.GetTotalAppointments());
+        }
+
+        [HttpGet("[action]/{id}")]
+        public IActionResult GetTotalAppointmentsByDoctor(string id)
+        {
+            return Ok(_appointmentService.GetTotalAppointmentsByDoctor(id));
+        }
+
+        [HttpGet("[action]/{id}")]
+        public IActionResult GetTotalAppointmentsByPatient(string id)
+        {
+            return Ok(_appointmentService.GetTotalAppointmentsByPatient(id));
+        }
+
     }
 }

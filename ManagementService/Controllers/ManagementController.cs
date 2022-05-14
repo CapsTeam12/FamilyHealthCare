@@ -17,11 +17,13 @@ namespace ManagementService.Controllers
     {
         private readonly IManagementService _managementService;
         private readonly IParnerService _partnerService;
+        private readonly IDashboardService _dashboardService;
 
-        public ManagementController(IManagementService managementService,IParnerService parnerService)
+        public ManagementController(IManagementService managementService,IParnerService parnerService, IDashboardService dashboardService)
         {
             _managementService = managementService;
             _partnerService = parnerService;
+            _dashboardService = dashboardService;
         }
 
         
@@ -180,6 +182,49 @@ namespace ManagementService.Controllers
         {
             var specializeDto = await _managementService.UpdateSpecialities(specialitiesUpdateDto);
             return Ok(specializeDto);
+        }
+
+        [HttpGet("[action]")]
+        public IActionResult GetTotalPatients()
+        {
+            return Ok(_dashboardService.GetTotalPatients());
+        }
+
+        [HttpGet("[action]")]
+        public IActionResult GetTotalDoctors()
+        {
+            return Ok(_dashboardService.GetTotalDoctors());
+        }
+
+        [HttpGet("[action]")]
+        public IActionResult GetTotalPharmacies()
+        {
+            return Ok(_dashboardService.GetTotalPharmacies());
+        }
+
+       
+        [HttpGet("[action]/{id}")]
+        public IActionResult GetTotalMedicalsByDoctor(string id)
+        {
+            return Ok(_dashboardService.GetTotalMedicalRecordsByDoctor(id));
+        }
+
+        [HttpGet("[action]/{id}")]
+        public IActionResult GetTotalMedicalsByPatient(string id)
+        {
+            return Ok(_dashboardService.GetTotalMedicalRecordsByPatient(id));
+        }
+
+        [HttpGet("[action]/{id}")]
+        public IActionResult GetTotalMedicines(string id)
+        {
+            return Ok(_dashboardService.GetTotalMedicines(id));
+        }
+
+        [HttpGet("[action]/{id}")]
+        public IActionResult GetTotalPrescriptions(string id)
+        {
+            return Ok(_dashboardService.GetTotalPrescriptions(id));
         }
     }
 }

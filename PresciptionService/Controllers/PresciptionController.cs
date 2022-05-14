@@ -53,6 +53,17 @@ namespace PresciptionService.Controllers
             return NotFound();
         }
 
+        [HttpGet("[action]/{id}")]
+        public async Task<IActionResult> GetPrescriptionDetailsWithMedicalRecord(int id)
+        {
+            var prescriptions = await _prescriptionService.GetPrescriptionDetailsWithMedicalRecord(id);
+            if (prescriptions != null)
+            {
+                return Ok(prescriptions);
+            }
+            return NotFound();
+        }
+
         [HttpPost("[action]")]
         public async Task<IActionResult> CreatePrescription([FromForm] AddUpdatePrescriptionDto prescriptionDto)
         {

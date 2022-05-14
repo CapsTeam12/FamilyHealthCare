@@ -40,12 +40,12 @@
                             <div class="doctor-widget">
                                 <div class="doc-info-left">
                                     <div class="doctor-img1" style="max-width:300px;max-height:300px;">
-                                        <a href="pharmacy-details.html">
+                                        <a href="@Url.Action("PharmacyDetails","Pharmacy",new {id = pharmacy.Id })">
                                             <img src=@(ImageConstants.PHARMACIES+pharmacy.Avatar) class="img-fluid" alt="User Image">
                                         </a>
                                     </div>
                                     <div class="doc-info-cont">
-                                        <h4 class="doc-name mb-2"><a href="pharmacy-details.html">@pharmacy.PharmacyName</a></h4>
+                                        <h4 class="doc-name mb-2"><a href="@Url.Action("PharmacyDetails","Pharmacy",new {id = pharmacy.Id })">@pharmacy.PharmacyName</a></h4>
                                         <div class="clinic-details">
                                             <div class="clini-infos pt-3">
                                                 <p class="doc-location mb-2"><i class="fas fa-phone-volume me-1"></i> @pharmacy.Phone</p>
@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="doc-info-right">
                                     <div class="clinic-booking">
-                                        <a class="view-pro-btn" href="pharmacy-details.html">View Details</a>
+                                        <a class="view-pro-btn" href="@Url.Action("PharmacyDetails","Pharmacy",new {id = pharmacy.Id })">View Details</a>
                                         <a class="apt-btn" href="@Url.Action("Medicines","Pharmacy",new {id = pharmacy.Id })">Browse Products</a>
                                     </div>
                                 </div>
@@ -79,10 +79,10 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-            $("div.card.slice").slice(0, 1).show();
+            $("div.card.slice").slice(0, 4).show();
             $("#loadMore").on('click', function (e) {
                 e.preventDefault();
-                $("div.card.slice:hidden").slice(0, 1).slideDown();
+                $("div.card.slice:hidden").slice(0, 4).slideDown();
                 if ($("div.card.slice:hidden").length == 0) {
                     $("#loadMore").fadeOut('slow');
                 }

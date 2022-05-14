@@ -1,8 +1,11 @@
 ﻿@{
     ViewData["Title"] = "Dashboard";
     ViewData["breadcumb-title"] = "Dashboard";
+    int diff = (7 + (DateTime.Now.Date.DayOfWeek - DayOfWeek.Monday)) % 7;
+    DateTime DateStartOfWeek = DateTime.Now.AddDays(-1 * diff).Date;
 }
 
+<h4 id="dateStartOfWeek" hidden>@DateStartOfWeek</h4>
 <div class="row">
     <div class="col-xl-3 col-sm-6 col-12">
         <div class="card">
@@ -12,13 +15,13 @@
                         <i class="fe fe-money"></i>
                     </span>
                     <div class="dash-count">
-                        <h3>$50.00</h3>
+                        <h3 id="outOfStock"></h3>
                     </div>
                 </div>
                 <div class="dash-widget-info">
-                    <h6 class="text-muted">Sales Today</h6>
+                    <h6 class="text-muted">Out Of Stock</h6>
                     <div class="progress progress-sm">
-                        <div class="progress-bar bg-primary w-50"></div>
+                        <div id="progressOutOfStock" class="progress-bar bg-primary" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
             </div>
@@ -32,14 +35,14 @@
                         <i class="fe fe-credit-card"></i>
                     </span>
                     <div class="dash-count">
-                        <h3>$5.22</h3>
+                        <h3 id="returned"></h3>
                     </div>
                 </div>
                 <div class="dash-widget-info">
 
-                    <h6 class="text-muted">Expense Today</h6>
+                    <h6 class="text-muted">Returned</h6>
                     <div class="progress progress-sm">
-                        <div class="progress-bar bg-success w-50"></div>
+                        <div id="progressReturned" class="progress-bar bg-success" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
             </div>
@@ -50,17 +53,18 @@
             <div class="card-body">
                 <div class="dash-widget-header">
                     <span class="dash-widget-icon text-danger border-danger">
-                        <i class="fe fe-folder"></i>
+                        <img src="~/assetsPhar/img/vect-02.png" alt="" width="40">
+                        @*<i class="fe fe-folder"></i>*@
                     </span>
                     <div class="dash-count">
-                        <h3>485</h3>
+                        <h3 id="medicines"></h3>
                     </div>
                 </div>
                 <div class="dash-widget-info">
 
                     <h6 class="text-muted">Medicine</h6>
                     <div class="progress progress-sm">
-                        <div class="progress-bar bg-danger w-50"></div>
+                        <div id="progressMedicines" class="progress-bar bg-danger" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
             </div>
@@ -74,14 +78,14 @@
                         <i class="fe fe-users"></i>
                     </span>
                     <div class="dash-count">
-                        <h3>50</h3>
+                        <h3 id="prescriptions"></h3>
                     </div>
                 </div>
                 <div class="dash-widget-info">
 
-                    <h6 class="text-muted">Staff</h6>
+                    <h6 class="text-muted">Prescription</h6>
                     <div class="progress progress-sm">
-                        <div class="progress-bar bg-warning w-50"></div>
+                        <div id="progressPrescriptions" class="progress-bar bg-warning" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
             </div>
@@ -229,3 +233,179 @@
 
     </div>
 </div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var Totalmedicines = [];
+            var medicinesOutOfStock = [];
+            var medicinesReturned = [];
+            var dateStartOfWeek = new Date($('#dateStartOfWeek').text());
+            var dataMorrisArea = [];
+            var dataMorrisLine = [];
+            var dataPrescriptions = [];
+            Date.prototype.addDays = function (days) {
+                var date = new Date(this.valueOf());
+                date.setDate(date.getDate() + days);
+                return date;
+            }
+            GetMedicines();
+            GetPrescriptions();
+            MorrisLine();
+
+
+
+            $(window).on("resize", function () {
+                mA.redraw();
+                mL.redraw();
+            });
+
+            function GetMedicines() {
+                $.ajax({
+                    url: '/Home/getMedicines',
+                    type: 'GET',
+                    success: function (res) {
+                        if (res.success) {
+                            var medicines = res.item;
+                            $.each(medicines, function (i) {
+                                var medicine = medicines[i];
+                                if (medicine.status == 2) {
+                                    medicinesOutOfStock.push(medicine);
+                                } else if (medicine.status == 3) {
+                                    medicinesReturned.push(medicine);
+                                }
+                                Totalmedicines.push(medicine);
+                            });
+                            var outOfStockMedicines = medicinesOutOfStock.length;
+                            var returnedMedicines = medicinesReturned.length;
+                            var totalMedicines = medicines.length;
+                            var percentOutOfStock = (outOfStockMedicines / totalMedicines) * 100;
+                            var percentReturned = (returnedMedicines / totalMedicines) * 100;
+                            $('#outOfStock').text(outOfStockMedicines);
+                            $('#progressOutOfStock').attr('aria-valuenow', percentOutOfStock)
+                            $('#progressOutOfStock').css({ "width": percentOutOfStock + '%' });
+                            $('#returned').text(returnedMedicines);
+                            $('#progressReturned').attr('aria-valuenow', percentReturned)
+                            $('#progressReturned').css({ "width": percentReturned + '%' });
+                            $('#medicines').text(totalMedicines);
+                            $('#progressMedicines').attr('aria-valuenow', '100')
+                            $('#progressMedicines').css({ "width": 100 + '%' });
+                            for (var i = 0; i < 7; i++) {
+                                var count = 0;
+                                var dateOfWeekToCompare = dateStartOfWeek.addDays(i).toLocaleDateString();
+                                var dateOfWeek = moment(dateStartOfWeek.addDays(i)).format('YYYY-MM-DD');
+                                for (var j = 0; j < Totalmedicines.length; j++) {
+                                    var medicine = Totalmedicines[j];
+                                    var dateMedicine = new Date(medicine.importDate).toLocaleDateString();
+                                    if (dateMedicine == dateOfWeekToCompare) {
+                                        count++;
+                                    }
+                                }
+                                var obj = {
+                                    y: dateOfWeek,
+                                    a: count
+                                };
+                                dataMorrisArea.push(obj);
+                            }
+                            window.mA = Morris.Area({
+                                element: 'morrisArea',
+                                data: dataMorrisArea,
+                                xkey: 'y',
+                                ykeys: ['a'],
+                                labels: ['Medicines'],
+                                lineColors: ['#1b5a90'],
+                                lineWidth: 2,
+                                xLabelFormat: function (d) {
+                                    return ("0" + d.getDate()).slice(-2) + '-' + ("0" + (d.getMonth() + 1)).slice(-2) + '-' + d.getFullYear();
+                                },
+
+                                fillOpacity: 0.5,
+                                gridTextSize: 10,
+                                hideHover: 'auto',
+                                resize: true,
+                                redraw: true
+                            });
+                        }
+                    }
+                });
+            }
+            function GetPrescriptions() {
+                $.ajax({
+                    url: '/Home/getPrescriptions',
+                    type: 'GET',
+                    success: function (res) {
+                        if (res.success) {
+                            var prescriptions = res.item;
+                            $('#prescriptions').text(prescriptions.length);
+                            $('#progressPrescriptions').attr('aria-valuenow', 100)
+                            $('#progressPrescriptions').css({ "width": 100 + '%' });
+                        }
+                    }
+                });
+            }
+
+            function MorrisLine() {
+                $.ajax({
+                    url: '/Home/getPrescriptionsAndMedicines',
+                    type: 'GET',
+                    success: function (res) {
+                        if (res.success) {
+                            var prescriptions = res.prescriptions;
+                            var medicines = res.medicines;
+                            for (var i = 0; i < 7; i++) {
+                                var countMedicine = 0;
+                                var countPrescription = 0;
+                                var dateOfWeekToCompare = dateStartOfWeek.addDays(i).toLocaleDateString();
+                                var dateOfWeek = moment(dateStartOfWeek.addDays(i)).format('YYYY-MM-DD');
+                                for (var j = 0; j < medicines.length; j++) {
+                                    var medicine = medicines[j];
+                                    var dateMedicine = new Date(medicine.importDate).toLocaleDateString();
+                                    if (dateMedicine == dateOfWeekToCompare) {
+                                        countMedicine++;
+                                    }
+                                }
+                                for (var j = 0; j < prescriptions.length; j++) {
+                                    var prescription = prescriptions[j];
+                                    var datePrescription = new Date(prescription.date).toLocaleDateString();
+                                    if (datePrescription == dateOfWeekToCompare) {
+                                        countPrescription++;
+                                    }
+                                }
+
+                                var obj = {
+                                    y: dateOfWeek,
+                                    a: countMedicine,
+                                    b: countPrescription
+                                };
+                                dataMorrisLine.push(obj);
+                            }
+                            //console.log(dataMorrisLine);
+                            /* Morris Line Chart */
+                            window.mL = Morris.Line({
+                                element: 'morrisLine',
+                                data: dataMorrisLine,
+                                xkey: 'y',
+                                ykeys: ['a', 'b'],
+                                labels: ['Medicines', 'Prescriptions'],
+                                lineColors: ['#1b5a90', '#ff9d00'],
+                                lineWidth: 1,
+                                xLabelFormat: function (d) {
+                                    return ("0" + d.getDate()).slice(-2) + '-' + ("0" + (d.getMonth() + 1)).slice(-2) + '-' + d.getFullYear();
+                                },
+                                gridTextSize: 10,
+                                hideHover: 'auto',
+                                resize: true,
+                                redraw: true
+                            });
+                        }
+                    }
+                });
+              
+            }
+
+
+
+        });
+    </script>
+
+    <script src=@Url.Content("~/assetsPhar/js/chart.morris.js")></script>
+}

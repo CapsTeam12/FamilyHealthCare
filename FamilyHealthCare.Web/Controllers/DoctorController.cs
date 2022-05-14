@@ -26,6 +26,14 @@ namespace FamilyHealthCare.Customer.Controllers
             _httpContext = httpContext;
         }
 
+        private async Task<DoctorDetailsDto> GetDoctorDetails(int id)
+        {
+            var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
+            var response = await client.GetAsync($"{EndpointConstants.SearchService.DOCTORDETAILS}/{id}");
+            var doctor = await response.Content.ReadAsAsync<DoctorDetailsDto>();
+            return doctor;
+        }
+
         private async Task<List<SpecialitiesDetailsDto>> GetSpecialities()
         {
             var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
@@ -99,6 +107,13 @@ namespace FamilyHealthCare.Customer.Controllers
             ViewBag.Lng = lng;
             ViewBag.Name = name;
             return View("MapList",doctors);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DoctorDetails(int id)
+        {
+            var doctor = await GetDoctorDetails(id);
+            return View(doctor);
         }
     }
 }

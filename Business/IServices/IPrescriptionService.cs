@@ -12,6 +12,7 @@ namespace Business.IServices
         Task<IEnumerable<PrescriptionDto>> GetPrescriptionsDoctor(string accountId);
         Task<IEnumerable<PrescriptionDto>> GetPrescriptionsPharmacy(string accountId);
         Task<PrescriptionDto> GetPrescriptionDetails(int id);
+        Task<PrescriptionDto> GetPrescriptionDetailsWithMedicalRecord(int id);
         Task<PrescriptionDto> AddPrescriptionByDoctor(AddUpdatePrescriptionDto prescriptionDto);
         Task<PrescriptionDto> AddPrescriptionByPharmacy(AddUpdatePrescriptionPharmacyDto prescriptionDto);
         Task<PrescriptionDto> UpdatePrescriptionByDoctor(int id,AddUpdatePrescriptionDto prescriptionDto);

@@ -123,7 +123,7 @@ namespace FamilyHealthCare.Customer.Controllers
         public async Task<IActionResult> GetMedicalRecord(int id)
         {
             var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
-            var response = await client.GetAsync($"{EndpointConstants.PrescriptionService.DETAILS}/{id}");
+            var response = await client.GetAsync($"{EndpointConstants.PrescriptionService.DETAILS_BY_MEDICAL}/{id}");
             if(response != null && response.IsSuccessStatusCode)
             {
                 var model = await response.Content.ReadAsAsync<PrescriptionDto>();

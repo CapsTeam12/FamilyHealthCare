@@ -65,7 +65,7 @@ namespace Business.Services
 
         public async Task<IEnumerable<MedicalRecordDto>> GetMedicalRecordsByDoctor(string accountId)
         {
-            var medicalRecords = await _db.MedicalRecords.Where(a => a.Doctor.AccountId == accountId)
+            var medicalRecords = await _db.MedicalRecords.Where(a => a.Doctor.AccountId == accountId || a.Patient.AccountId == accountId)
                                                          .Include(p => p.Patient)
                                                          .Include(d => d.Doctor)
                                                          .ToListAsync();

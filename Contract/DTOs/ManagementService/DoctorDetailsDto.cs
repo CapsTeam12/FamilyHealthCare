@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Contract.DTOs.PartnerService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,5 +20,10 @@ namespace Contract.DTOs.ManagementService
         public string Biography { get; set; }
         public int Gender { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public List<ExperiencesDto> Experiences { get; set; }
+        public DoctorDetailsDto()
+        {
+            this.Experiences = new List<ExperiencesDto>();
+        }
     }
 }
