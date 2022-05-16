@@ -55,7 +55,7 @@ namespace Business
             return await query.FirstOrDefaultAsync(filter);
         }
 
-        public async Task<T> GetById(Guid id)
+        public async Task<T> GetById(int id)
         {
             return await _dbContext.Set<T>()
                 .FindAsync(id);

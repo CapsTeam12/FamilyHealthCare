@@ -1,12 +1,18 @@
 ﻿using AutoMapper.Configuration;
+using Business.Hubs;
 using Business.IServices;
 using Business.Services;
-using Microsoft.AspNetCore.Identity.UI.Services;
+using Data;
+using Data.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.Identity.UI.Services
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+using System.Linq;using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,13 +33,69 @@ namespace Business
             services.AddSingleton<IDbClient, DbClient>();
             services.AddTransient<IAuthService, ClsAuthService>();
             services.AddSingleton<IFileService, FileService>();
-            services.AddTransient<IZoomService, ZoomService>();
+            services.AddSingleton<IUserIdProvider, UserIdProvider>();
+ 	    services.AddTransient<IZoomService, ZoomService>();
             services.AddTransient<IParnerService, PartnerService>();
             services.AddTransient<ISendMailService, SendMailService>();
             services.AddTransient<IMedicineService, MedicineService>();
             services.AddTransient<IMedicalRecordService, MedicalRecordService>();
             services.AddTransient<IPrescriptionService, PrescriptionService>();
             services.AddTransient<IDashboardService, DashboardService>();
+        }
+        }
+
+        public static void AddAuthenticationAuthorization(this IServiceCollection services)
+        {
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireUppercase = false;
+            })
+               .AddEntityFrameworkStores<ApplicationDbContext>()
+               .AddDefaultTokenProviders();
+
+            services.AddAuthentication("Bearer")
+               .AddJwtBearer("Bearer", options =>
+               {
+                   options.Authority = "https://localhost:44315/";
+                   options.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       ValidateAudience = false
+                   };
+
+                   options.Events = new JwtBearerEvents()
+                   {
+                       OnMessageReceived = context =>
+                       {
+                           var accessToken = context.Request.Query["access_token"];
+
+                           // If the request is for our hub...
+                           var path = context.HttpContext.Request.Path;
+                           if (!string.IsNullOrEmpty(accessToken) &&
+                               (path.StartsWithSegments("/notification-hub")))
+                           {
+                               // Read the token out of the query string
+                               context.Token = accessToken;
+                           }
+                           return Task.CompletedTask;
+                       }
+                   };
+               });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ApiScope", policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                    //policy.RequireRole("Admin");
+                    policy.RequireClaim("role", "Admin");
+                });
+            });
         }
     }
 }

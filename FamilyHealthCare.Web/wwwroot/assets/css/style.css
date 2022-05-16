@@ -12614,9 +12614,10 @@ ul.benifits-col li i{
 	padding: 0;
 	margin: 0;
 }
-.notifications ul.notification-list > li{
+.notifications ul.notification-list > li {
 	margin-top: 0;
 	border-bottom: 1px solid #f5f5f5;
+	display: block;
 }
 .notifications ul.notification-list > li:last-child {
 	border-bottom: none;

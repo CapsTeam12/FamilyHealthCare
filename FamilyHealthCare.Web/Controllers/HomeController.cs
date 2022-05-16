@@ -14,7 +14,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FamilyHealthCare.Customer.Controllers
@@ -23,12 +22,10 @@ namespace FamilyHealthCare.Customer.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IHttpClientFactory _clientFactory;
-        private readonly IHttpContextAccessor _httpContext;
-        public HomeController(ILogger<HomeController> logger, IHttpClientFactory clientFactory, IHttpContextAccessor httpContext)
+        public HomeController(ILogger<HomeController> logger, IHttpClientFactory clientFactory)
         {
             _logger = logger;
             _clientFactory = clientFactory;
-            _httpContext = httpContext;
         }
 
 
@@ -41,6 +38,7 @@ namespace FamilyHealthCare.Customer.Controllers
             {
                 data = await response.Content.ReadAsAsync<List<DoctorDetailsDto>>();
             }
+
             HomeViewModel homeVM = new HomeViewModel
             {
                 Doctors = data,

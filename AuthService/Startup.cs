@@ -27,6 +27,7 @@ using static IdentityServer4.IdentityServerConstants;
 using Business;
 using FluentValidation.AspNetCore;
 using System.Reflection;
+using IdentityServer4.Hosting.LocalApiAuthentication;
 
 namespace AuthService
 {

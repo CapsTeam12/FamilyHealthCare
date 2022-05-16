@@ -46,18 +46,8 @@ namespace ManagementService
             services.Configure<MailSettings>(mailsettings); 
             services.AddBusinessLayer();
             services.AddDataAccessorLayer(Configuration);
-            services.AddIdentity<User, IdentityRole>(options =>
-            {
-                options.SignIn.RequireConfirmedAccount = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireUppercase = false;
-            })
-               .AddEntityFrameworkStores<ApplicationDbContext>()
-               .AddDefaultTokenProviders();
+            services.AddAuthenticationAuthorization();
+
             services.AddControllers()
                 .AddFluentValidation(fv =>
                 {
@@ -82,6 +72,7 @@ namespace ManagementService
             }
             app.UseStaticFiles();
             app.UseRouting();
+	    app.UseAuthentication();
             app.UseCors("policyName");
             app.UseAuthorization();
 

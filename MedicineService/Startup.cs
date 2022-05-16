@@ -34,6 +34,9 @@ namespace MedicineService
         {
             services.AddBusinessLayer();
             services.AddDataAccessorLayer(Configuration);
+	    services.AddControllers();
+	    services.AddAuthenticationAuthorization();
+
             services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
@@ -116,7 +119,7 @@ namespace MedicineService
             }
             app.UseStaticFiles();
             app.UseRouting();
-            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

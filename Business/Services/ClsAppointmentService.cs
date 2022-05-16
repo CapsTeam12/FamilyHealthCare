@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Business.IServices;
+using Contract.Constants;
 using Contract.DTOs;
 using Contract.DTOs.AppoimentService;
+using Contract.DTOs.NotificationServiceDtos;
 using Data;
 using Data.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -165,10 +167,22 @@ namespace Business.Services
                 };
                 await _db.Schedules.AddRangeAsync(scheduleOfAppointment); // Insert schedule 
                 await _db.SaveChangesAsync();
-                var appointmentDtos = _mapper.Map<AppointmentDetailsDto>(appointmentModel);
-                return appointmentDtos;
             }
-            return null;
+            var appointmentDtos = _mapper.Map<AppointmentDetailsDto>(appointmentModel);
+
+
+            var notification = new NotificationCreateDto();
+
+            notification.UserID = therapist.AccountId;
+            notification.Content = string.Format(
+                                    NotificationContentTemplate.NewAppointment, 
+                                    patient.FullName,
+                                    model.StartTime.ToString("HH:mm dd/MM/yyyy"));
+            notification.AvatarSender = patient.Avatar;
+            
+            Task.Run(() => new NotificationHelper().CallApiCreateNotification(notification));
+
+            return appointmentDtos;
         }
 
         public async Task<IActionResult> CreateAppointmentAsync(AppointmentCreateDto appointmentCreateDto)

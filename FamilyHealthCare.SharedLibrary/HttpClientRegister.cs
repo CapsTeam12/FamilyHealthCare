@@ -20,7 +20,17 @@ namespace FamilyHealthCare.SharedLibrary
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(RequestConstants.BEARER, accessToken);
             });
 
+            var configNotificaitonClient = new Action<IServiceProvider, HttpClient>(async (provider, client) =>
+            {
+                var httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
+                var accessToken = await httpContextAccessor.HttpContext.GetTokenAsync(RequestConstants.ACCESS_TOKEN);
+
+                client.BaseAddress = new Uri(config[RequestConstants.NOTIFICATION_ENDPOINT]);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(RequestConstants.BEARER, accessToken);
+            });
+
             services.AddHttpClient(ServiceConstants.BACK_END_NAMED_CLIENT, configClient);
+            services.AddHttpClient(ServiceConstants.NOTIFICATION_NAMED_CLIENT, configNotificaitonClient);
         }
     }
 }

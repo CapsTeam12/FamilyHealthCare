@@ -128,5 +128,10 @@ namespace FamilyHealthCare.SharedLibrary
             public static string CREATE = "/Zoom/CreateMeeting/";
             public static string CREATE_USER = "/Zoom/CreateUser";
         }
+
+        public static class NotificationService
+        {
+            public static string NOTIFICAITON = "/notification";
+        }
     }
 }

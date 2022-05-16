@@ -36,18 +36,7 @@ namespace ScheduleService
         {
             services.AddBusinessLayer();
             services.AddDataAccessorLayer(Configuration);
-            services.AddIdentity<User, IdentityRole>(options =>
-            {
-                options.SignIn.RequireConfirmedAccount = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireUppercase = false;
-            })
-             .AddEntityFrameworkStores<ApplicationDbContext>()
-             .AddDefaultTokenProviders();
+            services.AddAuthenticationAuthorization();
 
             services.AddControllers()
                 .AddFluentValidation(fv =>
@@ -57,27 +46,6 @@ namespace ScheduleService
                 }
             );
 
-            services.AddAuthentication("Bearer")
-               .AddJwtBearer("Bearer", options =>
-               {
-                   options.Authority = "https://localhost:44315/";
-                   options.TokenValidationParameters = new TokenValidationParameters
-                   {
-                       ValidateAudience = false
-                   };
-
-
-               });
-
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("ApiScope", policy =>
-                {
-                    policy.RequireAuthenticatedUser();
-                    //policy.RequireRole("Admin");
-                    policy.RequireClaim("role", "Admin");
-                });
-            });
 
             services.AddSwaggerGen(c =>
             {

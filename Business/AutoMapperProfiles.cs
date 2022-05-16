@@ -11,6 +11,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Contract.DTOs.AuthService;
+using Contract.DTOs.NotificationServiceDtos;
+using FamilyHealthCare.SharedLibrary;
 using Contract.DTOs.PartnerService;
 using Contract.DTOs.MedicineService;
 using Contract.DTOs.MedicalRecordService;
@@ -64,8 +66,13 @@ namespace Business
             CreateMap<ScheduleDoctor, ScheduleDoctorDto>().ReverseMap();
             CreateMap<ScheduleDoctor, ScheduleDoctorCreateDto>().ReverseMap();
 
-
-            CreateMap<Doctor, DoctorRegisterDto>().ReverseMap();
+            CreateMap<Notification, NotificationListDto>().ReverseMap();
+            CreateMap<Notification, NewNotificationDto>()
+                .ForMember(d => d.Time, n => n.MapFrom(t => t.Time.GetRelativeTime()))
+                .ForMember(d => d.AvatarSender, n => n.MapFrom(a => $"{ImageConstants.AVATARS}{a.AvatarSender}"))
+                .ForMember(d => d.ActualTime, n => n.MapFrom(t => t.Time))
+                .ReverseMap();
+	    CreateMap<Doctor, DoctorRegisterDto>().ReverseMap();
             CreateMap<Experience, ExperiencesDto>().ReverseMap();
 
             CreateMap<Pharmacy, PharmacyRegisterDto>().ReverseMap();
