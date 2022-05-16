@@ -15,6 +15,7 @@ namespace Data.Entities
         public User User { get; set; }
         public string Certifications { get; set; }
         public string FullName { get; set; }
+        public string Email { get; set; }
         [ForeignKey("Specialized")]
         public int SpecializedId { get; set; }
         public Specialities Specialized { get; set; }
@@ -24,5 +25,6 @@ namespace Data.Entities
         public string Address { get; set; }
         public int Languages { get; set; }
         public string Biography { get; set; }
+        public string Avatar { get; set; }
     }
 }

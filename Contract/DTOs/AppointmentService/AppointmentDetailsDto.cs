@@ -10,6 +10,8 @@ namespace Contract.DTOs
     public class AppointmentDetailsDto
     {
         public string Id { get; set; }
+        public string AccountId { get; set; }
+        public Patient Patient { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string Description { get; set; }

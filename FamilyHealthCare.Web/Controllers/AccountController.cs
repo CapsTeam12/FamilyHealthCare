@@ -35,6 +35,21 @@ namespace FamilyHealthCare.Customer.Controllers
             _clientFactory = clientFactory;
             _httpContext = httpContext;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var client = _clientFactory.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
+            var accountId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            var response = await client.GetAsync($"{EndpointConstants.MedicalRecordService.LIST_BY_DOCTOR}/{accountId}"); ;
+            if (response.IsSuccessStatusCode)
+            {
+                var medicalRecords = await response.Content.ReadAsAsync<IEnumerable<MedicalRecordDto>>();
+                return View(medicalRecords);
+            }
+            return View();
+        }
+
         public IActionResult SignIn()
         {
             return Challenge(new AuthenticationProperties { RedirectUri = "/" }, OpenIdConnectDefaults.AuthenticationScheme);

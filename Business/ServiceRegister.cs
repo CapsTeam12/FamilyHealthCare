@@ -27,6 +27,13 @@ namespace Business
             services.AddSingleton<IDbClient, DbClient>();
             services.AddTransient<IAuthService, ClsAuthService>();
             services.AddSingleton<IFileService, FileService>();
+            services.AddTransient<IZoomService, ZoomService>();
+            services.AddTransient<IParnerService, PartnerService>();
+            services.AddTransient<ISendMailService, SendMailService>();
+            services.AddTransient<IMedicineService, MedicineService>();
+            services.AddTransient<IMedicalRecordService, MedicalRecordService>();
+            services.AddTransient<IPrescriptionService, PrescriptionService>();
+            services.AddTransient<IDashboardService, DashboardService>();
         }
     }
 }

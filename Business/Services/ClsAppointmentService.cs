@@ -6,6 +6,7 @@ using Data;
 using Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -21,13 +22,51 @@ namespace Business.Services
         private readonly IMapper _mapper;
         private readonly IMongoCollection<Appointment> _appointments;
         private readonly ApplicationDbContext _db;
+        private readonly IZoomService _zoomService;
 
-        public ClsAppointmentService(IMapper mapper, IDbClient dbClient, ApplicationDbContext db)
+        public ClsAppointmentService(IMapper mapper, IDbClient dbClient, ApplicationDbContext db,IZoomService zoomService)
         {
             //_repository = repository;
             _mapper = mapper;
-            _appointments = dbClient.GetAppointmentsCollection(); 
+            _appointments = dbClient.GetAppointmentsCollection();
             _db = db;
+            _zoomService = zoomService;
+        }
+
+        public async Task<IEnumerable<AppointmentDetailsDto>> GetTotalAppointments()
+        {
+            var appointments = await _appointments.Find(x => true).ToListAsync();
+            var appoimentsDtos = _mapper.Map<IEnumerable<AppointmentDetailsDto>>(appointments);
+            return appoimentsDtos;
+        }
+
+        public int GetTotalAppointmentsByPatient(string id)
+        {
+            var appointments = _appointments.Find(x => x.AccountId == id).ToList();
+            return appointments.Count;
+        }
+
+        public int GetTotalAppointmentsByDoctor(string id)
+        {
+            var appointments = _appointments.Find(x => x.Therapist.AccountId == id).ToList();
+            return appointments.Count;
+        }
+        private bool CheckIfExistAppointment(string userId, DateTime date, DateTime startTime)
+        {
+            var listAppointmentInDb =  _db.Schedules
+                                    .Where(a => a.AccountId == userId && a.StartTime.Date == date)
+                                    .ToList(); // Lay danh sach cac cuoc hen trong ngay
+            if (listAppointmentInDb.Count == 0) return true;
+            foreach(var ap in listAppointmentInDb)
+            {
+                var apHourStartTime = ap.StartTime; // Gio bat dau cua appointment 
+                var hourDistance = (startTime - apHourStartTime).TotalHours; // Khoang cach giua 2 cuoc hen trong ngay
+                if(hourDistance == 0)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         [HttpGet]
@@ -62,9 +101,9 @@ namespace Business.Services
                 if (DateTime.Compare(DateTime.Now, appointment.EndTime.ToLocalTime()) > 0 && appointment.Status != 4) // Cuộc hẹn đã diễn ra và kh bị hủy
                 {
                     appointment.Status = 3; // status Completed
-                    
+
                 }
-                else if ((appointment.StartTime.ToLocalTime() <= DateTime.Now && DateTime.Now <= appointment.EndTime.ToLocalTime())  && appointment.Status != 4) // Cuộc hẹn đang diễn ra và kh bị hủy
+                else if ((appointment.StartTime.ToLocalTime() <= DateTime.Now && DateTime.Now <= appointment.EndTime.ToLocalTime()) && appointment.Status != 4) // Cuộc hẹn đang diễn ra và kh bị hủy
                 {
                     appointment.Status = 2; // status In Progress
                 }
@@ -90,13 +129,15 @@ namespace Business.Services
             var appointmentModel = _mapper.Map<Appointment>(model);
             appointmentModel.AccountId = userId;
             appointmentModel.Therapist = therapist;
+            appointmentModel.Patient = patient;
             appointmentModel.StartTime = Convert.ToDateTime(model.Date.ToString("yyyy-MM-dd") + " " + appointmentModel.StartTime.ToString("HH:mm:ss"));
             appointmentModel.EndTime = Convert.ToDateTime(model.Date.ToString("yyyy-MM-dd") + " " + appointmentModel.EndTime.ToString("HH:mm:ss"));
             appointmentModel.Status = 1; // status Coming
             string timeSlot = model.StartTime.ToString("HH:mm:ss") + "-" + model.EndTime.ToString("HH:mm:ss");
             var scheduleOfDoctor = await _db.ScheduleDoctors.FirstOrDefaultAsync(x => x.Date == Convert.ToDateTime(model.Date.ToString("yyyy-MM-dd"))
             && x.Shift.TimeSlot == timeSlot && x.AccountId == therapist.AccountId); // Find schedule of doctor when patient book 
-            if (scheduleOfDoctor != null) // Check if exist schedule of Doctor in view booking
+            var checkIfExist = CheckIfExistAppointment(userId, model.Date, model.StartTime);
+            if (scheduleOfDoctor != null && checkIfExist == true) // Check if exist schedule of Doctor in view booking
             {
                 await _appointments.InsertOneAsync(appointmentModel); // Insert appointment data
 
@@ -124,9 +165,10 @@ namespace Business.Services
                 };
                 await _db.Schedules.AddRangeAsync(scheduleOfAppointment); // Insert schedule 
                 await _db.SaveChangesAsync();
+                var appointmentDtos = _mapper.Map<AppointmentDetailsDto>(appointmentModel);
+                return appointmentDtos;
             }
-            var appointmentDtos = _mapper.Map<AppointmentDetailsDto>(appointmentModel);
-            return appointmentDtos;
+            return null;
         }
 
         public async Task<IActionResult> CreateAppointmentAsync(AppointmentCreateDto appointmentCreateDto)
@@ -139,31 +181,34 @@ namespace Business.Services
 
         //1: Coming, 2: In Progress, 3: Completed 4: Canceled
         public async Task<AppointmentDetailsDto> RescheduleAppointment(AppointmentRescheduleDto model, string id) // Reschedule Appointment
-        {            
+        {
             var oldAppointment = await GetAppointmentById(id); // get old Appointment
             var timeSlotOldAppointment = oldAppointment.StartTime.ToLocalTime().ToString("HH:mm:ss") + "-" + oldAppointment.EndTime.ToLocalTime().ToString("HH:mm:ss"); // get timeslot of old appointment
             // Find the doctor's schedule appointment that the user makes rescheduling
-            var OldscheduleOfDoctor = await _db.ScheduleDoctors.FirstOrDefaultAsync(x => x.AccountId == oldAppointment.Therapist.AccountId 
+            var OldscheduleOfDoctor = await _db.ScheduleDoctors.FirstOrDefaultAsync(x => x.AccountId == oldAppointment.Therapist.AccountId
             && x.Shift.TimeSlot == timeSlotOldAppointment && x.IsBooking == true && x.Date == oldAppointment.StartTime.Date);
             // Reshedule
             var appointmentModel = _mapper.Map<Appointment>(model);
             var therapist = await _db.Doctors.FirstOrDefaultAsync(x => x.Id == model.TherapistId); // Find therapist
+            var patient = await _db.Patients.FirstOrDefaultAsync(x => x.Id == model.PatientId); // Find patient
+            appointmentModel.Patient = patient;
             appointmentModel.Therapist = therapist;
             appointmentModel.Id = id;
             var schedulesOfAppointment = await _db.Schedules.Where(x => x.AppointmentId == appointmentModel.Id).ToListAsync(); // Find scheduled appointments to reschedule
             DateTime startTime = oldAppointment.StartTime.ToLocalTime(); // Thời gian bắt đầu của cuộc hẹn sẽ thay đổi
             DateTime currentTime = DateTime.Now; // Thời gian hiện tại 
             var HourDistance = (startTime - currentTime).TotalHours; // Khoảng cách giờ giữa thời gian bắt đầu cuộc hẹn sẽ thay đổi và thời gian hiện tại 
+            var checkIfExist = CheckIfExistAppointment(model.AccountId, oldAppointment.StartTime.Date, model.StartTime);
             if (schedulesOfAppointment != null // Check if the scheduled appointment is exist
                 && appointmentModel.Status == 1 // and the appointment status is coming
-                && HourDistance >= 2) // and the time to reschedule it must be 2 hours before
+                && HourDistance >= 2 && checkIfExist == true) // and the time to reschedule it must be 2 hours before
             {
                 await _appointments.ReplaceOneAsync(x => x.Id == id, appointmentModel);
                 foreach (var schedules in schedulesOfAppointment) // Get schedules appointment to update 
                 {
                     schedules.StartTime = model.StartTime;
                     schedules.EndTime = model.EndTime;
-                    _db.Schedules.Update(schedules);
+                    _db.Schedules.Update(schedules);                    
                 }
                 OldscheduleOfDoctor.IsBooking = false; // set isbooking false after appointment rescheduled
                 // Find schedule of doctor after change 
@@ -171,10 +216,18 @@ namespace Business.Services
                 var NewscheduleOfDoctor = await _db.ScheduleDoctors.FirstOrDefaultAsync(x => x.AccountId == appointmentModel.Therapist.AccountId
                 && x.Date == model.StartTime.Date && x.Shift.TimeSlot == timeSlotNewAppointment);
                 NewscheduleOfDoctor.IsBooking = true; // set isbooking true with new schedule appointment
+                await _db.SaveChangesAsync();
+                var meeting = new Meeting
+                {
+                    Id = schedulesOfAppointment.Select(s => s.MeetingId).First(),
+                    StartTime = model.StartTime,
+                    Duration = model.EndTime.Minute - model.StartTime.Minute
+                };
+                await _zoomService.UpdateMeeting(meeting.Id, meeting);
+                var appointmentDto = _mapper.Map<AppointmentDetailsDto>(appointmentModel);
+                return appointmentDto;
             }
-            await _db.SaveChangesAsync();
-            var appointmentDto = _mapper.Map<AppointmentDetailsDto>(appointmentModel);
-            return appointmentDto;
+            return null;
         }
 
         //1: Coming, 2: In Progress, 3: Completed 4: Canceled
@@ -194,13 +247,15 @@ namespace Business.Services
                 _db.ScheduleDoctors.Update(scheduleOfDoctor);
                 // =====
                 // Find scheduled appointments to cancel
-                var schedulesOfAppointment = await _db.Schedules.Where(x => x.AppointmentId == appointment.Id).ToListAsync();  
+                var schedulesOfAppointment = await _db.Schedules.Where(x => x.AppointmentId == appointment.Id).ToListAsync();
                 _db.Schedules.RemoveRange(schedulesOfAppointment);
                 // =====
                 appointment.Status = 4; // Status Canceled
                 await _db.SaveChangesAsync();
                 // Replace status of appointment already canceled
-                await _appointments.ReplaceOneAsync(x => x.Id == id, appointment);  
+                await _appointments.ReplaceOneAsync(x => x.Id == id, appointment);
+                var meetingId = schedulesOfAppointment.Select(m => m.MeetingId).First();
+                await _zoomService.DeleteMeeting(meetingId);
             }
             var appointmentDto = _mapper.Map<AppointmentDetailsDto>(appointment);
             return appointmentDto;

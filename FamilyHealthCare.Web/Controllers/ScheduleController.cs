@@ -41,6 +41,22 @@ namespace FamilyHealthCare.Customer.Controllers
             return View(data);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateEvent(ScheduleCreateDto schedule)
+        {
+            var userId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier); //get userId of current user logged in
+            var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
+            schedule.AccountId = userId;
+            var scheduleModel = JsonConvert.SerializeObject(schedule);
+            var dataSchedule = new StringContent(scheduleModel, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync(EndpointConstants.ScheduleService.EVENT_CREATE, dataSchedule);
+            if (response.IsSuccessStatusCode && response != null)
+            {
+                return Json(new { success = true });
+            }
+            return View();
+        }
+
 
     }
 }

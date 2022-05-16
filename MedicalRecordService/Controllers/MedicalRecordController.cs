@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Business.IServices;
+using Contract.DTOs.MedicalRecordService;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,36 +14,59 @@ namespace MedicalRecordService.Controllers
     [ApiController]
     public class MedicalRecordController : ControllerBase
     {
-        // GET: api/<MedicalRecordController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly IMedicalRecordService _medicalRecordService;
+
+        public MedicalRecordController(IMedicalRecordService medicalRecordService)
         {
-            return new string[] { "value1", "value2" };
+            _medicalRecordService = medicalRecordService;
         }
 
-        // GET api/<MedicalRecordController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        // GET: api/<MedicalRecordController>
+        [HttpGet("[action]/{accountId}")]
+        public async Task<IActionResult> GetMedicalRecords(string accountId)
         {
-            return "value";
+            var medicalRecord = await _medicalRecordService.GetMedicalRecordsByDoctor(accountId);
+            if(medicalRecord != null)
+            {
+                return Ok(medicalRecord);
+            }
+            return NotFound();
         }
 
         // POST api/<MedicalRecordController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("[action]")]
+        public async Task<IActionResult> CreateMedicalRecord([FromBody] AddUpdateMedicalRecordDto recordDto)
         {
+            var medicalRecord = await _medicalRecordService.CreateMedicalRecord(recordDto);
+            if (medicalRecord != null)
+            {
+                return Ok(medicalRecord);
+            }
+            return NotFound();
         }
 
         // PUT api/<MedicalRecordController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("[action]/{id}")]
+        public async Task<IActionResult> UpdateMedicalRecord(int id, [FromBody] AddUpdateMedicalRecordDto recordDto)
         {
+            var medicalRecord = await _medicalRecordService.UpdateMedicalRecord(id,recordDto);
+            if (medicalRecord != null)
+            {
+                return Ok(medicalRecord);
+            }
+            return NotFound();
         }
 
         // DELETE api/<MedicalRecordController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("[action]/{id}")]
+        public async Task<IActionResult> DeleteMedicalRecord(int id)
         {
+            var medicalRecord = await _medicalRecordService.DeleteMedicalRecord(id);
+            if (medicalRecord != null)
+            {
+                return Ok(medicalRecord);
+            }
+            return NotFound();
         }
     }
 }

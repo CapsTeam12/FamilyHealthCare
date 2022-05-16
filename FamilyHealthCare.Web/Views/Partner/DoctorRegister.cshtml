@@ -1,0 +1,564 @@
+﻿@model IEnumerable<SpecialitiesDetailsDto>
+@using Data.Entities
+@using Contract.DTOs.ManagementService
+@{
+
+}
+<style>
+    .error {
+        font-weight: 700;
+        display: block;
+        color: #f00;
+        font-size: 14px;
+    }
+</style>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-7 col-lg-8 col-xl-12">
+                <!-- Basic Information -->
+                <form id="formRequest" enctype="multipart/form-data">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Doctor Information</h4>
+                            <div class="row form-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="change-avatar">
+                                            <div class="profile-img">
+                                                <img id="imageuploadAvatar" src="../assets/img/doctors/doctor-thumb-02.jpg" alt="User Image">
+                                            </div>
+                                            <div class="upload-img">
+                                                <div class="change-photo-btn">
+                                                    <span><i class="fa fa-upload"></i> Upload Photo</span>
+                                                    <input type="file" id="uploadAvatar" class="upload" name="Avatar" onchange="readPicture(this);">
+                                                </div>
+                                                <small class="form-text text-muted">Allowed JPG, or PNG. Max size of 2MB</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Full Name <span class="text-danger">*</span></label>
+                                        <input id="fullName" type="text" name="FullName" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Address <span class="text-danger">*</span></label>
+                                        <input id="address" name="Address" type="text" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Email <span class="text-danger">*</span></label>
+                                        <input id="email" type="text" name="Email" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Phone Number</label>
+                                        <input id="phone" type="text" name="Phone" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Gender</label>
+                                        <select class="form-select form-control" id="gender" name="Gender" required>
+                                            <option value="">Select</option>
+                                            <option value="1">Male</option>
+                                            <option value="0">Female</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-0">
+                                        <label>Date of Birth</label>
+                                        <input id="dob" type="date" name="DateOfBirth" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Basic Information -->
+                    <!-- About Me -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">About Me</h4>
+                            <div class="form-group mb-0">
+                                <label>Biography</label>
+                                <textarea id="biography" name="Biography" class="form-control" rows="5" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /About Me -->
+                    <!-- Experience -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Experience</h4>
+                            <div class="experience-info">
+                                <div class="row form-row experience-cont">
+                                    <div class="col-12 col-md-10 col-lg-11">
+                                        <div class="row form-row">
+                                            <div class="col-12 col-md-6 col-lg-4">
+                                                <div class="form-group">
+                                                    <label>Hospital Name</label>
+                                                    <input type="text" id="hospitalName" name="HospitalName" class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6 col-lg-4">
+                                                <div class="form-group">
+                                                    <label>From</label><small class="form-text text-muted"> (Example: 2022)</small>
+                                                    <input type="text" id="from" name="From" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6 col-lg-4">
+                                                <div class="form-group">
+                                                    <label>To</label><small class="form-text text-muted"> (Example: 2023)</small>
+                                                    <input type="text" id="to" name="To" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6 col-lg-4">
+                                                <div class="form-group">
+                                                    <label>Designation</label>
+                                                    <input type="text" id="designation" name="Designation" class="form-control" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="add-more">
+                                <a href="javascript:void(0);" class="add-experience"><i class="fa fa-plus-circle"></i> Add More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Experience -->
+                    <!-- Education -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Certifications</h4>
+                            <div class="row form-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Certification Image</label>
+                                        <div class="change-avatar">
+                                            <div class="profile-img">
+                                                <img id="imagecertificationUpload" src="../assets/img/doctors/doctor-thumb-02.jpg" alt="User Image">
+                                            </div>
+                                            <div class="upload-img">
+                                                <div class="change-photo-btn">
+                                                    <span><i class="fa fa-upload"></i> Upload Photo</span>
+                                                    <input id="certificationUpload" type="file" class="upload" name="Certification" onchange="readPicture(this);">
+                                                </div>
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Education -->
+                    <!-- Awards -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Speciality</h4>
+                            <div class="awards-info">
+                                <div class="row form-row awards-cont">
+                                    <div class="col-12 col-md-5">
+                                        <div class="form-group">
+                                            <label>Speciality</label>
+                                            <select id="specialized" name="SpecializedId" class="form-select form-control">
+                                                <option value="">-Select-</option>
+                                                @foreach (var specialize in Model)
+                                                {
+                                                    <option value="@specialize.Id">@specialize.SpecializedName</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submit-section submit-btn-bottom">
+                        <button type="button" class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+@section scripts{
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>
+    <script>
+        function readPicture(input) {
+            //console.log(input.id);
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var selector = 'img#image' + input.id;
+                    $(selector).attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            var experiencesCount = 1; // Dem so
+            var experiencesCountArr = []; // Luu experiencesCount
+            experiencesCountArr.push(1);
+            // Experience Add More
+            $(".experience-info").on('click', '.trash', function () {
+                $(this).closest('.experience-cont').remove();
+                let numBeRemoved = $(this).attr('id');
+                //console.log("So bi xoa la: " + numBeRemoved);
+                for (var i = 0; i < experiencesCountArr.length; i++) {
+                    if (experiencesCountArr[i] === Number(numBeRemoved)) {
+                        experiencesCountArr.splice(i, 1);
+                    }
+                }
+                //for (var i = 0; i < experiencesCountArr.length; i++) {
+                //    //console.log(i + ": " + experiencesCountArr[i]);
+                //}
+                //console.log("Array have: " + experiencesCountArr.length);
+                RemoveValidateAddMoreExperiences();
+                return false;
+            });
+
+            function RemoveValidateAddMoreExperiences() {
+                $("#hospitalName" + experiencesCount).rules("remove");
+                $("#from" + experiencesCount).rules("remove");
+                $("#to" + experiencesCount).rules("remove");
+                $("#designation" + experiencesCount).rules("remove");
+            }
+
+            $(".add-experience").on('click', function () {
+                experiencesCount++;
+                experiencesCountArr.push(experiencesCount);
+                var experiencecontent = '<div class="row form-row experience-cont">' +
+                    '<div class="col-12 col-md-10 col-lg-11">' +
+                    '<div class="row form-row">' +
+                    '<div class="col-12 col-md-6 col-lg-4">' +
+                    '<div class="form-group">' +
+                    '<label>Hospital Name</label>' +
+                    '<input id="hospitalName' + experiencesCount + '"  type="text" name="HospitalName' + experiencesCount + '" class="form-control">' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-12 col-md-6 col-lg-4">' +
+                    '<div class="form-group">' +
+                    '<label>From</label>' +
+                    '<input id="from' + experiencesCount + '" type="text" name="From' + experiencesCount + '" class="form-control">' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-12 col-md-6 col-lg-4">' +
+                    '<div class="form-group">' +
+                    '<label>To</label>' +
+                    '<input id="to' + experiencesCount + '" type="text" name="To' + experiencesCount + '" class="form-control">' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-12 col-md-6 col-lg-4">' +
+                    '<div class="form-group">' +
+                    '<label>Designation</label>' +
+                    '<input id="designation' + experiencesCount + '" type="text" name="Designation' + experiencesCount + '" class="form-control">' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-12 col-md-2 col-lg-1"><label class="d-md-block d-sm-none d-none">&nbsp;</label><a id="' + experiencesCount + '" href="#" class="btn btn-danger trash"><i class="far fa-trash-alt"></i></a></div>' +
+                    '</div>';
+                $(".experience-info").append(experiencecontent);
+                ValidateAddMoreExperiences();
+                //console.log(experiencesCount);
+                //console.log("Array have: " + experiencesCountArr.length);
+                return false;
+            });
+
+            function ValidateAddMoreExperiences() {
+                $('#hospitalName' + experiencesCount).rules('add', {
+                    required: true,
+                    minlength: 5,
+                    messages: {
+                        required: "Please enter your hospital name!",
+                        minlength: "Hospital name at least 5 characters!"
+                    }
+                });
+                $('#from' + experiencesCount).rules('add', {
+                    required: true,
+                    number: true,
+                    minlength: 4,
+                    maxlength: 4,
+                    min: 1980,
+                    max: 2030,
+                    messages: {
+                        required: "Please enter year number!",
+                        number: "You can only to enter numbers!",
+                        minlength: "Enter all 4 numbers!",
+                        maxlength: "Enter all 4 numbers!",
+                        min: "Year must greater than 1980",
+                        max: "Year must less than 2030"
+                    }
+                });
+                $('#to' + experiencesCount).rules('add', {
+                    required: true,
+                    number: true,
+                    minlength: 4,
+                    maxlength: 4,
+                    min: 1980,
+                    max: 2030,
+                    messages: {
+                        required: "Please enter year number!",
+                        number: "You can only to enter numbers!",
+                        minlength: "Enter all 4 numbers!",
+                        maxlength: "Enter all 4 numbers!",
+                        min: "Year must greater than 1980",
+                        max: "Year must less than 2030"
+                    }
+                });
+                $('#designation' + experiencesCount).rules('add', {
+                    required: true,
+                    messages: {
+                        required: "Please enter this field!"
+                    }
+                });
+            }
+
+
+
+            var arrItems = [];
+            $('.submit-btn').click(function () {
+                if ($('#formRequest').valid()) {
+                    //alert('OKE');
+                    var formData = new FormData();
+                    var fileUpload = $('#uploadAvatar').get(0);
+                    var files = fileUpload.files;
+                    var certificationUpload = $('#certificationUpload').get(0);
+                    var certificationFiles = certificationUpload.files;
+                    formData.append("Avatar", files[0]);
+                    formData.append("Certifications", certificationFiles[0]);
+                    formData.append("FullName", $('#fullName').val());
+                    formData.append("Address", $('#address').val());
+                    formData.append("Email", $('#email').val());
+                    formData.append("Phone", $('#phone').val());
+                    formData.append("Gender", $('#gender').val());
+                    formData.append("DateOfBirth", $('#dob').val());
+                    formData.append("Biography", $('#biography').val());
+                    for (var i = 0; i < experiencesCountArr.length; i++) {
+                        if (Number(experiencesCountArr[i]) === 1) {
+                            var experiences = {
+                                HospitalName: $('#hospitalName').val(),
+                                From: Number($('#from').val()),
+                                To: Number($('#to').val()),
+                                Designation: $('#designation').val()
+                            };
+                            arrItems.push(experiences);
+                        } else {
+                            var HospitalName = '#hospitalName' + experiencesCountArr[i];
+                            var From = '#from' + experiencesCountArr[i];
+                            var To = '#to' + experiencesCountArr[i];
+                            var Designation = '#designation' + experiencesCountArr[i];
+                            var experiences = {
+                                HospitalName: $(HospitalName).val(),
+                                From: Number($(From).val()),
+                                To: Number($(To).val()),
+                                Designation: $(Designation).val()
+                            };
+                            arrItems.push(experiences);
+                            //arrItems.push(JSON.stringify(experiences));
+                        }
+                    }
+                    for (var i = 0; i < arrItems.length; i++) {
+                        formData.append("Experiences[" + i + "].HospitalName", arrItems[i].HospitalName);
+                        formData.append("Experiences[" + i + "].From", arrItems[i].From);
+                        formData.append("Experiences[" + i + "].To", arrItems[i].To);
+                        formData.append("Experiences[" + i + "].Designation", arrItems[i].Designation);
+                    }
+                    formData.append("SpecializedId", $('#specialized').val());
+                    //console.log(arrItems);
+                    $.ajax({
+                        url: '/Partner/DoctorRegister',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (res) {
+                            if (res.success == true) {
+                                swal({
+                                    icon: "success",
+                                    title: "You have successfully registered as a partner. Please wait for our response in your email, we will contact you directly soon."
+                                }).then((confirm) => {
+                                    if (confirm) {
+                                        window.location.href = '/Home/Index';
+                                    }
+                                });
+                            } else {
+                                swal({
+                                    icon: "info",
+                                    title: "Please check again your information!"
+                                });
+                            }
+                        }
+
+                    });
+                    // End if
+                }
+            });
+
+            $.validator.addMethod('filesize', function (value, element, param) {
+                return this.optional(element) || (element.files[0].size <= param)
+            });
+
+            $('#formRequest').validate({
+                rules: {
+                    Avatar: {
+                        required: true,
+                        extension: "jpg|jpeg|png",
+                        filesize: 2097152 // <- 2 MB
+                    },
+                    FullName: {
+                        required: true,
+                        minlength: 10
+                    },
+                    Address: {
+                        required: true
+                    },
+                    Email: {
+                        email: true,
+                        required: true,
+                        remote: {
+                            url: "/Partner/CheckEmailExist",
+                            type: "post",
+                            data: {
+                                email: function () {
+                                    return $("#email").val();
+                                }
+                            }
+                        }
+                    },
+                    Phone: {
+                        number: true,
+                        minlength: 10,
+                        maxlength: 10
+                    },
+                    Gender: {
+                        required: true
+                    },
+                    DateOfBirth: {
+                        required: true
+                    },
+                    Biography: {
+                        required: true
+                    },
+                    HospitalName: {
+                        required: true,
+                        minlength: 5
+                    },
+                    From: {
+                        required: true,
+                        number: true,
+                        minlength: 4,
+                        maxlength: 4,
+                        min: 1980,
+                        max: 2030
+                    },
+                    To: {
+                        required: true,
+                        number: true,
+                        minlength: 4,
+                        maxlength: 4,
+                        min: 1980,
+                        max: 2030
+                    },
+                    Designation: {
+                        required: true
+                    },
+                    Certification: {
+                        required: true,
+                        extension: "jpg|jpeg|png",
+                        filesize: 2097152 // <- 2 MB
+                    },
+                    SpecializedId: {
+                        required: true
+                    }
+                },
+                messages: {
+                    Avatar: {
+                        required: "Please choose your avatar file!",
+                        extension: "Allowed JPG or PNG",
+                        filesize: "File must be less than 2MB"
+                    },
+                    FullName: {
+                        required: "Please enter your full name!",
+                        minlength: "Full name at least 10 characters!"
+                    },
+                    Address: {
+                        required: "Please enter your address!"
+                    },
+                    Email: {
+                        required: "Please enter your email!",
+                        email: "Please enter a valid email address!",
+                        remote: "Email already in use!"
+                    },
+                    Phone: {
+                        required: "Please enter your phone number!",
+                        minlength: "Enter all 10 numbers!",
+                        maxlength: "Enter all 10 numbers!"
+                    },
+                    Gender: {
+                        required: "Please select your option!"
+                    },
+                    DateOfBirth: {
+                        required: "Please enter your birthday!"
+                    },
+                    Biography: {
+                        required: "Please enter your biography!"
+                    },
+                    HospitalName: {
+                        required: "Please enter your hospital name!",
+                        minlength: "Hospital name at least 5 characters!"
+                    },
+                    From: {
+                        required: "Please enter year number!",
+                        number: "You can only to enter numbers!",
+                        minlength: "Enter all 4 numbers!",
+                        maxlength: "Enter all 4 numbers!",
+                        min: "Year must greater than 1980",
+                        max: "Year must less than 2030"
+                    },
+                    To: {
+                        required: "Please enter year number!",
+                        number: "You can only to enter numbers!",
+                        minlength: "Enter all 4 numbers!",
+                        maxlength: "Enter all 4 numbers!",
+                        min: "Year must greater than 1980",
+                        max: "Year must less than 2030"
+                    },
+                    Designation: {
+                        required: "Please enter this field!"
+                    },
+                    Certification: {
+                        required: "Please choose your certification file!",
+                        extension: "Allowed JPG or PNG",
+                        filesize: "File must be less than 2MB"
+                    },
+                    SpecializedId: {
+                        required: "Please select your option!"
+                    }
+                }
+
+            });
+
+        });
+
+    </script>
+}

@@ -12,6 +12,9 @@ namespace Business.IServices
 {
     public interface IAppointmentService
     {
+        Task<IEnumerable<AppointmentDetailsDto>> GetTotalAppointments();
+        int GetTotalAppointmentsByPatient(string id);
+        int GetTotalAppointmentsByDoctor(string id);
         public Task<IActionResult> GetAppointmentsAsync(string search);
         public Task<IActionResult> CreateAppointmentAsync(AppointmentCreateDto appointmentCreateDto);
         Task<IEnumerable<AppointmentDetailsDto>> GetAppointments(string userId);

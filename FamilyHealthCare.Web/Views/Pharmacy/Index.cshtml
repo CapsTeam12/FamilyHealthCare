@@ -1,0 +1,95 @@
+﻿@model IEnumerable<PharmacyDetailsDto>
+@using FamilyHealthCare.SharedLibrary;
+@using Contract.DTOs.ManagementService;
+@{
+
+}
+<style>
+    .card.slice {
+        display: none;
+    }
+</style>
+<!-- Breadcrumb -->
+<div class="breadcrumb-bar">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-8 col-12">
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Pharmacy List</li>
+                    </ol>
+                </nav>
+                <h2 class="breadcrumb-title">Pharmacy List</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Breadcrumb -->
+<!-- Page Content -->
+<div class="content">
+    <div class="container-fluid">
+
+        <div class="row justify-content-center">
+            <div class="col-xl-9">
+                @foreach (var pharmacy in Model)
+                {
+                    <!-- Doctor Widget -->
+                    <div class="card slice">
+                        <div class="card-body">
+                            <div class="doctor-widget">
+                                <div class="doc-info-left">
+                                    <div class="doctor-img1" style="max-width:300px;max-height:300px;">
+                                        <a href="@Url.Action("PharmacyDetails","Pharmacy",new {id = pharmacy.Id })">
+                                            <img src=@(ImageConstants.PHARMACIES+pharmacy.Avatar) class="img-fluid" alt="User Image">
+                                        </a>
+                                    </div>
+                                    <div class="doc-info-cont">
+                                        <h4 class="doc-name mb-2"><a href="@Url.Action("PharmacyDetails","Pharmacy",new {id = pharmacy.Id })">@pharmacy.PharmacyName</a></h4>
+                                        <div class="clinic-details">
+                                            <div class="clini-infos pt-3">
+                                                <p class="doc-location mb-2"><i class="fas fa-phone-volume me-1"></i> @pharmacy.Phone</p>
+                                                <p class="doc-location mb-2 text-ellipse"><i class="fas fa-map-marker-alt me-1"></i> @pharmacy.Address </p>
+                                                <p class="doc-location mb-2"><i class="fas fa-envelope me-1"></i> @pharmacy.Email</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="doc-info-right">
+                                    <div class="clinic-booking">
+                                        <a class="view-pro-btn" href="@Url.Action("PharmacyDetails","Pharmacy",new {id = pharmacy.Id })">View Details</a>
+                                        <a class="apt-btn" href="@Url.Action("Medicines","Pharmacy",new {id = pharmacy.Id })">Browse Products</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Doctor Widget -->
+                }
+                <div class="load-more text-center">
+                    <a id="loadMore" class="btn btn-primary btn-md" href="javascript:void(0);">Load More</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- /Page Content -->
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("div.card.slice").slice(0, 4).show();
+            $("#loadMore").on('click', function (e) {
+                e.preventDefault();
+                $("div.card.slice:hidden").slice(0, 4).slideDown();
+                if ($("div.card.slice:hidden").length == 0) {
+                    $("#loadMore").fadeOut('slow');
+                }
+                $('html,body').animate({
+                    scrollTop: $(this).offset().top
+                }, 1500);
+            });
+        });
+    </script>
+}

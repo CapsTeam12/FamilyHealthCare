@@ -2,6 +2,7 @@
 using Business.IServices;
 using Contract.DTOs.ManagementService;
 using Data.Entities;
+using FamilyHealthCare.SharedLibrary;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -20,13 +21,15 @@ namespace Business.Services
         private readonly IBaseRepository<Patient> _patientRepos;
         private readonly IBaseRepository<Specialities> _specializedRepos;
         private readonly IMapper _mapper;
-        
+        private readonly IFileService _fileService;
+
         public ClsManagementService(IMapper mapper,
                                     IBaseRepository<MedicineClassification> cateRepos,
                                     IBaseRepository<Doctor> doctorRepos,
                                     IBaseRepository<Pharmacy> pharmacyRepos,
                                     IBaseRepository<Patient> patientRepos,
-                                    IBaseRepository<Specialities> specializedRepos)
+                                    IBaseRepository<Specialities> specializedRepos,
+                                    IFileService fileService)
         {
             _cateRepos = cateRepos;
             _doctorRepos = doctorRepos;
@@ -34,6 +37,7 @@ namespace Business.Services
             _patientRepos = patientRepos;
             _specializedRepos = specializedRepos;
             _mapper = mapper;
+            _fileService = fileService;
         }
 
         public async Task<List<CategoriesDetailsDto>> GetCategoriesAsync()
@@ -50,7 +54,9 @@ namespace Business.Services
         {
             var doctors = await _doctorRepos
                                .Entities
+                               .Where(d => d.AccountId != null)
                                .Include(a => a.User)
+                               .Include(s => s.Specialized)
                                .OrderByDescending(a => a.FullName)
                                .ToListAsync();
             var doctorDtos = _mapper.Map<List<DoctorDetailsDto>>(doctors);
@@ -72,6 +78,7 @@ namespace Business.Services
         {
             var pharmacies = await _pharmacyRepos
                               .Entities
+                              .Where(p => p.AccountId != null)
                               .Include(a => a.User)
                               .OrderByDescending(a => a.PharmacyName)
                               .ToListAsync();
@@ -86,34 +93,64 @@ namespace Business.Services
                               .OrderByDescending(a => a.SpecializedName)
                               .ToListAsync();
             var specialitiesDtos = _mapper.Map<List<SpecialitiesDetailsDto>>(specialities);
-            return specialitiesDtos;
+            return Ok(specialitiesDtos);
         }
 
-        public Task<CategoriesDetailsDto> GetCategoryDetailsAsync(string id)
+        public async Task<SpecialitiesDetailsDto> UpdateSpecialities(SpecialitiesUpdateDto specialitiesUpdateDto)
+        {
+            var specialist = await _specializedRepos.Entities.Where(s => s.Id == specialitiesUpdateDto.Id).FirstAsync();
+            specialist.SpecializedName = specialitiesUpdateDto.SpecializedName;
+            if (specialitiesUpdateDto.Image != null)
+            {
+                if (specialist.Image != null)
+                {
+                    await _fileService.DeleteFile(specialist.Image, ImageConstants.SPECIALIST_PATH);
+                }
+                specialist.Image = await _fileService.SaveFile(specialitiesUpdateDto.Image, ImageConstants.SPECIALIST_PATH);
+            }
+            var updateSpecialist = await _specializedRepos.Update(specialist);
+            var specialitiesDto = _mapper.Map<SpecialitiesDetailsDto>(updateSpecialist);
+            return specialitiesDto;
+        }
+
+        public Task<IActionResult> GetCategoryDetailsAsync(string id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<DoctorDetailsDto> GetDoctorDetailsAsync(string id)
+        public async Task<DoctorDetailsDto> GetDoctorDetailsAsync(string id)
         {
-            throw new NotImplementedException();
+            var doctor = await _doctorRepos
+                               .Entities
+                               .Include(a => a.User)
+                               .Include(s => s.Specialized)
+                               .Where(x => x.AccountId == id)
+                               .FirstOrDefaultAsync();
+            var doctorDto = _mapper.Map<DoctorDetailsDto>(doctor);
+            return doctorDto;
         }
 
         public async Task<PatientDetailsDto> GetPatientDetailsAsync(string id)
         {
-            var patient = _patientRepos
+            var patient = await _patientRepos
                               .Entities
                               .Include(a => a.User)
                               .Where(x => x.AccountId == id)
-                              .FirstOrDefault();
+                              .FirstOrDefaultAsync();
             var patientsDto = _mapper.Map<PatientDetailsDto>(patient);
             patientsDto.Email = patient.User.Email;
             return patientsDto;
         }
 
-        public Task <PharmacyDetailsDto> GetPharmacyDetailsAsync(string id)
+        public async Task<PharmacyDetailsDto> GetPharmacyDetailsAsync(string id)
         {
-            throw new NotImplementedException();
+            var pharmacy = await _pharmacyRepos
+                                    .Entities
+                                    .Include(a => a.User)
+                                    .Where(x => x.AccountId == id)
+                                    .FirstOrDefaultAsync();
+            var pharmacyDto = _mapper.Map<PharmacyDetailsDto>(pharmacy);
+            return pharmacyDto;
         }
 
         public Task <SpecialitiesDetailsDto> GetSpecializedDetailsAsync(string id)

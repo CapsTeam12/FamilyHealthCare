@@ -1,0 +1,114 @@
+﻿@model MedicineDto
+@using FamilyHealthCare.SharedLibrary;
+@using Contract.DTOs.MedicineService;
+@{
+
+}
+<style>
+    .loupe {
+        display: none;
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        border: 1px solid black;
+        border-radius: 50%;
+        box-shadow: 5px 5px 12px black;
+        background: rgba(0, 0, 0, 0.25);
+        cursor: none;
+        overflow: hidden;
+    }
+
+        .loupe img {
+            position: absolute;
+            right: 0;
+        }
+</style>
+<!-- Breadcrumb -->
+<div class="breadcrumb-bar">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Product Details</li>
+                    </ol>
+                </nav>
+                <h2 class="breadcrumb-title">Product Details</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Breadcrumb -->
+<!-- Page Content -->
+<div class="content">
+    <div class="container-fluid">
+
+        <div class="row justify-content-center">
+            <div class="col-xl-7">
+                <!-- Doctor Widget -->
+                <div class="card">
+                    <div class="card-body product-description">
+                        <div class="doctor-widget">
+                            <div class="doc-info-left">
+                                <div class="doctor-img1" style="width:200px;height:200px;">
+                                    <img src=@(ImageConstants.MEDICINES+Model.Images) class="img-fluid" alt="User Image">
+                                    <p class="text-muted">
+                                        Roll over image to zoom in
+                                    </p>
+                                </div>
+                                <div class="doc-info-cont" style="margin-left:30px;">
+                                    @if (Model.Status == 1)
+                                    {
+                                        <span class="badge badge-primary">In stock</span>
+                                    }
+                                    else if (Model.Status == 2)
+                                    {
+                                        <span class="badge badge-danger">Out of stock</span>
+                                    }
+                                    else if (Model.Status == 3)
+                                    {
+                                        <span class="badge badge-warning">Returned</span>
+                                    }                                    
+                                    <h4 style="font-family:'Open Sans'" class="doc-name mb-2">@Model.MedicineName</h4>
+                                    <div class="widget about-widget">
+                                        <h4 class="widget-title">Category</h4>
+                                        <p style="font-family:'Open Sans'">@Model.MedicineClass.ClassificationName</p>
+                                    </div>
+                                    <!-- About Details -->
+                                    <div class="widget about-widget">
+                                        <h4 class="widget-title">Description</h4>
+                                        <p>@Html.Raw(Model.Description)</p>
+                                    </div>
+                                    <!-- /About Details -->
+                                    <div class="widget about-widget">
+                                        <h4 class="widget-title">Ingredients</h4>
+                                        <p>@Html.Raw(Model.Ingredients)</p>
+                                    </div>
+                                    <!-- About Details -->
+                                    <div class="widget about-widget">
+                                        <h4 class="widget-title">Directions for use</h4>
+                                        <p>@Html.Raw(Model.Direction)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="doc-info-right" style=" flex: 0 0 240px; max-width: 240px;">
+                                <div class="row" style="border:2px dashed #ccc;">
+                                    <p style="font-family:'Open Sans'"><i class="fa fa-tag" aria-hidden="true"></i>@Model.Pharmacy.PharmacyName</p>
+                                    <p style="font-family:'Open Sans'"><i class="fas fa-phone-volume me-1"></i>@Model.Pharmacy.Phone</p>
+                                    <p style="font-family:'Open Sans'"><i class="fas fa-map-marker-alt me-1"></i>@Model.Pharmacy.Address</p>
+                                </div>                             
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /Doctor Widget -->
+            </div>
+        </div>
+    </div>
+</div>	
+<div class="loupe"></div>
+@section scripts{ 
+<script src="~/js/loup.js"></script>
+}

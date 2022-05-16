@@ -10,8 +10,17 @@
         <tr>
             <td>@Model.ElementAt(i).Id</td>
             <td>@Model.ElementAt(i).Eventname</td>
-            <td>@Model.ElementAt(i).StartTime.ToString("yyyy-MM-dd'T'HH:mm:ss")</td>
-            <td>@Model.ElementAt(i).EndTime.ToString("yyyy-MM-dd'T'HH:mm:ss")</td>
+            @if (Model.ElementAt(i).StartTime.TimeOfDay.TotalSeconds == 0 && Model.ElementAt(i).EndTime.TimeOfDay.TotalSeconds == 0)
+            {
+                <td>@Model.ElementAt(i).StartTime.ToString("yyyy-MM-dd")</td>
+                <td>@Model.ElementAt(i).EndTime.ToString("yyyy-MM-dd")</td>
+            }
+            else
+            {
+                <td>@Model.ElementAt(i).StartTime.ToString("yyyy-MM-dd'T'HH:mm:ss")</td>
+                <td>@Model.ElementAt(i).EndTime.ToString("yyyy-MM-dd'T'HH:mm:ss")</td>
+            }
+            <td>@Model.ElementAt(i).Join_Url</td>
         </tr>
     }
 </table>
@@ -22,6 +31,64 @@
         </div>
     </div>
 </div>
+
+<!-- Add Event Modal -->
+<div id="add_event" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Event</h4>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label>Event Name <span class="text-danger">*</span></label>
+                        <input id="eventName" class="form-control" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>Event Date <span class="text-danger">*</span></label>
+                        <input id="eventDate" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" min="@DateTime.Now.ToString("yyyy-MM-dd")" type="date">
+                    </div>
+                    <div class="submit-section">
+                        <button id="btnSubmitEvent" class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Add Event Modal -->
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#btnSubmitEvent').click(function () {
+                debugger;
+                var eventName = $('#eventName').val();
+                var eventDate = $('#eventDate').val();
+                var model = {
+                    Eventname: eventName,
+                    StartTime: eventDate,
+                    EndTime: eventDate
+                };
+                $.ajax({
+                    url: '/Schedule/CreateEvent',
+                    method: 'POST',
+                    data: model,
+                    success: function (res) {
+                        if (res.success == true) {
+                            window.location.reload();
+                        }
+                    }
+
+                });
+            });
+        })
+    </script>
+}
+
 
 <script src="~/lib/fullcalendar/main.min.js"></script>
 <script src="~/lib/fullcalendar/locales-all.min.js"></script>

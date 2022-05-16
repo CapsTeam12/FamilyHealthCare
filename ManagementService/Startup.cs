@@ -1,4 +1,5 @@
 using Business;
+using Contract.DTOs.MailService;
 using Data;
 using Data.Entities;
 using FluentValidation.AspNetCore;
@@ -31,6 +32,18 @@ namespace ManagementService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            {
+                services.AddCors(c => {
+                    c.AddPolicy("policyName", p => {
+                        p.WithOrigins("https://localhost:44367").AllowAnyMethod().AllowAnyHeader();
+                        p.WithOrigins("https://localhost:44369").AllowAnyMethod().AllowAnyHeader();
+                        //p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                    });
+                });
+            }
+            services.AddOptions();
+            var mailsettings = Configuration.GetSection("MailSettings"); 
+            services.Configure<MailSettings>(mailsettings); 
             services.AddBusinessLayer();
             services.AddDataAccessorLayer(Configuration);
             services.AddIdentity<User, IdentityRole>(options =>
@@ -67,15 +80,16 @@ namespace ManagementService
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ManagementService v1"));
             }
-
+            app.UseStaticFiles();
             app.UseRouting();
-
+            app.UseCors("policyName");
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+            
         }
     }
 }
