@@ -36,7 +36,7 @@ namespace AppointmentService
         {
             //services.AddSingleton<IDbClient, DbClient>();
             services.Configure<MongoDbConfig>(Configuration);
-	    services.AddAuthenticationAuthorization();
+	        services.AddAuthenticationAuthorization();
 
             services.AddCors(c => {
                 c.AddPolicy("CorsAppointmentApi", p => {

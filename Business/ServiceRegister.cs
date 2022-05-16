@@ -7,7 +7,7 @@ using Data.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.AspNetCore.Identity.UI.Services
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -34,7 +34,7 @@ namespace Business
             services.AddTransient<IAuthService, ClsAuthService>();
             services.AddSingleton<IFileService, FileService>();
             services.AddSingleton<IUserIdProvider, UserIdProvider>();
- 	    services.AddTransient<IZoomService, ZoomService>();
+ 	        services.AddTransient<IZoomService, ZoomService>();
             services.AddTransient<IParnerService, PartnerService>();
             services.AddTransient<ISendMailService, SendMailService>();
             services.AddTransient<IMedicineService, MedicineService>();
@@ -42,7 +42,7 @@ namespace Business
             services.AddTransient<IPrescriptionService, PrescriptionService>();
             services.AddTransient<IDashboardService, DashboardService>();
         }
-        }
+       
 
         public static void AddAuthenticationAuthorization(this IServiceCollection services)
         {
