@@ -17,13 +17,14 @@ namespace FamilyHealthCare.SharedLibrary
             public static string CATEGORIES = "api/Management/categories";
             public static string PATIENTS = "api/Management/patients";
             public static string SPECIALITIES = "api/Management/specialities";
-            public static string PHARMACIES = "api/Management/phamacies";
+            public static string SPECIALIST = "/Management/specialities";
+            //public static string PHARMACIES = "api/Management/phamacies";
+
             public static string DOCTORDETAILS = "api/Management/doctors/{id}";
             public static string CATEGORYSDETAILS = "api/Management/categories";
             public static string PATIENTDETAILS = "api/Management/patients";
-            public static string DOCTORDETAILS = "api/Management/doctors";
             public static string PHARMACYDETAILS = "api/Management/pharmacies";
-            public static string SPECIALIST = "/Management/specialities";
+
             public static string DOCTORS_REQUESTS = "/Management/DoctorRequestList";
             public static string ACCEPT_DOCTORS_REQUESTS = "/Management/AcceptDoctorRequest";
             public static string DENY_DOCTORS_REQUESTS = "/Management/DenyDoctorRequest";
@@ -32,6 +33,7 @@ namespace FamilyHealthCare.SharedLibrary
             public static string ACCEPT_PHARMACIES_REQUESTS = "/Management/AcceptPharmacyRequest";
             public static string DENY_PHARMACIES_REQUESTS = "/Management/DenyPharmacyRequest";
             public static string DETAILS_PHARMACIES_REQUESTS = "/Management/GetDetailsPharmacyRequest";
+
             public static string GET_PATIENTS = "/Management/GetTotalPatients";
             public static string GET_DOCTORS = "/Management/GetTotalDoctors";
             public static string GET_PHARMACIES = "/Management/GetTotalPharmacies";

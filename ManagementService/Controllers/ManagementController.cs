@@ -147,7 +147,7 @@ namespace ManagementService.Controllers
         public async Task<DoctorDetailsDto> GetDoctorDetailsAsync(string id)
         {
             var doctors = await _managementService.GetDoctorDetailsAsync(id);
-            return Ok(doctors);
+            return doctors;
         }
 
         [HttpGet("patients/{id}")]

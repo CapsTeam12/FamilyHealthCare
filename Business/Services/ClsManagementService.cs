@@ -93,7 +93,7 @@ namespace Business.Services
                               .OrderByDescending(a => a.SpecializedName)
                               .ToListAsync();
             var specialitiesDtos = _mapper.Map<List<SpecialitiesDetailsDto>>(specialities);
-            return Ok(specialitiesDtos);
+            return specialitiesDtos;
         }
 
         public async Task<SpecialitiesDetailsDto> UpdateSpecialities(SpecialitiesUpdateDto specialitiesUpdateDto)
@@ -113,7 +113,7 @@ namespace Business.Services
             return specialitiesDto;
         }
 
-        public Task<IActionResult> GetCategoryDetailsAsync(string id)
+        public Task<CategoriesDetailsDto> GetCategoryDetailsAsync(string id)
         {
             throw new NotImplementedException();
         }

@@ -1,6 +1,7 @@
 ﻿using Business.IServices;
 using Contract.DTOs.AuthService;
 using Contract.DTOs.ManagementService;
+using Contract.DTOs.MedicalRecordService;
 using Data.Entities;
 using FamilyHealthCare.Customer.Models;
 using FamilyHealthCare.SharedLibrary;
