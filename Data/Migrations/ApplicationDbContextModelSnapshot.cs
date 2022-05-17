@@ -397,7 +397,7 @@ namespace Data.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PatientId")
+                    b.Property<int?>("PatientId")
                         .HasColumnType("int");
 
                     b.Property<int?>("PharmacyId")
@@ -435,7 +435,7 @@ namespace Data.Migrations
                     b.Property<string>("MedicineName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PrescriptionId")
+                    b.Property<int>("PrescriptionId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -913,9 +913,7 @@ namespace Data.Migrations
 
                     b.HasOne("Data.Entities.Patient", "Patient")
                         .WithMany()
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PatientId");
 
                     b.HasOne("Data.Entities.Pharmacy", "Pharmacy")
                         .WithMany()
@@ -934,7 +932,9 @@ namespace Data.Migrations
                 {
                     b.HasOne("Data.Entities.Prescription", "Prescription")
                         .WithMany()
-                        .HasForeignKey("PrescriptionId");
+                        .HasForeignKey("PrescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Prescription");
                 });

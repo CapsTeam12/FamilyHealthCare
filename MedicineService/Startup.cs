@@ -34,21 +34,9 @@ namespace MedicineService
         {
             services.AddBusinessLayer();
             services.AddDataAccessorLayer(Configuration);
-	    services.AddControllers();
-	    services.AddAuthenticationAuthorization();
+	        services.AddControllers();
+	        services.AddAuthenticationAuthorization();
 
-            services.AddIdentity<User, IdentityRole>(options =>
-            {
-                options.SignIn.RequireConfirmedAccount = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireUppercase = false;
-            })
-              .AddEntityFrameworkStores<ApplicationDbContext>()
-              .AddDefaultTokenProviders();
             services.AddControllers()
                 .AddFluentValidation(fv =>
                 {
@@ -56,26 +44,6 @@ namespace MedicineService
                     fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
                 }
             );
-
-            services.AddAuthentication("Bearer")
-               .AddJwtBearer("Bearer", options =>
-               {
-                   options.Authority = "https://localhost:44315/";
-                   options.TokenValidationParameters = new TokenValidationParameters
-                   {
-                       ValidateAudience = false
-                   };
-               });
-
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("ApiScope", policy =>
-                {
-                    policy.RequireAuthenticatedUser();
-                    //policy.RequireRole("Admin");
-                    policy.RequireClaim("role", "Admin");
-                });
-            });
 
             services.AddSwaggerGen(c =>
             {

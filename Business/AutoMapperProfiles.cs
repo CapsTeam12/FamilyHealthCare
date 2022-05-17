@@ -66,7 +66,9 @@ namespace Business
             CreateMap<ScheduleDoctor, ScheduleDoctorDto>().ReverseMap();
             CreateMap<ScheduleDoctor, ScheduleDoctorCreateDto>().ReverseMap();
 
-            CreateMap<Notification, NotificationListDto>().ReverseMap();
+            CreateMap<Notification, NotificationListDto>()
+                .ForMember(d => d.Time, n => n.MapFrom(t => t.Time.GetRelativeTime()))
+                .ReverseMap();
             CreateMap<Notification, NewNotificationDto>()
                 .ForMember(d => d.Time, n => n.MapFrom(t => t.Time.GetRelativeTime()))
                 .ForMember(d => d.AvatarSender, n => n.MapFrom(a => $"{ImageConstants.AVATARS}{a.AvatarSender}"))

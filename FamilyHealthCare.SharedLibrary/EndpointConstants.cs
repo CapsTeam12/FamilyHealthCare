@@ -20,7 +20,7 @@ namespace FamilyHealthCare.SharedLibrary
             public static string SPECIALIST = "/Management/specialities";
             //public static string PHARMACIES = "api/Management/phamacies";
 
-            public static string DOCTORDETAILS = "api/Management/doctors/{id}";
+            public static string DOCTORDETAILS = "api/Management/doctors";
             public static string CATEGORYSDETAILS = "api/Management/categories";
             public static string PATIENTDETAILS = "api/Management/patients";
             public static string PHARMACYDETAILS = "api/Management/pharmacies";
@@ -63,7 +63,7 @@ namespace FamilyHealthCare.SharedLibrary
             public static string DETAILS = "/Appointment/";
             public static string BOOKING = "/Appointment/Booking/";
             public static string RESCHEDULE = "/Appointment/Reschedule/";
-            public static string CANCEL = "/Appointment/Cancel/";
+            public static string CANCEL = "/Appointment/Cancel?AppointmentId={0}&UserId={1}";
             public static string GET_APPOINTMENTS = "/Appointment/GetTotalAppointments";
             public static string GET_APPOINTMENTS_DOCTOR = "/Appointment/GetTotalAppointmentsByDoctor";
             public static string GET_APPOINTMENTS_PATIENT = "/Appointment/GetTotalAppointmentsByPatient";

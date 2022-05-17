@@ -245,7 +245,7 @@ namespace Business.Services
         }
 
         //1: Coming, 2: In Progress, 3: Completed 4: Canceled
-        public async Task<AppointmentDetailsDto> CancelAppointment(string id) // Cancel appointment
+        public async Task<AppointmentDetailsDto> CancelAppointment(string id, string userId) // Cancel appointment
         {
             var appointment = await _appointments.Find(x => x.Id == id).FirstOrDefaultAsync(); // Find appointment to cancel
             DateTime startTime = appointment.StartTime.ToLocalTime(); // Thời gian bắt đầu của cuộc hẹn
@@ -270,6 +270,33 @@ namespace Business.Services
                 await _appointments.ReplaceOneAsync(x => x.Id == id, appointment);
                 var meetingId = schedulesOfAppointment.Select(m => m.MeetingId).First();
                 await _zoomService.DeleteMeeting(meetingId);
+
+
+                var notification = new NotificationCreateDto();
+
+                var currentPatient = await _db.Patients.FirstOrDefaultAsync(x => x.AccountId == userId);
+                if(currentPatient != null)
+                {
+                    notification.Content = string.Format(NotificationContentTemplate.CancelledAppointment);
+                    notification.AvatarSender = currentPatient.Avatar;
+                    var currentDoctor = await _db.Doctors.FirstOrDefaultAsync(x => x.Id == appointment.TherapistId);
+                    if(currentDoctor != null)
+                    {
+                        notification.UserID = currentDoctor.AccountId;
+                    }
+                }
+                else
+                {
+                    var currentDoctor = await _db.Doctors.FirstOrDefaultAsync(x => x.AccountId == userId);
+                    if(currentDoctor != null)
+                    {
+                        notification.Content = string.Format(NotificationContentTemplate.CancelledAppointment);
+                        notification.AvatarSender = currentDoctor.Avatar;
+                        notification.UserID = appointment.AccountId;
+                    }
+                }
+
+                Task.Run(() => new NotificationHelper().CallApiCreateNotification(notification));
             }
             var appointmentDto = _mapper.Map<AppointmentDetailsDto>(appointment);
             return appointmentDto;

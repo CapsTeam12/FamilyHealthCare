@@ -138,7 +138,10 @@ namespace Business.Services
                               .Where(x => x.AccountId == id)
                               .FirstOrDefaultAsync();
             var patientsDto = _mapper.Map<PatientDetailsDto>(patient);
-            patientsDto.Email = patient.User.Email;
+            if(patient != null)
+            {
+                patientsDto.Email = patient.User.Email;
+            }
             return patientsDto;
         }
 

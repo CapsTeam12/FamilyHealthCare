@@ -69,8 +69,9 @@ namespace FamilyHealthCare.Customer.Controllers
 
         public async Task<IActionResult> CancelAppointment(string id)
         {
+            var userId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
             var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
-            var response = await client.GetAsync(EndpointConstants.AppointmentService.CANCEL + id);
+            var response = await client.GetAsync(string.Format(EndpointConstants.AppointmentService.CANCEL, id, userId));
             string jsonData = await response.Content.ReadAsStringAsync();
             if (jsonData.Equals("Appointment completed!") || jsonData.Equals("Appointment is in progress!") || jsonData.Equals("Can only cancel the appointment at least two hour!") || jsonData.Equals("This appointment has been canceled before!"))
             {

@@ -21,7 +21,7 @@ namespace Business.IServices
         Task<AppointmentDetailsDto> GetAppointmentById(string id);
         Task<AppointmentDetailsDto> BookingAppointment(AppointmentCreateDto model,string userId);
         Task<AppointmentDetailsDto> RescheduleAppointment(AppointmentRescheduleDto model,string id);
-        Task<AppointmentDetailsDto> CancelAppointment(string id);
+        Task<AppointmentDetailsDto> CancelAppointment(string id, string userId);
 
     }
 }

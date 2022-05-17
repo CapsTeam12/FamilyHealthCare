@@ -1,6 +1,7 @@
 ﻿using Business.IServices;
 using Contract.DTOs;
 using Contract.DTOs.AppoimentService;
+using Contract.DTOs.AppointmentService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -89,11 +90,11 @@ namespace AppointmentService.Controllers
             return Ok(model);
         }
 
-        [HttpGet("Cancel/{id}")]
+        [HttpGet("Cancel")]
         //[Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Cancel(string id)
+        public async Task<IActionResult> Cancel([FromQuery] AppointmentCancelDto appointmentCancelDto)
         {
-            var model = await _appointmentService.GetAppointmentById(id);
+            var model = await _appointmentService.GetAppointmentById(appointmentCancelDto.AppointmentId);
             if(model == null)
             {
                 return NotFound();
@@ -102,7 +103,7 @@ namespace AppointmentService.Controllers
             {
                 return Content("This appointment has been canceled before!");
             }
-            var appointment = await _appointmentService.CancelAppointment(id);
+            var appointment = await _appointmentService.CancelAppointment(appointmentCancelDto.AppointmentId, appointmentCancelDto.UserId);
             DateTime startTime = appointment.StartTime.ToLocalTime(); // Thời gian bắt đầu của cuộc hẹn
             DateTime currentTime = DateTime.Now; // Thời gian hiện tại 
             var HourDistance = (startTime - currentTime).TotalHours; // Khoảng cách giờ giữa thời gian bắt đầu cuộc hẹn và thời gian hiện tại 
