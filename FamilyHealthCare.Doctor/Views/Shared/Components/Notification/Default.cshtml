@@ -5,6 +5,7 @@
 @{
     var notifications = _httpContextAccessor.HttpContext.Session.GetComplexData<List<NotificationListDto>>("notification")
                             ?? new List<NotificationListDto>();
+    var currentUserId = _httpContextAccessor.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
 }
 <li class="nav-item dropdown noti-dropdown">
     <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
@@ -63,12 +64,14 @@
             }).build();
 
         connection.on("SendNotification", function (message) {
-            var HandlerbarTemplate = $("#NotificationTemplate").html();
-            var CompileHtml = Handlebars.compile(HandlerbarTemplate);
-            var NotificationHTML = CompileHtml(message);
-            $('#notification').append(NotificationHTML);
-            let currentTotalNoti = parseInt(document.getElementById("notificationCount").innerText);
-            document.getElementById("notificationCount").innerText = currentTotalNoti + 1;
+            if(message.userID == '@currentUserId') {
+                var HandlerbarTemplate = $("#NotificationTemplate").html();
+                var CompileHtml = Handlebars.compile(HandlerbarTemplate);
+                var NotificationHTML = CompileHtml(message);
+                $('#notification').append(NotificationHTML);
+                let currentTotalNoti = parseInt(document.getElementById("notificationCount").innerText);
+                document.getElementById("notificationCount").innerText = currentTotalNoti + 1;
+            }
         });
 
         connection.start();
