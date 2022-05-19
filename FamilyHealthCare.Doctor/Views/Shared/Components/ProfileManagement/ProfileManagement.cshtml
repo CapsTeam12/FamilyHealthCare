@@ -1,0 +1,20 @@
+﻿@using Contract.DTOs.ManagementService
+@using FamilyHealthCare.SharedLibrary
+@model DoctorDetailsDto
+@{
+
+}
+<div class="widget-profile pro-widget-content">
+    <div class="profile-info-widget">
+        <a href="#" class="booking-doc-img">
+            <img src=@(ImageConstants.DOCTORS+Model.Avatar) alt="User Image">
+        </a>
+        <div class="profile-det-info">
+            <h3>Dr. @Model.FullName</h3>
+
+            <div class="patient-details">
+                <h5 class="mb-0">@Model.Specialities</h5>
+            </div>
+        </div>
+    </div>
+</div>

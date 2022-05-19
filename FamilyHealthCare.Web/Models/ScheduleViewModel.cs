@@ -1,4 +1,5 @@
-﻿using Contract.DTOs.ScheduleDoctorService;
+﻿using Contract.DTOs.ManagementService;
+using Contract.DTOs.ScheduleDoctorService;
 using Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,6 @@ namespace FamilyHealthCare.Web.Models
     {
         public List<Shift> Shifts { get; set; }
         public List<ScheduleDoctorDto> ScheduleDoctors { get; set; }
+        public DoctorDetailsDto doctorDetails { get; set; }
     }
 }

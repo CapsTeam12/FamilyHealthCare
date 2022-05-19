@@ -10,7 +10,8 @@
             id: tdElements[0].innerText,
             title: tdElements[1].innerText,
             start: tdElements[2].innerText,
-            end: tdElements[3].innerText
+            end: tdElements[3].innerText,
+            url: tdElements[4].innerText
         };
 
         eventsArr.push(eventObj);
@@ -32,6 +33,13 @@
         editable: true,
         dayMaxEvents: true, // allow "more" link when too many events
         events: eventsArr,
+        eventClick: function (info) {
+            info.jsEvent.preventDefault(); // don't let the browser navigate
+
+            if (info.event.url) {
+                window.open(info.event.url);
+            }
+        }
     });
 
     calendar.render();

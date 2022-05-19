@@ -10,6 +10,7 @@ using Contract.DTOs.NotificationServiceDtos;
 using System.Linq;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using FamilyHealthCare.SharedLibrary;
 
 namespace Business.Services
 {
@@ -36,7 +37,7 @@ namespace Business.Services
             return notificationDtos;
         }
 
-        public async Task<NotificationListDto> CreateNotificationAsync(NotificationCreateDto notificationCreateDto)
+        public async Task<NewNotificationDto> CreateNotificationAsync(NotificationCreateDto notificationCreateDto)
         {
             var newNotification = new Notification
             {
@@ -48,19 +49,19 @@ namespace Business.Services
             };
 
             await _notificationRepository.Create(newNotification);
-            var newNotificationDto = _mapper.Map<NotificationListDto>(newNotification);
+            var newNotificationDto = _mapper.Map<NewNotificationDto>(newNotification);
+            newNotificationDto.Time = newNotification.Time.GetRelativeTime();
 
-            await _hubContext.Clients.User(notificationCreateDto.UserID.ToString())
-                            .SendAsync("SendNotification", newNotificationDto);
+            await _hubContext.Clients.All.SendAsync("SendNotification", newNotificationDto);
 
             return newNotificationDto;
         }
 
-        public async Task<NotificationListDto> MarkNotificationAsReadAsync(int notificationId)
+        public async Task<NewNotificationDto> MarkNotificationAsReadAsync(int notificationId)
         {
             var notification = await _notificationRepository.GetById(notificationId);
             notification.IsRead = true;
-            var notificationDto = _mapper.Map<NotificationListDto>(notification);
+            var notificationDto = _mapper.Map<NewNotificationDto>(notification);
 
             await _hubContext.Clients.User(notification.UserID.ToString())
                             .SendAsync("MarkNotificationAsRead", notificationDto);

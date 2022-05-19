@@ -1,0 +1,147 @@
+﻿@model SearchViewModel
+@using FamilyHealthCare.SharedLibrary;
+@using Contract.DTOs.MedicineService;
+@using FamilyHealthCare.Customer.Models;
+@{
+    var resultCount = ViewBag.resultCount;
+    var keyword = ViewBag.keyword;
+    var pharmacyId = Model.Pharmacy.Id;
+}
+<style>
+    .product-custom {
+        display: none;
+        /*max-height:300px*/
+    }
+
+        .profile-widget:hover {
+            border: 2px solid #0de0fe;
+            cursor:pointer;
+        }
+
+    .limit-content 
+    {
+        max-width: 100%;
+        /*padding: 0;*/
+        overflow: hidden;
+        position: relative;
+        display: inline-block;
+        margin: 0 5px 0 5px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #000;
+    }
+    
+</style>
+<!-- Breadcrumb -->
+<div class="breadcrumb-bar">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Product List</li>
+                    </ol>
+                </nav>
+                <h2 class="breadcrumb-title">Product List</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Breadcrumb -->
+<!-- Page Content -->
+<div class="content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-5 col-lg-3 col-xl-3 theiaStickySidebar">
+
+                <!-- Search Filter -->
+                <div class="card search-filter">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Filter</h4>
+                    </div>
+                    <div class="card-body">
+                        <form asp-controller="Pharmacy" asp-action="Search" method="post">
+                            <div class="filter-widget">
+                                <div class="cal-icon">
+                                    <input type="text" name="Search" value="@keyword" class="form-control" placeholder="Search ...">
+                                </div>
+                            </div>
+                            <div class="filter-widget">
+                                <h4>Categories</h4>
+                                @for (int i = 0; i < Model.FilterCates.Count; i++)
+                                {
+                                    <div>
+                                        <label class="custom_check">
+                                            <input type="checkbox" value="@Model.FilterCates[i].Name" name="FilterCates" checked="@Model.FilterCates[i].IsSelected">
+                                            <span class="checkmark"></span> @Model.FilterCates[i].Name
+                                        </label>
+                                    </div>
+                                }
+                                <input name="Search" hidden value="@keyword" />
+                                <input name="id" hidden value="@pharmacyId" />
+                            </div>
+                            <div class="btn-search">
+                                <button type="submit" class="btn w-100">Search</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- /Search Filter -->
+
+            </div>
+
+            <div class="col-md-7 col-lg-9 col-xl-9">
+
+                <div class="row align-items-center pb-3">
+                    <div class="col-md-4 col-12 d-md-block d-none custom-short-by">
+                        <h3 class="title pharmacy-title">@Model.Pharmacy.PharmacyName</h3>
+                        <p class="doc-location mb-2 text-ellipse pharmacy-location"><i class="fas fa-map-marker-alt me-1"></i> @Model.Pharmacy.Address </p>
+                        <span class="sort-title">Showing 6 of @resultCount products</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    @foreach (var medicine in Model.SearchMedicineDtos)
+                    {
+                        <div class="col-md-12 col-lg-4 col-xl-4 product-custom">
+                            <div onclick="location.href = '@Url.Action("Details","Pharmacy",new { id = medicine.Id})';" class="profile-widget" style="max-height:100%;">
+                                <div class="doc-img" style="width:200px;height:200px;padding:40px;margin:auto;">
+                                    <a href="@Url.Action("Details","Pharmacy",new { id = medicine.Id})" tabindex="-1">
+                                        <img class="img-fluid" alt="Product image" src=@(ImageConstants.MEDICINES+medicine.Images)>
+                                    </a>
+                                </div>
+                                <div class="pro-content">
+                                    <h3 class="title pb-4">
+                                        <a class="limit-content" href="@Url.Action("Details","Pharmacy",new { id = medicine.Id })" tabindex="-1">@medicine.MedicineName</a>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="col-md-12 text-center">
+                    <a id="loadMore" href="javascript:void(0);" class="btn book-btn1 mb-4">Load More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('div.product-custom').slice(0, 6).show();
+            $("#loadMore").on('click', function (e) {
+                e.preventDefault();
+                $("div.product-custom:hidden").slice(0, 6).slideDown();
+                if ($("div.product-custom:hidden").length == 0) {
+                    $("#loadMore").fadeOut('slow');
+                }
+                $('html,body').animate({
+                    scrollTop: $(this).offset().top
+                }, 1500);
+            });
+        });
+    </script>
+}

@@ -1,4 +1,5 @@
-﻿using Business.Hubs;
+﻿using AutoMapper.Configuration;
+using Business.Hubs;
 using Business.IServices;
 using Business.Services;
 using Data;
@@ -6,9 +7,14 @@ using Data.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Business
@@ -29,8 +35,17 @@ namespace Business
             services.AddTransient<IAuthService, ClsAuthService>();
             services.AddSingleton<IFileService, FileService>();
             services.AddSingleton<IUserIdProvider, UserIdProvider>();
-            services.AddTransient<IHealthCheckService, ClsHealthCheckService>();
+ 	    services.AddTransient<IZoomService, ZoomService>();
+            services.AddTransient<IParnerService, PartnerService>();
+            services.AddTransient<ISendMailService, SendMailService>();
+            services.AddTransient<IMedicineService, MedicineService>();
+            services.AddTransient<IMedicalRecordService, MedicalRecordService>();
+            services.AddTransient<IPrescriptionService, PrescriptionService>();
+            services.AddTransient<IDashboardService, DashboardService>();
+	    services.AddTransient<IHealthCheckService, ClsHealthCheckService>();
+
         }
+       
 
         public static void AddAuthenticationAuthorization(this IServiceCollection services)
         {

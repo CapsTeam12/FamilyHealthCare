@@ -15,8 +15,8 @@ namespace Business.IServices
         public Task<List<DoctorDetailsDto>> GetDoctorsAsync();
         public Task<List<PharmacyDetailsDto>> GetPharmaciesAsync();
         public Task<List<SpecialitiesDetailsDto>> GetSpecialitiesAsync();
-        public Task<List<CategoriesDetailsDto>> GetCategoriesAsync();
-
+        public Task<SpecialitiesDetailsDto> UpdateSpecialities(SpecialitiesUpdateDto specialitiesUpdateDto);
+        public Task<List<CategoriesDetailsDto>> GetCategoriesAsync();        
         public Task<PatientDetailsDto> GetPatientDetailsAsync(string id);
         public Task<DoctorDetailsDto> GetDoctorDetailsAsync(string id);
         public Task<PharmacyDetailsDto> GetPharmacyDetailsAsync(string id);

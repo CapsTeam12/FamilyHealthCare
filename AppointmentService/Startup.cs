@@ -36,7 +36,15 @@ namespace AppointmentService
         {
             //services.AddSingleton<IDbClient, DbClient>();
             services.Configure<MongoDbConfig>(Configuration);
-            services.AddAuthenticationAuthorization();
+	        services.AddAuthenticationAuthorization();
+
+            services.AddCors(c => {
+                c.AddPolicy("CorsAppointmentApi", p => {
+                    p.WithOrigins("https://localhost:44367","https://localhost:44369").AllowAnyMethod().AllowAnyHeader();
+                    //p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                });
+            });
+
             services.AddBusinessLayer();
             services.AddDataAccessorLayer(Configuration);
             services.AddControllers()
@@ -59,22 +67,23 @@ namespace AppointmentService
                     Type = SecuritySchemeType.ApiKey,
                     Scheme = "Bearer"
                 });
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
-                {
-                    new OpenApiSecurityScheme
+                c.AddSecurityRequirement(
+                    new OpenApiSecurityRequirement {
                     {
-                        Reference = new OpenApiReference
+                        new OpenApiSecurityScheme
                         {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Scheme= "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header
                         },
-                        Scheme= "oauth2",
-                        Name = "Bearer",
-                        In = ParameterLocation.Header
-                    },
-                    new List<string>()
-                }
-            });
+                        new List<string>()
+                    }
+                });
             });
         }
 
@@ -89,6 +98,7 @@ namespace AppointmentService
             }
 
             app.UseRouting();
+            app.UseCors("CorsAppointmentApi");
             app.UseAuthentication();
             app.UseAuthorization();
 

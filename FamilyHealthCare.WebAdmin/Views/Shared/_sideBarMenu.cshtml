@@ -1,0 +1,49 @@
+﻿@{    
+}
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-inner slimscroll">
+        <div id="sidebar-menu" class="sidebar-menu">
+            <ul>
+                <li class="menu-title">
+                    <span>Main</span>
+                </li>
+                <li >
+                    <a href="/Home/Index"><i class="fe fe-home"></i> <span>Dashboard</span></a>
+                </li>
+                <li>
+                    <a asp-controller="Appointment" asp-action="Index"><i class="fe fe-layout"></i> <span>Appointments</span></a>
+                </li>
+                <li>
+                    <a asp-controller="Specialities" asp-action="Index"><i class="fe fe-vector"></i> <span>Specialities</span></a>
+                </li>
+                <li>
+                    <a asp-controller="Doctor" asp-action="Index"><i class="fe fe-user-plus"></i> <span>Doctors</span></a>
+                </li>
+                <li>
+                    <a asp-controller="Patient" asp-action="Index"><i class="fe fe-user"></i> <span>Patients</span></a>
+                </li>
+                <li><a asp-controller="Pharmacy" asp-action="Index"><i class="fe fe-vector"></i> <span>Pharmacy List</span></a></li>
+                <li>
+                <li><a asp-controller="Category" asp-action="Index"><i class="fe fe-layout"></i> <span>Categories</span></a></li>
+                <li class="submenu">
+                    <a href="#"><i class="fe fe-document"></i> <span> Pending Request</span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li><a asp-controller="Partner" asp-action="DoctorRequestList">Request From Doctor</a></li>
+                        <li><a asp-controller="Partner" asp-action="PharmacyRequestList">Request From Pharmacy</a></li>
+                    </ul>
+                </li>
+                <li class="menu-title">
+                    <span>Pages</span>
+                </li>
+                <li class="submenu">
+                    <a href="#"><i class="fe fe-document"></i> <span> Blog </span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li><a asp-controller="Blog" asp-action="Index"> Blog </a></li>
+                        <li><a asp-controller="Blog" asp-action="AddBlog"> Add Blog </a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /Sidebar -->

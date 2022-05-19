@@ -1,0 +1,1074 @@
+﻿@model PrescriptionViewModel
+@using FamilyHealthCare.SharedLibrary;
+@{
+    ViewData["Title"] = "Prescriptions";
+    ViewData["breadcumb-title"] = "Prescriptions";
+    ViewData["PrescriptionIndex"] = true;
+}
+<link href="~/css/signature.css" rel="stylesheet" />
+<style>
+    .error {
+        font-weight: 700;
+        display: block;
+        color: #f00;
+        font-size: 14px;
+    }
+
+    .signature-wrap {
+        float: right;
+        margin-bottom: 20px;
+        text-align: center;
+        width: 220px;
+    }
+
+    .signature {
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        border: 2px dashed #ccc;
+        border-radius: 4px;
+        color: #272b41;
+        cursor: pointer;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        justify-content: center;
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
+        height: 85px;
+        margin-bottom: 15px;
+        width: 100%;
+    }
+
+        .signature:hover {
+            background-color: #fcfcfc;
+        }
+
+    .sign-name {
+        width: 100%;
+        float: right;
+    }
+</style>
+<h4 hidden id="imageConstants">@ImageConstants.PHARMACIES</h4>
+<h4 hidden id="imageConstantsSignature">@ImageConstants.SIGNATURES</h4>
+<div class="col-md-7 col-lg-8 col-xl-12	 dct-appoinment">
+    <div class="card">
+        <div class="card-body pt-0">
+            <div class="user-tabs">
+                <ul class="nav nav-tabs nav-tabs-bottom nav-justified flex-wrap">
+                    <!-- <li class="nav-item">
+                        <a class="nav-link active" href="#pat_appointments" data-bs-toggle="tab">Appointments</a>
+                    </li> -->
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="#pres" ><span>Prescription</span></a>
+                    </li> -->
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="#medical" data-bs-toggle="tab"><span class="med-records">Medical Records</span></a>
+                    </li> -->
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="#billing" data-bs-toggle="tab"><span>Billing</span></a>
+                    </li>  -->
+                </ul>
+            </div>
+            <div class="tab-content">
+                <div class="card card-table mb-0">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="prescriptionList" class="table table-hover table-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Date </th>
+                                        <th>Name</th>
+                                        <th>Created by </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var pres in Model.Prescriptions)
+                                    {
+                                        <tr>
+                                            <td>@pres.Date.ToString("dd-MMM-yyyy")</td>
+                                            <td>@pres.PrescriptionName</td>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <a class="avatar avatar-sm me-2">
+                                                        @if (pres.Pharmacy.Avatar != null)
+                                                        {
+                                                            <img class="avatar-img rounded-circle" src=@(ImageConstants.PHARMACIES+pres.Pharmacy.Avatar) alt="User Image">
+                                                        }
+                                                        else
+                                                        {
+                                                            <img class="avatar-img rounded-circle" src=@Url.Content("~/assetsPhar/img/doctors/doctor-thumb-01.jpg") alt="User Image">
+                                                        }
+
+                                                    </a>
+                                                    <a>@pres.Pharmacy.PharmacyName</a>
+                                                </h2>
+                                            </td>
+                                            <td class="text-end">
+                                                <div class="table-action">
+                                                    <a id="details@(pres.Id)" data-id="@pres.Id" href="#" class="btn btn-sm bg-info-light btnView" data-bs-toggle="modal" data-bs-target="#DetailsPrescriptionModal">
+                                                        <i class="far fa-eye"></i> View
+                                                    </a>
+                                                    <a id="edit@(pres.Id)" data-id="@pres.Id" data-canvas="canvasEdit" onclick="CanvasSignature(this)" class="btn btn-sm bg-success-light btnEdit" data-bs-toggle="modal" data-bs-target="#EditPrescriptionModal">
+                                                        <i class="fas fa-edit"></i><span>Edit</span>
+                                                    </a>
+                                                    <a id="delete@(pres.Id)" class="btn btn-sm bg-danger-light" data-bs-toggle="modal" href="#delete_modal">
+                                                        <i class="fe fe-trash"></i> Delete
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- /Page Wrapper -->
+<!-- Prescription Add Modal -->
+<div class="modal fade custom-modal custom-medicalrecord-modal" id="AddPrescriptionModal" style="display: none;" data-select2-id="AddPrescriptionModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Prescription</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="AddPrescriptionForm">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Prescription Name</label>
+                                <input type="hidden" name="PharmacyId" value="@Model.PharmacyDetails.Id" />
+                                <input type="text" class="form-control" name="PrescriptionName">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Prescription Date</label>
+                                <input type="date" class="form-control" name="Date">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Add Item -->
+                    <div class="add-more-item text-end">
+                        <a class="add-prescription" href="#"><i class="fa fa-plus-circle"></i> Add More</a>
+                    </div>
+                    <!-- /Add Item -->
+                    <!-- Prescription Item -->
+                    <div class="card card-table">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="prescriptionTable" class="table table-hover table-center">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 200px">Name</th>
+                                            <th style="width: 100px">Quantity</th>
+                                            <th style="width: 100px">Days</th>
+                                            <th style="width: 100px;">Time</th>
+                                            <th style="width: 80px;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <input class="form-control" name="MedicineName" value="" type="text">
+                                            </td>
+                                            <td>
+                                                <input class="form-control" name="Quantity" type="text" value="">
+                                            </td>
+                                            <td>
+                                                <input class="form-control" name="Days" value="" type="text">
+                                            </td>
+                                            <td>
+                                                <div class="form-check form-check-inline">
+                                                    <label class="form-check-label">
+                                                        <input name="Time[]" value="1" class="form-check-input"
+                                                               type="checkbox"> Morning
+                                                    </label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <label class="form-check-label">
+                                                        <input name="Time[]" value="2" class="form-check-input"
+                                                               type="checkbox">
+                                                        Afternoon
+                                                    </label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <label class="form-check-label">
+                                                        <input name="Time[]" value="3" class="form-check-input"
+                                                               type="checkbox"> Evening
+                                                    </label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <label class="form-check-label">
+                                                        <input name="Time[]" value="4" class="form-check-input"
+                                                               type="checkbox"> Night
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <a href="#" class="btn bg-danger-light trash">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Prescription Item -->
+                    <!-- Signature -->
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Notes</label>
+                                <textarea name="Notes" rows="5" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <div class="signature-wrap">
+                                <div class="sign-name">
+                                    <p class="mb-0">( @Model.PharmacyDetails.PharmacyName )</p>
+                                    <span class="text-muted">Signature</span>
+                                </div>
+                                <div class="signature">
+                                    <canvas id="canvas"></canvas>
+                                </div>
+                                <div class="row">
+                                    <div class="btn-toolbar">
+                                        <div class="btn-group mb-1">
+                                            <button id="btnAction" type="button"
+                                                    class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                <img src="~/assetsPhar/img/pencil.png">
+                                            </button>
+                                            <div id="actions" class="dropdown-menu">
+                                                <a id="blue"
+                                                   class="dropdown-item pencil" href="#">
+                                                    <img src="~/assetsPhar/img/pencil.png">
+                                                    Pen
+                                                </a>
+                                                <a id="white"
+                                                   class="dropdown-item eraser" href="#">
+                                                    <img src="~/assetsPhar/img/eraser.png">
+                                                    Eraser
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <input id="clr" type="button" class="btn btn-danger mb-1" style="margin-left: 5px;"
+                                               value="Clear" onclick="erase(this)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Signature -->
+                    <div class="text-center mt-4">
+                        <div class="submit-section text-center">
+                            <button type="button" id="medical_btn" class="btn btn-primary submit-btn">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /Prescription Add Modal -->
+<!-- Prescription Update Modal -->
+<div class="modal fade custom-modal custom-medicalrecord-modal" id="EditPrescriptionModal" style="display: none;" data-select2-id="EditPrescriptionModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Prescription</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="EditPrescriptionForm">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Prescription Name</label>
+                                <input type="hidden" name="Id" />
+                                <input type="text" class="form-control" name="PrescriptionName">
+                                <input type="hidden" name="PharmacyId" value="@Model.PharmacyDetails.Id" />
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Prescription Date</label>
+                                <input type="date" class="form-control" name="Date">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Add Item -->
+                    <div class="add-more-item text-end">
+                        <a class="add-prescription" href="#"><i class="fa fa-plus-circle"></i> Add More</a>
+                    </div>
+                    <!-- /Add Item -->
+                    <!-- Prescription Item -->
+                    <div class="card card-table">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="prescriptionTableEdit" class="table table-hover table-center">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 200px">Name</th>
+                                            <th style="width: 100px">Quantity</th>
+                                            <th style="width: 100px">Days</th>
+                                            <th style="width: 100px;">Time</th>
+                                            <th style="width: 80px;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Prescription Item -->
+                    <!-- Signature -->
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Notes</label>
+                                <textarea name="Notes" rows="5" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <div class="signature-wrap">
+                                <div class="sign-name">
+                                    <p class="mb-0">( @Model.PharmacyDetails.PharmacyName)</p>
+                                    <span class="text-muted">Signature</span>
+                                </div>
+                                <div class="signature">
+                                    <canvas id="canvasEdit"></canvas>
+                                </div>
+                                <div class="row">
+                                    <div class="btn-toolbar">
+                                        <div class="btn-group mb-1">
+                                            <button id="btnActionEdit" type="button"
+                                                    class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                <img src="~/assetsPhar/img/pencil.png">
+                                            </button>
+                                            <div id="actionsEdit" class="dropdown-menu">
+                                                <a id="blue"
+                                                   class="dropdown-item pencil" href="#">
+                                                    <img src="~/assetsPhar/img/pencil.png">
+                                                    Pen
+                                                </a>
+                                                <a id="white"
+                                                   class="dropdown-item eraser" href="#">
+                                                    <img src="~/assetsPhar/img/eraser.png">
+                                                    Eraser
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <input id="clrEdit" type="button" class="btn btn-danger mb-1" style="margin-left: 5px;"
+                                               value="Clear" onclick="erase(this)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Signature -->
+                    <div class="text-center mt-4">
+                        <div class="submit-section text-center">
+                            <button type="button" id="medical_btn" class="btn btn-primary submit-btn">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /Prescription Update Modal -->
+<!-- Prescription Details Modal -->
+<div class="modal fade custom-modal custom-medicalrecord-modal" id="DetailsPrescriptionModal"
+     style="display: none;" data-select2-id="Details_medical_records_modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Prescription Details</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="DetailsPrescriptionForm" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <strong>Prescription Name</strong>
+                                <p id="PrescriptionName" class="form-control" style="display: inline;font-style: italic;">
+                            </div>                            
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <strong>Prescription Date</strong>
+                                <p id="PrescriptionDate" class="form-control" style="display: inline;font-style: italic;">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Prescription Item -->
+                    <div class="card card-table">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="prescriptionTableDetails" class="table table-hover table-center">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 200px">Name</th>
+                                            <th style="width: 100px">Quantity</th>
+                                            <th style="width: 100px">Days</th>
+                                            <th style="width: 100px;">Time</th>
+                                            <th style="width: 80px;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Prescription Item -->
+                    <!-- Signature -->
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <strong>Notes</strong>
+                                <textarea disabled style="resize:none;font-style:italic;" id="Notes" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <div class="signature-wrap">
+                                <div class="sign-name">
+                                    <p class="mb-0">( @Model.PharmacyDetails.PharmacyName )</p>
+                                    <span class="text-muted">Signature</span>
+                                    <img id="signatureImg" src="@ImageConstants.SIGNATURES">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Signature -->
+                    <h6 hidden id="endPrescriptionDetails"></h6>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /Prescription Details Modal -->
+<!-- Delete Modal -->
+<div class="modal fade" id="delete_modal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-content p-2">
+                    <h4 class="modal-title">Delete</h4>
+                    <input type="hidden" name="Id" />
+                    <p class="mb-4">Are you sure want to delete?</p>
+                    <button type="button" class="btn btn-primary btnYes">Yes </button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Delete Modal -->
+
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="~/js/signature.js"></script>
+    <script>
+        var count = 1;
+        var table = $('#prescriptionList').DataTable({
+            "bFilter": true,
+            columnDefs: [{
+                targets: [3],
+                className: 'text-end'
+            }]
+        });
+        // Action Add More and Remove row prescription
+        $('#prescriptionTable').on('click', '.trash', function () {
+            var tdElements = $(this).closest('tr').children();
+            for (var td of tdElements) {
+                var inputElements = td.getElementsByTagName('input');
+                for (var i = 0; i < inputElements.length; i++) {                    
+                    var elementId = inputElements[i].getAttribute('id');
+                    RemoveValidateAddMorePrescription(elementId);
+                }
+
+            }
+            $(this).closest('tr').remove();
+            return false;
+        })
+
+        $('#prescriptionTableEdit').on('click', '.trash', function () {
+            var tdElements = $(this).closest('tr').children();
+            for (var td of tdElements) {
+                var inputElements = td.getElementsByTagName('input');
+                for (var i = 0; i < inputElements.length; i++) {
+                    var elementId = inputElements[i].getAttribute('id');
+                    RemoveValidateAddMorePrescription(elementId);
+                }
+
+            }
+            $(this).closest('tr').remove();
+            return false;
+        })
+
+        $('.add-prescription').click(function () {
+            count++;
+            var table = $(this).closest('form').find('table')[0];
+            var tableId = table.getAttribute('id')
+            var prescriptionContent = $('<tr></tr>');
+            prescriptionContent.append('<td><input id="medicineName' + count + '" class="form-control" name="MedicineName' + count + '" value="" type="text"></td>')
+            prescriptionContent.append('<td><input id="quantity' + count + '" class="form-control" name="Quantity' + count + '" type="text" value=""></td>')
+            prescriptionContent.append('<td><input id="days' + count + '" class="form-control" name="Days' + count + '" value="" type="text"></td>')
+            var elementTdTimeCheck = '<td>' +
+                '<div class="form-check form-check-inline">' +
+                '<label class="form-check-label">' +
+                '<input name="Time[]" value="1" class="form-check-input" type="checkbox"> Morning' +
+                '</label>' +
+                '</div>' +
+                '<div class="form-check form-check-inline">' +
+                '<label class="form-check-label">' +
+                '<input name="Time[]" value="2" class="form-check-input" type="checkbox"> Afternoon' +
+                '</label>' +
+                '</div>' +
+                '<div class="form-check form-check-inline">' +
+                '<label class="form-check-label">' +
+                '<input name="Time[]" value="3" class="form-check-input" type="checkbox"> Evening' +
+                '</label>' +
+                '</div>' +
+                '<div class="form-check form-check-inline">' +
+                '<label class="form-check-label">' +
+                '<input name="Time[]" value="4" class="form-check-input" type="checkbox"> Night' +
+                '</label>' +
+                '</div>' +
+                '</td>';
+            prescriptionContent.append(elementTdTimeCheck);
+            prescriptionContent.append('<td><a href="#" class="btn bg-danger-light trash"><i class="far fa-trash-alt"></i></a></td>');
+            prescriptionContent.appendTo('#' + tableId + ' tbody');
+            ValidateAddMorePrescription();
+            console.log($("#AddPrescriptionForm").validate().settings.rules);
+            return false;
+        });
+        // End Action Add More and Remove row prescription
+
+        // Details Prescription
+        $('#DetailsPrescriptionModal').on('hidden.bs.modal', function () {
+            $(this).find('#DetailsPrescriptionForm')[0].reset();
+            var trElements = $('#prescriptionTableDetails tbody').empty();
+        });
+        $('body').on('click', '.btnView', function () {
+            var id = $(this).data('id');
+            $.ajax({
+                url: 'Prescription/Details/' + id,
+                type: 'GET',
+                success: function (res) {
+                    if (res.success && res.item != null) {
+                        var prescription = res.item;
+                        //console.log(prescription);
+                        let index = 0;
+                        $('p#PrescriptionName').text(prescription.prescriptionName);
+                        $('p#PrescriptionDate').text(moment(prescription.date).format("DD MMM yyyy"));
+                        $('textarea#Notes').text(prescription.notes);
+                        var imageConstants = $('#imageConstantsSignature').text();
+                        $('#signatureImg').attr('src', imageConstants + prescription.signature);
+                        $.each(prescription.prescriptionDetailsDtos, function (i) {
+                            var pres = prescription.prescriptionDetailsDtos[i];
+                            var prescriptionContent = $('<tr></tr>');
+                            prescriptionContent.append('<td><span class="d-block text-muted">' + pres.medicineName + '</span></td>');
+                            prescriptionContent.append('<td><span class="d-block text-muted">' + pres.quantity + '</span></td>');
+                            prescriptionContent.append('<td><span class="d-block text-muted">' + pres.days + '</span></td>');
+                            var elementTdTimeCheck = '<td>' +
+                                '<div class="form-check form-check-inline">' +
+                                '<label class="form-check-label">' +
+                                '<input name="Time[]" value="1" class="form-check-input" disabled type="checkbox"> Morning' +
+                                '</label>' +
+                                '</div>' +
+                                '<div class="form-check form-check-inline">' +
+                                '<label class="form-check-label">' +
+                                '<input name="Time[]" value="2" class="form-check-input" disabled type="checkbox"> Afternoon' +
+                                '</label>' +
+                                '</div>' +
+                                '<div class="form-check form-check-inline">' +
+                                '<label class="form-check-label">' +
+                                '<input name="Time[]" value="3" class="form-check-input" disabled type="checkbox"> Evening' +
+                                '</label>' +
+                                '</div>' +
+                                '<div class="form-check form-check-inline">' +
+                                '<label class="form-check-label">' +
+                                '<input name="Time[]" value="4" class="form-check-input" disabled type="checkbox"> Night' +
+                                '</label>' +
+                                '</div>' +
+                                '</td>';
+                            prescriptionContent.append(elementTdTimeCheck);
+                            prescriptionContent.appendTo('#prescriptionTableDetails tbody');
+                            var trElements = $('#prescriptionTableDetails tbody').children();
+                            var tdElements = trElements[index].children; // get input element inside td element
+                            //console.log(trElements[index]);
+                            var inputCheckboxes = tdElements[3].getElementsByTagName('input');
+                            for (var j = 0; j < pres.time.length; j++) // 1 2 3
+                            {
+                                var time = pres.time[j];
+                                for (var i = 0; i < inputCheckboxes.length; i++) // 1 2 3 4
+                                {
+                                    //console.log(inputCheckboxes[i].value);
+                                    if (Number(inputCheckboxes[i].value) == time) {
+                                        //console.log(inputCheckboxes[i]);
+                                        inputCheckboxes[i].checked = true;
+                                    }
+                                }
+                            }
+
+                            index++;
+                        });
+                    }
+                }
+            });
+        })
+        // End Details Prescription
+
+        // Add Prescription
+        $('#AddPrescriptionModal').on('show.bs.modal', function () {
+            var validator = $("#AddPrescriptionModal").validate();
+            validator.resetForm();
+            $("#AddPrescriptionModal").find("*").removeClass('error');
+            $(this).find('#AddPrescriptionForm')[0].reset();
+        });
+        $('#AddPrescriptionModal').off('click', '.submit-btn').on('click', '.submit-btn', function () {
+            if ($('#AddPrescriptionForm').valid()) {
+                var canvas = document.getElementById('canvas');
+                const BlankCanvas = isCanvasBlank(canvas);
+                if (!BlankCanvas) {
+                    var dataURL = canvas.toDataURL();
+                    var blob = dataURItoBlob(dataURL);
+                    var file = new File([blob], "Signature", { type: blob.type });
+                    var formData = new FormData();
+                    formData.append("PrescriptionName", $('input[name=PrescriptionName]').val());
+                    formData.append("Date", $('input[name=Date]').val());
+                    formData.append("PharmacyId", $('input[name=PharmacyId]').val());
+                    formData.append("Notes", $('textarea[name=Notes]').val());
+                    formData.append("Signature", file);
+
+                    var trElements = $('#prescriptionTable tbody').children();
+                    for (var i = 0; i < trElements.length; i++) {
+                        var tdElements = trElements[i].children; // get input element inside td element
+                        var MedicineName = tdElements[0].children[0].value
+                        var Quantity = tdElements[1].children[0].value;
+                        var Days = tdElements[2].children[0].value;
+                        var inputCheckboxes = tdElements[3].getElementsByTagName('input');
+                        for (var Ischeck of inputCheckboxes) {
+                            if (Ischeck.checked) {
+                                formData.append("PrescriptionDetailsDtos[" + i + "].Time", Number(Ischeck.value));
+                            }
+                        }
+                        formData.append("PrescriptionDetailsDtos[" + i + "].MedicineName", MedicineName);
+                        formData.append("PrescriptionDetailsDtos[" + i + "].Quantity", Quantity);
+                        formData.append("PrescriptionDetailsDtos[" + i + "].Days", Days);
+                    }
+                    $.ajax({
+                        url: '/Prescription/CreatePrescription',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (res) {
+                            if (res.success) {
+                                $('#AddPrescriptionModal').modal('hide');
+                                var prescription = res.item;
+                                var imageConstants = $('#imageConstants').text();
+                                var inforTdElement = $('<td></td>');
+                                if (prescription.pharmacy.avatar != null) {
+                                    inforTdElement.append('<h2 class="table-avatar"><a class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="' + imageConstants + prescription.pharmacy.avatar + '" alt="User Image"></a><a>' + prescription.pharmacy.pharmacyName + '</a></h2>');
+                                } else {
+                                    inforTdElement.append('<h2 class="table-avatar"><a class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="~/assetsPhar/img/doctors/doctor-thumb-01.jpg" alt="User Image"></a><a>' + prescription.pharmacy.pharmacyName + '</a></h2>');
+                                }
+                                var lastTdElement = '<td class="text-end">' +
+                                    '<a id="details' + prescription.id + '" data-bs-toggle="modal" data-bs-target="#DetailsPrescriptionModal" data-id="' + prescription.id + '" class="btn btn-sm bg-info-light btnView"><i class="far fa-eye"></i> View</a>' +
+                                    '<a id="edit' + prescription.id + '" data-canvas="canvasEdit" onclick="CanvasSignature(this)"  data-id="' + prescription.id + '" href="#" class="btn btn-sm bg-success-light  btnEdit" data-bs-toggle="modal" data-bs-target="#EditPrescriptionModal"><i class="far fa-edit"></i> Edit</a>' +
+                                    '<a id="delete' + prescription.id + '" data-id="' + prescription.id + '" class="btn btn-sm bg-danger-light btnDelete" data-bs-toggle="modal" href="#delete_modal"><i class="fas fa-trash-alt"></i> Delete</a>' +
+                                    '</td>';
+                                var infor = inforTdElement[0].innerHTML;
+                                table.row.add([moment(prescription.date).format("DD-MMM-yyyy"), prescription.prescriptionName, infor, lastTdElement]).draw();
+                                $('#AddPrescriptionForm form')[0].reset();
+                            }
+                        }
+                    });
+                }
+                else {
+                    canvas.setAttribute('data-toggle', 'tooltip');
+                    canvas.setAttribute('title', 'You need to sign!');
+                    $(canvas).tooltip('show');
+                }
+            }
+
+        })
+        // End Add Prescription
+
+        // Update Prescription
+        $('#EditPrescriptionModal').on('show.bs.modal', function () {
+            var validator = $("#EditPrescriptionModal").validate();
+            validator.resetForm();
+            $("#EditPrescriptionModal").find("*").removeClass('error');
+            $(this).find('#EditPrescriptionForm')[0].reset();
+        });
+        $('#EditPrescriptionModal').on('hidden.bs.modal', function () {
+            var trElements = $('#prescriptionTableEdit tbody').empty();
+        });
+        $('body').on('click', '.btnEdit', function () {
+            var id = $(this).data('id');
+            var modalId = $(this).attr('id');
+            $('#EditPrescriptionModal').data('id', modalId);
+            $('input[name=Id]').val(id); // Assign Id
+            $.ajax({
+                url: '/Prescription/Details/' + id,
+                type: 'GET',
+                success: function (res) {
+                    if (res.success && res.item != null) {
+                        var prescription = res.item;
+                        let index = 0;
+                        $('input[name=PrescriptionName]').val(prescription.prescriptionName);
+                        var date = new Date(prescription.date);
+                        $('input[name=Date]').val(date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2));
+                        $('textarea[name=Notes]').val(prescription.notes);
+                        $.each(prescription.prescriptionDetailsDtos, function (i) {
+                            var pres = prescription.prescriptionDetailsDtos[i];
+                            //console.log(pres);
+                            //console.log(index);
+                            var prescriptionContent = $('<tr></tr>');
+                            prescriptionContent.append('<td><input class="form-control" name="MedicineName" value="' + pres.medicineName + '" type="text"></td>');
+                            prescriptionContent.append('<td><input class="form-control" name="Quantity" type="text" value="' + pres.quantity + '"></td>');
+                            prescriptionContent.append('<td><input class="form-control" name="Days" value="' + pres.days + '" type="text"></td>');
+                            var elementTdTimeCheck = '<td>' +
+                                '<div class="form-check form-check-inline">' +
+                                '<label class="form-check-label">' +
+                                '<input name="Time[]" value="1" class="form-check-input" type="checkbox"> Morning' +
+                                '</label>' +
+                                '</div>' +
+                                '<div class="form-check form-check-inline">' +
+                                '<label class="form-check-label">' +
+                                '<input name="Time[]" value="2" class="form-check-input" type="checkbox"> Afternoon' +
+                                '</label>' +
+                                '</div>' +
+                                '<div class="form-check form-check-inline">' +
+                                '<label class="form-check-label">' +
+                                '<input name="Time[]" value="3" class="form-check-input" type="checkbox"> Evening' +
+                                '</label>' +
+                                '</div>' +
+                                '<div class="form-check form-check-inline">' +
+                                '<label class="form-check-label">' +
+                                '<input name="Time[]" value="4" class="form-check-input" type="checkbox"> Night' +
+                                '</label>' +
+                                '</div>' +
+                                '</td>';
+                            prescriptionContent.append(elementTdTimeCheck);
+                            prescriptionContent.append('<td><a href="#" class="btn bg-danger-light trash"><i class="far fa-trash-alt"></i></a></td>');
+                            prescriptionContent.appendTo('#prescriptionTableEdit tbody');
+                            var trElements = $('#prescriptionTableEdit tbody').children();
+                            var tdElements = trElements[index].children; // get input element inside td element
+                            //console.log(trElements[index]);
+                            var inputCheckboxes = tdElements[3].getElementsByTagName('input');
+                            for (var j = 0; j < pres.time.length; j++) // 1 2 3
+                            {
+                                var time = pres.time[j];
+                                for (var i = 0; i < inputCheckboxes.length; i++) // 1 2 3 4
+                                {
+                                    //console.log(inputCheckboxes[i].value);
+                                    if (Number(inputCheckboxes[i].value) == time) {
+                                        //console.log(inputCheckboxes[i]);
+                                        inputCheckboxes[i].checked = true;
+                                    }
+                                }
+                            }
+
+                            index++;
+                        });
+
+
+                    }
+                }
+
+            });
+        })
+
+        $('#EditPrescriptionModal').off('click', '.submit-btn').on('click', '.submit-btn', function () {
+            if ($('#EditPrescriptionForm').valid()) {
+                var canvas = document.getElementById('canvasEdit');
+                const BlankCanvas = isCanvasBlank(canvas);
+                if (!BlankCanvas) {
+                    var dataURL = canvas.toDataURL();
+                    var blob = dataURItoBlob(dataURL);
+                    var file = new File([blob], "Signature", { type: blob.type });
+                    var formData = new FormData();
+                    formData.append("Id", $('#EditPrescriptionForm input[name=Id]').val());
+                    formData.append("PrescriptionName", $('#EditPrescriptionForm input[name=PrescriptionName]').val());
+                    formData.append("Date", $('#EditPrescriptionForm input[name=Date]').val());
+                    formData.append("PharmacyId", $('#EditPrescriptionForm input[name=PharmacyId]').val());
+                    formData.append("Notes", $('#EditPrescriptionForm textarea[name=Notes]').val());
+                    formData.append("Signature", file);
+
+                    var trElements = $('#prescriptionTableEdit tbody').children();
+                    for (var i = 0; i < trElements.length; i++) {
+                        var tdElements = trElements[i].children; // get input element inside td element
+                        var MedicineName = tdElements[0].children[0].value
+                        var Quantity = tdElements[1].children[0].value;
+                        var Days = tdElements[2].children[0].value;
+                        var inputCheckboxes = tdElements[3].getElementsByTagName('input');
+                        for (var Ischeck of inputCheckboxes) {
+                            if (Ischeck.checked) {
+                                formData.append("PrescriptionDetailsDtos[" + i + "].Time", Number(Ischeck.value));
+                            }
+                        }
+                        formData.append("PrescriptionDetailsDtos[" + i + "].MedicineName", MedicineName);
+                        formData.append("PrescriptionDetailsDtos[" + i + "].Quantity", Quantity);
+                        formData.append("PrescriptionDetailsDtos[" + i + "].Days", Days);
+                    }
+                    $.ajax({
+                        url: '/Prescription/UpdatePrescription',
+                        type: 'PUT',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (res) {
+                            if (res.success) {
+                                $('#AddPrescriptionModal').modal('hide');
+                                var prescription = res.item;
+                                var imageConstants = $('#imageConstants').text();
+                                var inforTdElement = $('<td></td>');
+                                var modalId = $('#EditPrescriptionModal').data('id');
+                                var tableRow = table.row($('#' + modalId).parents('tr')).node();
+                                if (prescription.pharmacy.avatar != null) {
+                                    inforTdElement.append('<h2 class="table-avatar"><a class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="' + imageConstants + prescription.pharmacy.avatar + '" alt="User Image"></a><a>' + prescription.pharmacy.pharmacyName + '</a></h2>');
+                                } else {
+                                    inforTdElement.append('<h2 class="table-avatar"><a class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="~/assetsPhar/img/doctors/doctor-thumb-01.jpg" alt="User Image"></a><a>' + prescription.pharmacy.pharmacyName + '</a></h2>');
+                                }
+                                var lastTdElement = '<td class="text-end">' +
+                                    '<a id="details' + prescription.id + '" data-bs-toggle="modal" data-bs-target="#DetailsPrescriptionModal" data-id="' + prescription.id + '" class="btn btn-sm bg-info-light btnView"><i class="far fa-eye"></i> View</a>' +
+                                    '<a id="edit' + prescription.id + '" data-canvas="canvasEdit" onclick="CanvasSignature(this)"  data-id="' + prescription.id + '" href="#" class="btn btn-sm bg-success-light  btnEdit" data-bs-toggle="modal" data-bs-target="#EditPrescriptionModal"><i class="far fa-edit"></i> Edit</a>' +
+                                    '<a id="delete' + prescription.id + '" data-id="' + prescription.id + '" class="btn btn-sm bg-danger-light btnDelete" data-bs-toggle="modal" href="#delete_modal"><i class="fas fa-trash-alt"></i> Delete</a>' +
+                                    '</td>';
+                                var infor = inforTdElement[0].innerHTML;
+                                var updateData = [
+                                    moment(prescription.date).format("DD-MMM-yyyy"),
+                                    prescription.prescriptionName,
+                                    infor,
+                                    lastTdElement
+                                ];
+                                table.row(tableRow).data(updateData).draw();
+                                $('#EditPrescriptionModal').modal('hide');
+                            }
+                        }
+                    });
+                }
+                else {
+                    canvas.setAttribute('data-toggle', 'tooltip');
+                    canvas.setAttribute('title', 'You need to sign!');
+                    $(canvas).tooltip('show');
+                }
+            }
+        });
+        // End Update Prescription
+
+        // Delete Prescription
+        $('body').on('click', '.btnDelete', function () {
+            var id = $(this).data('id');
+            $('input[name=Id]').val(id);
+            var modalId = $(this).attr('id');
+            $('#delete_modal').data('id', modalId);
+        });
+
+        $('body').on('click', '.btnYes', function () {
+            var id = $('input[name=Id]').val();
+            $.ajax({
+                url: '/Prescription/DeletePrescription/' + id,
+                type: 'DELETE',
+                success: function (res) {
+                    if (res.success) {
+                        var id = $('#delete_modal').data('id');
+                        table.row($('#' + id).parents('tr')).remove().draw();
+                        $('#delete_modal').modal('hide');
+                    }
+                }
+
+            });
+        });
+        // End Delete Prescription
+
+        // Validate
+        $.validator.addMethod('noSpace', function (value, element) {
+            return value == '' || value.trim().length != 0;
+        }, "Space are not allowed");
+
+        function isCanvasBlank(canvas) {
+            const context = canvas.getContext('2d');
+
+            const pixelBuffer = new Uint32Array(
+                context.getImageData(0, 0, canvas.width, canvas.height).data.buffer
+            );
+
+            return !pixelBuffer.some(color => color !== 0);
+        }
+        $('#AddPrescriptionForm').validate({
+            rules: {
+                PrescriptionName: {
+                    required: true,
+                    noSpace: true
+                },
+                Date: {
+                    required: true,
+                },
+                MedicineName: {
+                    required: true,
+                    minlength: 5,
+                    noSpace: true
+                },
+                Quantity: {
+                    number: true,
+                    required: true
+                },
+                Days: {
+                    number: true,
+                    required: true
+                },
+                Notes: {
+                    required: true
+                }
+            },
+            messages: {
+                PrescriptionName: {
+                    required: "Please enter prescription name!"
+                },
+                Date: {
+                    required: "Please enter prescription date!",
+                },
+                MedicineName: {
+                    required: "Please enter medicine name!",
+                    minlength: "Medicine name at least 5 characters!"
+                },
+                Quantity: {
+                    number: "You can only to enter numbers!",
+                    required: "Please enter quantity!"
+                },
+                Days: {
+                    number: "You can only to enter numbers!",
+                    required: "Please enter day!"
+                },
+                Notes: {
+                    required: "Please enter notes!"
+                }
+            }
+        });
+
+        $('#EditPrescriptionForm').validate({
+            rules: {
+                PrescriptionName: {
+                    required: true,
+                    noSpace: true
+                },
+                Date: {
+                    required: true,
+                },
+                MedicineName: {
+                    required: true,
+                    minlength: 5,
+                    noSpace: true
+                },
+                Quantity: {
+                    number: true,
+                    required: true
+                },
+                Days: {
+                    number: true,
+                    required: true
+                },
+                Notes: {
+                    required: true
+                }
+            },
+            messages: {
+                PrescriptionName: {
+                    required: "Please enter prescription name!"
+                },
+                Date: {
+                    required: "Please enter prescription date!",
+                },
+                MedicineName: {
+                    required: "Please enter medicine name!",
+                    minlength: "Medicine name at least 5 characters!"
+                },
+                Quantity: {
+                    number: "You can only to enter numbers!",
+                    required: "Please enter quantity!"
+                },
+                Days: {
+                    number: "You can only to enter numbers!",
+                    required: "Please enter day!"
+                },
+                Notes: {
+                    required: "Please enter notes!"
+                }
+            }
+        });
+
+
+        function ValidateAddMorePrescription() {
+            $('input[id*="medicineName"]').each(function () {
+                $(this).rules('add', {
+                    required: true,
+                    noSpace: true,
+                    minlength: 5,
+                    messages: {
+                        required: "Please enter medicine name!",
+                        minlength: "Medicine name at least 5 characters!"
+                    }
+                });
+            });
+            $('input[id*="quantity"]').each(function () {
+                $(this).rules('add', {
+                    required: true,
+                    number: true,
+                    messages: {
+                        required: "Please enter quantity!",
+                        number: "You can only to enter numbers!",
+                    }
+                });
+            });
+            $('input[id*="days"]').each(function () {
+                $(this).rules('add', {
+                    required: true,
+                    number: true,
+                    messages: {
+                        required: "Please enter day!",
+                        number: "You can only to enter numbers!",
+                    }
+                });
+            });
+        }
+
+        function RemoveValidateAddMorePrescription(elementId) {
+            $("#" + elementId).rules("remove");
+        }
+                // End Validate
+    </script>
+
+}

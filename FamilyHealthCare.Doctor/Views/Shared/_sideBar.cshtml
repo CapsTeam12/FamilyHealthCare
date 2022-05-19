@@ -1,0 +1,63 @@
+﻿@{
+
+}
+
+<div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+<!-- Profile Sidebar -->
+<div class="profile-sidebar">
+    <!--Profile-->
+    @await Component.InvokeAsync("ProfileManagement")
+    <!--/Profile-->
+    <div class="dashboard-widget">
+        <nav id="sidebar-menu" class="dashboard-menu">
+            <ul>
+                <li>
+                    <a asp-area="" asp-controller="Home" asp-action="Index">
+                        <i class="fas fa-columns"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+
+                    <a asp-area="" asp-controller="MyPatient" asp-action="MyPatients">
+                        <i class="fas fa-user-injured"></i>
+                        <span>My Patients</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="" asp-controller="Schedule" asp-action="AvailableTimings" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")">
+                        <i class="fas fa-hourglass-start"></i>
+                        <span>Schedule Timings</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="" asp-controller="MedicalRecords" asp-action="MedicalRecord">
+                        <i class="fas fa-file-invoice"></i>
+                        <span>Medical Records</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="" asp-controller="Prescriptions" asp-action="Prescription">
+                        <i class="fas fa-share-alt"></i>
+                        <span>Prescription</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="" asp-controller="Schedule" asp-action="Calendar">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>Calendar</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="" asp-controller="ProfileSettings" asp-action="ProfileSetting">
+                        <i class="fas fa-user-cog"></i>
+                        <span>Profile Settings</span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+</div>
+<!-- /Profile Sidebar -->
+</div>

@@ -1,0 +1,306 @@
+﻿@model IEnumerable<Contract.DTOs.PartnerService.PharmacyRequestDetailsDto>
+@using Contract.DTOs.PartnerService;
+@using FamilyHealthCare.SharedLibrary;
+@{
+    ViewData["Title"] = "Pharmacy Request List";
+    ViewData["breadcumb-title"] = "Pharmacy";
+    int count = 0;
+}
+<link href="~/css/Awards.css" rel="stylesheet" />
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@("@")fancyapps/ui/dist/fancybox.css" />
+<style>
+    a[data-fancybox] img {
+        cursor: zoom-in;
+    }
+
+    .modal {
+        z-index: 1040;
+    }
+
+    .modal-backdrop {
+        z-index: 1030;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="partnerList" class="datatable table table-hover table-center mb-0">
+                        <thead>
+                            <tr>
+                                <th>Pharmacy Name</th>
+                                <th>Phone Number</th>
+                                <th>Pharmacy Address</th>
+                                <th>Pharmacy Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var pharmacy in Model)
+                            {
+                                count++;
+                                <tr>
+                                    <td>
+                                        <h2 class="table-avatar">
+                                            @if (pharmacy.Avatar != null)
+                                            {
+                                                <a asp-controller="Pharmacy" asp-action="DetailsPharmacy" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@(ImageConstants.PHARMACIES+pharmacy.Avatar) alt="User Image"></a>
+                                            }
+                                            else
+                                            {
+                                                <a asp-controller="Pharmacy" asp-action="DetailsPharmacy" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-01.jpg") alt="User Image"></a>
+                                            }
+                                            <a id="detail@(count)" class="btnDetails" href="#personal_details"
+                                               data-bs-toggle="modal" data-id="@pharmacy.Id">@pharmacy.PharmacyName</a>
+                                        </h2>
+                                    </td>
+                                    <td>@pharmacy.Phone</td>
+                                    <td hidden>@pharmacy.Email</td>
+                                    <td>@pharmacy.Address</td>
+                                    <td hidden>@pharmacy.Biography</td>
+                                    <td hidden>@(ImageConstants.CERTIFICATION_PHARMACIES+pharmacy.Certifications)</td>
+                                    <td hidden>@pharmacy.Awards.Count</td>
+                                    @foreach (var award in pharmacy.Awards)
+                                    {
+                                        <td hidden>@award.Award</td>
+                                        <td hidden>@award.Year</td>
+                                    }
+                                    <td class="text-end">
+                                        <div class="actions">
+                                            <a id="accept@(count)" data-id="@pharmacy.Id" data-bs-toggle="modal" href="#accept_modal" class="btn btn-sm bg-success-light me-2 btnAccept">
+                                                <i class="fe fe-check"></i> Accept
+                                            </a>
+                                            <a id="delete@(count)" data-id="@pharmacy.Id" class="btn btn-sm bg-danger-light btnDeny" data-bs-toggle="modal" href="#delete_modal">
+                                                <i class="fe fe-trash"></i> Delete
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Accept Form-->
+<div class="modal fade" id="accept_modal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <input type="text" hidden value="" id="pharmacyId" />
+            <div class="modal-body">
+                <div class="form-content p-2">
+                    <h4 id="test" class="modal-title">Accept</h4>
+                    <p class="mb-4">Are you sure want to accept?</p>
+                    <button id="btnSend" type="button" class="btn btn-primary"> Accept </button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Modal Accept Form-->
+<!-- Details Modal -->
+<div class="modal fade" id="personal_details" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Personal Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row form-row">
+                    <div class="col-12">
+                        <h5 class="form-title"><span>Avatar</span></h5>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <div class="avatar avatar-xl">
+                                <img id="image" style="margin: 5px 200px 5px 200px;"
+                                     class="avatar-img rounded-circle" alt="User Image" src="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <h5 class="form-title"><span>Information</span></h5>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input id="fullName" type="text" class="form-control" value="" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input id="phone" type="text" value="" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input id="email" type="email" class="form-control" value="" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input id="address" type="text" class="form-control" value="" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label>Biography</label>
+                            <textarea id="biography" type="text" class="form-control" value="" readonly>
+                                </textarea>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <h5 class="form-title"><span>Certification</span></h5>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <div class="avatar avatar-xl">
+                                <a id="certificationBox" data-fancybox="gallery" href="">
+                                    <img id="certification" style="margin: 5px 200px 5px 200px;width:100%;"
+                                         class="avatar-img rounded" alt="User Image" src=""/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <h5 class="form-title"><span>Awards</span></h5>
+                    </div>
+                    <!-- Awards Details -->
+                    <div class="widget awards-widget">
+                        <div class="experience-box">
+                            <ul class="experience-list">
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /Awards Details -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Details Modal -->
+<!-- Modal Deny Form-->
+<div class="modal fade" id="delete_modal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <input type="text" hidden value="" id="pharmacyId2" />
+            <div class="modal-body">
+                <div class="form-content p-2">
+                    <h4 class="modal-title">Delete</h4>
+                    <p class="mb-4">Are you sure want to delete?</p>
+                    <button id="btnDelete" type="button" class="btn btn-primary"> Delete </button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Modal Deny Form-->
+
+
+
+@section scripts{
+    <script src="https://cdn.jsdelivr.net/npm/@("@")fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+    <script>
+        $(document).ready(function () {
+            Fancybox.bind('[data-fancybox="gallery"]', {
+                Image: {
+                    zoom: false,
+                },
+            });
+
+            $('body').on('click', '.btnAccept', function () {
+                var id = $(this).attr('id');
+                $('#accept_modal').data('id', id);
+                $('#pharmacyId').val($(this).data('id'));
+            });
+            $('body').on('click', '#btnSend', function () {
+                var pharmacyId = $('#pharmacyId').val();
+                $.ajax({
+                    url: '/Partner/AcceptPharmacyRequest',
+                    type: 'GET',
+                    data: { pharmacyId: pharmacyId },
+                    success: function (res) {
+                        if (res.success == true) {
+                            var id = $('#accept_modal').data('id');
+                            $('#' + id).parents("tr").remove();
+                            $('#accept_modal').modal('hide');
+                        }
+                    }
+                });
+            });
+
+            $('body').on('click', '.btnDeny', function () {
+                var id = $(this).attr('id');
+                $('#delete_modal').data('id', id);
+                $('#pharmacyId2').val($(this).data('id'));
+            });
+            $('body').on('click', '#btnDelete', function () {
+                var pharmacyId = $('#pharmacyId2').val();
+                $.ajax({
+                    url: '/Partner/DenyPharmacyRequest',
+                    type: 'GET',
+                    data: { pharmacyId: pharmacyId },
+                    success: function (res) {
+                        if (res.success == true) {
+                            var id = $('#delete_modal').data('id');
+                            $('#' + id).parents("tr").remove();
+                            $('#delete_modal').modal('hide');
+                        }
+                    }
+                });
+            });
+
+            $('body').on('click', '.btnDetails', function () {
+                var id = $(this).attr('id');
+                $('#personal_details').data('id', id);
+                var modalId = $('#personal_details').data('id');
+                var tdElements = $('#' + modalId).parents("tr").children();
+                let image = tdElements[0].getElementsByTagName('img');
+                $('#image').attr('src', image[0].getAttribute('src'));
+                $('#fullName').val(tdElements[0].innerText);
+                $('#phone').val(tdElements[1].innerText);
+                $('#email').val(tdElements[2].innerText);
+                $('#address').val(tdElements[3].innerText);
+                $('#biography').val(tdElements[4].innerText);
+                $('#certificationBox').attr('href', tdElements[5].innerText);
+                $('#certification').attr('src', tdElements[5].innerText);
+                var awardsLength = tdElements[6].innerText
+                //console.log(awardsLength);
+                var currentNum = (tdElements.length - awardsLength) - 1; // (Tổng phần tử <td> - tổng số lượng awards) - 1
+                //console.log(currentNum);
+                var lengthExperiencesList = $('.experience-list').children().length;
+                //console.log("So luong children co trong experience-list: " + lengthExperiencesList);
+                if (lengthExperiencesList < Number(awardsLength)) {
+                    for (var i = awardsLength; i >= 1; i--) {
+                        var listAwards = '<li>' +
+                            '<div class="experience-user">' +
+                            '<div class="before-circle"></div>' +
+                            '</div>' +
+                            '<div class="experience-content">' +
+                            '<div class="timeline-content">' +
+                            '<p id="year" class="exp-year">' + tdElements[(currentNum + 1) - i].innerText + '</p>' +
+                            '<h4 id="award" class="exp-title">' + tdElements[currentNum - i].innerText + '</h4>' +
+                            '</div>' +
+                            '</div>' +
+                            '</li>';
+                        $('.experience-list').append(listAwards);
+                        currentNum++;
+                        //console.log(currentNum);
+                    }
+                }
+
+            });
+        })
+    </script>
+}

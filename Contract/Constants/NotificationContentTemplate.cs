@@ -3,7 +3,7 @@
     public static class NotificationContentTemplate
     {
         public const string CancelledAppointment = 
-            "Your appointment with the doctor is canceled due to {0}";
+            "Appointment is cancelled";
         public const string RescheduledAppointment = 
             "Your appointment will be rescheduled to the time {0} due to reason {1}";
         public const string NewAppointment = 

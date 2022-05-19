@@ -1,14 +1,21 @@
+using Business;
+using Data;
+using Data.Entities;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace BookingAppoimentService
@@ -25,6 +32,41 @@ namespace BookingAppoimentService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<MongoDbConfig>(Configuration);
+
+            services.AddBusinessLayer();
+            services.AddDataAccessorLayer(Configuration);
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireUppercase = false;
+            })
+              .AddEntityFrameworkStores<ApplicationDbContext>()
+              .AddDefaultTokenProviders();
+            services.AddControllers()
+                .AddFluentValidation(fv =>
+                {
+                    fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+                    fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
+                }
+            );
+
+            services.AddAuthentication("Bearer")
+               .AddJwtBearer("Bearer", options =>
+               {
+                   options.Authority = "https://localhost:44315/";
+                   options.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       ValidateAudience = false
+                   };
+
+
+               });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -45,6 +87,7 @@ namespace BookingAppoimentService
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -16,7 +16,6 @@ namespace FamilyHealthCare.SharedLibrary
             {
                 var httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
                 var accessToken = await httpContextAccessor.HttpContext.GetTokenAsync(RequestConstants.ACCESS_TOKEN);
-
                 client.BaseAddress = new Uri(config[RequestConstants.BACK_END_ENDPOINT]);
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(RequestConstants.BEARER, accessToken);
             });

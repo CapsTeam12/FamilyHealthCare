@@ -10,6 +10,7 @@ namespace Business.IServices
 {
     public interface IScheduleService
     {
+        Task<IEnumerable<ScheduleDto>> GetScheduleAndUpdateAsync(string userId, string doctorAccountId, ScheduleCreateDto createDto);
         Task<IEnumerable<ScheduleDto>> GetSchedulesAsync(string userId);
         Task<ScheduleDto> CreateScheduleAsync(ScheduleCreateDto schedule);
 

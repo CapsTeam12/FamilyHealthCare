@@ -124,76 +124,33 @@
                     </li>
                     <ul class="nav user-menu">
                         <!-- Notifications -->
-                        <li class="nav-item dropdown noti-dropdown">
-                            <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                                <i class="fas fa-bell"></i> <span class="badge rounded-pill">3</span>
-                            </a>
-                            <div class="dropdown-menu notifications">
-                                <div class="topnav-dropdown-header">
-                                    <span class="notification-title">Notifications</span>
-                                    <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
-                                </div>
-                                <div class="noti-content">
-                                    <ul class="notification-list">
-                                        <li class="notification-message">
-                                            <a href="#">
-                                                <div class="media d-flex">
-                                                    <span class="avatar avatar-sm flex-shrink-0">
-                                                        <img class="avatar-img rounded-circle" alt="User Image" src="assets/img/doctors/doctor-thumb-01.jpg">
-                                                    </span>
-                                                    <div class="media-body flex-grow-1">
-                                                        <p class="noti-details"><span class="noti-title">Dr. Ruby Perrin</span> Schedule <span class="noti-title">her appointment</span></p>
-                                                        <p class="noti-time"><span class="notification-time">4 mins ago</span></p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li class="notification-message">
-                                            <a href="#">
-                                                <div class="media d-flex">
-                                                    <span class="avatar avatar-sm flex-shrink-0">
-                                                        <img class="avatar-img rounded-circle" alt="User Image" src="assets/img/patients/patient1.jpg">
-                                                    </span>
-                                                    <div class="media-body flex-grow-1">
-                                                        <p class="noti-details"><span class="noti-title">Charlene Reed</span> has booked her appointment to <span class="noti-title">Dr. Ruby Perrin</span></p>
-                                                        <p class="noti-time"><span class="notification-time">6 mins ago</span></p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="topnav-dropdown-footer">
-                                    <a href="#">View all Notifications</a>
-                                </div>
-                            </div>
-                        </li>
+                        @await Component.InvokeAsync("Notification")
                         <!-- /Notifications -->
                     </ul>
                     @*<li class="nav-item dropdown has-arrow logged-item">
-                        <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                            <span class="user-img">
-                                <img class="rounded-circle" src=@Url.Content("~/assets/img/patients/patient.jpg") width="31" alt="Ryan Taylor">
-                            </span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <div class="user-header">
-                                <div class="avatar avatar-sm">
-                                    <img src=@Url.Content("~/assets/img/patients/patient.jpg") alt="User Image" class="avatar-img rounded-circle">
+                            <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                                <span class="user-img">
+                                    <img class="rounded-circle" src=@Url.Content("~/assets/img/patients/patient.jpg") width="31" alt="Ryan Taylor">
+                                </span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <div class="user-header">
+                                    <div class="avatar avatar-sm">
+                                        <img src=@Url.Content("~/assets/img/patients/patient.jpg") alt="User Image" class="avatar-img rounded-circle">
+                                    </div>
+                                    <div class="user-text">
+                                        <h6>@User.Identity.Name</h6>
+                                        <p class="text-muted mb-0">Patient</p>
+                                    </div>
                                 </div>
-                                <div class="user-text">
-                                    <h6>@User.Identity.Name</h6>
-                                    <p class="text-muted mb-0">Patient</p>
-                                </div>
+                                <a class="dropdown-item" href="patient-dashboard.html">Dashboard</a>
+                                <a class="dropdown-item" asp-controller="Account" asp-action="ProfileSetting">Profile Settings</a>
+                                <a class="dropdown-item" asp-controller="Schedule" asp-action="Calendar">Calendar</a>
+                                <a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
+                                <a class="dropdown-item" asp-controller="Account" asp-action="SignOut">Logout</a>
                             </div>
-                            <a class="dropdown-item" href="patient-dashboard.html">Dashboard</a>
-                            <a class="dropdown-item" asp-controller="Account" asp-action="ProfileSetting">Profile Settings</a>
-                            <a class="dropdown-item" asp-controller="Schedule" asp-action="Calendar">Calendar</a>
-                            <a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
-                            <a class="dropdown-item" asp-controller="Account" asp-action="SignOut">Logout</a>
-                        </div>
-                    </li>*@
-                    @await Component.InvokeAsync("Profile") 
+                        </li>*@
+                    @await Component.InvokeAsync("Profile")
                     <li class="dropdown language-select">
                         <span class="dropdown-toggle" id="language-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
                               aria-expanded="false" role="button"><img src=@Url.Content("~/assets/img/vietnam.png") alt="flag"> Viet Nam</span>
@@ -208,7 +165,7 @@
         <div class="breadcrumb-bar">
             <div class="container-fluid">
                 <div class="row align-items-center">
-                    <div class="col-md-12 col-12">
+                    <div class="col">
                         <nav aria-label="breadcrumb" class="page-breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
@@ -217,6 +174,12 @@
                         </nav>
                         <h2 class="breadcrumb-title">@ViewData["Title"]</h2>
                     </div>
+                    @if(ViewData["Title"].ToString() == "Calendar")
+                    {
+                        <div class="col-auto text-end float-end ms-auto">
+                            <a href="#" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#add_event">Create Event</a>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
@@ -229,67 +192,67 @@
                     <!-- Profile Sidebar -->
                     <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
                         @*<div class="profile-sidebar">
-                            <div class="widget-profile pro-widget-content">
-                                <div class="profile-info-widget">
-                                    <a href="#" class="booking-doc-img">
-                                        <img src=@Url.Content("~/assets/img/patients/patient.jpg") alt="User Image">
-                                    </a>
-                                    <div class="profile-det-info">
-                                        <h3>@User.Identity.Name</h3>
-                                        <div class="patient-details">
-                                            <h5><i class="fas fa-birthday-cake"></i> </h5>
-                                            <h5 class="mb-0"><i class="fas fa-map-marker-alt"></i> </h5>
+                                <div class="widget-profile pro-widget-content">
+                                    <div class="profile-info-widget">
+                                        <a href="#" class="booking-doc-img">
+                                            <img src=@Url.Content("~/assets/img/patients/patient.jpg") alt="User Image">
+                                        </a>
+                                        <div class="profile-det-info">
+                                            <h3>@User.Identity.Name</h3>
+                                            <div class="patient-details">
+                                                <h5><i class="fas fa-birthday-cake"></i> </h5>
+                                                <h5 class="mb-0"><i class="fas fa-map-marker-alt"></i> </h5>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="dashboard-widget">
-                                <nav class="dashboard-menu">
-                                    <ul>
-                                        <li>
-                                            <a href="patient-dashboard.html">
-                                                <i class="fas fa-columns"></i>
-                                                <span>Dashboard</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="favourites.html">
-                                                <i class="fas fa-bookmark"></i>
-                                                <span>Favourites</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a asp-controller="Appointment" asp-action="Index">
-                                                <i class="fas fa-calendar-check"></i>
-                                                <span>Appointments</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="healthcheck-details.html">
-                                                <i class="fas fa-file-medical-alt"></i>
-                                                <span>Health Check Details</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a asp-controller="Account" asp-action="ProfileSetting">
-                                                <i class="fas fa-user-cog"></i>
-                                                <span>Profile Settings</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a asp-controller="Account" asp-action="ChangePassword">
-                                                <i class="fas fa-lock"></i>
-                                                <span>Change Password</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
+                                <div class="dashboard-widget">
+                                    <nav class="dashboard-menu">
+                                        <ul>
+                                            <li>
+                                                <a href="patient-dashboard.html">
+                                                    <i class="fas fa-columns"></i>
+                                                    <span>Dashboard</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="favourites.html">
+                                                    <i class="fas fa-bookmark"></i>
+                                                    <span>Favourites</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a asp-controller="Appointment" asp-action="Index">
+                                                    <i class="fas fa-calendar-check"></i>
+                                                    <span>Appointments</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="healthcheck-details.html">
+                                                    <i class="fas fa-file-medical-alt"></i>
+                                                    <span>Health Check Details</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a asp-controller="Account" asp-action="ProfileSetting">
+                                                    <i class="fas fa-user-cog"></i>
+                                                    <span>Profile Settings</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a asp-controller="Account" asp-action="ChangePassword">
+                                                    <i class="fas fa-lock"></i>
+                                                    <span>Change Password</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
 
-                        </div>*@
+                            </div>*@
                         @await Component.InvokeAsync("ProfileManagement")
                     </div>
-                    
+
                     <!-- /Profile Sidebar -->
 
                     @RenderBody()

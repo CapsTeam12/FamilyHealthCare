@@ -24,10 +24,19 @@ namespace ScheduleService.Controllers
 
 
         [HttpGet("Doctor/{userId}/{date}")]
-        public async Task<IActionResult> GetSchedulesOfDoctor(string userId, DateTime date) // Get list schedule of doctor
+        public async Task<IActionResult> GetSchedulesOfDoctor(string userId, DateTime date) // Get list schedule of doctor with date
         {
 
             var scheduleDto = await _scheduleDoctorService.GetSchedulesAsync(userId, date);
+            return Ok(scheduleDto);
+        }
+
+        [HttpGet("Doctor/{userId}")]
+        public async Task<IActionResult> GetSchedulesOfDoctor(string userId) // Get list schedule of doctor
+        {
+            if (userId == null) return BadRequest();
+            var scheduleDto = await _scheduleDoctorService.GetAllSchedulesAsync(userId);
+            if (scheduleDto == null) return NoContent();
             return Ok(scheduleDto);
         }
 
@@ -65,6 +74,14 @@ namespace ScheduleService.Controllers
         {
             var scheduleDto = await _scheduleService.CreateScheduleAsync(schedule);
             return Ok(scheduleDto);
+        }
+
+        [HttpPost]
+        [Route("UpdateScheduleMeeting/{accountDoctorId}/{userId}")]
+        public async Task<IActionResult> GetAndUpdateSchedule(ScheduleCreateDto schedule,string accountDoctorId,string userId)
+        {
+            var schedulesDto = await _scheduleService.GetScheduleAndUpdateAsync(userId, accountDoctorId, schedule);
+            return Ok(schedulesDto);
         }
 
 

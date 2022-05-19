@@ -15,6 +15,8 @@ namespace Contract.DTOs.ScheduleService
         public string Eventname { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+        public string Join_Url { get; set; }
+        public string Start_Url { get; set; }
 
     }
 }

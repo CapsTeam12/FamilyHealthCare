@@ -8,10 +8,14 @@ namespace Contract.DTOs.ScheduleService
 {
     public class ScheduleCreateDto
     {
-        public string UserId { get; set; }
+        public string AccountId { get; set; }
         public string AppointmentId { get; set; }
         public string Eventname { get; set; }
         public DateTime StartTime { get; set; }
-        public DateTime? EndTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public string Join_Url { get; set; }
+        public string Start_Url { get; set; }
+        public string MeetingId { get; set; }
+
     }
 }

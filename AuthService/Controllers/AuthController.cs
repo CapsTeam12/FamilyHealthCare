@@ -221,5 +221,7 @@ namespace AuthService.Controllers
 
             return Ok(updatePatientProfile);
         }
+
+       
     }
 }

@@ -12,13 +12,16 @@ namespace Business.IServices
 {
     public interface IAppointmentService
     {
+        Task<IEnumerable<AppointmentDetailsDto>> GetTotalAppointments();
+        int GetTotalAppointmentsByPatient(string id);
+        int GetTotalAppointmentsByDoctor(string id);
         public Task<IActionResult> GetAppointmentsAsync(string search);
         public Task<IActionResult> CreateAppointmentAsync(AppointmentCreateDto appointmentCreateDto);
         Task<IEnumerable<AppointmentDetailsDto>> GetAppointments(string userId);
         Task<AppointmentDetailsDto> GetAppointmentById(string id);
         Task<AppointmentDetailsDto> BookingAppointment(AppointmentCreateDto model,string userId);
         Task<AppointmentDetailsDto> RescheduleAppointment(AppointmentRescheduleDto model,string id);
-        Task<AppointmentDetailsDto> CancelAppointment(string id);
+        Task<AppointmentDetailsDto> CancelAppointment(string id, string userId);
 
     }
 }

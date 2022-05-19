@@ -75,5 +75,13 @@ namespace Business.Services
             //_db.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<ScheduleDoctorDto>> GetAllSchedulesAsync(string userId)
+        {
+            int diff = (7 + (DateTime.Now.Date.DayOfWeek - DayOfWeek.Monday)) % 7;
+            DateTime DateStartOfWeek = DateTime.Now.AddDays(-1 * diff).Date;
+            var ListScheduleOfDoctor = await _db.ScheduleDoctors.Where(x => x.AccountId == userId && x.Date >= DateStartOfWeek.Date).ToListAsync();
+            var ScheduleDoctorDtos = _mapper.Map<IEnumerable<ScheduleDoctorDto>>(ListScheduleOfDoctor);
+            return ScheduleDoctorDtos;
+        }
     }
 }

@@ -1,0 +1,11 @@
+﻿.pencil-cursor {
+    cursor: url('../assetsPhar/img/pencil.png') 0 24,pointer;
+}
+
+.eraser-cursor {
+    cursor: url('../assetsPhar/img/eraser.png') 2 24,pointer;
+}
+
+/*#canvas {
+    box-shadow: 0 0 10px 0 rgb(0 0 0 / 40%);
+}*/

@@ -1,0 +1,139 @@
+﻿@model PharmacyDetailsDto
+@using Contract.DTOs.ManagementService
+@using FamilyHealthCare.SharedLibrary 
+@{
+}
+<!-- Breadcrumb -->
+<div class="breadcrumb-bar">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Pharmacy Details</li>
+                    </ol>
+                </nav>
+                <h2 class="breadcrumb-title">Pharmacy Details</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Breadcrumb -->
+<!-- Page Content -->
+<div class="content">
+    <div class="container">
+
+        <!-- Doctor Widget -->
+        <div class="card">
+            <div class="card-body">
+                <div class="doctor-widget">
+                    <div class="doc-info-left">
+                        <div class="doctor-img1" style="max-width:300px;max-height:200px;">
+                            <a href="@Url.Action("PharmacyDetails","Pharmacy",new {id = Model.Id })">
+                                @if (Model.Avatar != null)
+                                {
+                                    <img src=@(ImageConstants.PHARMACIES+Model.Avatar) class="img-fluid" alt="User Image">
+                                }
+                                else
+                                {
+                                    <img src="assets/img/medical-img1.jpg" class="img-fluid" alt="User Image">
+                                }
+                            </a>
+                        </div>
+                        <div class="doc-info-cont">
+                            <h4 class="doc-name mb-2"><a href="@Url.Action("PharmacyDetails","Pharmacy",new {id = Model.Id })">@Model.PharmacyName</a></h4>
+                            @*<div class="rating mb-2">
+                                    <span class="badge badge-primary">4.0</span>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span class="d-inline-block average-rating">(17)</span>
+                                </div>*@
+                            <div class="clinic-details">
+                                <div class="clini-infos pt-3">
+
+                                    <p class="doc-location mb-2"><i class="fas fa-phone-volume me-1"></i> @Model.Phone</p>
+                                    <p class="doc-location mb-2 text-ellipse"><i class="fas fa-map-marker-alt me-1"></i> @Model.Address </p>
+                                    <p class="doc-location mb-2"><i class="fas fa-chevron-right me-1"></i> @Model.Biography</p>
+
+                                    <p class="doc-location mb-2"><i class="fas fa-chevron-right me-1"></i> Opens at 08.00 AM</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doc-info-right d-flex align-items-center justify-content-center">
+                        <div class="clinic-booking">
+                            <a class="apt-btn" href="#" data-bs-toggle="modal" data-bs-target="#voice_call">View Products</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- /Doctor Widget -->
+        <!-- Doctor Details Tab -->
+        <div class="card">
+            <div class="card-body pt-0">
+
+                <!-- Tab Menu -->
+                <nav class="user-tabs mb-4">
+                    <ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#doc_overview" data-bs-toggle="tab">Overview</a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- /Tab Menu -->
+                <!-- Tab Content -->
+                <div class="tab-content pt-0">
+
+                    <!-- Overview Content -->
+                    <div role="tabpanel" id="doc_overview" class="tab-pane fade show active">
+                        <div class="row">
+                            <div class="col-md-9">
+
+                                <!-- About Details -->
+                                <div class="widget about-widget">
+                                    <h4 class="widget-title">About Me</h4>
+                                    <p>@Model.Biography</p>
+                                </div>
+                                <!-- /About Details -->
+                                <!-- Awards Details -->
+                                <div class="widget awards-widget">
+                                    <h4 class="widget-title">Awards</h4>
+                                    <div class="experience-box">
+                                        <ul class="experience-list">
+                                            @foreach (var aw in Model.Awards)
+                                            {
+                                                <li>
+                                                    <div class="experience-user">
+                                                        <div class="before-circle"></div>
+                                                    </div>
+                                                    <div class="experience-content">
+                                                        <div class="timeline-content">
+                                                            <p class="exp-year">@aw.Year</p>
+                                                            <h4 class="exp-title">@aw.Award</h4>                                                  
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- /Awards Details -->
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Overview Content -->
+                </div>
+            </div>
+        </div>
+        <!-- /Doctor Details Tab -->
+
+    </div>
+</div>	

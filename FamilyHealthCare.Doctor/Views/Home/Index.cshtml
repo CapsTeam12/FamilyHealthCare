@@ -1,331 +1,571 @@
-﻿@{
+﻿@using FamilyHealthCare.SharedLibrary;
+@{
     ViewData["Title"] = "Home Page";
+    var accountId = ViewBag.AccountId;
 }
+<link href="~/assets/plugins/datatables/datatables.min.css" rel="stylesheet" />
+<h3 id="PatientImagePath" hidden>@ImageConstants.PATIENTS</h3>
+<h5 id="AccountId" hidden>@accountId</h5>
+<div class="col-md-7 col-lg-8 col-xl-9">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card dash-card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-4">
+                            <div class="dash-widget dct-border-rht">
+                                <div class="circle-bar circle-bar1">
+                                    <div id="percentPatient" class="circle-graph1" data-percent="100">
+                                        <img src=@Url.Content("~/assets/img/icon-01.png") class="img-fluid" alt="patient">
+                                    </div>
+                                </div>
+                                <div class="dash-widget-info">
+                                    <h6>Total Patient</h6>
+                                    <h3 id="patientCount"></h3>
+                                    <p class="text-muted">Till Today</p>
+                                </div>
+                            </div>
+                        </div>
 
-<div class="breadcrumb-bar">
-    <div class="container-fluid">
-        <div class="row align-items-center">
-            <div class="col-md-12 col-12">
-                <nav aria-label="breadcrumb" class="page-breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-                    </ol>
-                </nav>
-                <h2 class="breadcrumb-title">Dashboard</h2>
+                        <div class="col-md-12 col-lg-4">
+                            <div class="dash-widget dct-border-rht">
+                                <div class="circle-bar circle-bar2">
+                                    <div id="percentMedicalRecord" class="circle-graph2" data-percent="100">
+                                        <img src=@Url.Content("~/assets/img/icon-02.png") class="img-fluid" alt="Patient">
+                                    </div>
+                                </div>
+                                <div class="dash-widget-info">
+                                    <h6>Total Medical Record</h6>
+                                    <h3 id="medicalRecordCount"></h3>
+                                    <p class="text-muted">Till Today</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 col-lg-4">
+                            <div class="dash-widget">
+                                <div class="circle-bar circle-bar3">
+                                    <div id="percentAppointment" class="circle-graph3" data-percent="100">
+                                        <img src=@Url.Content("~/assets/img/icon-03.png") class="img-fluid" alt="Patient">
+                                    </div>
+                                </div>
+                                <div class="dash-widget-info">
+                                    <h6>Appoinments</h6>
+                                    <h3 id="appointmentCount"></h3>
+                                    <p class="text-muted">Till Today</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h4 class="mb-4">Patient Appoinment</h4>
+            <div class="appointment-tab">
+                <div class="tab-content">
+                    <div class="card card-table mb-0">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="appointmentTable" class="datatable table table-hover table-center mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Patient Name</th>
+                                            <th>Appt Date</th>
+                                            <th class="text-center">Phone</th>
+                                            <th class="text-center"> Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- Appointment Details Modal -->
+<div class="modal fade custom-modal" id="appt_details">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Appointment Details</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="info-details">
+                    <li>
+                        <div class="details-header">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <span class="title" id="titleAp"></span>
+                                    <span class="text" id="startTimeAp"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="text-end">
+                                        <button type="button" class="btn btn-sm" id="topup_status"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="title">Description:</span>
+                        <span class="text" id="descriptionAp"></span>
+                    </li>
+                    <li>
+                        <span class="title">End Date:</span>
+                        <span class="text" id="endTimeAp"></span>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
 </div>
-<div class="content">
-    <div class="container-fluid">
-
-        <div class="row">
-            <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
-
-                <!-- Profile Sidebar -->
-                <div class="profile-sidebar">
-                    <div class="widget-profile pro-widget-content">
-                        <div class="profile-info-widget">
-                            <a href="#" class="booking-doc-img">
-                                <img src=@Url.Content("~/assets/img/doctors/doctor-thumb-02.jpg") alt="User Image">
-                            </a>
-                            <div class="profile-det-info">
-                                <h3>Dr. @User.Identity.Name</h3>
-
-                                <div class="patient-details">
-                                    <h5 class="mb-0">BDS, MDS - Oral & Maxillofacial Surgery</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="dashboard-widget">
-                        <nav class="dashboard-menu">
-                            <ul>
-                                <li class="active">
-                                    <a asp-area="" asp-controller="Home" asp-action="Index">
-                                        <i class="fas fa-columns"></i>
-                                        <span>Dashboard</span>
-                                    </a>
-                                </li>
-                                <li>
-
-                                    <a asp-area="" asp-controller="MyPatient" asp-action="MyPatients">
-                                        <i class="fas fa-user-injured"></i>
-                                        <span>My Patients</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a asp-area="" asp-controller="Schedule" asp-action="AvailableTimings" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")">
-                                        <i class="fas fa-hourglass-start"></i>
-                                        <span>Schedule Timings</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a asp-area="" asp-controller="MedicalRecords" asp-action="MedicalRecord">
-                                        <i class="fas fa-file-invoice"></i>
-                                        <span>Medical Records</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a asp-area="" asp-controller="Prescriptions" asp-action="Prescription">
-                                        <i class="fas fa-share-alt"></i>
-                                        <span>Prescription</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a asp-area="" asp-controller="Schedule" asp-action="Calendar">
-                                        <i class="fas fa-calendar-check"></i>
-                                        <span>Calendar</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a asp-area="" asp-controller="ProfileSettings" asp-action="ProfileSetting">
-                                        <i class="fas fa-user-cog"></i>
-                                        <span>Profile Settings</span>
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-                <!-- /Profile Sidebar -->
-
+<!-- /Appointment Details Modal -->
+<!-- Appointment Reschedule Modal-->
+<div class="modal fade custom-modal" id="reschedule_modal">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Reschedule</h3>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
-
-            <div class="col-md-7 col-lg-8 col-xl-9">
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card dash-card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-12 col-lg-4">
-                                        <div class="dash-widget dct-border-rht">
-                                            <div class="circle-bar circle-bar1">
-                                                <div class="circle-graph1" data-percent="75">
-                                                    <img src=@Url.Content("~/assets/img/icon-01.png") class="img-fluid" alt="patient">
-                                                </div>
-                                            </div>
-                                            <div class="dash-widget-info">
-                                                <h6>Total Patient</h6>
-                                                <h3>1500</h3>
-                                                <p class="text-muted">Till Today</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-12 col-lg-4">
-                                        <div class="dash-widget dct-border-rht">
-                                            <div class="circle-bar circle-bar2">
-                                                <div class="circle-graph2" data-percent="65">
-                                                    <img src=@Url.Content("~/assets/img/icon-02.png") class="img-fluid" alt="Patient">
-                                                </div>
-                                            </div>
-                                            <div class="dash-widget-info">
-                                                <h6>Today Patient</h6>
-                                                <h3>160</h3>
-                                                <p class="text-muted">06, Nov 2019</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-12 col-lg-4">
-                                        <div class="dash-widget">
-                                            <div class="circle-bar circle-bar3">
-                                                <div class="circle-graph3" data-percent="50">
-                                                    <img src=@Url.Content("~/assets/img/icon-03.png") class="img-fluid" alt="Patient">
-                                                </div>
-                                            </div>
-                                            <div class="dash-widget-info">
-                                                <h6>Appoinments</h6>
-                                                <h3>85</h3>
-                                                <p class="text-muted">06, Apr 2019</p>
-                                            </div>
-                                        </div>
+            <form>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <span class="label label-info">Date:</span>
+                                <div class="form-group">
+                                    <input type="text" id="apRescheduleId" value="" hidden />
+                                    <input type="text" id="apDoctorId" value="" hidden />
+                                    <input type="text" id="therapistId" value="" hidden />
+                                    <input type="text" id="patientId" value="" hidden />
+                                    <input type="text" id="timeslotReschedule" value="" hidden />
+                                    <input type="text" id="status" value="" hidden />
+                                    <div class="schedule-calendar-col justify-content-start">
+                                        <input type="date" class="form-control" id="reschedule_date" value="">
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <h4 class="mb-4">Patient Appoinment</h4>
-                        <div class="appointment-tab">
-
-                            <!-- Appointment Tab -->
-                            <!-- /Appointment Tab -->
-
-                            <div class="tab-content">
-
-                                <!-- Upcoming Appointment Tab -->
-                                <!-- /Upcoming Appointment Tab -->
-                                <!-- Today Appointment Tab -->
-
-                                <div class="card card-table mb-0">
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover table-center mb-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Patient Name</th>
-                                                        <th>Appt Date</th>
-                                                        <th class="text-center">Mail</th>
-                                                        <th class="text-center">Phone</th>
-
-                                                        <th class="text-center"> Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <h2 class="table-avatar">
-                                                                <a href="patient-profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/patients/patient6.jpg") alt="User Image"></a>
-                                                                <a href="patient-profile.html">Elsie Gilley <span>#PT0006</span></a>
-                                                            </h2>
-                                                        </td>
-                                                        <td>14 Nov 2019 <span class="d-block text-info">6.00 PM</span></td>
-
-                                                        <td>harrywilliams@example.com</td>
-                                                        <td> +1 303 607 7075</td>
-
-                                                        <td class="text-end">
-                                                            <div class="table-action">
-                                                                <a href="#" class="btn btn-sm bg-info-light" data-bs-toggle="modal" data-bs-target="#appt_details">
-                                                                    <i class="far fa-eye"></i> View
-                                                                </a>
-                                                                <a href="edit-prescription.html" class="btn btn-sm bg-success-light" data-bs-toggle="modal" data-bs-target="#edit_shecdule">
-                                                                    <i class="fas fa-edit"></i> Reschedule
-                                                                </a>
-
-                                                                <a href="edit-prescription.html" class="btn btn-sm bg-danger-light" data-bs-toggle="modal" data-bs-target="#cancel_modal">
-                                                                    <i class="fas fa-times"></i> Cancel
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <h2 class="table-avatar">
-                                                                <a href="patient-profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="~/assets/img/patients/patient7.jpg" alt="User Image"></a>
-                                                                <a href="patient-profile.html">Joan Gardner <span>#PT0006</span></a>
-                                                            </h2>
-                                                        </td>
-                                                        <td>14 Nov 2019 <span class="d-block text-info">5.00 PM</span></td>
-
-                                                        <td>robertrhodes@example.com</td>
-                                                        <td>+1 858 259 5285</td>
-
-
-                                                        <td class="text-end">
-                                                            <div class="table-action">
-                                                                <a href="#" class="btn btn-sm bg-info-light" data-bs-toggle="modal" data-bs-target="#appt_details">
-                                                                    <i class="far fa-eye"></i> View
-                                                                </a>
-                                                                <a href="edit-prescription.html" class="btn btn-sm bg-success-light" data-bs-toggle="modal" data-bs-target="#edit_shecdule">
-                                                                    <i class="fas fa-edit"></i> Reschedule
-                                                                </a>
-
-                                                                <a href="edit-prescription.html" class="btn btn-sm bg-danger-light" data-bs-toggle="modal" data-bs-target="#cancel_modal">
-                                                                    <i class="fas fa-times"></i> Cancel
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <h2 class="table-avatar">
-                                                                <a href="patient-profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="~/assets/img/patients/patient8.jpg" alt="User Image"></a>
-                                                                <a href="patient-profile.html">Daniel Griffing <span>#PT0007</span></a>
-                                                            </h2>
-                                                        </td>
-                                                        <td>14 Nov 2019 <span class="d-block text-info">3.00 PM</span></td>
-                                                        <td>harrywilliams@example.com</td>
-                                                        <td>+1 303 607 7075</td>
-
-
-                                                        <td class="text-end">
-                                                            <div class="table-action">
-                                                                <a href="#" class="btn btn-sm bg-info-light" data-bs-toggle="modal" data-bs-target="#appt_details">
-                                                                    <i class="far fa-eye"></i> View
-                                                                </a>
-                                                                <a href="edit-prescription.html" class="btn btn-sm bg-success-light" data-bs-toggle="modal" data-bs-target="#edit_shecdule">
-                                                                    <i class="fas fa-edit"></i> Reschedule
-                                                                </a>
-                                                                <a href="edit-prescription.html" class="btn btn-sm bg-danger-light" data-bs-toggle="modal" data-bs-target="#cancel_modal">
-                                                                    <i class="fas fa-times"></i> Cancel
-                                                                </a>
-
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
-
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>	<div class="modal fade custom-modal" id="edit_shecdule">
-                                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h3 class="modal-title">Reschedule</h3>
-                                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            </div>
-                                            <form>
-                                                <div class="modal-body">
-                                                    <div class="row">
-                                                        <div class="col-12 col-md-6">
-                                                            <div class="form-group">
-                                                                <label>Date</label>
-                                                                <div class="form-group">
-                                                                    <input type="datetime-local" class="form-control" name="tratment_date" id="tratment_date">
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <label>Description ( Optional )</label>
-                                                        <textarea cols="30" rows="10"></textarea>
-                                                    </div>
-                                                    <div class="submit-section text-center">
-                                                        <button type="submit" class="btn btn-primary submit-btn">Submit</button>
-                                                        <button type="button" class="btn btn-secondary submit-btn" data-bs-dismiss="modal">Cancel</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
+                    <span class="label label-info">Time:</span>
+                    <div class="card booking-schedule schedule-widget">
+                        <div class="schedule-cont">
+                            <div class="row">
+                                <div class="time-slot" id="timeslot">
                                 </div>
-
-                                <!-- /Today Appointment Tab -->
-
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label>Description ( Optional )</label>
+                        <textarea id="description" class="form-control"></textarea>
+                    </div>
+                    <div class="submit-section text-center">
+                        <button type="button" id="btnSubmit" class="btn btn-primary submit-btn">Submit</button>
+                        <button type="button" class="btn btn-secondary submit-btn" data-bs-dismiss="modal">Cancel</button>
+                    </div>
                 </div>
-
-            </div>
+            </form>
         </div>
-
     </div>
-
 </div>
+<!-- /Appointment Reschedule Modal-->
+<!-- Appointment Cancel Modal-->
 <div class="modal fade" id="cancel_modal" aria-hidden="true" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-medium" id="exampleModalLabel"><i class="fas fa-exclamation-circle text-danger"></i> Cancel Appointment</h5>
+            </div>
             <div class="modal-body">
                 <div class="form-content p-2">
-                    <h4 class="modal-title">Delete</h4>
-                    <p class="mb-4">Are you sure want to cancel?</p>
-                    <button type="button" class="btn btn-primary">Save </button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <input type="text" id="apId" hidden value="0" />
+                    <p>Are you sure you want to cancel this appointment ?</p>
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnYes" class="btn btn-primary">Yes</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
             </div>
         </div>
     </div>
 </div>
+<!-- /Appointment Cancel Modal-->
+
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="~/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/assets/plugins/datatables/datatables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            GetPatients();
+            GetMedicalRecords();
+            GetAppointments();
+            
+            LoadData();
+
+            $('body').on('click', '.btnView', function () {
+                var _id = $(this).data('id');
+                $.ajax({
+                    url: 'http://localhost:46685/api/Appointment/' + _id,
+                    type: 'GET',
+                    success: function (res) {
+                        if (res != null) {
+                            $('#titleAp').text(res.therapist.fullName);
+                            $('#startTimeAp').text(moment(res.startTime).format("YYYY-MM-DD HH:mm"));   //moment(items[i].startTime).format("YYYY-MM-DD HH:mm")
+                            if (res.status === 1) {
+                                $('#topup_status').removeClass();
+                                $('#topup_status').addClass('btn bg-warning-light btn-sm');
+                                $('#topup_status').text('Coming');
+                            } else if (res.status === 2) {
+                                $('#topup_status').removeClass();
+                                $('#topup_status').addClass('btn bg-info-light btn-sm');
+                                $('#topup_status').text('In Progress');
+                            } else if (res.status === 3) {
+                                $('#topup_status').removeClass();
+                                $('#topup_status').addClass('btn bg-success-light btn-sm');
+                                $('#topup_status').text('Completed');
+                            } else if (res.status === 4) {
+                                $('#topup_status').removeClass();
+                                $('#topup_status').addClass('btn bg-danger-light btn-sm');
+                                $('#topup_status').text('Canceled');
+                            }
+                            $('#descriptionAp').text(res.description);
+                            $('#endTimeAp').text(moment(res.endTime).format("YYYY-MM-DD HH:mm"));
+                            $('#appt_details').modal('show');
+                        }
+                    }
+                });
+            });
+
+            // Cancel appointment
+            $('body').on('click', '.btnCancel', function () {
+                var _id = $(this).data('id');
+                var id = $(this).attr('id');
+                $('#cancel_modal').data('id', id);
+                $('#cancel_modal').modal('show');
+                $('#apId').val(_id); // assign id appointment
+            });
+            $('body').on('click', '#btnYes', function () {
+                var id = $('#apId').val(); // get id appointment
+                CancelAppointment(id);
+            });
+            // End Cancel appointment
+
+            // Reschedule appointment
+            $('body').on('click', '.btnReschedule', function () {
+                var id = $(this).attr('id');
+                $('#reschedule_modal').data('id', id);
+                $('#reschedule_modal').modal('show');
+                $('#timeslotReschedule').val('');
+                $('#description').val('');
+                var _id = $(this).data('id');
+                var doctorId = $(this).data('doctor');
+                var rescheduleDate = $(this).data('date');
+                var therapistId = $(this).data('therapist');
+                var patientId = $(this).data('patient');
+                var status = $(this).data('status');
+                $('#apRescheduleId').val(_id); // assign id appointment
+                $('#apDoctorId').val(doctorId); // assign doctor accountId appointment
+                $('#reschedule_date').val(rescheduleDate); // assign date of appointment
+                $('#reschedule_date').attr({ "max": rescheduleDate, "min": rescheduleDate });
+                $('#therapistId').val(therapistId); // assign doctorId appointment
+                $('#patientId').val(patientId);
+                $('#status').val(status);
+                var model = {
+                    doctor: doctorId,
+                    date: rescheduleDate
+                };
+                $.ajax({
+                    url: '/Appointment/Reschedule',
+                    type: 'GET',
+                    data: model,
+                    success: function (res) {
+                        if (res.dataSchedules != null) {
+                            var html = '';
+                            var currentDateTime = moment().format("YYYY-MM-DD HH:mm:ss");
+                            $.each(res.dataShifts, function (i) {
+                                $.each(res.dataSchedules, function (j) {
+                                    if (res.dataSchedules[j].shiftId === res.dataShifts[i].id) {
+                                        var timeOfShifts = moment(res.dataSchedules[j].date).format("YYYY-MM-DD") + ' ' + res.dataShifts[i].timeSlot.split('-')[0];
+                                        if (res.dataSchedules[j].isBooking === true || currentDateTime > timeOfShifts) {
+                                            html += "<input type='radio' class='btn-check' name='Time' data-id='" + res.dataSchedules[j].shiftId + "' id='" + res.dataSchedules[j].shiftId + "' value='' autocomplete='off' disabled>";
+                                            html += "<label class='btn btn-secondary' for='" + res.dataSchedules[j].shiftId + "'>" + res.dataShifts[i].timeSlot.split('-')[0].substring(0, 5) + "</label>";
+                                        } else {
+                                            html += "<input type='radio' class='btn-check btnShift' name='Time' data-id='" + res.dataSchedules[j].shiftId + "' id='" + res.dataSchedules[j].shiftId + "' value='" + res.dataShifts[i].timeSlot + "' autocomplete='off' required>";
+                                            html += "<label class='btn btn-outline-success' for='" + res.dataSchedules[j].shiftId + "'>" + res.dataShifts[i].timeSlot.split('-')[0].substring(0, 5) + "</label>";
+                                        }
+                                    }
+                                });
+                            });
+                        } else {
+                            html += "<b>No appointments on " + rescheduleDate + "</b>";
+                        }
+                        $('#timeslot').html(html);
+                    }
+                });
+            });
+
+            $('body').on('click', '.btnShift', function () {
+                var timeSlot = $(this).val();
+                $('#timeslotReschedule').val(timeSlot);
+            });
+            $('body').on('click', '#btnSubmit', function () {
+                var _id = $('#apRescheduleId').val();
+                var patientid = $('#patientId').val();
+                var doctorid = $('#therapistId').val();
+                var description = $('#description').val();
+                var date = $('#reschedule_date').val();
+                var timeslot = $('#timeslotReschedule').val();
+                var status = $('#status').val();
+                console.log(timeslot);
+                if (typeof timeslot != 'undefined' && timeslot) { //  will evaluate to true if value is not: null, undefined,NaN,empty string(""), 0 , false
+                    var startTime = moment(date).format("YYYY-MM-DD") + ' ' + timeslot.split('-')[0];
+                    var endTime = moment(date).format("YYYY-MM-DD") + ' ' + timeslot.split('-')[1];
+                }
+                console.log(startTime, endTime);
+                RescheduleAppointment(_id, patientid, doctorid, startTime, endTime, description, status);
+            });
+            // End Reschedule appointment
+
+        });
+
+        
+
+        function LoadData() {
+            var userId = $('#AccountId').text();
+            var imagePatientPath = $('#PatientImagePath').text();
+            $.ajax({
+                url: 'http://localhost:46685/api/Appointment/List/' + userId,
+                type: 'GET',
+                success: function (res) {
+                    //console.log(res.length);
+                    //$('#percentAppointment').attr('data-percent', '100');
+                    //$('#appointmentCount').text(res.length);
+                    $.each(res, function (i) {
+                        var item = res[i];
+                        //console.log(item);
+                        var element = $('<tr></tr>');
+                        if (item.patient.avatar != null) {
+                            element.append('<td><h2 class="table-avatar"><a href="patient-profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=' + imagePatientPath + item.patient.avatar + ' alt="User Image"></a><a href="patient-profile.html">' + item.patient.fullName + '</a></h2></td>');
+                        } else {
+                            element.append('<td><h2 class="table-avatar"><a href="patient-profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="assets/img/patients/patient7.jpg" alt="User Image"></a><a href="patient-profile.html">' + item.patient.fullName + '</a></h2></td>');
+                        }
+                        element.append('<td>' + moment(item.startTime).format('Do MMM YYYY') + '<span class="d-block text-info">' + moment(item.startTime).format('h:mm a') + '</span></td>');
+                        element.append('<td class="text-center">' + item.patient.phone + '</td>');
+                        var lastTdElements = '';
+                        if (item.status === 4 || item.status === 3 || item.status === 2) {
+                            lastTdElements = '<td class="text-end"><div class="table-action">' +
+                                '<a href="javascript:void(0);" data-id="' + item.id + '" class="btn btn-sm bg-info-light btnView" data-bs-toggle="modal" data-bs-target="#appt_details"><i class="far fa-eye"></i> View</a>' +
+                                '</div></td>';
+                        } else {
+                            lastTdElements = '<td class="text-end"><div class="table-action">' +
+                                '<a href="javascript:void(0);" data-id="' + item.id + '" class="btn btn-sm bg-info-light btnView" data-bs-toggle="modal" data-bs-target="#appt_details"><i class="far fa-eye"></i> View</a>' +
+                                '<a id="reschedule' + item.id + '" href="javascript:void(0);" data-id="' + item.id + '" data-status="' + item.status + '" data-date="' + moment(item.startTime).format('YYYY-MM-DD') + '" data-patient="' + item.patient.id + '" data-therapist="' + item.therapistId + '" data-doctor="' + item.therapist.accountId + '"  class="btn btn-sm bg-success-light btnReschedule" data-bs-toggle="modal" data-bs-target="#reschedule_modal"><i class="fas fa-edit"></i> Reschedule</a>' +
+                                '<a id="cancel' + item.id + '" href="javascript:void(0);" data-id="' + item.id + '" class="btn btn-sm bg-danger-light btnCancel" data-bs-toggle="modal" data-bs-target="#cancel_modal"><i class="fas fa-times"></i> Cancel</a>' +
+                                '</div></td>';
+                        }
+                        element.append(lastTdElements);
+                        element.appendTo('#appointmentTable tbody');
+                    });
+                    $('#appointmentTable').DataTable({
+                        pageLength: 3,
+                        lengthMenu: [[3, 10, 20], [3, 10, 20]],
+                    });
+                }
+            });
+        }
+
+        // function reschedule appointment
+        function RescheduleAppointment(Id, PatientId, TherapistId, StartTime, EndTime, Description, Status) {
+            var rescheduleModel = {
+                PatientId: PatientId,
+                TherapistId: TherapistId,
+                StartTime: StartTime,
+                EndTime: EndTime,
+                Description: Description,
+                Status: Status
+            };
+            $.ajax({
+                url: '/Appointment/RescheduleAppointment',
+                type: 'PUT',
+                data: { id: Id, model: rescheduleModel },
+                success: function (res) {
+                    if (res.errorMessage) {
+                        $('#reschedule_modal').modal('hide');
+                        swal({
+                            icon: "error",
+                            title: res.errorMessage
+                        });
+                    }
+                    else if (res.data != null) {
+                        //$('#appointmentTable').dataTable().fnDestroy();
+                        //LoadData();
+                        var item = res.data;
+                        console.log(item);
+                        var modalId = $('#reschedule_modal').data('id');
+                        var tdElements = $('#' + modalId).parents('tr').children();
+                        var imgElement = tdElements[0].getElementsByTagName('img');
+                        var imagePatientPath = $('#PatientImagePath').text();
+                        imgElement[0].setAttribute('src', imagePatientPath + item.patient.avatar);
+                        var nameElement = tdElements[0].getElementsByTagName('a')[1].firstChild.textContent = item.patient.fullName;
+                        var apptDateElement = tdElements[1].firstChild.textContent = moment(item.startTime).format('MMMM Do YYYY');
+                        var apptTimeElement = tdElements[1].lastChild.textContent = moment(item.startTime).format('hh:mm a');
+                        var phoneElement = tdElements[2].textContent = item.patient.phone;
+                        $('#reschedule_modal').modal('hide');
+                        swal({
+                            icon: "success",
+                            title: "Successfully rescheduled appointment."
+                        });
+                    } else {
+                        $('#reschedule_modal').modal('hide');
+                        swal({
+                            icon: "info",
+                            title: res.content
+                        });
+                    }
+                }
+            });
+        }
+
+        // function cancel appointment
+        function CancelAppointment(id) {
+            $.ajax({
+                url: '/Appointment/CancelAppointment',
+                type: 'GET',
+                data: { id: id },
+                success: function (res) {
+                    if (res.data != null) {
+                        //LoadData();
+                        var modalId = $('#cancel_modal').data('id');
+                        var tdElements = $('#' + modalId).parents('tr').children();
+                        var actionDivElement = tdElements.find('div.table-action');
+                        //console.log(actionDivElement[0]);
+                        var actionElements = actionDivElement.children();
+                        // console.log(actionElements[0]);
+                        // console.log(actionElements[1]);
+                        // console.log(actionElements[2]);
+                        actionElements[1].remove();
+                        actionElements[2].remove();
+                        $('#cancel_modal').modal('hide');
+                        swal({
+                            icon: "success",
+                            title: "Successfully canceled appointment."
+                        });
+                    } else {
+                        $('#cancel_modal').modal('hide');
+                        swal({
+                            icon: "info",
+                            title: res.content
+                        });
+                    }
+                }
+            });
+        }
+
+        // Circle Progress Bar
+        function GetMedicalRecords() {
+            $.ajax({
+                url: '/Home/getMedicalRecords',
+                type: 'GET',
+                success: function (res) {
+                    if (res.success) {
+                        $('#percentMedicalRecord').attr('data-percent', '100');
+                        $('#medicalRecordCount').text(res.item);
+                        $('.circle-bar2').each(function () {
+                            var elementPos = $(this).offset().top;
+                            var topOfWindow = $(window).scrollTop();
+                            var percent = $(this).find('.circle-graph2').attr('data-percent');
+                            var animate = $(this).data('animate');
+                            if (elementPos < topOfWindow + $(window).height() - 30 && !animate) {
+                                $(this).data('animate', true);
+                                $(this).find('.circle-graph2').circleProgress({
+                                    value: percent / 100,
+                                    size: 400,
+                                    thickness: 30,
+                                    fill: {
+                                        color: '#68dda9'
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+
+            });
+        }
+        function GetPatients() {
+            $.ajax({
+                url: '/Home/getPatients',
+                type: 'GET',
+                success: function (res) {
+                    if (res.success) {
+                        $('#percentPatient').attr('data-percent', '100');
+                        $('#patientCount').text(res.item);
+                        $('.circle-bar1').each(function () {
+                            var elementPos = $(this).offset().top;
+                            var topOfWindow = $(window).scrollTop();
+                            var percent = $(this).find('.circle-graph1').attr('data-percent');
+                            var animate = $(this).data('animate');
+                            if (elementPos < topOfWindow + $(window).height() - 30 && !animate) {
+                                $(this).data('animate', true);
+                                $(this).find('.circle-graph1').circleProgress({
+                                    value: percent / 100,
+                                    size: 400,
+                                    thickness: 30,
+                                    fill: {
+                                        color: '#da3f81'
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+
+            });
+        }
+        function GetAppointments() {
+            $.ajax({
+                url: '/Home/getAppointments',
+                type: 'GET',
+                success: function (res) {
+                    if (res.success) {
+                        $('#percentPatient').attr('data-percent', '100');
+                        $('#appointmentCount').text(res.item);
+                        $('.circle-bar3').each(function () {
+                            var elementPos = $(this).offset().top;
+                            var topOfWindow = $(window).scrollTop();
+                            var percent = $(this).find('.circle-graph3').attr('data-percent');
+                            var animate = $(this).data('animate');
+                            if (elementPos < topOfWindow + $(window).height() - 30 && !animate) {
+                                $(this).data('animate', true);
+                                $(this).find('.circle-graph3').circleProgress({
+                                    value: percent / 100,
+                                    size: 400,
+                                    thickness: 30,
+                                    fill: {
+                                        color: '#1b5a90'
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+
+            });
+        }
+    </script>
+}

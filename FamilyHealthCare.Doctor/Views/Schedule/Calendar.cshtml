@@ -1,7 +1,11 @@
 ﻿@model IEnumerable<Contract.DTOs.ScheduleService.ScheduleDto>
 @{
+    ViewData["breadcrumb-title"] = "Calendar";
 }
 <link href="~/lib/fullcalendar/main.min.css" rel="stylesheet" />
+
+
+<!-- Calendar Events -->
 <table id="eventsTable" hidden>
     @for (int i = 0; i < Model.Count(); i++)
     {
@@ -10,119 +14,20 @@
             <td>@Model.ElementAt(i).Eventname</td>
             <td>@Model.ElementAt(i).StartTime.ToString("yyyy-MM-dd'T'HH:mm:ss")</td>
             <td>@Model.ElementAt(i).EndTime.ToString("yyyy-MM-dd'T'HH:mm:ss")</td>
+            <td>@Model.ElementAt(i).Start_Url</td>
         </tr>
     }
 </table>
-<div class="breadcrumb-bar">
-    <div class="container-fluid">
-        <div class="row align-items-center">
-            <div class="col">
-                <nav aria-label="breadcrumb" class="page-breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        <li class="breadcrumb-item active" aria-current="page">Calendar</li>
-                    </ol>
-                </nav>
-                <h2 class="breadcrumb-title">Calendar</h2>
-            </div>
-
+<!-- /Calendar Events -->
+<!-- Calendar -->
+<div class="col-md-7 col-lg-8 col-xl-9">
+    <div class="card">
+        <div class="card-body">
+            <div id="calendar"></div>
         </div>
     </div>
 </div>
-<!-- /Breadcrumb -->
-<!-- Page Content -->
-<div class="content">
-    <div class="container-fluid">
-
-        <div class="row">
-
-            <!-- Calendar Events -->
-            <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
-                <!-- Profile Sidebar -->
-                <div class="profile-sidebar">
-                    <div class="widget-profile pro-widget-content">
-                        <div class="profile-info-widget">
-                            <a href="#" class="booking-doc-img">
-                                <img src=@Url.Content("~/assets/img/doctors/doctor-thumb-02.jpg") alt="User Image">
-                            </a>
-                            <div class="profile-det-info">
-                                <h3>Dr. @User.Identity.Name</h3>
-
-                                <div class="patient-details">
-                                    <h5 class="mb-0">BDS, MDS - Oral & Maxillofacial Surgery</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="dashboard-widget">
-                        <nav class="dashboard-menu">
-                            <ul>
-                                <li class="active">
-                                    <a asp-area="" asp-controller="Home" asp-action="Index">
-                                        <i class="fas fa-columns"></i>
-                                        <span>Dashboard</span>
-                                    </a>
-                                </li>
-                                <li>
-
-                                    <a asp-area="" asp-controller="MyPatient" asp-action="MyPatients">
-                                        <i class="fas fa-user-injured"></i>
-                                        <span>My Patients</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a asp-area="" asp-controller="Schedule" asp-action="AvailableTimings" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")">
-                                        <i class="fas fa-hourglass-start"></i>
-                                        <span>Schedule Timings</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a asp-area="" asp-controller="MedicalRecords" asp-action="MedicalRecord">
-                                        <i class="fas fa-file-invoice"></i>
-                                        <span>Medical Records</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a asp-area="" asp-controller="Prescriptions" asp-action="Prescription">
-                                        <i class="fas fa-share-alt"></i>
-                                        <span>Prescription</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a asp-area="" asp-controller="Schedule" asp-action="Calendar">
-                                        <i class="fas fa-calendar-check"></i>
-                                        <span>Calendar</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a asp-area="" asp-controller="ProfileSettings" asp-action="ProfileSetting">
-                                        <i class="fas fa-user-cog"></i>
-                                        <span>Profile Settings</span>
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-                <!-- /Profile Sidebar -->
-            </div>
-            <!-- /Calendar Events -->
-            <!-- Calendar -->
-            <div class="col-md-7 col-lg-8 col-xl-9">
-                <div class="card">
-                    <div class="card-body">
-                        <div id="calendar"></div>
-                    </div>
-                </div>
-            </div>
-            <!-- /Calendar -->
-
-        </div>
-
-    </div>
-
-</div>
+<!-- /Calendar -->
 <script src="~/lib/fullcalendar/main.min.js"></script>
 <script src="~/lib/fullcalendar/locales-all.min.js"></script>
 <script src="~/js/Calendar.js"></script>

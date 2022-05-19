@@ -3,165 +3,101 @@
 *@
 @{
 }
-<div class="sidebar" id="sidebar">
-    <div class="sidebar-inner slimscroll">
-        <div id="sidebar-menu" class="sidebar-menu">
-            <ul>
-                <li class="menu-title">
-                    <span>Main</span>
-                </li>
-                <li>
-                    <a asp-controller="Home" asp-action="Index"><i class="fe fe-home"></i> <span>Dashboard</span></a>
-                </li>
-                <li>
-                    <a asp-controller="Appointment" asp-action="Index"><i class="fe fe-layout"></i> <span>Appointments</span></a>
-                </li>
-                <li>
-                    <a asp-controller="Specialities" asp-action="Index"><i class="fe fe-vector"></i> <span>Specialities</span></a>
-                </li>
-                <li>
-                    <a asp-controller="Doctor" asp-action="Index"><i class="fe fe-user-plus"></i> <span>Doctors</span></a>
-                </li>
-                <li>
-                    <a asp-controller="Patient" asp-action="Index"><i class="fe fe-user"></i> <span>Patients</span></a>
-                </li>
-                <li><a asp-controller="Pharmacy" asp-action="Index"><i class="fe fe-vector"></i> <span>Pharmacy List</span></a></li>
-                <li>
-                <li><a asp-controller="Category" asp-action="Index"><i class="fe fe-layout"></i> <span>Categories</span></a></li>
-                <li class="submenu">
-                    <a href="#"><i class="fe fe-document"></i> <span> Pending Request</span> <span class="menu-arrow"></span></a>
-                    <ul style="display: none;">
-                        <li><a asp-controller="Doctor" asp-action="RequestDoctor" class="active">Request From Doctor</a></li>
-                        <li><a asp-controller="Pharmacy" asp-action="RequestPharmacy">Request From Pharmacy</a></li>
-                    </ul>
-                </li>
-                <li class="menu-title">
-                    <span>Pages</span>
-                </li>
-                <li class="submenu">
-                    <a href="#"><i class="fe fe-document"></i> <span> Blog </span> <span class="menu-arrow"></span></a>
-                    <ul style="display: none;">
-                        <li><a asp-controller="Blog" asp-action="Index"> Blog </a></li>
-                        <li><a asp-controller="Blog" asp-action="AddBlog"> Add Blog </a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
-<!-- /Sidebar -->
-<!-- Page Wrapper -->
-<div class="page-wrapper">
-    <div class="content container-fluid">
 
-        <!-- Page Header -->
-        <div class="page-header">
-            <div class="row">
-                <div class="col-sm-12">
-                    <h3 class="page-title">List of Doctor</h3>
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Doctor</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <!-- /Page Header -->
-
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="datatable table table-hover table-center mb-0">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Speciality</th>
-                                        <th class="text-center">Status</th>
-                                        <th class="text-end">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-01.jpg") alt="User Image"></a>
-                                                <a asp-controller="Doctor" asp-action="DetailsDoctor">Dr. Ruby Perrin</a>
-                                            </h2>
-                                        </td>
-                                        <td>Iam@gmail.com</td>
-                                        <td>Dental</td>
-                                        <td class="text-center">
-                                            <span class="badge rounded-pill bg-warning-light">Pending</span>
-                                        </td>
-                                        <td class="text-end">
-                                            <div class="actions">
-                                                <a data-bs-toggle="modal" href="#accept_modal" class="btn btn-sm bg-success-light me-2">
-                                                    <i class="fe fe-check"></i> Accept
-                                                </a>
-                                                <a class="btn btn-sm bg-danger-light" data-bs-toggle="modal" href="#delete_modal">
-                                                    <i class="fe fe-trash"></i> Delete
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-02.jpg") alt="User Image"></a>
-                                                <a asp-controller="Doctor" asp-action="DetailsDoctor">Dr. Darren Elder</a>
-                                            </h2>
-                                        </td>
-                                        <td>abc@gmail.com</td>
-                                        <td>Dental</td>
-                                        <td class="text-center">
-                                            <span class="badge rounded-pill bg-warning-light">Pending</span>
-                                        </td>
-                                        <td class="text-end">
-                                            <div class="actions">
-                                                <a data-bs-toggle="modal" href="#accept_modal" class="btn btn-sm bg-success-light me-2">
-                                                    <i class="fe fe-check"></i> Accept
-                                                </a>
-                                                <a class="btn btn-sm bg-danger-light" data-bs-toggle="modal" href="#delete_modal">
-                                                    <i class="fe fe-trash"></i> Delete
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>                                   
-                                    <tr>
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-08.jpg") alt="User Image"></a>
-                                                <a asp-controller="Doctor" asp-action="DetailsDoctor">Dr. Paul Richard</a>
-                                            </h2>
-                                        </td>
-                                        <td>Ruby@gmail.com</td>
-                                        <td>Dermatology</td>
-                                        <td class="text-center">
-                                            <span class="badge rounded-pill bg-warning-light">Pending</span>
-                                        </td>
-                                        <td class="text-end">
-                                            <div class="actions">
-                                                <a data-bs-toggle="modal" href="#accept_modal" class="btn btn-sm bg-success-light me-2">
-                                                    <i class="fe fe-check"></i> Accept
-                                                </a>
-                                                <a class="btn btn-sm bg-danger-light" data-bs-toggle="modal" href="#delete_modal">
-                                                    <i class="fe fe-trash"></i> Delete
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="datatable table table-hover table-center mb-0">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Speciality</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <h2 class="table-avatar">
+                                        <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-01.jpg") alt="User Image"></a>
+                                        <a asp-controller="Doctor" asp-action="DetailsDoctor">Dr. Ruby Perrin</a>
+                                    </h2>
+                                </td>
+                                <td>Iam@gmail.com</td>
+                                <td>Dental</td>
+                                <td class="text-center">
+                                    <span class="badge rounded-pill bg-warning-light">Pending</span>
+                                </td>
+                                <td class="text-end">
+                                    <div class="actions">
+                                        <a data-bs-toggle="modal" href="#accept_modal" class="btn btn-sm bg-success-light me-2">
+                                            <i class="fe fe-check"></i> Accept
+                                        </a>
+                                        <a class="btn btn-sm bg-danger-light" data-bs-toggle="modal" href="#delete_modal">
+                                            <i class="fe fe-trash"></i> Delete
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h2 class="table-avatar">
+                                        <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-02.jpg") alt="User Image"></a>
+                                        <a asp-controller="Doctor" asp-action="DetailsDoctor">Dr. Darren Elder</a>
+                                    </h2>
+                                </td>
+                                <td>abc@gmail.com</td>
+                                <td>Dental</td>
+                                <td class="text-center">
+                                    <span class="badge rounded-pill bg-warning-light">Pending</span>
+                                </td>
+                                <td class="text-end">
+                                    <div class="actions">
+                                        <a data-bs-toggle="modal" href="#accept_modal" class="btn btn-sm bg-success-light me-2">
+                                            <i class="fe fe-check"></i> Accept
+                                        </a>
+                                        <a class="btn btn-sm bg-danger-light" data-bs-toggle="modal" href="#delete_modal">
+                                            <i class="fe fe-trash"></i> Delete
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h2 class="table-avatar">
+                                        <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-08.jpg") alt="User Image"></a>
+                                        <a asp-controller="Doctor" asp-action="DetailsDoctor">Dr. Paul Richard</a>
+                                    </h2>
+                                </td>
+                                <td>Ruby@gmail.com</td>
+                                <td>Dermatology</td>
+                                <td class="text-center">
+                                    <span class="badge rounded-pill bg-warning-light">Pending</span>
+                                </td>
+                                <td class="text-end">
+                                    <div class="actions">
+                                        <a data-bs-toggle="modal" href="#accept_modal" class="btn btn-sm bg-success-light me-2">
+                                            <i class="fe fe-check"></i> Accept
+                                        </a>
+                                        <a class="btn btn-sm bg-danger-light" data-bs-toggle="modal" href="#delete_modal">
+                                            <i class="fe fe-trash"></i> Delete
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
 <div class="modal fade" id="accept_modal" aria-hidden="true" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -198,17 +134,3 @@
         </div>
     </div>
 </div>
-<script src=@Url.Content("~/assets/js/jquery-3.6.0.min.js")></script>
-
-<!-- Bootstrap Core JS -->
-<script src=@Url.Content("~/assets/js/bootstrap.bundle.min.js")></script>
-
-<!-- Slimscroll JS -->
-<script src=@Url.Content("~/assets/plugins/slimscroll/jquery.slimscroll.min.js")></script>
-
-<!-- Datatables JS -->
-<script src=@Url.Content("~/assets/plugins/datatables/jquery.dataTables.min.js")></script>
-<script src=@Url.Content("~/assets/plugins/datatables/datatables.min.js")></script>
-
-<!-- Custom JS -->
-<script src=@Url.Content("~/assets/js/script.js")></script>

@@ -10,5 +10,7 @@ namespace Data.Entities
     {
         public int Id { get; set; }
         public string SpecializedName { get; set; }
+        public string Image { get; set; }
+
     }
 }

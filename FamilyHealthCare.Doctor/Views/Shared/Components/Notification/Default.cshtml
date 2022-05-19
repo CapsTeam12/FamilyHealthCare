@@ -5,10 +5,11 @@
 @{
     var notifications = _httpContextAccessor.HttpContext.Session.GetComplexData<List<NotificationListDto>>("notification")
                             ?? new List<NotificationListDto>();
+    var currentUserId = _httpContextAccessor.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
 }
 <li class="nav-item dropdown noti-dropdown">
     <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-        <i class="fas fa-bell"></i> <span class="badge rounded-pill">@(notifications.Count)</span>
+        <i class="fas fa-bell"></i><span id="notificationCount" class="badge rounded-pill">@(notifications.Count)</span>
     </a>
     <div class="dropdown-menu notifications">
         <div class="topnav-dropdown-header">
@@ -23,7 +24,7 @@
                         <a href="#">
                             <div class="media d-flex">
                                 <span class="avatar avatar-sm flex-shrink-0">
-                                    <img class="avatar-img rounded-circle" alt="User Image" src=@(ImageConstants.PATIENTS+noti.AvatarSender)>
+                                    <img class="avatar-img rounded-circle" alt="User Image" src=@(ImageConstants.AVATARS+noti.AvatarSender)>
                                 </span>
                                 <div class="media-body flex-grow-1">
                                     <p class="noti-details">
@@ -37,7 +38,7 @@
                                         }
                                     </p>
                                     <p class="noti-time">
-                                        <span class="notification-time">@noti.Time.GetRelativeTime()</span>
+                                        <span class="notification-time">@noti.Time</span>
                                     </p>
                                 </div>
                             </div>
@@ -47,7 +48,7 @@
             </ul>
         </div>
         <div class="topnav-dropdown-footer">
-            <a href="#">View all Notifications</a>
+            @*<a href="#">View all Notifications</a>*@
         </div>
     </div>
 </li>
@@ -56,20 +57,21 @@
 <script src=@Url.Content("~/js/signalr/dist/browser/signalr.js")></script>
 <script type="text/javascript">
     function noti () {
-        console.log("notification start")
-        let accessToken = `@(_httpContextAccessor.HttpContext.User?.FindFirst("access_token")?.Value)`;
-        console.log(`accessToken: ${accessToken}`);
+        let accessToken = `@(_httpContextAccessor.HttpContext.User.Identity.Name)`;
         var connection = new signalR.HubConnectionBuilder()
             .withUrl("http://localhost:52409/notification-hub", {
                 accessTokenFactory: () => accessToken
             }).build();
 
         connection.on("SendNotification", function (message) {
-            console.log(message)
-            var HandlerbarTemplate = $("#NotificationTemplate").html();
-            var CompileHtml = Handlebars.compile(HandlerbarTemplate);
-            var NotificationHTML = CompileHtml({ Notification: message });
-            $('#notification').append(NotificationHTML);
+            if(message.userID == '@currentUserId') {
+                var HandlerbarTemplate = $("#NotificationTemplate").html();
+                var CompileHtml = Handlebars.compile(HandlerbarTemplate);
+                var NotificationHTML = CompileHtml(message);
+                $('#notification').prepend(NotificationHTML);
+                let currentTotalNoti = parseInt(document.getElementById("notificationCount").innerText);
+                document.getElementById("notificationCount").innerText = currentTotalNoti + 1;
+            }
         });
 
         connection.start();
@@ -82,18 +84,18 @@
         <a href="#">
             <div class="media d-flex">
                 <span class="avatar avatar-sm flex-shrink-0">
-                    <img class="avatar-img rounded-circle" alt="User Image" src={{Notification.AvatarSender}})>
+                    <img class="avatar-img rounded-circle" alt="User Image" src="{{avatarSender}}")>
                 </span>
                 <div class="media-body flex-grow-1">
                     <p class="noti-details">
-                        {{#if Notification.IsRead}}
-                            <span class="noti-title">{{Notification.Content}}</span>
+                        {{#if isRead}}
+                            <span class="noti-title">{{content}}</span>
                         {{else}}
-                            {{Notification.Content}}
+                            {{content}}
                         {{/if}}
                     </p>
                     <p class="noti-time">
-                        <span class="notification-time">{{Notification.Time}}</span>
+                        <span class="notification-time">{{time}}</span>
                     </p>
                 </div>
             </div>

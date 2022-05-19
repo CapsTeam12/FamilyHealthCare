@@ -8,8 +8,6 @@
 @{
     var userId = _httpContextAccessor.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
     var userName = User.FindFirst(ClaimTypes.Name)?.Value;
-    var notifications = _httpContextAccessor.HttpContext.Session.GetComplexData<List<NotificationListDto>>("notification") 
-                            ?? new List<NotificationListDto>();
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -67,20 +65,19 @@
                             <a href="">Common <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
                                 <li class="">
-                                    <a href="product.html">Medicine </a>
+                                    <a href="@Url.Action("Index","Pharmacy")">Medicine </a>
                                 </li>
                                 <li class="has-submenu">
                                     <a href="#">Doctors</a>
                                     <ul class="submenu">
-                                        <li><a href="map-list.html">Doctor Map List</a></li>
-                                        <li><a href="doctor-search.html">Booking Doctor</a></li>
+                                        <li><a href="@Url.Action("DoctorMapList","Doctor")">Doctor Map List</a></li>
+                                        <li><a href="@Url.Action("Search","Doctor")">Booking Doctor</a></li>
                                     </ul>
                                 </li>
                                 <li class="has-submenu">
                                     <a href="#">Pharmacy</a>
                                     <ul class="submenu">
-                                        <li><a href="map-list.html">Pharmacy Map List</a></li>
-                                        <li><a href="pharmacy-search.html">Booking Pharmacy</a></li>
+                                        <li><a href="@Url.Action("Index","Pharmacy")">Pharmacy List</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="healthcheck.html">Health Check </a></li>
@@ -90,8 +87,8 @@
                         <li class="has-submenu">
                             <a href="">Partner <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
-                                <li><a href="pharmacy-register.html">Pharmacy Register</a></li>
-                                <li><a href="doctor-register.html">Doctor Register</a></li>
+                                <li><a href="@Url.Action("PharmacyRegister","Partner")">Pharmacy Register</a></li>
+                                <li><a href="@Url.Action("DoctorRegister","Partner")">Doctor Register</a></li>
                             </ul>
                         </li>
                         <li class="has-submenu">
@@ -126,125 +123,83 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <ul class="nav user-menu">
-                                <!-- Notifications -->
-                                <li class="nav-item dropdown noti-dropdown">
-                                    <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                                        <i class="fas fa-bell"></i> <span class="badge rounded-pill">@(notifications.Count)</span>
-                                    </a>
-                                    <div class="dropdown-menu notifications">
-                                        <div class="topnav-dropdown-header">
-                                            <span class="notification-title">Notifications</span>
-                                            <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
-                                        </div>
-                                        <div class="noti-content">
-                                            <ul class="notification-list" id="notification">
-                                            @foreach(var noti in notifications)
-                                            {
-                                                <li class="notification-message">
-                                                    <a href="#">
-                                                        <div class="media d-flex">
-                                                            <span class="avatar avatar-sm flex-shrink-0">
-                                                                <img class="avatar-img rounded-circle" alt="User Image" src=@(ImageConstants.PATIENTS+noti.AvatarSender)>
-                                                            </span>
-                                                            <div class="media-body flex-grow-1">
-                                                                <p class="noti-details">
-                                                                        @if(!noti.IsRead)
-                                                                        {
-                                                                            <span class="noti-title">@noti.Content</span>
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            @noti.Content
-                                                                        }
-                                                                </p>
-                                                                <p class="noti-time">
-                                                                    <span class="notification-time">@noti.Time.GetRelativeTime()</span>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            } 
-                                            </ul>
-                                        </div>
-                                     @*   <div class="topnav-dropdown-footer">
-                                            <a href="#">View all Notifications</a>
-                                        </div>*@
-                                    </div>
-                                </li>
-                                <!-- /Notifications -->
-                            </ul>
-                        <!--<li class="nav-item dropdown has-arrow logged-item">
+                            <!-- Notifications -->
+                            @await Component.InvokeAsync("Notification")
+                            <!-- /Notifications -->
+                        </ul>
+                            <!--<li class="nav-item dropdown has-arrow logged-item">
                             <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                                 <span class="user-img">-->
-                                    @*<img class="rounded-circle" src="@(ImageConstants.PATIENTS+Model.patientInfo.Avatar)" width="31" alt="Ryan Taylor">*@
-                                    <!--<img class="rounded-circle" src="~/assets/img/patients/patient.jpg" width="31" alt="Ryan Taylor">
+                            @*<img class="rounded-circle" src="@(ImageConstants.PATIENTS+Model.patientInfo.Avatar)" width="31" alt="Ryan Taylor">*@
+                            <!--<img class="rounded-circle" src="~/assets/img/patients/patient.jpg" width="31" alt="Ryan Taylor">
                                 </span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
                                 <div class="user-header">
                                     <div class="avatar avatar-sm">-->
-                                       @* <img src="@(ImageConstants.PATIENTS+Model.patientInfo.Avatar)" alt="User Image" class="avatar-img rounded-circle">*@
-                                        <!--<img src="~/assets/img/patients/patient.jpg" alt="User Image" class="avatar-img rounded-circle">
+                            @* <img src="@(ImageConstants.PATIENTS+Model.patientInfo.Avatar)" alt="User Image" class="avatar-img rounded-circle">*@
+                            <!--<img src="~/assets/img/patients/patient.jpg" alt="User Image" class="avatar-img rounded-circle">
+                                        </div>
+                                        <div class="user-text">
+                                            <h6>@User.Identity.Name</h6>
+                                            <p class="text-muted mb-0">Patient</p>
+                                        </div>
                                     </div>
-                                    <div class="user-text">
-                                        <h6>@User.Identity.Name</h6>
-                                        <p class="text-muted mb-0">Patient</p>
-                                    </div>
+                                    <a class="dropdown-item" href="patient-dashboard.html">Dashboard</a>
+                                    <a class="dropdown-item" asp-controller="Appointment" asp-action="Index">Appointments</a>
+                                    <a class="dropdown-item" asp-controller="Account" asp-action="ProfileSetting">Profile Settings</a>
+                                    <a class="dropdown-item" asp-controller="Schedule" asp-action="Calendar">Calendar</a>
+                                    <a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
+                                    <a class="dropdown-item" asp-controller="Account" asp-action="SignOut">Logout</a>
                                 </div>
-                                <a class="dropdown-item" href="patient-dashboard.html">Dashboard</a>
-                                <a class="dropdown-item" asp-controller="Appointment" asp-action="Index">Appointments</a>
-                                <a class="dropdown-item" asp-controller="Account" asp-action="ProfileSetting">Profile Settings</a>
-                                <a class="dropdown-item" asp-controller="Schedule" asp-action="Calendar">Calendar</a>
-                                <a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
-                                <a class="dropdown-item" asp-controller="Account" asp-action="SignOut">Logout</a>
-                            </div>
-                        </li>-->
+                            </li>-->
+                            @await Component.InvokeAsync("Profile")
+                        }
+                        else
+                        {
+                            <a class="nav-link header-login" asp-controller="Account" asp-action="SignIn">Log In / Sign Up</a>
+                        }
+                    <li class="dropdown language-select">
+                        <span class="dropdown-toggle" id="language-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
+                              aria-expanded="false" role="button"><img src=@Url.Content("~/assets/img/vietnam.png") alt="flag"> Việt Nam</span>
+                        <div class="dropdown-menu dropdown-menu" aria-labelledby="language-dropdown">
+                            <a class="dropdown-item" href="#"><img src=@Url.Content("~/assets/img/united-kingdom.png") alt="flag"> English</a>
+                        </div>
+                    </li>
+                </ul>
 
-                        @await Component.InvokeAsync("Profile");
-                    }
-                    else
-                    {
-                        <a class="nav-link header-login" asp-controller="Account" asp-action="SignIn">Log In / Sign Up</a>
-                    }
-                        <li class="dropdown language-select">
-                            <span class="dropdown-toggle" id="language-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
-                                  aria-expanded="false" role="button"><img src=@Url.Content("~/assets/img/vietnam.png") alt="flag"> Việt Nam</span>
-                            <div class="dropdown-menu dropdown-menu" aria-labelledby="language-dropdown">
-                                <a class="dropdown-item" href="#"><img src=@Url.Content("~/assets/img/united-kingdom.png") alt="flag"> English</a>
-                            </div>
-                        </li>
-                    </ul>
-
-                </nav>
-            </header>
-            @RenderBody()
-            <div class="float-contact">
-                <div style="line-height: 45px">
-                    <div>
-                        <a href="http://facebook.com">
-                            <img src="~/assets/img/messenger.png" alt="" />
-                        </a>
-                    </div>
-                    <div>
-                        <a href="tel:0989999898">
-                            <img src="~/assets/img/hotline.png" alt="" />
-                        </a>
-                    </div>
+            </nav>
+        </header>
+        @RenderBody()
+        <div class="float-contact">
+            <div style="line-height: 45px">
+                <div>
+                    <a href="http://facebook.com">
+                        <img src="~/assets/img/messenger.png" alt="" />
+                    </a>
+                </div>
+                <div>
+                    <a href="tel:0989999898">
+                        <img src="~/assets/img/hotline.png" alt="" />
+                    </a>
                 </div>
             </div>
+        </div>
 
-            <!-- Footer -->
+
+        <!-- Footer -->
+        @if (Convert.ToBoolean(ViewData["MapList"]) != true)
+        {
             <footer class="footer">
 
                 <!-- Footer Top -->
-                <div class="footer-top">
+            <div class="footer-top">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg-3 col-md-6">
 
                                 <!-- Footer Widget -->
-                                <div class="footer-widget footer-about">
+                            <div class="footer-widget footer-about">
                                     <div class="footer-logo">
                                         <img src=@Url.Content("~/assets/img/footer-logo.png") alt="logo">
                                     </div>
@@ -267,12 +222,12 @@
                                 </div>
                                 <!-- /Footer Widget -->
 
-                            </div>
+                        </div>
 
                             <div class="col-lg-3 col-md-6">
 
                                 <!-- Footer Widget -->
-                                <div class="footer-widget footer-menu">
+                            <div class="footer-widget footer-menu">
                                     <h2 class="footer-title">For Pharmacy</h2>
                                     <ul>
                                         <li><a href="map-list.html">Search Pharmacy</a></li>
@@ -280,12 +235,12 @@
                                 </div>
                                 <!-- /Footer Widget -->
 
-                            </div>
+                        </div>
 
                             <div class="col-lg-3 col-md-6">
 
                                 <!-- Footer Widget -->
-                                <div class="footer-widget footer-menu">
+                            <div class="footer-widget footer-menu">
                                     <h2 class="footer-title">For Doctors</h2>
                                     <ul>
                                         <li><a href="doctor-search.html">Booking Doctor</a></li>
@@ -294,12 +249,12 @@
                                 </div>
                                 <!-- /Footer Widget -->
 
-                            </div>
+                        </div>
 
                             <div class="col-lg-3 col-md-6">
 
                                 <!-- Footer Widget -->
-                                <div class="footer-widget footer-contact">
+                            <div class="footer-widget footer-contact">
                                     <h2 class="footer-title">Contact Us</h2>
                                     <div class="footer-contact-info">
                                         <div class="footer-address">
@@ -318,18 +273,18 @@
                                 </div>
                                 <!-- /Footer Widget -->
 
-                            </div>
+                        </div>
 
                         </div>
                     </div>
                 </div>
                 <!-- /Footer Top -->
                 <!-- Footer Bottom -->
-                <div class="footer-bottom">
+            <div class="footer-bottom">
                     <div class="container-fluid">
 
                         <!-- Copyright -->
-                        <div class="copyright">
+                    <div class="copyright">
                             <div class="row">
                                 <div class="col-md-6 col-lg-6">
                                     <div class="copyright-text">
@@ -341,60 +296,35 @@
                                     <!-- Copyright Menu -->
                                     <!-- /Copyright Menu -->
 
-                                </div>
+                            </div>
                             </div>
                         </div>
                         <!-- /Copyright -->
 
-                    </div>
+                </div>
                 </div>
                 <!-- /Footer Bottom -->
 
-            </footer>
-            <!-- /Footer -->
-            <!-- /Main Wrapper -->
-            <!-- jQuery -->
-            <script src=@Url.Content("~/assets/js/jquery-3.6.0.min.js")></script>
+        </footer>
+        }
+        <!-- /Footer -->
+        <!-- /Main Wrapper -->
+        <!-- jQuery -->
+        <script src=@Url.Content("~/assets/js/jquery-3.6.0.min.js")></script>
 
-            <!-- Bootstrap Core JS -->
-            <script src=@Url.Content("~/assets/js/bootstrap.bundle.min.js")></script>
+        <!-- Bootstrap Core JS -->
+        <script src=@Url.Content("~/assets/js/bootstrap.bundle.min.js")></script>
 
-            <!-- Sticky Sidebar JS -->
-            <script src=@Url.Content("~/assets/plugins/theia-sticky-sidebar/ResizeSensor.js")></script>
-            <script src=@Url.Content("~/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js")></script>
+        <!-- Sticky Sidebar JS -->
+        <script src=@Url.Content("~/assets/plugins/theia-sticky-sidebar/ResizeSensor.js")></script>
+        <script src=@Url.Content("~/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js")></script>
 
-            <!-- Slick JS -->
-            <script src=@Url.Content("~/assets/js/slick.js")></script>
+        <!-- Slick JS -->
+        <script src=@Url.Content("~/assets/js/slick.js")></script>
 
-            <!-- Custom JS -->
-            <script src=@Url.Content("~/assets/js/script.js")></script>
-            <script src=@Url.Content("~/js/signalr/dist/browser/signalr.js")></script>
-            <script src=@Url.Content("~/js/notification.js")></script>
-            <script src=@Url.Content("~/lib/handlebars-v4.7.7.js")></script>
-            <script id="NotificationTemplate" type="text/x-handlebars-template">
-                <li class="notification-message">
-                    <a href="#">
-                        <div class="media d-flex">
-                            <span class="avatar avatar-sm flex-shrink-0">
-                                <img class="avatar-img rounded-circle" alt="User Image" src={{Notification.AvatarSender}})>
-                            </span>
-                            <div class="media-body flex-grow-1">
-                                <p class="noti-details">
-                                    {{#if Notification.IsRead}}
-                                        <span class="noti-title">{{Notification.Content}}</span>
-                                    {{else}}
-                                        {{Notification.Content}}
-                                    {{/if}}
-                                </p>
-                                <p class="noti-time">
-                                    <span class="notification-time">{{Notification.Time}}</span>
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-            </script>
-            @await RenderSectionAsync("Scripts", required: false)
-        </div>
-    </body>
+        <!-- Custom JS -->
+        <script src=@Url.Content("~/assets/js/script.js")></script>
+        @await RenderSectionAsync("Scripts", required: false)
+    </div>
+</body>
 </html>

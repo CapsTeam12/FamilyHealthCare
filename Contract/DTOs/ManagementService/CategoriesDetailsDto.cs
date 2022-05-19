@@ -8,6 +8,7 @@ namespace Contract.DTOs.ManagementService
 {
     public class CategoriesDetailsDto
     {
+        public int Id { get; set; }
         public string CateName { get; set; }
     }
 }

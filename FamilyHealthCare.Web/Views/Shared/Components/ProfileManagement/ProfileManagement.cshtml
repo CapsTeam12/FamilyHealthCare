@@ -9,7 +9,7 @@
         <div class="widget-profile pro-widget-content">
             <div class="profile-info-widget">
                 <a href="#" class="booking-doc-img">
-                    <img src="@(ImageConstants.PATIENTS+Model.Avatar)" alt="User Image">
+                    <img src="@(ImageConstants.AVATARS+Model.Avatar)" alt="User Image">
                 </a>
                 <div class="profile-det-info">
                     <h3>@Model.FullName</h3>
@@ -24,7 +24,7 @@
             <nav class="dashboard-menu">
                 <ul>
                     <li>
-                        <a href="patient-dashboard.html">
+                        <a asp-controller="Account" asp-action="Index">
                             <i class="fas fa-columns"></i>
                             <span>Dashboard</span>
                         </a>
