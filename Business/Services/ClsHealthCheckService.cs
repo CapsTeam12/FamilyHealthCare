@@ -32,12 +32,8 @@ namespace Business.Services
         }
         public async Task<HealthCheckDto> HealthCheckAsync(HealthCheckDto healthCheckDto)
         {
-            //var patient = await _patientRepos.
-            //                Entities.
-            //                FirstOrDefaultAsync(x => x.AccountId == patientId);
-            var user = await _userManager.FindByIdAsync(healthCheckDto.PatientId);
-            //if (user == null)
-            //    return Unauthorized();
+            var user = await _userManager.FindByIdAsync(healthCheckDto.UserId);
+            
             HealthCheck healthCheck = new HealthCheck
             {
                 Age = healthCheckDto.Age,
@@ -45,7 +41,7 @@ namespace Business.Services
                 Weight = healthCheckDto.Weight,
                 BloodPressure = healthCheckDto.BloodPressure,
                 HeartRate = healthCheckDto.HeartRate,
-                PatientId = user.ToString(),
+                UserId = user.Id,
                 Date = DateTime.Now,
                 BMI = healthCheckDto.Weight/Math.Pow(healthCheckDto.Height/100, 2)
             };
@@ -56,9 +52,42 @@ namespace Business.Services
             return healthChecksDto;
         }
 
-        public Task<HealthCheckDto> HealthCheckResultAsync(HealthCheckDto healthCheckDto)
+        public async Task<HealthCheckDto> HealthCheckDetailsAsync(int id)
         {
-            throw new NotImplementedException();
+            var healthCheck = await _healthCheckRepos
+                               .Entities
+                               .Where(h => h.Id == id)
+                               .Include(p => p.User)
+                               .FirstOrDefaultAsync();
+            if (healthCheck != null)
+            {
+                var healthCheckDto = _mapper.Map<HealthCheckDto>(healthCheck);
+                return healthCheckDto;
+            }
+            return null;
+        }
+
+        public async Task<List<HealthCheckDto>> HealthCheckListAsync(string accountId)
+        {
+            var healthChecks = await _healthCheckRepos
+                                .Entities
+                                .Where(a => a.UserId == accountId)
+                                .Include(p => p.User)
+                                .ToListAsync();
+            var healthCheckDto = _mapper.Map<List<HealthCheckDto>>(healthChecks);
+            return healthCheckDto;
+        }
+
+        public async Task<HealthCheckDto> HealthCheckResultAsync(string accountId)
+        {
+            var healthChecks = await _healthCheckRepos
+                                .Entities
+                                .Where(a => a.UserId == accountId)
+                                .Include(p => p.User)
+                                .OrderByDescending(h => h.Date)
+                                .FirstOrDefaultAsync();
+            var healthCheckDto = _mapper.Map<HealthCheckDto>(healthChecks);
+            return healthCheckDto;
         }
 
         //public Task<HealthCheckDto> HealthCheckResultAsync(HealthCheckDto healthCheckDto)

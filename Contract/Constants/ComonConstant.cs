@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Contract.Constants
 {
-    class CalendarConstant
+    public static class ComonConstant
     {
-        public const int Month = 12;
+        public static string LogoFileName = "logo.png";
     }
 }

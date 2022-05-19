@@ -22,7 +22,7 @@ namespace FamilyHealthCare.SharedLibrary
         {
             var userId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
             var httpClient = _clientFactory.CreateClient(ServiceConstants.NOTIFICATION_NAMED_CLIENT);
-            var response = await httpClient.GetAsync($"{EndpointConstants.NotificationService.NOTIFICAITON}/{userId}");
+            var response = await httpClient.GetAsync($"{EndpointConstants.NotificationService.NOTIFICATION}/{userId}");
             var data = new List<NotificationListDto>();
             if (response.IsSuccessStatusCode)
             {

@@ -52,7 +52,14 @@ namespace FamilyHealthCare.SharedLibrary
 
         public static class NotificationService
         {
-            public static string NOTIFICAITON = "/notification";
+            public static string NOTIFICATION = "/notification";
+        }
+        public static class HealthCheckService
+        {
+            public static string HEALTHCHECK = "/healthcheck";
+            public static string HEALTHCHECKDETAILS = "/healthcheckdetails";
+            public static string HEALTHCHECKLIST = "/healthchecklist";
+            public static string HEALTHCHECKRESULT = "/healthcheckresult";
         }
     }
 }

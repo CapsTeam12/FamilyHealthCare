@@ -139,7 +139,7 @@ namespace IdentityServerHost.Quickstart.UI
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByNameAsync(model.Username);
-                if (user != null)
+                if (user != null && user.IsActive == true)
                 {
                     var resultCheckPassword = await _userManager.CheckPasswordAsync(user, model.Password);
                     if (resultCheckPassword)

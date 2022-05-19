@@ -16,6 +16,6 @@ namespace Contract.DTOs.HealthCheck
             public int HeartRate { get; set; }
             public double BMI { get; set; }
             public DateTime Date { get; set; }
-            public string PatientId { get; set; }
+            public string UserId { get; set; }
     }
 }

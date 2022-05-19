@@ -12,6 +12,7 @@ namespace Data.Entities
         public User() : base()
         {
         }
+        public bool? IsActive { get; set; }
         public ICollection<Appointment> Appointments { get; set; }
         public ICollection<ScheduleDoctor> ScheduleDoctors { get; set; }
     }

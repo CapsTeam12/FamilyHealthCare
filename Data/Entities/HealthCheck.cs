@@ -16,7 +16,7 @@ namespace Data.Entities
         public int HeartRate { get; set; }
         public double BMI { get; set; }
         public DateTime Date { get; set; }
-        public string PatientId { get; set; }
-        public Patient Patient { get; set; }
+        public string UserId { get; set; }
+        public User User { get; set; }
     }
 }

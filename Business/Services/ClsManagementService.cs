@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using Business.IServices;
+using Contract.Constants;
 using Contract.DTOs.ManagementService;
+using Contract.DTOs.NotificationServiceDtos;
 using Data.Entities;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,6 +22,7 @@ namespace Business.Services
         private readonly IBaseRepository<MedicineClassification> _cateRepos;
         private readonly IBaseRepository<Patient> _patientRepos;
         private readonly IBaseRepository<Specialities> _specializedRepos;
+        private readonly IBaseRepository<User> _userRepos;
         private readonly IMapper _mapper;
         
         public ClsManagementService(IMapper mapper,
@@ -26,13 +30,15 @@ namespace Business.Services
                                     IBaseRepository<Doctor> doctorRepos,
                                     IBaseRepository<Pharmacy> pharmacyRepos,
                                     IBaseRepository<Patient> patientRepos,
-                                    IBaseRepository<Specialities> specializedRepos)
+                                    IBaseRepository<Specialities> specializedRepos,
+                                    IBaseRepository<User> userRepos)
         {
             _cateRepos = cateRepos;
             _doctorRepos = doctorRepos;
             _pharmacyRepos = pharmacyRepos;
             _patientRepos = patientRepos;
             _specializedRepos = specializedRepos;
+            _userRepos = userRepos;
             _mapper = mapper;
         }
 
@@ -89,11 +95,6 @@ namespace Business.Services
             return specialitiesDtos;
         }
 
-        public Task<CategoriesDetailsDto> GetCategoryDetailsAsync(string id)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<DoctorDetailsDto> GetDoctorDetailsAsync(string id)
         {
             throw new NotImplementedException();
@@ -116,9 +117,100 @@ namespace Business.Services
             throw new NotImplementedException();
         }
 
-        public Task <SpecialitiesDetailsDto> GetSpecializedDetailsAsync(string id)
+        public async Task<SpecialitiesDetailsDto> AdddSpecializedAsync(SpecialitiesDetailsDto specialitiesDetailsDto)
         {
-            throw new NotImplementedException();
+            var specialized = _mapper.Map<Specialities>(specialitiesDetailsDto);
+            var newSpecialized = await _specializedRepos.Create(specialized);
+            var specializedDto = _mapper.Map<SpecialitiesDetailsDto>(newSpecialized);
+            return specializedDto;
+        }
+
+        public async Task<CategoriesDetailsDto> AddCategoryAsync(CategoriesDetailsDto categoriesDetailsDto)
+        {
+            var category = _mapper.Map<MedicineClassification>(categoriesDetailsDto);
+            var newCategory = await _cateRepos.Create(category);
+            var categorydDto = _mapper.Map<CategoriesDetailsDto>(newCategory);
+            return categorydDto;
+        }
+
+        public async Task<SpecialitiesDetailsDto> UpdateSpecializedAsync(int id, SpecialitiesDetailsDto specialitiesDetailsDto)
+        {
+            var specialized = await _specializedRepos
+                                    .Entities
+                                    .Where(s => s.Id == id)
+                                    .FirstOrDefaultAsync();
+            specialized.SpecializedName = specialitiesDetailsDto.SpecializedName;
+            var updateSpecialized = await _specializedRepos.Update(specialized);
+            var specializedDto = _mapper.Map<SpecialitiesDetailsDto>(updateSpecialized);
+            return specializedDto;
+        }
+
+        public async  Task<CategoriesDetailsDto> UpdateCategoryAsync(int id, CategoriesDetailsDto categoriesDetailsDto)
+        {
+            var category = await _cateRepos
+                                    .Entities
+                                    .Where(s => s.Id == id)
+                                    .FirstOrDefaultAsync();
+            category.ClassificationName = categoriesDetailsDto.CateName;
+            var updateCategory = await _cateRepos.Update(category);
+            var categorydDto = _mapper.Map<CategoriesDetailsDto>(updateCategory);
+            return categorydDto;
+        }
+
+        public async  Task<SpecialitiesDetailsDto> DeleteSpecializedAsync(int id)
+        {
+            var specialized = await _specializedRepos
+                                    .Entities
+                                    .Where(s => s.Id == id)
+                                    .FirstOrDefaultAsync();
+            var deleteSpecialized = await _specializedRepos.Delete(specialized);
+            var specializedDto = _mapper.Map<SpecialitiesDetailsDto>(deleteSpecialized);
+            return specializedDto;
+        }
+
+        public async Task<CategoriesDetailsDto> DeleteCategoryAsync(int id)
+        {
+            var category = await _cateRepos
+                                    .Entities
+                                    .Where(s => s.Id == id)
+                                    .FirstOrDefaultAsync();
+            var deleteCategory = await _cateRepos.Delete(category);
+            var categorydDto = _mapper.Map<CategoriesDetailsDto>(deleteCategory);
+            return categorydDto;
+        }   
+
+        public async Task<User> ActivePatientsAsync(string accountId)
+        {
+            var user = await _userRepos
+                                .Entities
+                                .Where(a => a.Id == accountId)
+                                .FirstOrDefaultAsync();
+            user.IsActive = true;
+            var activeUser = await _userRepos.Update(user);
+            var userDto = _mapper.Map<User>(activeUser);
+            return userDto;
+        }
+
+        public async Task<User> DeactivatePatientsAsync(string accountId)
+        {
+            var user = await _userRepos
+                                .Entities
+                                .Where(a => a.Id == accountId)
+                                .FirstOrDefaultAsync();
+            user.IsActive = false;
+            var activeUser = await _userRepos.Update(user);
+            var userDto = _mapper.Map<User>(activeUser);
+
+            var notification = new NotificationCreateDto();
+
+            notification.UserID = accountId;
+            notification.Content = NotificationContentTemplate.DeactivateUser;
+                                    
+            notification.AvatarSender = ComonConstant.LogoFileName;
+
+            Task.Run(() => new NotificationHelper().CallApiCreateNotification(notification));
+
+            return userDto;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Business.IServices;
 using Contract.DTOs.ManagementService;
+using Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -77,18 +78,58 @@ namespace ManagementService.Controllers
             return pharmacies;
         }
 
-        [HttpGet("categories/{id}")]
-        public async Task<CategoriesDetailsDto> GetCategoryDetailsAsync(string id)
+        [HttpPost("addcategory")]
+        public async Task<CategoriesDetailsDto> AddCategoryAsync(CategoriesDetailsDto categoriesDetailsDto)
         {
-            var categories = await _managementService.GetCategoryDetailsAsync(id);
-            return categories;
+            var category = await _managementService.AddCategoryAsync(categoriesDetailsDto);
+            return category;
         }
 
-        [HttpGet("specialities/{id}")]
-        public async Task<SpecialitiesDetailsDto> GetSpecializedDetailsAsync(string id)
+        [HttpPost("addspecialized")]
+        public async Task<SpecialitiesDetailsDto> AddSpecializedAsync(SpecialitiesDetailsDto specialitiesDetailsDto)
         {
-            var specialities = await _managementService.GetSpecializedDetailsAsync(id);
-            return specialities;
+            var specialized = await _managementService.AdddSpecializedAsync(specialitiesDetailsDto);
+            return specialized;
+        }
+
+        [HttpPut("category/{id}")]
+        public async Task<CategoriesDetailsDto> UpdateCategoryAsync(int id, CategoriesDetailsDto categoriesDetailsDto)
+        {
+            var category = await _managementService.UpdateCategoryAsync(id, categoriesDetailsDto);
+            return category;
+        }
+
+        [HttpPut("specialized/{id}")]
+        public async Task<SpecialitiesDetailsDto> UpdateSpecializedAsync(int id, SpecialitiesDetailsDto specialitiesDetailsDto)
+        {
+            var specialized = await _managementService.UpdateSpecializedAsync(id, specialitiesDetailsDto);
+            return specialized;
+        }
+        [HttpDelete("category/{id}")]
+        public async Task<CategoriesDetailsDto> DeleteCategoryAsync(int id)
+        {
+            var category = await _managementService.DeleteCategoryAsync(id);
+            return category;
+        }
+
+        [HttpDelete("specialized/{id}")]
+        public async Task<SpecialitiesDetailsDto> DeleteSpecializedAsync(int id)
+        {
+            var specialized = await _managementService.DeleteSpecializedAsync(id);
+            return specialized;
+        }
+        [HttpPut("deactivate/{accountId}")]
+        public async Task<User> DeactivateUserAsync(string accountId)
+        {
+            var user = await _managementService.DeactivatePatientsAsync(accountId);
+            return user;
+        }
+
+        [HttpPut("active/{accountId}")]
+        public async Task<User> ActiveUserAsync(string accountId)
+        {
+            var user = await _managementService.ActivePatientsAsync(accountId);
+            return user;
         }
     }
 }
