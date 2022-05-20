@@ -1,4 +1,21 @@
-﻿@using FamilyHealthCare.SharedLibrary;
+﻿@using IdentityModel
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
+@{
+    //var idBlockedSession = _httpContextAccessor.HttpContext.Session.GetString("blocked-account");
+    //var isBlockedAccount = false;
+    //if (idBlockedSession != null)
+    //{
+    //    if (idBlockedSession == "true") isBlockedAccount = true; 
+    //}    
+    //else
+    //{
+    //    if(User.FindFirst(JwtClaimTypes.Confirmation)?.Value == "false")
+    //    {
+    //        isBlockedAccount = true; 
+    //    }
+    //}
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,6 +50,24 @@
 
 </head>
 <body>
+    @*if (User.Identity.IsAuthenticated && isBlockedAccount)
+    {
+        <div class="modal fade bd-example-modal-lg" id="modal-deactivate" data-backdrop="static" data-keyboard="false" tabindex="-1">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content" style="width: 48px">
+                     <div class="modal-header">
+                        <h5 class="modal-title">Your account has been locked by the administrator!</h5>
+                        <a class="close" asp-controller="Account" asp-action="SignIn">
+                            Ok
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            document.getElementById('modal-deactivate').modal('show');
+        </script>
+    }*@
     <!-- Main Wrapper -->
     <div class="main-wrapper">
 
@@ -417,6 +452,24 @@
 
         <!-- Custom JS -->
         <script src=@Url.Content("~/assets/js/script.js")></script>
+    </div>
+    
+    <div class="modal fade custom-modal" id="modal-deactivate" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                </div>
+                <div class="modal-body">
+                    <p>Your account has been locked by the administrator!</p>
+                </div>
+                <div class="modal-footer">
+                    <a asp-controller="Account" asp-action="SignOut">
+                        <button type="button" class="btn btn-primary">Ok</button>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
