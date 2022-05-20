@@ -253,7 +253,7 @@ namespace Business.Services
                                     
             notification.AvatarSender = ComonConstant.LogoFileName;
 
-            Task.Run(() => new NotificationHelper().CallApiCreateNotification(notification));
+            Task.Run(() => new NotificationHelper().CallApiCreateNotification(notification)).Start();
 
             return userDto;
         }

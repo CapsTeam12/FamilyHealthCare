@@ -22,9 +22,9 @@ namespace FamilyHealthCare.Customer.Controllers
             _httpContext = httpContext;
         }
 
-        //[HttpGet]
-        //public async IActionResult HealthCheck()
-        //{
+        [HttpGet]
+        public IActionResult HealthCheck()
+        {
             //var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
             //var accountId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
             //var response = await client.GetAsync($"{EndpointConstants.HealthCheckService.HEALTHCHECKLIST}/{accountId}"); ;
@@ -34,7 +34,12 @@ namespace FamilyHealthCare.Customer.Controllers
             //    return Json(new { success = true, item = healthChecks });
             //}
             //return Json(new { success = false });
-        //    return View();
-        //}
+            return View();
+        }
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return View();
+        }
     }
 }

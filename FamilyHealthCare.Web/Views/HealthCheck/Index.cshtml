@@ -1,0 +1,84 @@
+﻿@*@model HealthCheckViewModel*@
+@using Data
+@using FamilyHealthCare.SharedLibrary
+@{
+    ViewData["Title"] = "Health Check";
+}
+<div class="breadcrumb-bar">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Health Check</li>
+                    </ol>
+                </nav>
+                <h2 class="breadcrumb-title">Health Check</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Breadcrumb -->
+<!-- Page Content -->
+<div class="content">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-7 col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <!-- Checkout Form -->
+                        <form action="healthcheck-success.html">
+
+                            <!-- Personal Information -->
+                            <div class="info-widget">
+                                <h4 class="card-title">Personal Information</h4>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12">
+                                        <div class="form-group card-label">
+                                            <label>Age</label>
+                                            <input class="form-control" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <div class="form-group card-label">
+                                            <label>Weight</label>
+                                            <input class="form-control" type="number">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <div class="form-group card-label">
+                                            <label>Height</label>
+                                            <input class="form-control" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <div class="form-group card-label">
+                                            <label>Blood Pressure</label>
+                                            <input class="form-control" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <div class="form-group card-label">
+                                            <label>Heart Rate</label>
+                                            <input class="form-control" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="submit-section mt-2">
+                                        <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+                                        <a href="calendar.html" class="btn btn-primary submit-btn">Plan</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>

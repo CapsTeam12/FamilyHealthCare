@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\HealthCheck\Result.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.2" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.7" />
@@ -23,6 +27,10 @@
     <Folder Include="wwwroot\images\patients\" />
 
     <Folder Include="wwwroot\lib\fullcalendar\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\HealthCheck\Result.cshtml" />
   </ItemGroup>
 
 </Project>

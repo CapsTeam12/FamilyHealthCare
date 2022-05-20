@@ -215,11 +215,8 @@
     <ProjectReference Include="..\Data\Data.csproj" />
   </ItemGroup>
 
-<<<<<<< HEAD
-=======
   <ItemGroup>
     <Folder Include="wwwroot\images\avatars\" />
   </ItemGroup>
 
->>>>>>> develop
 </Project>

@@ -53,7 +53,13 @@
     </div>
 </li>
 
-
+<div class="modal fade bd-example-modal-lg" id="modal-deactivate" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="width: 48px">
+            Your account has been locked by the administrator!
+        </div>
+    </div>
+</div>
 <script src=@Url.Content("~/js/signalr/dist/browser/signalr.js")></script>
 <script type="text/javascript">
     function noti () {
@@ -64,13 +70,22 @@
             }).build();
 
         connection.on("SendNotification", function (message) {
-            if(message.userID == '@currentUserId') {
-                var HandlerbarTemplate = $("#NotificationTemplate").html();
-                var CompileHtml = Handlebars.compile(HandlerbarTemplate);
-                var NotificationHTML = CompileHtml(message);
-                $('#notification').prepend(NotificationHTML);
-                let currentTotalNoti = parseInt(document.getElementById("notificationCount").innerText);
-                document.getElementById("notificationCount").innerText = currentTotalNoti + 1;
+            if (message.userID == '@currentUserId') {
+                if (message.content == "Your account has been locked by the administrator!")
+                {
+                    console.log("test");
+                    $('#modal-deactivate"').modal('show');
+                }
+                else
+                {
+                    var HandlerbarTemplate = $("#NotificationTemplate").html();
+                    var CompileHtml = Handlebars.compile(HandlerbarTemplate);
+                    var NotificationHTML = CompileHtml(message);
+                    $('#notification').prepend(NotificationHTML);
+                    let currentTotalNoti = parseInt(document.getElementById("notificationCount").innerText);
+                    document.getElementById("notificationCount").innerText = currentTotalNoti + 1;
+                }
+                
             }
         });
 
