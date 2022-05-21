@@ -188,7 +188,7 @@ namespace Business.Services
             var emailOfDoctor = await _db.Doctors.Where(d => d.Email == email).FirstOrDefaultAsync();
             var emailOfPharmacy = await _db.Pharmacies.Where(p => p.Email == email).FirstOrDefaultAsync();
             var emailOfUser = await _db.Patients.Where(p => p.User.Email == email).FirstOrDefaultAsync();
-            if(emailOfDoctor != null && emailOfPharmacy != null && emailOfUser != null)
+            if(emailOfDoctor != null || emailOfPharmacy != null || emailOfUser != null)
             {
                 return false;
             }
