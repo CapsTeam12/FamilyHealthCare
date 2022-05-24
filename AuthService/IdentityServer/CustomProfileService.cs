@@ -51,6 +51,7 @@ namespace AuthService.IdentityServer
                 //claims.Add(new Claim(JwtClaimTypes.Name, FullName));
 
                 claims.Add(new Claim(JwtClaimTypes.Name, user.UserName));
+                claims.Add(new Claim(JwtClaimTypes.Confirmation, user.IsActive.ToString()));
 
                 var userRoles = await _userManager.GetRolesAsync(user);
                 foreach (var userRole in userRoles)

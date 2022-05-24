@@ -1,5 +1,7 @@
 @using System.Security.Claims
 @using Contract.DTOs.NotificationServiceDtos
+@using IdentityModel
+@using Microsoft.AspNetCore.Http
 @using Microsoft.AspNetCore.Identity
 @using FamilyHealthCare.SharedLibrary;
 @using FamilyHealthCare.Customer.Models
@@ -8,6 +10,19 @@
 @{
     var userId = _httpContextAccessor.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
     var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+    //var idBlockedSession = _httpContextAccessor.HttpContext.Session.GetString("blocked-account");
+    //var isBlockedAccount = false;
+    //if (idBlockedSession != null) 
+    //{
+    //    if (idBlockedSession == "true") isBlockedAccount = true; 
+    //}
+    //else
+    //{
+    //    if(User.FindFirst(JwtClaimTypes.Confirmation)?.Value == "false")
+    //    {
+    //        isBlockedAccount = true; 
+    //    }
+    //}
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -21,6 +36,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="@Url.Content("~/assets/css/bootstrap.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/assets/css/bootstrap.css")">
 
     <!-- Fontawesome CSS -->
     <link rel="stylesheet" href=@Url.Content("~/assets/plugins/fontawesome/css/fontawesome.min.css")>
@@ -31,6 +47,24 @@
 
 </head>
 <body>
+    @*@if (User.Identity.IsAuthenticated && isBlockedAccount)
+    //{
+    //    <div class="modal fade bd-example-modal-lg" id="modal-deactivate" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    //        <div class="modal-dialog modal-sm">
+    //            <div class="modal-content" style="width: 48px">
+    //                <div class="modal-header">
+    //                    <h5 class="modal-title">Your account has been locked by the administrator!</h5>
+    //                    <a class="close" asp-controller="Account" asp-action="SignIn">
+    //                        Ok
+    //                    </a>
+    //                </div>
+    //            </div>
+    //        </div>
+    //    </div>
+    //    <script>
+    //        console.log("asdasd")
+    //    </script>
+    }*@
     <div class="main-wrapper">
         <header class="header">
 
@@ -325,6 +359,24 @@
         <!-- Custom JS -->
         <script src=@Url.Content("~/assets/js/script.js")></script>
         @await RenderSectionAsync("Scripts", required: false)
+    </div>
+    
+    <div class="modal fade custom-modal" id="modal-deactivate" data-backdrop="static" data-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                </div>
+                <div class="modal-body">
+                    <p>Your account has been locked by the administrator!</p>
+                </div>
+                <div class="modal-footer">
+                    <a asp-controller="Account" asp-action="SignOut">
+                        <button type="button" class="btn btn-primary">Ok</button>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

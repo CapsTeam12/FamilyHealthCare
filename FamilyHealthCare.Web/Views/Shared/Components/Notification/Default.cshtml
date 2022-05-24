@@ -1,6 +1,7 @@
 ﻿@using Contract.DTOs.NotificationServiceDtos
 @using FamilyHealthCare.SharedLibrary
 @using System.Security.Claims
+@using Microsoft.AspNetCore.Http
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
 @{
     var notifications = _httpContextAccessor.HttpContext.Session.GetComplexData<List<NotificationListDto>>("notification")
@@ -52,15 +53,9 @@
         </div>
     </div>
 </li>
-
-<div class="modal fade bd-example-modal-lg" id="modal-deactivate" data-backdrop="static" data-keyboard="false" tabindex="-1">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content" style="width: 48px">
-            Your account has been locked by the administrator!
-        </div>
-    </div>
-</div>
+<script src=@Url.Content("~/assets/js/bootstrap.bundle.min.js")></script>
 <script src=@Url.Content("~/js/signalr/dist/browser/signalr.js")></script>
+<script src=@Url.Content("~/assets/js/jquery-3.6.0.min.js")></script>
 <script type="text/javascript">
     function noti () {
         let accessToken = `@(_httpContextAccessor.HttpContext.User.Identity.Name)`;
@@ -73,8 +68,11 @@
             if (message.userID == '@currentUserId') {
                 if (message.content == "Your account has been locked by the administrator!")
                 {
-                    console.log("test");
-                    $('#modal-deactivate"').modal('show');
+                    @{
+                        _httpContextAccessor.HttpContext.Session.SetString("blocked-account", "true");
+                    }
+                    $('#modal-deactivate').modal({backdrop: 'static', keyboard: false, show: 'show'});
+                    $('#modal-deactivate').modal('show');
                 }
                 else
                 {
