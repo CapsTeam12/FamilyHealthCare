@@ -1,6 +1,8 @@
-﻿@*@model HealthCheckViewModel*@
+﻿
+@using FamilyHealthCare.Customer.Models
+@model HealthCheckViewModel
 @using Data
-@using FamilyHealthCare.SharedLibrary
+
 @{
     ViewData["Title"] = "Health Check";
 }
@@ -30,7 +32,7 @@
                     <div class="card-body">
 
                         <!-- Checkout Form -->
-                        <form action="healthcheck-success.html">
+                        <form id="healthCheckForm" asp-action="HealthCheck" asp-controller="HealthCheck" method="post">
 
                             <!-- Personal Information -->
                             <div class="info-widget">
@@ -39,36 +41,36 @@
                                     <div class="col-md-6 col-sm-12">
                                         <div class="form-group card-label">
                                             <label>Age</label>
-                                            <input class="form-control" type="text">
+                                            <input class="form-control" type="text" placeholder="18" asp-for="Age">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-12">
                                         <div class="form-group card-label">
                                             <label>Weight</label>
-                                            <input class="form-control" type="number">
+                                            <input class="form-control" type="text" placeholder="kg: 50" asp-for="Weight">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-12">
                                         <div class="form-group card-label">
                                             <label>Height</label>
-                                            <input class="form-control" type="text">
+                                            <input class="form-control" type="text" placeholder="cm: 165" asp-for="Height">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-12">
                                         <div class="form-group card-label">
                                             <label>Blood Pressure</label>
-                                            <input class="form-control" type="text">
+                                            <input class="form-control" type="text" placeholder="80/120" asp-for="BloodPressure">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-12">
                                         <div class="form-group card-label">
                                             <label>Heart Rate</label>
-                                            <input class="form-control" type="text">
+                                            <input class="form-control" type="text" placeholder="89" asp-for="HeartRate">
                                         </div>
                                     </div>
                                     <div class="submit-section mt-2">
                                         <button type="submit" class="btn btn-primary submit-btn">Submit</button>
-                                        <a href="calendar.html" class="btn btn-primary submit-btn">Plan</a>
+                                        <a asp-action="" asp-controller="" class="btn btn-primary submit-btn">Plan</a>
                                     </div>
                                 </div>
                             </div>
