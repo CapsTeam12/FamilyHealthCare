@@ -270,7 +270,7 @@ namespace Business.Services
             var doctorModel = _mapper.Map<Doctor>(doctorRegisterDto);
             if (doctorRegisterDto.Avatar != null)
             {
-                doctorModel.Avatar = await _fileService.SaveFile(doctorRegisterDto.Avatar, ImageConstants.DOCTORS_PATH);
+                doctorModel.Avatar = await _fileService.SaveFile(doctorRegisterDto.Avatar, ImageConstants.AVATARS_PATH);
             }
             if (doctorRegisterDto.Certifications != null)
             {
@@ -320,7 +320,7 @@ namespace Business.Services
             var pharmacyModel = _mapper.Map<Pharmacy>(pharmacyRegisterDto);
             if (pharmacyRegisterDto.Avatar != null)
             {
-                pharmacyModel.Avatar = await _fileService.SaveFile(pharmacyRegisterDto.Avatar, ImageConstants.PHARMACIES_PATH);
+                pharmacyModel.Avatar = await _fileService.SaveFile(pharmacyRegisterDto.Avatar, ImageConstants.AVATARS_PATH);
             }
 
             if (pharmacyRegisterDto.Certifications != null)

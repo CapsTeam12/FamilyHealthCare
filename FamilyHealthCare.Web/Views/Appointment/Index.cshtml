@@ -10,7 +10,7 @@
     </div>
     <div id="pagination"></div>
 </div>
-<h3 id="imageDoctorPath" hidden>@ImageConstants.DOCTORS</h3>
+<h3 id="imageDoctorPath" hidden>@ImageConstants.AVATARS</h3>
 
 <!-- Appointment Details Modal -->
 <div class="modal fade custom-modal" id="appt_details">
@@ -235,12 +235,12 @@
                 var date = $('#reschedule_date').val();
                 var timeslot = $('#timeslotReschedule').val();
                 var status = $('#status').val();
-                console.log(timeslot);
+                //console.log(timeslot);
                 if (typeof timeslot != 'undefined' && timeslot) { //  will evaluate to true if value is not: null, undefined,NaN,empty string(""), 0 , false
                     var startTime = moment(date).format("YYYY-MM-DD") + ' ' + timeslot.split('-')[0];
                     var endTime = moment(date).format("YYYY-MM-DD") + ' ' + timeslot.split('-')[1];
                 }
-                console.log(startTime, endTime);
+                //console.log(startTime, endTime);
                 RescheduleAppointment(_id,patientid, doctorid, startTime, endTime, description,status);
             });
 
@@ -379,7 +379,7 @@
                         //LoadData();
                         var modalId = $('#cancel_modal').data('id');
                         var elements = $('#' + modalId).parents('div.appointment-list').children();
-                        console.log(elements[1]);
+                        //console.log(elements[1]);
                         var childElements = elements[1].children;
                         elements[1].removeChild(childElements[1]);
                         elements[1].removeChild(childElements[1]);

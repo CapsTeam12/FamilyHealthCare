@@ -173,7 +173,7 @@ namespace ManagementService.Controllers
         }
 
         [HttpPost("addspecialized")]
-        public async Task<SpecialitiesDetailsDto> AddSpecializedAsync(SpecialitiesDetailsDto specialitiesDetailsDto)
+        public async Task<SpecialitiesDetailsDto> AddSpecializedAsync([FromForm]SpecialitiesUpdateDto specialitiesDetailsDto)
         {
             var specialized = await _managementService.AdddSpecializedAsync(specialitiesDetailsDto);
             return specialized;
@@ -187,9 +187,9 @@ namespace ManagementService.Controllers
         }
 
         [HttpPut("specialized/{id}")]
-        public async Task<SpecialitiesDetailsDto> UpdateSpecializedAsync(int id, SpecialitiesDetailsDto specialitiesDetailsDto)
+        public async Task<SpecialitiesDetailsDto> UpdateSpecializedAsync(int id, [FromForm] SpecialitiesUpdateDto specialitiesUpdateDto)
         {
-            var specialized = await _managementService.UpdateSpecializedAsync(id, specialitiesDetailsDto);
+            var specialized = await _managementService.UpdateSpecializedAsync(id, specialitiesUpdateDto);
             return specialized;
         }
         [HttpDelete("category/{id}")]

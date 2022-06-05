@@ -1,57 +1,62 @@
 ﻿@using Contract.DTOs.ManagementService;
+@using FamilyHealthCare.SharedLibrary;
 @model IEnumerable<SpecialitiesDetailsDto>;
 @{
-    var specializedCount = 1;
+    var specializedCount = 0;
+    ViewData["breadcumb-title"] = "Specialities";
 }
-
+<h2 hidden id="imageConstants">@ImageConstants.SPECIALIST</h2>
+<div class="btn">
+    <a href="#Add_Specialities_details" data-bs-toggle="modal" class="btn btn-primary float-end mt-2">Add</a>
+</div>
 <div class="row">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="datatable table table-hover table-center mb-0">
-                                <thead>
-                                    <tr>
-                                        <th>Specialities ID</th>
-                                        <th>Specialities</th>
-                                        <th class="text-end">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var specialized in Model)
-                                    {
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="specializedTable" class="table table-hover table-center mb-0">
+                        <thead>
+                            <tr>
+                                <th>Specialities ID</th>
+                                <th>Specialities</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var specialized in Model)
+                            {
+                                specializedCount++;
+                                <tr>
+                                    <td>@specializedCount</td>
 
-                                        <tr>
-                                            <td>@(specializedCount++)</td>
+                                    <td>
+                                        <h2 class="table-avatar">
+                                            <a href="#" class="avatar avatar-sm me-2">
+                                                <img class="avatar-img" src=@(ImageConstants.SPECIALIST+specialized.Image) alt="Speciality">
+                                            </a>
+                                            <a href="#">@specialized.SpecializedName</a>
+                                        </h2>
+                                    </td>
 
-                                            <td>
-                                                <h2 class="table-avatar">
-                                                    <a href="#" class="avatar avatar-sm me-2">
-                                                        <img class="avatar-img" src=@Url.Content("~/assets/img/specialities/specialities-01.png") alt="Speciality">
-                                                    </a>
-                                                    <a href="#">@specialized.SpecializedName</a>
-                                                </h2>
-                                            </td>
-
-                                            <td class="text-end">
-                                                <div class="actions">
-                                                    <a class="btn btn-sm bg-success-light" data-bs-toggle="modal" href="#edit_specialities_details">
-                                                        <i class="fe fe-pencil"></i> Edit
-                                                    </a>
-                                                    <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
-                                                        <i class="fe fe-trash"></i> Delete
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    }
-</table>
-                        </div>
-                    </div>
+                                    <td class="text-end">
+                                        <div class="actions">
+                                            <a id="edit@(specialized.Id)" data-id="@specialized.Id" data-name="@specialized.SpecializedName" data-image="@specialized.Image" class="btn btn-sm bg-success-light btnEdit" data-bs-toggle="modal" href="#edit_specialities_details">
+                                                <i class="fe fe-pencil"></i> Edit
+                                            </a>
+                                            <a id="delete@(specialized.Id)" data-id="@specialized.Id" data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light btnDelete">
+                                                <i class="fe fe-trash"></i> Delete
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                    </table>
                 </div>
             </div>
         </div>
-
+    </div>
+</div>
+<h5 hidden id="count">@specializedCount</h5>
 <div class="modal fade" id="Add_Specialities_details" aria-hidden="true" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -60,23 +65,23 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="AddSpecialitiesForm">
                     <div class="row form-row">
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
                                 <label>Specialities</label>
-                                <input type="text" class="form-control">
+                                <input name="SpecializedName" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
                                 <label>Image</label>
-                                <input type="file" class="form-control">
+                                <input name="Image" type="file" class="form-control">
                             </div>
                         </div>
 
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+                    <button type="button" class="btn btn-primary w-100 btnAdd">Save Changes</button>
                 </form>
             </div>
         </div>
@@ -90,23 +95,25 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="EditSpecialitiesForm">
                     <div class="row form-row">
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
                                 <label>Specialities</label>
-                                <input type="text" class="form-control" value="Cardiology">
+                                <input type="hidden" id="specializedId" />
+                                <input type="text" name="SpecializedName" class="form-control" value="">
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
                                 <label>Image</label>
-                                <input type="file" class="form-control">
+                                <input type="file" name="Image" class="form-control">
+                                <img class="avatar-img" src="" />
                             </div>
                         </div>
 
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+                    <button type="button" class="btn btn-primary w-100 btnSave">Save Changes</button>
                 </form>
             </div>
         </div>
@@ -125,10 +132,154 @@
                 <div class="form-content p-2">
                     <h4 class="modal-title">Delete</h4>
                     <p class="mb-4">Are you sure want to delete?</p>
-                    <button type="button" class="btn btn-primary">Save </button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <input type="hidden" id="specializedId" value="" />
+                    <button type="button" class="btn btn-primary btnYes">Yes </button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            var table = $('#specializedTable').DataTable({
+                "bFilter": true,
+                columnDefs: [{
+                    targets: [2],
+                    className: 'text-end'
+                }]
+            });
+            $('body').on('click', '.btnAdd', function () {
+                var form = new FormData();
+                form.append('SpecializedName', $('input[name=SpecializedName]').val());
+                //File Data
+                var fileUpload = $('input[name=Image]').get(0);
+                var files = fileUpload.files;
+                form.append("Image", files[0]);
+                $.ajax({
+                    url: 'http://localhost:55860/api/Management/addspecialized',
+                    type: 'POST',
+                    data: form,
+                    processData: false,
+                    contentType: false,
+                    success: function (res) {
+                        var count = Number($('#count').text()) + 1;
+                        $('#count').text(count);
+                        var imageConstants = $('#imageConstants').text();
+                        var inforTdElement = '<h2 class="table-avatar">' +
+                            '<a href="#" class="avatar avatar-sm me-2">' +
+                            '<img class="avatar-img" src=' + imageConstants + res.image + ' alt="Speciality">' +
+                            '</a>' +
+                            '<a href="#">' + res.specializedName + '</a>' +
+                            '</h2>';
+                        var lastTdElement = '<div class="actions">' +
+                            '<a id="edit' + res.id +'" data-id="' + res.id + '" data-name="' + res.specializedName + '" data-image="' + res.image +'" class="btn btn-sm bg-success-light btnEdit" data-bs-toggle="modal" href="#edit_specialities_details">' +
+                            '<i class="fe fe-pencil"></i> Edit' +
+                            '</a>' +
+                            '<a id="delete' + res.id +'" data-id="'+ res.id +'" data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light btnDelete">' +
+                            '<i class="fe fe-trash"></i> Delete' +
+                            '</a>' +
+                            '</div>';
+                        table.row.add([count, inforTdElement, lastTdElement]).draw();
+                        $('#Add_Specialities_details form')[0].reset();
+                        $('#Add_Specialities_details').modal('hide');
+                    }
+                });
+            })                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+            $('body').on('click','.btnEdit',function () {
+                var id = $(this).data('id');
+                var specializedName = $(this).data('name');
+                var imageSpecialized = $(this).data('image');
+                console.log(imageSpecialized);
+                var modalId = $(this).attr('id');
+                var imageConstants = $('#imageConstants').text();
+                $('#edit_specialities_details').data('id', modalId);
+                $('#specializedId').val(id);
+                $('#EditSpecialitiesForm input[name=SpecializedName]').val(specializedName);
+                $('#EditSpecialitiesForm img').attr('src', imageConstants + imageSpecialized);
+            });
+
+            $('#edit_specialities_details').on('click', '.btnSave', function () {
+                var form = new FormData();
+                form.append('SpecializedName', $('#EditSpecialitiesForm input[name=SpecializedName]').val());
+                //File Data
+                var fileUpload = $('#EditSpecialitiesForm input[name=Image]').get(0);
+                var files = fileUpload.files;
+                form.append("Image", files[0]);
+                var specializedId = $('#specializedId').val();
+                $.ajax({
+                    url: 'http://localhost:55860/api/Management/specialized/' + specializedId,
+                    type: 'PUT',
+                    data: form,
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        if (res != null) {
+                            var modalId = $('#edit_specialities_details').data('id');
+                            var trElements = table.row($('#' + modalId).parents('tr')).node();
+                            var tdElements = table.row($('#' + modalId).parents('tr')).node().children;
+                            var count = tdElements[0].innerText;
+                            var imageConstants = $('#imageConstants').text();
+                            var inforTdElement = '<h2 class="table-avatar">' +
+                                '<a href="#" class="avatar avatar-sm me-2">' +
+                                '<img class="avatar-img" src=' + imageConstants + res.image + ' alt="Speciality">' +
+                                '</a>' +
+                                '<a href="#">' + res.specializedName + '</a>' +
+                                '</h2>';
+                            var lastTdElement = '<div class="actions">' +
+                                '<a id="edit'+ res.id +'" data-id="' + res.id + '" data-name="' + res.specializedName + '" data-image="'+ res.image +'" class="btn btn-sm bg-success-light btnEdit" data-bs-toggle="modal" href="#edit_specialities_details">' +
+                                '<i class="fe fe-pencil"></i> Edit' +
+                                '</a>' +
+                                '<a id="delete'+ res.id +'" data-id="' + res.id + '" data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light btnDelete">' +
+                                '<i class="fe fe-trash"></i> Delete' +
+                                '</a>' +
+                                '</div>';
+                            var updateData = [
+                                count,
+                                inforTdElement,
+                                lastTdElement
+                            ];
+                            table.row(trElements).data(updateData).draw();
+                            $('#edit_specialities_details').modal('hide');
+
+                        }
+                    }
+                });
+                
+            });
+
+            $('body').on('click','.btnDelete',function () {
+                var id = $(this).data('id');
+                $('#specializedId').val(id);
+                var modalId = $(this).attr('id');
+                $('#delete_modal').data('id', modalId);
+            });
+
+            $('body').on('click', '.btnYes', function () {
+                var id = $('#specializedId').val();
+                $.ajax({
+                    url: 'http://localhost:55860/api/Management/specialized/' + id,
+                    type: 'DELETE',
+                    success: function (res) {
+                        if (res != null) {
+                            var id = $('#delete_modal').data('id');
+                            var tdElements = $('#' + id).parents("tr").children();
+                            var currentNumber = Number(tdElements[0].innerText);
+                            var count = Number($('#count').text()) - 1;
+                            $('#count').text(count);
+                            table.row($('#' + id).parents('tr')).remove().draw();
+                            var trElements = table.rows().nodes();
+                            for (var i = currentNumber - 1; i < count; i++) {
+                                let td = trElements[i].getElementsByTagName("td");
+                                td[0].innerText = currentNumber;
+                                currentNumber++;
+                            }
+                            $('#delete_modal').modal('hide');
+                        }
+                    }
+                });
+            });
+        })
+    </script>
+}

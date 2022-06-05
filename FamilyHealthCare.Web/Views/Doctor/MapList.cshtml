@@ -20,7 +20,7 @@
             <td>@doctor.FullName</td>
             <td>@doctor.Address</td>
             <td>@doctor.Specialities</td>
-            <td>@(ImageConstants.DOCTORS+doctor.Avatar)</td>
+            <td>@(ImageConstants.AVATARS+doctor.Avatar)</td>
         </tr>
         i++;
     }
@@ -57,7 +57,7 @@
                                             <a href="@Url.Action("DoctorDetails","Doctor",new { id = doctor.Id })">
                                                 @if (doctor.Avatar != null)
                                                 {
-                                                    <img src=@(ImageConstants.DOCTORS+doctor.Avatar) class="img-fluid" style="max-height:100px" alt="User Image">
+                                                    <img src=@(ImageConstants.AVATARS+doctor.Avatar) class="img-fluid" style="max-height:100px" alt="User Image">
                                                 }
                                                 else
                                                 {
@@ -115,7 +115,7 @@
 <!-- /Page Content -->
 @section scripts{
     <script async
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWCz7q4jUk_b-wBeMFZ_hkKqE4mstZUEc&libraries=places&callback=initMap">
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvI0FHi3SOHViVh1i1cgdQ9iTG7RKWDEk&libraries=places&callback=initMap">
     </script>
     <script>
         var x = document.getElementById('demo');

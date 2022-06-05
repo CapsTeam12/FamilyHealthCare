@@ -5,7 +5,7 @@
 }
 <!-- DataTable CSS-->
 <link href=@Url.Content("~/assets/plugins/datatables/datatables.min.css") rel="stylesheet" />
-<h4 id="imageConstants" hidden>@ImageConstants.DOCTORS</h4>
+<h4 id="imageConstants" hidden>@ImageConstants.AVATARS</h4>
 <h4 id="signaturePath" hidden>@ImageConstants.SIGNATURES</h4>
 <div class="col-md-7 col-lg-8 col-xl-9">
     <div class="row">
@@ -241,7 +241,7 @@
                         var imageConstants = $('#imageConstants').text();
                         $.each(medicals, function (i) {
                             var medical = medicals[i];
-                            console.log(medical);
+                            //console.log(medical);
                             count++;
                             var InforElement = '';
                             if (medical.doctor.avatar != null) {

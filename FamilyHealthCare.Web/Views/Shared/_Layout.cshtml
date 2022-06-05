@@ -12,15 +12,15 @@
     var userName = User.FindFirst(ClaimTypes.Name)?.Value;
     //var idBlockedSession = _httpContextAccessor.HttpContext.Session.GetString("blocked-account");
     //var isBlockedAccount = false;
-    //if (idBlockedSession != null) 
+    //if (idBlockedSession != null)
     //{
-    //    if (idBlockedSession == "true") isBlockedAccount = true; 
+    //    if (idBlockedSession == "true") isBlockedAccount = true;
     //}
     //else
     //{
     //    if(User.FindFirst(JwtClaimTypes.Confirmation)?.Value == "false")
     //    {
-    //        isBlockedAccount = true; 
+    //        isBlockedAccount = true;
     //    }
     //}
 }
@@ -48,23 +48,23 @@
 </head>
 <body>
     @*@if (User.Identity.IsAuthenticated && isBlockedAccount)
-    //{
-    //    <div class="modal fade bd-example-modal-lg" id="modal-deactivate" data-backdrop="static" data-keyboard="false" tabindex="-1">
-    //        <div class="modal-dialog modal-sm">
-    //            <div class="modal-content" style="width: 48px">
-    //                <div class="modal-header">
-    //                    <h5 class="modal-title">Your account has been locked by the administrator!</h5>
-    //                    <a class="close" asp-controller="Account" asp-action="SignIn">
-    //                        Ok
-    //                    </a>
-    //                </div>
-    //            </div>
-    //        </div>
-    //    </div>
-    //    <script>
-    //        console.log("asdasd")
-    //    </script>
-    }*@
+        //{
+        //    <div class="modal fade bd-example-modal-lg" id="modal-deactivate" data-backdrop="static" data-keyboard="false" tabindex="-1">
+        //        <div class="modal-dialog modal-sm">
+        //            <div class="modal-content" style="width: 48px">
+        //                <div class="modal-header">
+        //                    <h5 class="modal-title">Your account has been locked by the administrator!</h5>
+        //                    <a class="close" asp-controller="Account" asp-action="SignIn">
+        //                        Ok
+        //                    </a>
+        //                </div>
+        //            </div>
+        //        </div>
+        //    </div>
+        //    <script>
+        //        console.log("asdasd")
+        //    </script>
+        }*@
     <div class="main-wrapper">
         <header class="header">
 
@@ -157,10 +157,10 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <ul class="nav user-menu">
-                            <!-- Notifications -->
-                            @await Component.InvokeAsync("Notification")
-                            <!-- /Notifications -->
-                        </ul>
+                                <!-- Notifications -->
+                                @await Component.InvokeAsync("Notification")
+                                <!-- /Notifications -->
+                            </ul>
                             <!--<li class="nav-item dropdown has-arrow logged-item">
                             <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                                 <span class="user-img">-->
@@ -193,6 +193,7 @@
                         {
                             <a class="nav-link header-login" asp-controller="Account" asp-action="SignIn">Log In / Sign Up</a>
                         }
+                    </li>
                     <li class="dropdown language-select">
                         <span class="dropdown-toggle" id="language-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
                               aria-expanded="false" role="button"><img src=@Url.Content("~/assets/img/vietnam.png") alt="flag"> Việt Nam</span>
@@ -227,13 +228,13 @@
             <footer class="footer">
 
                 <!-- Footer Top -->
-            <div class="footer-top">
+                <div class="footer-top">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg-3 col-md-6">
 
                                 <!-- Footer Widget -->
-                            <div class="footer-widget footer-about">
+                                <div class="footer-widget footer-about">
                                     <div class="footer-logo">
                                         <img src=@Url.Content("~/assets/img/footer-logo.png") alt="logo">
                                     </div>
@@ -256,12 +257,12 @@
                                 </div>
                                 <!-- /Footer Widget -->
 
-                        </div>
+                            </div>
 
                             <div class="col-lg-3 col-md-6">
 
                                 <!-- Footer Widget -->
-                            <div class="footer-widget footer-menu">
+                                <div class="footer-widget footer-menu">
                                     <h2 class="footer-title">For Pharmacy</h2>
                                     <ul>
                                         <li><a href="map-list.html">Search Pharmacy</a></li>
@@ -269,12 +270,12 @@
                                 </div>
                                 <!-- /Footer Widget -->
 
-                        </div>
+                            </div>
 
                             <div class="col-lg-3 col-md-6">
 
                                 <!-- Footer Widget -->
-                            <div class="footer-widget footer-menu">
+                                <div class="footer-widget footer-menu">
                                     <h2 class="footer-title">For Doctors</h2>
                                     <ul>
                                         <li><a href="doctor-search.html">Booking Doctor</a></li>
@@ -283,12 +284,12 @@
                                 </div>
                                 <!-- /Footer Widget -->
 
-                        </div>
+                            </div>
 
                             <div class="col-lg-3 col-md-6">
 
                                 <!-- Footer Widget -->
-                            <div class="footer-widget footer-contact">
+                                <div class="footer-widget footer-contact">
                                     <h2 class="footer-title">Contact Us</h2>
                                     <div class="footer-contact-info">
                                         <div class="footer-address">
@@ -307,18 +308,18 @@
                                 </div>
                                 <!-- /Footer Widget -->
 
-                        </div>
+                            </div>
 
                         </div>
                     </div>
                 </div>
                 <!-- /Footer Top -->
                 <!-- Footer Bottom -->
-            <div class="footer-bottom">
+                <div class="footer-bottom">
                     <div class="container-fluid">
 
                         <!-- Copyright -->
-                    <div class="copyright">
+                        <div class="copyright">
                             <div class="row">
                                 <div class="col-md-6 col-lg-6">
                                     <div class="copyright-text">
@@ -330,16 +331,16 @@
                                     <!-- Copyright Menu -->
                                     <!-- /Copyright Menu -->
 
-                            </div>
+                                </div>
                             </div>
                         </div>
                         <!-- /Copyright -->
 
-                </div>
+                    </div>
                 </div>
                 <!-- /Footer Bottom -->
 
-        </footer>
+            </footer>
         }
         <!-- /Footer -->
         <!-- /Main Wrapper -->
@@ -360,7 +361,7 @@
         <script src=@Url.Content("~/assets/js/script.js")></script>
         @await RenderSectionAsync("Scripts", required: false)
     </div>
-    
+
     <div class="modal fade custom-modal" id="modal-deactivate" data-backdrop="static" data-keyboard="false" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">

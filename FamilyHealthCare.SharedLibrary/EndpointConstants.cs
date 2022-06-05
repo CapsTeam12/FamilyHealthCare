@@ -16,7 +16,7 @@ namespace FamilyHealthCare.SharedLibrary
             public static string PHARMACIES = "/Management/pharmacies";
             public static string CATEGORIES = "api/Management/categories";
             public static string PATIENTS = "api/Management/patients";
-            public static string SPECIALITIES = "api/Management/specialities";
+            public static string SPECIALITIES = "/Management/specialities";
             public static string SPECIALIST = "/Management/specialities";
             //public static string PHARMACIES = "api/Management/phamacies";
 
@@ -41,6 +41,9 @@ namespace FamilyHealthCare.SharedLibrary
             public static string GET_MEDICALS_PATIENT = "/Management/GetTotalMedicalsByPatient";
             public static string GET_MEDICINES = "/Management/GetTotalMedicines";
             public static string GET_PRESCRIPTIONS = "/Management/GetTotalPrescriptions";
+
+            public static string ACTIVE_PATIENT = "/Management/active";
+            public static string DEACTIVATE_PATIENT = "/Management/deactivate";
         }
         public static class AuthService
         {

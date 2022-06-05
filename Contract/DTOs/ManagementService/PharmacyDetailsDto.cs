@@ -20,6 +20,7 @@ namespace Contract.DTOs.ManagementService
         public string Biography { get; set; }
         public int PostalCode { get; set; }
         public string Avatar { get; set; }
+        public bool IsActive { get; set; }
         public List<AwardsDto> Awards { get; set; }
 
         public PharmacyDetailsDto()

@@ -144,7 +144,7 @@ namespace IdentityServerHost.Quickstart.UI
                     var resultCheckPassword = await _userManager.CheckPasswordAsync(user, model.Password);
                     if (resultCheckPassword)
                     {
-                        if (user.IsActive == true)
+                        if (user.IsActive == true || user.IsActive == null)
                         {
                             var role = await _userManager.GetRolesAsync(user);
                             if (role != null)

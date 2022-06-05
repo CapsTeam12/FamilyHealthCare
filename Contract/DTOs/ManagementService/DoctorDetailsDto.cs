@@ -19,6 +19,7 @@ namespace Contract.DTOs.ManagementService
         public string Phone { get; set; }
         public string Biography { get; set; }
         public int Gender { get; set; }
+        public bool IsActive { get; set; }
         public DateTime DateOfBirth { get; set; }
         public List<ExperiencesDto> Experiences { get; set; }
         public DoctorDetailsDto()

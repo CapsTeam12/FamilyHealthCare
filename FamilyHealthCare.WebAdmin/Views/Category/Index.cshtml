@@ -2,52 +2,53 @@
 @model IEnumerable<CategoriesDetailsDto>;
 @{
     var cateCount = 1;
+    ViewData["breadcumb-title"] = "Category";
 }
- <div class="row">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="datatable table table-hover table-center mb-0">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        @*<th>Description</th>*@
-                                        <th class="text-end">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var cate in Model)
-                                    {
-                                        <tr>
-                                            <td>@(cateCount++)</td>
-                                            <td>
-                                                <h2 class="table-avatar">
-                                                    <a data-bs-toggle="modal" href="#categories_details">@cate.CateName</a>
-                                                </h2>
-                                            </td>
-                                            @*<td>Mặt nạ bảo vệ chống bụi bẩn,vi khuẩn</td>*@
-                                            <td class="text-end">
-                                                <div class="actions">
-                                                    <a class="btn btn-sm bg-success-light" data-bs-toggle="modal" href="#edit_categories">
-                                                        <i class="fe fe-pencil"></i> Edit
-                                                    </a>
-                                                    <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
-                                                        <i class="fe fe-trash"></i> Delete
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    }
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="datatable table table-hover table-center mb-0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                @*<th>Description</th>*@
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var cate in Model)
+                            {
+                                <tr>
+                                    <td>@(cateCount++)</td>
+                                    <td>
+                                        <h2 class="table-avatar">
+                                            <a data-bs-toggle="modal" href="#categories_details">@cate.CateName</a>
+                                        </h2>
+                                    </td>
+                                    @*<td>Mặt nạ bảo vệ chống bụi bẩn,vi khuẩn</td>*@
+                                    <td class="text-end">
+                                        <div class="actions">
+                                            <a class="btn btn-sm bg-success-light" data-bs-toggle="modal" href="#edit_categories">
+                                                <i class="fe fe-pencil"></i> Edit
+                                            </a>
+                                            <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
+                                                <i class="fe fe-trash"></i> Delete
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
 <div class="modal fade" id="add_categories" aria-hidden="true" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">

@@ -94,7 +94,7 @@ namespace NotificationService
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AppointmentService", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "NotificationService", Version = "v1" });
                 c.EnableAnnotations();
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {

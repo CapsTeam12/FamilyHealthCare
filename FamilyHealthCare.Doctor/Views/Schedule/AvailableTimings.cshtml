@@ -5,6 +5,8 @@
     var currentDate = DateTime.Now.ToString("yyyy-MM-dd"); // get current Date
     var currentTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")); // get current DateTime
     var getDateSearch = ViewBag.CurrentDate;
+    var dateSchedule = Convert.ToDateTime(getDateSearch); 
+    var EndShiftTime = new DateTime(dateSchedule.Year, dateSchedule.Month, dateSchedule.Day, 20, 30, 0);
     var userId = ViewBag.userId;
 
     int diff = (7 + (DateTime.Now.Date.DayOfWeek - DayOfWeek.Monday)) % 7;
@@ -120,9 +122,12 @@
                                         }
                                     </div>
                                 </div>
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-primary">Save</button>
-                                </div>
+                                @if (currentTime < EndShiftTime)
+                                {
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                }
                             </form>
                         </div>
                     </div>
@@ -138,6 +143,8 @@
 @section scripts{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>
+    <!-- SweetAlert JS-->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
         $(document).ready(function () {
             $("#scheduleDoctor").validate({
@@ -148,11 +155,15 @@
                 },
                 messages: {
                     ShiftsId: {
-                        required: "Must choose at least 1!",
+                        required: "No schedule selected!",
                     }
                 },
                 errorPlacement: function (error, element) {
-                    alert(error.text());
+                    swal({
+                        title: `${error.text()}`,
+                        icon: "warning"
+                    })
+                    /* alert(error.text());*/
                 }
             });
 

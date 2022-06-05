@@ -37,7 +37,7 @@ namespace ManagementService
                     c.AddPolicy("policyName", p => {
                         p.WithOrigins("https://localhost:44367").AllowAnyMethod().AllowAnyHeader();
                         p.WithOrigins("https://localhost:44369").AllowAnyMethod().AllowAnyHeader();
-                        //p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                        p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
                     });
                 });
             }

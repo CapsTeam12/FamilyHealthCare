@@ -4,7 +4,7 @@
     var accountId = ViewBag.AccountId;
 }
 <link href="~/assets/plugins/datatables/datatables.min.css" rel="stylesheet" />
-<h3 id="PatientImagePath" hidden>@ImageConstants.PATIENTS</h3>
+<h3 id="PatientImagePath" hidden>@ImageConstants.AVATARS</h3>
 <h5 id="AccountId" hidden>@accountId</h5>
 <div class="col-md-7 col-lg-8 col-xl-9">
     <div class="row">
@@ -331,12 +331,12 @@
                 var date = $('#reschedule_date').val();
                 var timeslot = $('#timeslotReschedule').val();
                 var status = $('#status').val();
-                console.log(timeslot);
+                //console.log(timeslot);
                 if (typeof timeslot != 'undefined' && timeslot) { //  will evaluate to true if value is not: null, undefined,NaN,empty string(""), 0 , false
                     var startTime = moment(date).format("YYYY-MM-DD") + ' ' + timeslot.split('-')[0];
                     var endTime = moment(date).format("YYYY-MM-DD") + ' ' + timeslot.split('-')[1];
                 }
-                console.log(startTime, endTime);
+                //console.log(startTime, endTime);
                 RescheduleAppointment(_id, patientid, doctorid, startTime, endTime, description, status);
             });
             // End Reschedule appointment
@@ -415,7 +415,7 @@
                         //$('#appointmentTable').dataTable().fnDestroy();
                         //LoadData();
                         var item = res.data;
-                        console.log(item);
+                        //console.log(item);
                         var modalId = $('#reschedule_modal').data('id');
                         var tdElements = $('#' + modalId).parents('tr').children();
                         var imgElement = tdElements[0].getElementsByTagName('img');

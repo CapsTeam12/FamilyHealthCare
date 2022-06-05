@@ -346,7 +346,7 @@
 @section scripts{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script async
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBaNp9mqRzBIyfIfCpPef-o_i3DIRDP8Cw&libraries=places&callback=initMap">
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3a1mRcQbW4wQO2EWDvA3lfPWsO0J-tLY&libraries=places&callback=initMap">
     </script>
     <script>
         var availableTags = [];
@@ -357,7 +357,7 @@
                 success: function (response) {
                     $.each(response, function (i) {
                         var item = response[i];
-                        console.log(item.fullName);
+                        //console.log(item.fullName);
                         availableTags.push(item.fullName);
                     });
                 }
@@ -386,7 +386,7 @@
                 document.getElementById('searchLongtitude').value = place.geometry.location.lng();
                 var placeLat = place.geometry.location.lat();
                 var placeLng = place.geometry.location.lng();
-                console.log(placeLat + " - " + placeLng);
+                //console.log(placeLat + " - " + placeLng);
                 nearBySearch(place);
             });
         }
@@ -399,20 +399,20 @@
                 radius: '5000',
                 type: ['hospital']
             };
-            console.log(request);
+            //console.log(request);
             var placeSearch = new google.maps.LatLng(placeLat, placeLng);
-            console.log(placeSearch);
+            //console.log(placeSearch);
             var map = new google.maps.Map(document.getElementById("map"), {
                 center: placeSearch,
                 zoom: 15,
             });
-            console.log(map);
+            //console.log(map);
             var service = new google.maps.places.PlacesService(map);
             service.nearbySearch(request, function (results, status) {
                 if (status == google.maps.places.PlacesServiceStatus.OK) {
                     for (var i in results) {
                         var place = results[i];
-                        console.log(place);
+                        //console.log(place);
                         availableTags.push(place.name);
                     }
                 }

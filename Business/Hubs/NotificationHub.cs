@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Contract.DTOs.NotificationServiceDtos;
+using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 
 namespace Business.Hubs

@@ -38,9 +38,12 @@ namespace Business
                 .ReverseMap();
             CreateMap<Pharmacy, SearchPharmacyDto>()
                .ReverseMap();
-            CreateMap<Doctor, DoctorDetailsDto>().ForMember(d => d.Specialities, t => t.MapFrom(m => m.Specialized.SpecializedName))
+            CreateMap<Doctor, DoctorDetailsDto>()
+                .ForMember(d => d.Specialities, t => t.MapFrom(m => m.Specialized.SpecializedName))
+                .ForMember(dst => dst.IsActive, opt => opt.MapFrom(src => src.User.IsActive))
                 .ReverseMap();
             CreateMap<Pharmacy, PharmacyDetailsDto>()
+                .ForMember(dst => dst.IsActive, opt => opt.MapFrom(src => src.User.IsActive))
                 .ReverseMap();
             CreateMap<User, PatientUpdateDto>()
                 //.ForMember(x => x.AccountId, opt => opt.MapFrom(m => m.Id))
@@ -50,12 +53,15 @@ namespace Business
                 .ReverseMap();
             CreateMap<Specialities, SpecialitiesDetailsDto>()
                 .ReverseMap();
+            CreateMap<SpecialitiesUpdateDto,Specialities>()                
+                .ForMember(dest => dest.Id, act => act.Ignore());
             CreateMap<User, ChangePasswordDto>()
                 .ReverseMap();
             CreateMap<User, UpdatePatientProfileDto>()
                //.ForMember(x => x.AccountId, opt => opt.MapFrom(m => m.Id))
                .ReverseMap();
             CreateMap<Patient, PatientDetailsDto>()
+                .ForMember(dst => dst.IsActive,opt => opt.MapFrom(src => src.User.IsActive))
                //.ForMember(x => x.AccountId, opt => opt.MapFrom(m => m.Id))
                .ReverseMap();
 

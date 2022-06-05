@@ -1,4 +1,5 @@
 ﻿using Contract.DTOs.ManagementService;
+using Data.Entities;
 using FamilyHealthCare.SharedLibrary;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FamilyHealthCare.WebAdmin.Controllers
@@ -49,6 +51,31 @@ namespace FamilyHealthCare.WebAdmin.Controllers
                 model = await response.Content.ReadAsAsync<PatientDetailsDto>();
             }
             return View(model);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> ActiveAndDeActivateAccount(string accountId,bool isActive)
+        {
+            var httpClient = _clientFactory.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
+            var content = new StringContent(accountId, Encoding.UTF8, "application/json");
+            if(isActive == true)
+            {
+                var response = await httpClient.PutAsync($"{EndpointConstants.ManagementService.DEACTIVATE_PATIENT}/{accountId}",content);
+                if (response.IsSuccessStatusCode)
+                {
+                    return Json(new {IsActive = false });
+
+                }
+            }
+            else
+            {
+                var response = await httpClient.PutAsync($"{EndpointConstants.ManagementService.ACTIVE_PATIENT}/{accountId}",content);
+                if (response.IsSuccessStatusCode)
+                {
+                    return Json(new { IsActive = true });
+                }
+            }
+            return View();
         }
     }
 }

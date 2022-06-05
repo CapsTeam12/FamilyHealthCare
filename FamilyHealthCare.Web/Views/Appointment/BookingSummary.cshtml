@@ -60,7 +60,7 @@
                             <a href="doctor-profile.html" class="booking-doc-img">
                                 @if (Model.doctorDetails.Avatar != null)
                                 {
-                                    <img src=@(ImageConstants.DOCTORS+Model.doctorDetails.Avatar) alt="User Image">
+                                    <img src=@(ImageConstants.AVATARS+Model.doctorDetails.Avatar) alt="User Image">
                                 }
                                 else
                                 {
@@ -92,8 +92,8 @@
     </div>
 </div>
 <!--Loader-->
-<div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
-    <div class="modal-dialog modal-sm">
+<div class="modal fade custom-modal" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="width: 48px">
             <span class="fa fa-spinner fa-spin fa-3x"></span>
         </div>

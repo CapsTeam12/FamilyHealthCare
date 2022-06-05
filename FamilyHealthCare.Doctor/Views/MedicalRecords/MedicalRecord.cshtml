@@ -1031,12 +1031,12 @@
                             contentType: false,
                             success: function (res) {
                                 var medical = res.item;
-                                console.log(medical);
+                                //console.log(medical);
                                 var modalId = $('#Edit_medical_records_modal').data('id');
                                 var tableRow = table.row($('#' + modalId).parents('tr')).node();
                                 var tdEls = table.row($('#' + modalId).parents('tr')).node().children;
                                 var count = tdEls[0].innerText;
-                                console.log('Count: ' + count);
+                                //console.log('Count: ' + count);
                                 var lastTdElement = '<td>' +
                                     '<a id="details' + count + '" data-bs-toggle="modal" data-bs-target="#Details_medical_records_modal" data-id="' + medical.id + '" data-patientId="' + medical.patientId + '" data-diagnosis="' + medical.diagnosis + '" data-advice="' + medical.advice + '" data-reExamination="' + medical.reExamination + '" class="btn btn-sm bg-info-light btnView"><i class="far fa-eye"></i> View</a>' +
                                     '<a id="edit' + count + '" data-canvas="canvasEdit" onclick="CanvasSignature(this)" data-id="' + medical.id + '" data-patientId="' + medical.patientId + '" data-diagnosis="' + medical.diagnosis + '" data-advice="' + medical.advice + '" data-reExamination="' + medical.reExamination + '" href="#" class="btn btn-sm bg-success-light  btnEdit" data-bs-toggle="modal" data-bs-target="#Edit_medical_records_modal"><i class="far fa-edit"></i> Edit</a>' +

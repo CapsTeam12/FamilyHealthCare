@@ -162,9 +162,13 @@ namespace Business.Services
             return pharmacyDto;
         }
 
-        public async Task<SpecialitiesDetailsDto> AdddSpecializedAsync(SpecialitiesDetailsDto specialitiesDetailsDto)
+        public async Task<SpecialitiesDetailsDto> AdddSpecializedAsync(SpecialitiesUpdateDto specialitiesDetailsDto)
         {
             var specialized = _mapper.Map<Specialities>(specialitiesDetailsDto);
+            if(specialitiesDetailsDto.Image != null)
+            {
+                specialized.Image = await _fileService.SaveFile(specialitiesDetailsDto.Image, ImageConstants.SPECIALIST_PATH);
+            }
             var newSpecialized = await _specializedRepos.Create(specialized);
             var specializedDto = _mapper.Map<SpecialitiesDetailsDto>(newSpecialized);
             return specializedDto;
@@ -178,16 +182,21 @@ namespace Business.Services
             return categorydDto;
         }
 
-        public async Task<SpecialitiesDetailsDto> UpdateSpecializedAsync(int id, SpecialitiesDetailsDto specialitiesDetailsDto)
+        public async Task<SpecialitiesDetailsDto> UpdateSpecializedAsync(int id, SpecialitiesUpdateDto specialitiesUpdateDto)
         {
-            var specialized = await _specializedRepos
-                                    .Entities
-                                    .Where(s => s.Id == id)
-                                    .FirstOrDefaultAsync();
-            specialized.SpecializedName = specialitiesDetailsDto.SpecializedName;
-            var updateSpecialized = await _specializedRepos.Update(specialized);
-            var specializedDto = _mapper.Map<SpecialitiesDetailsDto>(updateSpecialized);
-            return specializedDto;
+            var specialist = await _specializedRepos.Entities.Where(s => s.Id == id).FirstAsync();
+            specialist.SpecializedName = specialitiesUpdateDto.SpecializedName;
+            if (specialitiesUpdateDto.Image != null)
+            {
+                if (specialist.Image != null)
+                {
+                    await _fileService.DeleteFile(specialist.Image, ImageConstants.SPECIALIST_PATH);
+                }
+                specialist.Image = await _fileService.SaveFile(specialitiesUpdateDto.Image, ImageConstants.SPECIALIST_PATH);
+            }
+            var updateSpecialist = await _specializedRepos.Update(specialist);
+            var specialitiesDto = _mapper.Map<SpecialitiesDetailsDto>(updateSpecialist);
+            return specialitiesDto;
         }
 
         public async  Task<CategoriesDetailsDto> UpdateCategoryAsync(int id, CategoriesDetailsDto categoriesDetailsDto)
@@ -208,7 +217,11 @@ namespace Business.Services
                                     .Entities
                                     .Where(s => s.Id == id)
                                     .FirstOrDefaultAsync();
-            var deleteSpecialized = await _specializedRepos.Delete(specialized);
+            if(specialized.Image != null)
+            {
+                await _fileService.DeleteFile(specialized.Image, ImageConstants.SPECIALIST_PATH);
+            }
+            var deleteSpecialized = await _specializedRepos.Delete(specialized);           
             var specializedDto = _mapper.Map<SpecialitiesDetailsDto>(deleteSpecialized);
             return specializedDto;
         }

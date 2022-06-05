@@ -187,7 +187,7 @@
                 success: function (res) {
                     if (res.success) {
                         var appointments = res.item;
-                        console.log(appointments);
+                        //console.log(appointments);
                         $('#appointments').text(appointments.length);
                         for (var i = 0; i < 7; i++) {
                             var countTotal = 0; 
@@ -224,8 +224,8 @@
                             dataMorrisLine.push(LineObj);
                             
                         }
-                        console.log(dataMorrisArea);
-                        console.log(dataMorrisLine);
+                        //console.log(dataMorrisArea);
+                        //console.log(dataMorrisLine);
                         /* Morris Area Chart */
                         window.mA = Morris.Area({
                             element: 'morrisArea',
