@@ -260,7 +260,18 @@ namespace Business.Services
 
             Task.Run(() => new NotificationHelper().CallApiCreateNotification(notification));
 
-            string htmlMessage = $"Hi {user.Email}";
+            string htmlMessage = $"Hi {user.Email}" +
+                                 $"<p></p>" +
+                                 @"
+                        <h3>Best regards,</h3>
+                        <i>FHC Team</i>
+                         <p>
+                        <img src='https://lh3.googleusercontent.com/pw/AM-JKLVbarNakIE9FJgDXlR0RVbR57BcHN_5PllXqzVwgsk2oDTEj7hwJ-b8RzOsn2g8wsmWGFUfaAh6-WbF-dgLWDBrZEZFZKz68m4NqGzXX-lQduWo6LB5xZC31ScGgfQMsl5ICWbjL93xMJLtHjKxMUI=w160-h41-no?authuser=0'
+                        width='100px' style='float: left; margin-left: 5px; margin-right: 20px; border: 2px solid black;' />
+                        <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health12@gmail.com</b></span><br>
+                        <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a
+                        href='https://abc.com'>https://abc.com</a></span> <br>
+                        </p>";
 
             MailContent mailContent = new MailContent()
             {
@@ -292,7 +303,18 @@ namespace Business.Services
 
             Task.Run(() => new NotificationHelper().CallApiCreateNotification(notification));
 
-            string htmlMessage = $"Hi {user.Email}";
+            string htmlMessage = $"Hi {user.Email}" +
+                                 $"<p></p>" +
+                                 @"
+                        <h3>Best regards,</h3>
+                        <i>FHC Team</i>
+                         <p>
+                        <img src='https://lh3.googleusercontent.com/pw/AM-JKLVbarNakIE9FJgDXlR0RVbR57BcHN_5PllXqzVwgsk2oDTEj7hwJ-b8RzOsn2g8wsmWGFUfaAh6-WbF-dgLWDBrZEZFZKz68m4NqGzXX-lQduWo6LB5xZC31ScGgfQMsl5ICWbjL93xMJLtHjKxMUI=w160-h41-no?authuser=0'
+                        width='100px' style='float: left; margin-left: 5px; margin-right: 20px; border: 2px solid black;' />
+                        <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health12@gmail.com</b></span><br>
+                        <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a
+                        href='https://abc.com'>https://abc.com</a></span> <br>
+                        </p>";
 
             MailContent mailContent = new MailContent()
             {
