@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Business.IServices;
 using Contract.Constants;
+using Contract.DTOs.MailService;
 using Contract.DTOs.ManagementService;
 using Contract.DTOs.NotificationServiceDtos;
 using Data.Entities;
@@ -26,6 +27,7 @@ namespace Business.Services
         private readonly IBaseRepository<User> _userRepos;
         private readonly IMapper _mapper;
         private readonly IFileService _fileService;
+        private readonly ISendMailService _mailService;
 
         public ClsManagementService(IMapper mapper,
                                     IBaseRepository<MedicineClassification> cateRepos,
@@ -34,7 +36,8 @@ namespace Business.Services
                                     IBaseRepository<Patient> patientRepos,
                                     IBaseRepository<Specialities> specializedRepos,
                                     IBaseRepository<User> userRepos,
-			            IFileService fileService)
+                        IFileService fileService,
+                        ISendMailService mailService)
         {
             _cateRepos = cateRepos;
             _doctorRepos = doctorRepos;
@@ -44,6 +47,7 @@ namespace Business.Services
             _userRepos = userRepos;
             _mapper = mapper;
             _fileService = fileService;
+            _mailService = mailService;
         }
 
         public async Task<List<CategoriesDetailsDto>> GetCategoriesAsync()
@@ -144,7 +148,7 @@ namespace Business.Services
                               .Where(x => x.AccountId == id)
                               .FirstOrDefaultAsync();
             var patientsDto = _mapper.Map<PatientDetailsDto>(patient);
-            if(patient != null)
+            if (patient != null)
             {
                 patientsDto.Email = patient.User.Email;
             }
@@ -165,7 +169,7 @@ namespace Business.Services
         public async Task<SpecialitiesDetailsDto> AdddSpecializedAsync(SpecialitiesUpdateDto specialitiesDetailsDto)
         {
             var specialized = _mapper.Map<Specialities>(specialitiesDetailsDto);
-            if(specialitiesDetailsDto.Image != null)
+            if (specialitiesDetailsDto.Image != null)
             {
                 specialized.Image = await _fileService.SaveFile(specialitiesDetailsDto.Image, ImageConstants.SPECIALIST_PATH);
             }
@@ -199,7 +203,7 @@ namespace Business.Services
             return specialitiesDto;
         }
 
-        public async  Task<CategoriesDetailsDto> UpdateCategoryAsync(int id, CategoriesDetailsDto categoriesDetailsDto)
+        public async Task<CategoriesDetailsDto> UpdateCategoryAsync(int id, CategoriesDetailsDto categoriesDetailsDto)
         {
             var category = await _cateRepos
                                     .Entities
@@ -211,17 +215,17 @@ namespace Business.Services
             return categorydDto;
         }
 
-        public async  Task<SpecialitiesDetailsDto> DeleteSpecializedAsync(int id)
+        public async Task<SpecialitiesDetailsDto> DeleteSpecializedAsync(int id)
         {
             var specialized = await _specializedRepos
                                     .Entities
                                     .Where(s => s.Id == id)
                                     .FirstOrDefaultAsync();
-            if(specialized.Image != null)
+            if (specialized.Image != null)
             {
                 await _fileService.DeleteFile(specialized.Image, ImageConstants.SPECIALIST_PATH);
             }
-            var deleteSpecialized = await _specializedRepos.Delete(specialized);           
+            var deleteSpecialized = await _specializedRepos.Delete(specialized);
             var specializedDto = _mapper.Map<SpecialitiesDetailsDto>(deleteSpecialized);
             return specializedDto;
         }
@@ -235,7 +239,7 @@ namespace Business.Services
             var deleteCategory = await _cateRepos.Delete(category);
             var categorydDto = _mapper.Map<CategoriesDetailsDto>(deleteCategory);
             return categorydDto;
-        }   
+        }
 
         public async Task<User> ActivePatientsAsync(string accountId)
         {
@@ -246,6 +250,26 @@ namespace Business.Services
             user.IsActive = true;
             var activeUser = await _userRepos.Update(user);
             var userDto = _mapper.Map<User>(activeUser);
+
+            var notification = new NotificationCreateDto();
+
+            notification.UserID = accountId;
+            notification.Content = NotificationContentTemplate.ActivateUser;
+
+            notification.AvatarSender = ComonConstant.LogoFileName;
+
+            Task.Run(() => new NotificationHelper().CallApiCreateNotification(notification));
+
+            string htmlMessage = $"Hi {user.Email}";
+
+            MailContent mailContent = new MailContent()
+            {
+                To = user.Email,
+                Subject = NotificationContentTemplate.ActivateUser,
+                Body = htmlMessage
+            };
+
+            await _mailService.SendMail(mailContent);
             return userDto;
         }
 
@@ -263,11 +287,21 @@ namespace Business.Services
 
             notification.UserID = accountId;
             notification.Content = NotificationContentTemplate.DeactivateUser;
-                                    
+
             notification.AvatarSender = ComonConstant.LogoFileName;
 
             Task.Run(() => new NotificationHelper().CallApiCreateNotification(notification));
 
+            string htmlMessage = $"Hi {user.Email}";
+
+            MailContent mailContent = new MailContent()
+            {
+                To = user.Email,
+                Subject = NotificationContentTemplate.DeactivateUser,
+                Body = htmlMessage
+            };
+
+            await _mailService.SendMail(mailContent);
             return userDto;
         }
     }

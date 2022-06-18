@@ -37,7 +37,7 @@ namespace Business.Services
         }
 
         public async Task SendMail(MailContent mailContent)
-        {         
+        {
             var email = new MimeMessage();
             email.Sender = new MailboxAddress(mailSettings.DisplayName, mailSettings.Mail);
             email.From.Add(new MailboxAddress(mailSettings.DisplayName, mailSettings.Mail));
@@ -82,5 +82,69 @@ namespace Business.Services
             }
             smtp.Disconnect(true);
         }
+
+        public async Task SendListEmailAsync(string email, string subject, string htmlMessage)
+        {
+            await SendListMail(new List<MailContent>()
+            {
+                new MailContent
+                {
+                To = email,
+                Subject = subject,
+                Body = htmlMessage
+                }
+            });
+        }
+
+        public async Task SendListMail(List<MailContent> mailContents)
+        {
+            foreach (var mailContent in mailContents)
+            {
+                var email = new MimeMessage();
+                email.Sender = new MailboxAddress(mailSettings.DisplayName, mailSettings.Mail);
+                email.From.Add(new MailboxAddress(mailSettings.DisplayName, mailSettings.Mail));
+                email.To.Add(MailboxAddress.Parse(mailContent.To));
+                email.Subject = mailContent.Subject;
+
+                var builder = new BodyBuilder();
+                if (mailContent.Attachments != null)
+                {
+                    byte[] fileBytes;
+                    foreach (var file in mailContent.Attachments)
+                    {
+                        if (file.Length > 0)
+                        {
+                            using (var ms = new MemoryStream())
+                            {
+                                file.CopyTo(ms);
+                                fileBytes = ms.ToArray();
+                            }
+                            builder.Attachments.Add(file.FileName, fileBytes, ContentType.Parse(file.ContentType));
+                        }
+                    }
+                }
+                builder.HtmlBody = mailContent.Body;
+                email.Body = builder.ToMessageBody();
+
+                // dùng SmtpClient của MailKit
+                using var smtp = new MailKit.Net.Smtp.SmtpClient();
+
+                try
+                {
+                    smtp.Connect(mailSettings.Host, mailSettings.Port, SecureSocketOptions.StartTls);
+                    smtp.Authenticate(mailSettings.Mail, mailSettings.Password);
+                    await smtp.SendAsync(email);
+                }
+                catch (Exception ex)
+                {
+                    // Gửi mail thất bại, nội dung email sẽ lưu vào thư mục mailssave
+                    System.IO.Directory.CreateDirectory("mailssave");
+                    var emailsavefile = string.Format(@"mailssave/{0}.eml", Guid.NewGuid());
+                    await email.WriteToAsync(emailsavefile);
+                }
+                smtp.Disconnect(true);
+            }
+        }
+
     }
 }

@@ -227,7 +227,12 @@ namespace FamilyHealthCare.Customer.Controllers
             var data = new StringContent(stringModel, Encoding.UTF8, "application/json");
             var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
             var response = await client.PostAsync(EndpointConstants.BookingAppointmentService.BOOKING + userId, data);
-            if (response.IsSuccessStatusCode && response != null)
+            string jsonData = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode && jsonData.Equals("You had an appointment at the same time before!"))
+            {
+                return Json(new { success = false, message = "You had an appointment at the same time before!" });
+            }
+            if (response.IsSuccessStatusCode && response != null && !jsonData.Equals("You had an appointment at the same time before!"))
             {
                 var inforAppointment = await response.Content.ReadAsAsync<AppointmentDetailsDto>();
                 var meetingObj = new Meeting()
@@ -249,7 +254,8 @@ namespace FamilyHealthCare.Customer.Controllers
                         AppointmentId = inforAppointment.Id,
                         Join_Url = inforMeeting.Join_Url,
                         Start_Url = inforMeeting.Start_Url,
-                        MeetingId = inforMeeting.Id
+                        MeetingId = inforMeeting.Id,
+                        StartTime = inforAppointment.StartTime
                     };
 
                     var scheduleModel = JsonConvert.SerializeObject(scheduleObj);
@@ -262,10 +268,7 @@ namespace FamilyHealthCare.Customer.Controllers
                     }
                 }
             }
-            else
-            {
-                return Json(new { success = false, message = "You had an appointment at the same time before!" });
-            }
+            
             return View(model);
         }
 

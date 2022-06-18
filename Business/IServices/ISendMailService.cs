@@ -9,6 +9,10 @@ namespace Business.IServices
 {
     public interface ISendMailService
     {
+        Task SendListMail(List<MailContent> mailContent);
+
+        Task SendListEmailAsync(string email, string subject, string htmlMessage);
+
         Task SendMail(MailContent mailContent);
 
         Task SendEmailAsync(string email, string subject, string htmlMessage);

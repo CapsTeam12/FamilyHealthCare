@@ -1,6 +1,7 @@
 using Business;
 using Business.IServices;
 using Business.Services;
+using Contract.DTOs.MailService;
 using Data;
 using Data.Entities;
 using FluentValidation.AspNetCore;
@@ -34,6 +35,9 @@ namespace ScheduleService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions();
+            var mailsettings = Configuration.GetSection("MailSettings");
+            services.Configure<MailSettings>(mailsettings);
             services.AddBusinessLayer();
             services.AddDataAccessorLayer(Configuration);
             services.AddAuthenticationAuthorization();

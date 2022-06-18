@@ -92,7 +92,7 @@
     </div>
 </div>
 <!--Loader-->
-<div class="modal fade custom-modal" data-backdrop="static" data-keyboard="false" tabindex="-1">
+<div class="modal fade custom-modal" id="waitModal" data-backdrop="static" data-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="width: 48px">
             <span class="fa fa-spinner fa-spin fa-3x"></span>
@@ -101,26 +101,35 @@
 </div>
 <!--/Loader-->
 @section scripts{
+    <!-- SweetAlert JS-->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
         $(document).ready(function () {
             $('.submit-btn').click(function () {
-                $('.modal').modal('show');
+                $('#waitModal').modal('show');
                 var form = $('#bookingForm').serialize();
-                
+
                 $.ajax({
                     url: '/Appointment/BookingSummary',
                     type: 'POST',
                     data: form,
                     success: function (res) {
                         if (res.success == true) {
-                            $('.modal').modal('hide');
+                            $('#waitModal').modal('hide');
                             window.location.href = res.successUrl;
                         }
-                        else if (res.success == false) {
-                            $('.modal').modal('hide');
-                            alert(res.message);
+                        else if (res.success == false) {                           
+                            swal({
+                                icon: "info",
+                                title: `${res.message}`
+                            }).then((confirm) => {
+                                if (confirm) {
+                                    $('#waitModal').modal('hide');
+                                }
+                            });
+                            //alert(res.message);
                         }
-                        $('.modal').modal('hide');
+                        $('#waitModal').modal('hide');
                     }
                 });
             });

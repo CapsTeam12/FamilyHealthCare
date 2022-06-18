@@ -31,7 +31,7 @@ namespace BookingAppoimentService.Controllers
             var appointmentDto = await _appointmentService.BookingAppointment(createDto, userId);
             if (appointmentDto == null)
             {
-                return BadRequest();
+                return Content("You had an appointment at the same time before!");
             }
             return Ok(appointmentDto);
         }

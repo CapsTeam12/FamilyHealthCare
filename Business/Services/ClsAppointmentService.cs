@@ -3,6 +3,7 @@ using Business.IServices;
 using Contract.Constants;
 using Contract.DTOs;
 using Contract.DTOs.AppoimentService;
+using Contract.DTOs.MailService;
 using Contract.DTOs.NotificationServiceDtos;
 using Data;
 using Data.Entities;
@@ -25,14 +26,16 @@ namespace Business.Services
         private readonly IMongoCollection<Appointment> _appointments;
         private readonly ApplicationDbContext _db;
         private readonly IZoomService _zoomService;
+        private readonly ISendMailService _mailService;
 
-        public ClsAppointmentService(IMapper mapper, IDbClient dbClient, ApplicationDbContext db,IZoomService zoomService)
+        public ClsAppointmentService(IMapper mapper, IDbClient dbClient, ApplicationDbContext db, IZoomService zoomService,ISendMailService mailService)
         {
             //_repository = repository;
             _mapper = mapper;
             _appointments = dbClient.GetAppointmentsCollection();
             _db = db;
             _zoomService = zoomService;
+            _mailService = mailService;
         }
 
         public async Task<IEnumerable<AppointmentDetailsDto>> GetTotalAppointments()
@@ -55,15 +58,15 @@ namespace Business.Services
         }
         private bool CheckIfExistAppointment(string userId, DateTime date, DateTime startTime)
         {
-            var listAppointmentInDb =  _db.Schedules
+            var listAppointmentInDb = _db.Schedules
                                     .Where(a => a.AccountId == userId && a.StartTime.Date == date)
                                     .ToList(); // Lay danh sach cac cuoc hen trong ngay
             if (listAppointmentInDb.Count == 0) return true;
-            foreach(var ap in listAppointmentInDb)
+            foreach (var ap in listAppointmentInDb)
             {
                 var apHourStartTime = ap.StartTime; // Gio bat dau cua appointment 
                 var hourDistance = (startTime - apHourStartTime).TotalHours; // Khoang cach giua 2 cuoc hen trong ngay
-                if(hourDistance == 0)
+                if (hourDistance == 0)
                 {
                     return false;
                 }
@@ -86,7 +89,7 @@ namespace Business.Services
         //1: Coming, 2: In Progress, 3: Completed 4: Canceled
         public async Task<IEnumerable<AppointmentDetailsDto>> GetAppointments(string userId) //Get Appointment of user
         {
-            List<Appointment> appointmentModel = await _appointments.Find(x => x.AccountId == userId).ToListAsync();
+            List<Appointment> appointmentModel = await _appointments.Find(x => x.AccountId == userId).SortBy(s => s.Status).ToListAsync();
 
             var roleOfUser = await _db.UserRoles.FirstOrDefaultAsync(x => x.UserId == userId); // get role of User           
             if (roleOfUser != null)
@@ -167,22 +170,23 @@ namespace Business.Services
                 };
                 await _db.Schedules.AddRangeAsync(scheduleOfAppointment); // Insert schedule 
                 await _db.SaveChangesAsync();
+                var appointmentDtos = _mapper.Map<AppointmentDetailsDto>(appointmentModel);
+
+
+                var notification = new NotificationCreateDto();
+
+                notification.UserID = therapist.AccountId;
+                notification.Content = string.Format(
+                                        NotificationContentTemplate.NewAppointment,
+                                        patient.FullName,
+                                        model.StartTime.ToString("HH:mm dd/MM/yyyy"));
+                notification.AvatarSender = patient.Avatar;
+
+                Task.Run(() => new NotificationHelper().CallApiCreateNotification(notification));
+
+                return appointmentDtos;
             }
-            var appointmentDtos = _mapper.Map<AppointmentDetailsDto>(appointmentModel);
-
-
-            var notification = new NotificationCreateDto();
-
-            notification.UserID = therapist.AccountId;
-            notification.Content = string.Format(
-                                    NotificationContentTemplate.NewAppointment, 
-                                    patient.FullName,
-                                    model.StartTime.ToString("HH:mm dd/MM/yyyy"));
-            notification.AvatarSender = patient.Avatar;
-            
-            Task.Run(() => new NotificationHelper().CallApiCreateNotification(notification));
-
-            return appointmentDtos;
+            return null;
         }
 
         public async Task<IActionResult> CreateAppointmentAsync(AppointmentCreateDto appointmentCreateDto)
@@ -204,7 +208,7 @@ namespace Business.Services
             // Reshedule
             var appointmentModel = _mapper.Map<Appointment>(model);
             var therapist = await _db.Doctors.FirstOrDefaultAsync(x => x.Id == model.TherapistId); // Find therapist
-            var patient = await _db.Patients.FirstOrDefaultAsync(x => x.Id == model.PatientId); // Find patient
+            var patient = await _db.Patients.Include(u => u.User).FirstOrDefaultAsync(x => x.Id == model.PatientId); // Find patient
             appointmentModel.Patient = patient;
             appointmentModel.Therapist = therapist;
             appointmentModel.Id = id;
@@ -222,7 +226,7 @@ namespace Business.Services
                 {
                     schedules.StartTime = model.StartTime;
                     schedules.EndTime = model.EndTime;
-                    _db.Schedules.Update(schedules);                    
+                    _db.Schedules.Update(schedules);
                 }
                 OldscheduleOfDoctor.IsBooking = false; // set isbooking false after appointment rescheduled
                 // Find schedule of doctor after change 
@@ -239,6 +243,48 @@ namespace Business.Services
                 };
                 await _zoomService.UpdateMeeting(meeting.Id, meeting);
                 var appointmentDto = _mapper.Map<AppointmentDetailsDto>(appointmentModel);
+                List<MailContent> mailContent = new List<MailContent>()
+            {
+                new MailContent()
+                {
+                    To = patient.User.Email,
+                    Subject = $"Scheduled appointment at {model.StartTime.ToString("HH:mm dd/MM/yyyy")}",
+                    Body = $"<h3>Dear {patient.FullName},</h3>" +
+
+                        $"<p>Scheduled an appointment at {model.StartTime.ToString("HH:mm dd/MM/yyyy")}. If you have any questions or expectations then please contact us. Thank you for using our service.</p>" +
+
+                        @"
+                        <h3>Best regards,</h3>
+                        <i>FHC Team</i>
+                         <p>
+                        <img src='https://lh3.googleusercontent.com/pw/AM-JKLVbarNakIE9FJgDXlR0RVbR57BcHN_5PllXqzVwgsk2oDTEj7hwJ-b8RzOsn2g8wsmWGFUfaAh6-WbF-dgLWDBrZEZFZKz68m4NqGzXX-lQduWo6LB5xZC31ScGgfQMsl5ICWbjL93xMJLtHjKxMUI=w160-h41-no?authuser=0'
+                        width='100px' style='float: left; margin-left: 5px; margin-right: 20px; border: 2px solid black;' />
+                        <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health12@gmail.com</b></span><br>
+                        <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a
+                        href='https://abc.com'>https://abc.com</a></span> <br>
+                        </p>"
+                },
+                new MailContent()
+                {
+                    To = therapist.Email,
+                    Subject = $"Scheduled appointment at {model.StartTime.ToString("HH:mm dd/MM/yyyy")}",
+                    Body = $"<h3>Dear {therapist.FullName},</h3>" +
+
+                        $"<p>Scheduled an appointment at {model.StartTime.ToString("HH:mm dd/MM/yyyy")}. If you have any questions or expectations then please contact us. Thank you for using our service.</p>" +
+
+                        @"
+                        <h3>Best regards,</h3>
+                        <i>FHC Team</i>
+                         <p>
+                        <img src='https://lh3.googleusercontent.com/pw/AM-JKLVbarNakIE9FJgDXlR0RVbR57BcHN_5PllXqzVwgsk2oDTEj7hwJ-b8RzOsn2g8wsmWGFUfaAh6-WbF-dgLWDBrZEZFZKz68m4NqGzXX-lQduWo6LB5xZC31ScGgfQMsl5ICWbjL93xMJLtHjKxMUI=w160-h41-no?authuser=0'
+                        width='100px' style='float: left; margin-left: 5px; margin-right: 20px; border: 2px solid black;' />
+                        <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health12@gmail.com</b></span><br>
+                        <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a
+                        href='https://abc.com'>https://abc.com</a></span> <br>
+                        </p>"
+                },
+            };
+                await _mailService.SendListMail(mailContent);
                 return appointmentDto;
             }
             return null;
@@ -274,13 +320,13 @@ namespace Business.Services
 
                 var notification = new NotificationCreateDto();
 
-                var currentPatient = await _db.Patients.FirstOrDefaultAsync(x => x.AccountId == userId);
-                if(currentPatient != null)
+                var currentPatient = await _db.Patients.Include(u => u.User).FirstOrDefaultAsync(x => x.AccountId == userId);
+                if (currentPatient != null)
                 {
                     notification.Content = string.Format(NotificationContentTemplate.CancelledAppointment);
                     notification.AvatarSender = currentPatient.Avatar;
                     var currentDoctor = await _db.Doctors.FirstOrDefaultAsync(x => x.Id == appointment.TherapistId);
-                    if(currentDoctor != null)
+                    if (currentDoctor != null)
                     {
                         notification.UserID = currentDoctor.AccountId;
                     }
@@ -288,7 +334,7 @@ namespace Business.Services
                 else
                 {
                     var currentDoctor = await _db.Doctors.FirstOrDefaultAsync(x => x.AccountId == userId);
-                    if(currentDoctor != null)
+                    if (currentDoctor != null)
                     {
                         notification.Content = string.Format(NotificationContentTemplate.CancelledAppointment);
                         notification.AvatarSender = currentDoctor.Avatar;
@@ -297,6 +343,49 @@ namespace Business.Services
                 }
 
                 Task.Run(() => new NotificationHelper().CallApiCreateNotification(notification));
+                var doctor = await _db.Doctors.FirstOrDefaultAsync(d => d.Id == appointment.TherapistId);
+                List<MailContent> mailContent = new List<MailContent>()
+            {
+                new MailContent()
+                {
+                    To = currentPatient.User.Email,
+                    Subject = $"Canceled booking appointment at {appointment.StartTime.ToString("HH:mm dd/MM/yyyy")}",
+                    Body = $"<h3>Dear {currentPatient.FullName},</h3>" +
+
+                        $"<p>Canceled an appointment at {appointment.StartTime.ToString("HH:mm dd/MM/yyyy")}. If you have any questions or expectations then please contact us. Thank you for using our service.</p>" +
+
+                        @"
+                        <h3>Best regards,</h3>
+                        <i>FHC Team</i>
+                         <p>
+                        <img src='https://lh3.googleusercontent.com/pw/AM-JKLVbarNakIE9FJgDXlR0RVbR57BcHN_5PllXqzVwgsk2oDTEj7hwJ-b8RzOsn2g8wsmWGFUfaAh6-WbF-dgLWDBrZEZFZKz68m4NqGzXX-lQduWo6LB5xZC31ScGgfQMsl5ICWbjL93xMJLtHjKxMUI=w160-h41-no?authuser=0'
+                        width='100px' style='float: left; margin-left: 5px; margin-right: 20px; border: 2px solid black;' />
+                        <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health12@gmail.com</b></span><br>
+                        <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a
+                        href='https://abc.com'>https://abc.com</a></span> <br>
+                        </p>"
+                },
+                new MailContent()
+                {
+                    To = doctor.Email,
+                    Subject = $"Canceled booking appointment at {appointment.StartTime.ToString("HH:mm dd/MM/yyyy")}",
+                    Body = $"<h3>Dear {doctor.FullName},</h3>" +
+
+                        $"<p>Canceled an appointment at {appointment.StartTime.ToString("HH:mm dd/MM/yyyy")}. If you have any questions or expectations then please contact us. Thank you for using our service.</p>" +
+
+                        @"
+                        <h3>Best regards,</h3>
+                        <i>FHC Team</i>
+                         <p>
+                        <img src='https://lh3.googleusercontent.com/pw/AM-JKLVbarNakIE9FJgDXlR0RVbR57BcHN_5PllXqzVwgsk2oDTEj7hwJ-b8RzOsn2g8wsmWGFUfaAh6-WbF-dgLWDBrZEZFZKz68m4NqGzXX-lQduWo6LB5xZC31ScGgfQMsl5ICWbjL93xMJLtHjKxMUI=w160-h41-no?authuser=0'
+                        width='100px' style='float: left; margin-left: 5px; margin-right: 20px; border: 2px solid black;' />
+                        <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health12@gmail.com</b></span><br>
+                        <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a
+                        href='https://abc.com'>https://abc.com</a></span> <br>
+                        </p>"
+                },
+            };
+                await _mailService.SendListMail(mailContent);
             }
             var appointmentDto = _mapper.Map<AppointmentDetailsDto>(appointment);
             return appointmentDto;

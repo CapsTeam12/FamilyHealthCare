@@ -83,11 +83,11 @@ namespace Business.Services
                                        $"<p>UserName: <b>{user.UserName}</b>, Password: <b>{password}</b> </p>" +
                                        "<p>Access path: <a href='https://abc.com'>https://abc.com</a></p>" +
                                         "<p>Please kindly learn the user guide in the attached file. </p>" +
-                                       "<p>For more information please contact us at: <b>fhc.health@gmail.com</b> or hotline: <b>09990909</b> </p> <hr>" +
+                                       "<p>For more information please contact us at: <b>fhc.health12@gmail.com</b> or hotline: <b>09990909</b> </p> <hr>" +
                                        @"<p>
                                         <img src='https://lh3.googleusercontent.com/pw/AM-JKLVbarNakIE9FJgDXlR0RVbR57BcHN_5PllXqzVwgsk2oDTEj7hwJ-b8RzOsn2g8wsmWGFUfaAh6-WbF-dgLWDBrZEZFZKz68m4NqGzXX-lQduWo6LB5xZC31ScGgfQMsl5ICWbjL93xMJLtHjKxMUI=w160-h41-no?authuser=0'
                                             width='100px' style='float: left; margin-left: 5px; margin-right: 20px; border: 2px solid black;' />
-                                        <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health@gmail.com</b></span><br>
+                                        <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health12@gmail.com</b></span><br>
                                         <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a href='https://abc.com'>https://abc.com</a></span> <br>
                                         </p>";
                 string folderPath = Path.Combine(WebHostEnviromentHelper.GetWebRootPath(), "userguide/");
@@ -149,11 +149,11 @@ namespace Business.Services
                                        $"<p>UserName: <b>{user.UserName}</b>, Password: <b>{password}</b> </p>" +
                                        "<p>Access path: <a href='https://abc.com'>https://abc.com</a></p>" +
                                         "<p>Please kindly learn the user guide in the attached file. </p>" +
-                                       "<p>For more information please contact us at: <b>fhc.health@gmail.com</b> or hotline: <b>09990909</b> </p> <hr>" +
+                                       "<p>For more information please contact us at: <b>fhc.health12@gmail.com</b> or hotline: <b>09990909</b> </p> <hr>" +
                                        @"<p>
                                         <img src='https://lh3.googleusercontent.com/pw/AM-JKLVbarNakIE9FJgDXlR0RVbR57BcHN_5PllXqzVwgsk2oDTEj7hwJ-b8RzOsn2g8wsmWGFUfaAh6-WbF-dgLWDBrZEZFZKz68m4NqGzXX-lQduWo6LB5xZC31ScGgfQMsl5ICWbjL93xMJLtHjKxMUI=w160-h41-no?authuser=0'
                                             width='100px' style='float: left; margin-left: 5px; margin-right: 20px; border: 2px solid black;' />
-                                        <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health@gmail.com</b></span><br>
+                                        <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health12@gmail.com</b></span><br>
                                         <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a href='https://abc.com'>https://abc.com</a></span> <br>
                                         </p>";
                 string folderPath = Path.Combine(WebHostEnviromentHelper.GetWebRootPath(), "userguide/");
@@ -213,7 +213,7 @@ namespace Business.Services
                                         <p>
                                         <img src='https://lh3.googleusercontent.com/pw/AM-JKLVbarNakIE9FJgDXlR0RVbR57BcHN_5PllXqzVwgsk2oDTEj7hwJ-b8RzOsn2g8wsmWGFUfaAh6-WbF-dgLWDBrZEZFZKz68m4NqGzXX-lQduWo6LB5xZC31ScGgfQMsl5ICWbjL93xMJLtHjKxMUI=w160-h41-no?authuser=0'
                                             width='100px' style='float: left; margin-left: 5px; margin-right: 20px; border: 2px solid black;' />
-                                        <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health@gmail.com</b></span><br>
+                                        <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health12@gmail.com</b></span><br>
                                         <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a href='https://abc.com'>https://abc.com</a></span> <br>
                                          </p>";
 
