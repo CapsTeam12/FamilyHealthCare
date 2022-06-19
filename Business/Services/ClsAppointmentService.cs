@@ -97,7 +97,7 @@ namespace Business.Services
                 var roleName = await _db.Roles.FirstOrDefaultAsync(x => x.Id == roleOfUser.RoleId); // get roleName of User
                 if (roleName.Name.Equals("Doctor"))
                 {
-                    appointmentModel = await _appointments.Find(x => x.Therapist.AccountId == userId).ToListAsync(); // Get Appointment of doctor
+                    appointmentModel = await _appointments.Find(x => x.Therapist.AccountId == userId).SortBy(s => s.Status).ToListAsync(); // Get Appointment of doctor
 
                 }
             }

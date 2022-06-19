@@ -1,5 +1,6 @@
 ﻿@using Contract.DTOs.ManagementService;
 @model IEnumerable<PharmacyDetailsDto>;
+@using FamilyHealthCare.SharedLibrary;
 @{
     var pharmacyCount = 1;
     ViewData["breadcumb-title"] = "Pharmacies";
@@ -28,7 +29,7 @@
 
                                     <td>
                                         <h2 class="table-avatar">
-                                            <a asp-controller="Pharmacy" asp-action="DetailsPharmacy" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-01.jpg") alt="User Image"></a>
+                                            <a asp-controller="Pharmacy" asp-action="DetailsPharmacy" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@(ImageConstants.PHARMACIES+pharmacy.Avatar) alt="User Image"></a>
                                             <a asp-controller="Pharmacy" asp-action="DetailsPharmacy">@pharmacy.PharmacyName</a>
                                         </h2>
                                     </td>

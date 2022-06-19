@@ -17,13 +17,13 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
-                <li>
+                @*<li>
 
                     <a asp-area="" asp-controller="MyPatient" asp-action="MyPatients">
                         <i class="fas fa-user-injured"></i>
                         <span>My Patients</span>
                     </a>
-                </li>
+                </li>*@
                 <li>
                     <a asp-area="" asp-controller="Schedule" asp-action="AvailableTimings" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")">
                         <i class="fas fa-hourglass-start"></i>
@@ -36,12 +36,12 @@
                         <span>Medical Records</span>
                     </a>
                 </li>
-                <li>
+                @*<li>
                     <a asp-area="" asp-controller="Prescriptions" asp-action="Prescription">
                         <i class="fas fa-share-alt"></i>
                         <span>Prescription</span>
                     </a>
-                </li>
+                </li>*@
                 <li>
                     <a asp-area="" asp-controller="Schedule" asp-action="Calendar">
                         <i class="fas fa-calendar-check"></i>

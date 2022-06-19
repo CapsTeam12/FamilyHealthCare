@@ -45,7 +45,7 @@
                                         <h2 class="table-avatar">
                                             @if (pharmacy.Avatar != null)
                                             {
-                                                <a asp-controller="Pharmacy" asp-action="DetailsPharmacy" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@(ImageConstants.AVATARS+pharmacy.Avatar) alt="User Image"></a>
+                                                <a asp-controller="Pharmacy" asp-action="DetailsPharmacy" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@(ImageConstants.PHARMACIES_PATH+pharmacy.Avatar) alt="User Image"></a>
                                             }
                                             else
                                             {

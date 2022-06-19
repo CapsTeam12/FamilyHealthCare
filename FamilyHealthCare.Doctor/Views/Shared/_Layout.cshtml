@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 
     <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/iconPlus-removebg.png" rel="icon">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href=@Url.Content("~/assets/css/bootstrap.min.css")>
@@ -72,14 +72,14 @@
                                 <li><a asp-area="" asp-controller="Schedule" asp-action="Calendar">Calendar</a></li>
                                 <li><a asp-area="" asp-controller="Schedule" asp-action="AvailableTimings" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")">Schedule Timing</a></li>
                                 <li><a asp-area="" asp-controller="MedicalRecords" asp-action="MedicalRecord">Medical Records</a></li>
-                                <li><a asp-area="" asp-controller="Prescriptions" asp-action="Prescription">Prescription</a></li>
-                                <li><a asp-area="" asp-controller="MyPatient" asp-action="MyPatients">My Patients</a></li>
+                                @*<li><a asp-area="" asp-controller="Prescriptions" asp-action="Prescription">Prescription</a></li>
+                                <li><a asp-area="" asp-controller="MyPatient" asp-action="MyPatients">My Patients</a></li>*@
                             </ul>
                         </li>
 
-                        <li class="has-submenu">
+                        @*<li class="has-submenu">
                             <a asp-area="" asp-controller="Medicines" asp-action="Medicine">Medicine</a>
-                        </li>
+                        </li>*@
                         <li class="has-submenu">
                             <a href="">Pages <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
