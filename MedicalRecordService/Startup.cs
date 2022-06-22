@@ -1,4 +1,5 @@
 using Business;
+using Contract.DTOs.MailService;
 using Data;
 using Data.Entities;
 using FluentValidation.AspNetCore;
@@ -38,7 +39,9 @@ namespace MedicalRecordService
                     //p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
                 });
             });
-
+            services.AddOptions();
+            var mailsettings = Configuration.GetSection("MailSettings");
+            services.Configure<MailSettings>(mailsettings);
             services.AddBusinessLayer();
             services.AddDataAccessorLayer(Configuration);
             services.AddIdentity<User, IdentityRole>(options =>

@@ -54,6 +54,22 @@ namespace FamilyHealthCare.Customer.Controllers
             return null;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SendMedicalRecord(int patientId,string medicalContent)
+        {
+            var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
+            var parameters = new List<KeyValuePair<string, string>>();
+            parameters.Add(new KeyValuePair<string, string>("patientId", patientId.ToString()));
+            parameters.Add(new KeyValuePair<string, string>("medicalContent", medicalContent));
+            var content = new FormUrlEncodedContent(parameters);
+            var response = await client.PostAsync($"{EndpointConstants.MedicalRecordService.SEND_MEDICAL}",content);
+            if (response.IsSuccessStatusCode)
+            {
+                return Json(new { success = true });
+            }
+            return Json(new { success = false });
+        }
+
         [HttpGet]
         public async Task<IActionResult> MedicalRecord()
         {

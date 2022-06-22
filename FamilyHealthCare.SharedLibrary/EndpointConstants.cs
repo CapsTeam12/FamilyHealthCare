@@ -95,6 +95,7 @@ namespace FamilyHealthCare.SharedLibrary
             public static string CREATE = "/MedicalRecord/CreateMedicalRecord";
             public static string UPDATE = "/MedicalRecord/UpdateMedicalRecord";
             public static string DELETE = "/MedicalRecord/DeleteMedicalRecord";
+            public static string SEND_MEDICAL = "/MedicalRecord/SendMedicalRecord";
         }
 
         public static class PatientService
