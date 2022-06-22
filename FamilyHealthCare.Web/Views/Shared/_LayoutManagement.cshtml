@@ -104,38 +104,30 @@
                             <a href="">Common <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
                                 <li class="">
-                                    <a href="product.html">Medicine </a>
+                                    <a href="@Url.Action("Index","Pharmacy")">Medicine </a>
                                 </li>
                                 <li class="has-submenu">
                                     <a href="#">Doctors</a>
                                     <ul class="submenu">
-                                        <li><a href="map-list.html">Doctor Map List</a></li>
-                                        <li><a href="doctor-search.html">Booking Doctor</a></li>
+                                        <li><a href="@Url.Action("DoctorMapList","Doctor")">Doctor Map List</a></li>
+                                        <li><a href="@Url.Action("Search","Doctor")">Booking Doctor</a></li>
                                     </ul>
                                 </li>
                                 <li class="has-submenu">
                                     <a href="#">Pharmacy</a>
                                     <ul class="submenu">
-                                        <li><a href="map-list.html">Pharmacy Map List</a></li>
-                                        <li><a href="pharmacy-search.html">Booking Pharmacy</a></li>
+                                        <li><a href="@Url.Action("Index","Pharmacy")">Pharmacy List</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="healthcheck.html">Health Check </a></li>
+                                <li><a href="@Url.Action("Index","HealthCheck")">Health Check </a></li>
 
                             </ul>
                         </li>
                         <li class="has-submenu">
                             <a href="">Partner <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
-                                <li><a href="pharmacy-register.html">Pharmacy Register</a></li>
-                                <li><a href="doctor-register.html">Doctor Register</a></li>
-                            </ul>
-                        </li>
-                        <li class="has-submenu">
-                            <a href="">Pages <i class="fas fa-chevron-down"></i></a>
-                            <ul class="submenu">
-                                <li><a href="about-us.html">About Us</a></li>
-                                <li><a href="contact-us.html">Contact Us</a></li>
+                                <li><a href="@Url.Action("PharmacyRegister","Partner")">Pharmacy Register</a></li>
+                                <li><a href="@Url.Action("DoctorRegister","Partner")">Doctor Register</a></li>
                             </ul>
                         </li>
                         <li><a href="blog-list.html">Blog </a></li>
@@ -157,35 +149,16 @@
                             </div>
                         </div>
                     </li>
-                    <ul class="nav user-menu">
-                        <!-- Notifications -->
-                        @await Component.InvokeAsync("Notification")
-                        <!-- /Notifications -->
-                    </ul>
-                    @*<li class="nav-item dropdown has-arrow logged-item">
-                            <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                                <span class="user-img">
-                                    <img class="rounded-circle" src=@Url.Content("~/assets/img/patients/patient.jpg") width="31" alt="Ryan Taylor">
-                                </span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end">
-                                <div class="user-header">
-                                    <div class="avatar avatar-sm">
-                                        <img src=@Url.Content("~/assets/img/patients/patient.jpg") alt="User Image" class="avatar-img rounded-circle">
-                                    </div>
-                                    <div class="user-text">
-                                        <h6>@User.Identity.Name</h6>
-                                        <p class="text-muted mb-0">Patient</p>
-                                    </div>
-                                </div>
-                                <a class="dropdown-item" href="patient-dashboard.html">Dashboard</a>
-                                <a class="dropdown-item" asp-controller="Account" asp-action="ProfileSetting">Profile Settings</a>
-                                <a class="dropdown-item" asp-controller="Schedule" asp-action="Calendar">Calendar</a>
-                                <a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
-                                <a class="dropdown-item" asp-controller="Account" asp-action="SignOut">Logout</a>
-                            </div>
-                        </li>*@
-                    @await Component.InvokeAsync("Profile")
+                    <li>
+                        <ul class="nav user-menu">
+                            <!-- Notifications -->
+                            @await Component.InvokeAsync("Notification")
+                            <!-- /Notifications -->
+                        </ul>
+                        @await Component.InvokeAsync("Profile")
+                    </li>
+                    
+                    
                     <li class="dropdown language-select">
                         <span class="dropdown-toggle" id="language-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
                               aria-expanded="false" role="button"><img src=@Url.Content("~/assets/img/vietnam.png") alt="flag"> Viet Nam</span>
