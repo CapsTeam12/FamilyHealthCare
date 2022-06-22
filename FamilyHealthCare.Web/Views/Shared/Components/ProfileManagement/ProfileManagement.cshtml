@@ -29,12 +29,6 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    @*<li>
-                        <a href="favourites.html">
-                            <i class="fas fa-bookmark"></i>
-                            <span>Favourites</span>
-                        </a>
-                    </li>*@
                     <li>
                         <a asp-controller="Appointment" asp-action="Index">
                             <i class="fas fa-calendar-check"></i>
@@ -42,7 +36,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="healthcheck-details.html">
+                        <a asp-controller="HealthCheck" asp-action="HealthCheckList">
                             <i class="fas fa-file-medical-alt"></i>
                             <span>Health Check Details</span>
                         </a>

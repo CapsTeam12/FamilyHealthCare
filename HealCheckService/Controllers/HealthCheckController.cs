@@ -22,7 +22,6 @@ namespace HealCheckService.Controllers
         [Route("healthcheck")]
         public async Task<HealthCheckDto> HealthCheck([FromBody] HealthCheckDto healthCheckDto)
         {
-
             var healthCheck = await _healthCheckService.HealthCheckAsync(healthCheckDto);
             return healthCheck;
         }
@@ -30,7 +29,6 @@ namespace HealCheckService.Controllers
         [Route("healthcheckdetails")]
         public async Task<HealthCheckDto> HealthCheckDetails(int id)
         {
-
             var healthCheckDetails = await _healthCheckService.HealthCheckDetailsAsync(id);
             return healthCheckDetails;
         }
@@ -38,7 +36,6 @@ namespace HealCheckService.Controllers
         [Route("healthchecklist")]
         public async Task<List<HealthCheckDto>> HealthCheckList(string accountId)
         {
-
             var healthChecks = await _healthCheckService.HealthCheckListAsync(accountId);
             return healthChecks;
         }
@@ -46,7 +43,6 @@ namespace HealCheckService.Controllers
         [Route("healthcheckresult")]
         public async Task<HealthCheckDto> HealthCheckResult(string accountId)
         {
-
             var healthCheckResult = await _healthCheckService.HealthCheckResultAsync(accountId);
             return healthCheckResult;
         }

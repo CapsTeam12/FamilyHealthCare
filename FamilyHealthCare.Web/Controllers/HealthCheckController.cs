@@ -1,4 +1,5 @@
 ﻿using Contract.DTOs.HealthCheck;
+using FamilyHealthCare.Customer.Models;
 using FamilyHealthCare.SharedLibrary;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -62,6 +63,21 @@ namespace FamilyHealthCare.Customer.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            return View();
+        }
+        public async Task<IActionResult> HealthCheckList()
+        {
+            var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
+            var accountId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            var response = await client.GetAsync($"{EndpointConstants.HealthCheckService.HEALTHCHECKLIST}/{accountId}");
+            var healthChecks = new List<HealthCheckDto>();
+            if (response.IsSuccessStatusCode)
+            {
+                healthChecks = await response.Content.ReadAsAsync<List<HealthCheckDto>>();
+                //HealthCheckViewModel healthCheckVM = new HealthCheckViewModel();
+                //ealthCheckVM.HealthChecks = healthChecks;
+                return View(healthChecks);
+            }
             return View();
         }
     }

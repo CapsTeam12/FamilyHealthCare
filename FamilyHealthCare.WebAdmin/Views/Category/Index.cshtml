@@ -1,40 +1,45 @@
 ﻿@using Contract.DTOs.ManagementService;
 @model IEnumerable<CategoriesDetailsDto>;
 @{
-    var cateCount = 1;
+    var cateCount = 0;
     ViewData["breadcumb-title"] = "Category";
+    ViewData["title"] = "Category";
 }
+
+<div class="btn">
+    <a data-bs-toggle="modal" href="#add_categories" class="btn btn-primary float-end mt-2">Add Category</a>
+</div>
+
 <div class="row">
     <div class="col-sm-12">
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="datatable table table-hover table-center mb-0">
+                    <table id="cateTable" class="table table-hover table-center mb-0">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                @*<th>Description</th>*@
+                                <th>Category ID</th>
+                                <th >Category Name</th>
                                 <th class="text-end">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var cate in Model)
                             {
+                                cateCount++;
                                 <tr>
-                                    <td>@(cateCount++)</td>
+                                    <td>@cateCount</td>
                                     <td>
                                         <h2 class="table-avatar">
-                                            <a data-bs-toggle="modal" href="#categories_details">@cate.CateName</a>
+                                            <a href="#">@cate.CateName</a>
                                         </h2>
                                     </td>
-                                    @*<td>Mặt nạ bảo vệ chống bụi bẩn,vi khuẩn</td>*@
                                     <td class="text-end">
                                         <div class="actions">
-                                            <a class="btn btn-sm bg-success-light" data-bs-toggle="modal" href="#edit_categories">
+                                            <a id="edit@(cate.Id)" data-id="@cate.Id" data-name="@cate.CateName" class="btn btn-sm bg-success-light btnEdit" data-bs-toggle="modal" href="#edit_categories">
                                                 <i class="fe fe-pencil"></i> Edit
                                             </a>
-                                            <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
+                                            <a id="delete@(cate.Id)" data-id="@cate.Id" data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light btnDelete">
                                                 <i class="fe fe-trash"></i> Delete
                                             </a>
                                         </div>
@@ -49,7 +54,7 @@
         </div>
     </div>
 </div>
-
+<h5 hidden id="count">@cateCount</h5>
 <div class="modal fade" id="add_categories" aria-hidden="true" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -58,68 +63,23 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="AddCateForm">
                     <div class="row form-row">
-                        <div class="col-12 col-sm-6">
+                        <div class="col-12">
                             <div class="form-group">
                                 <label>Name</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="service-fields mb-3">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label>Descriptions <span class="text-danger">*</span></label>
-                                        <textarea id="about" class="form-control service-desc" name="about"></textarea>
-                                    </div>
-                                </div>
+                                <input name="CateName" type="text" class="form-control" required>
                             </div>
                         </div>
 
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+                    <button type="submit" class="btn btn-primary w-100 btnAdd">Save Changes</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 <!-- /ADD Modal -->
-<!-- Details Modal -->
-<div class="modal fade" id="categories_details" aria-hidden="true" role="dialog">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Detail Category</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row form-row">
-                        <div class="col-12 col-sm-6">
-                            <div class="form-group">
-                                <label>Name</label>
-                                <p class="text">@Model.</p>
-                            </div>
-                        </div>
-
-                        <div class="service-fields mb-3">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label>Description</label>
-                                        <p class="text"> Mặt nạ bảo vệ chống bụi bẩn,vi khuẩn</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 <!-- Edit Details Modal -->
 <div class="modal fade" id="edit_categories" aria-hidden="true" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -129,26 +89,17 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="EditCateForm">
                     <div class="row form-row">
-                        <div class="col-12 col-sm-6">
+                        <div class="col-12">
                             <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="service-fields mb-3">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label>Descriptions <span class="text-danger">*</span></label>
-                                        <textarea id="about" class="form-control service-desc" name="about"></textarea>
-                                    </div>
-                                </div>
+                                <label>Category Name</label>
+                                <input type="hidden" id="cateId" value="" />
+                                <input name="CateName" type="text" class="form-control" value="" required>
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+                    <button type="submit" class="btn btn-primary w-100 btnSave">Save Changes</button>
                 </form>
             </div>
         </div>
@@ -159,18 +110,142 @@
 <div class="modal fade" id="delete_modal" aria-hidden="true" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <!--	<div class="modal-header">
-                    <h5 class="modal-title">Delete</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>-->
             <div class="modal-body">
                 <div class="form-content p-2">
                     <h4 class="modal-title">Delete</h4>
                     <p class="mb-4">Are you sure want to delete?</p>
-                    <button type="button" class="btn btn-primary">Save </button>
+                    <input type="hidden" id="cateId" value="" />
+                    <button type="button" class="btn btn-primary btnYes">Yes </button>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            var table = $('#cateTable').DataTable({
+                "bFilter": true,
+                columnDefs: [{
+                    targets: [2],
+                    className: 'text-end'
+                }]
+            });
+            $('body').on('click', '.btnAdd', function () {
+                var form = new FormData();
+                form.append('CateName', $('input[name=CateName]').val());
+                $.ajax({
+                    url: 'http://localhost:55860/api/Management/addcategory',
+                    type: 'POST',
+                    data: form,
+                    processData: false,
+                    contentType: false,
+                    success: function (res) {
+                        var count = Number($('#count').text()) + 1;
+                        $('#count').text(count);
+                        var inforTdElement = '<h2 class="table-avatar">' +
+                            '<a href="#">' + res.cateName + '</a>' +
+                            '</h2>';
+                        var lastTdElement = '<div class="actions">' +
+                            '<a id="edit' + res.id +'" data-id="' + res.id + '" data-name="' + res.cateName +'" class="btn btn-sm bg-success-light btnEdit" data-bs-toggle="modal" href="#edit_categories">' +
+                            '<i class="fe fe-pencil"></i> Edit' +
+                            '</a>' +
+                            '<a id="delete' + res.id +'" data-id="'+ res.id +'" data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light btnDelete">' +
+                            '<i class="fe fe-trash"></i> Delete' +
+                            '</a>' +
+                            '</div>';
+                        table.row.add([count, inforTdElement, lastTdElement]).draw();
+                        $('#add_categories form')[0].reset();
+                        $('#add_categories').modal('hide');
+                    }
+                });
+            })
+            $('body').on('click','.btnEdit',function () {
+                var id = $(this).data('id');
+                var cateName = $(this).data('name');
+                var modalId = $(this).attr('id');
+                console.log('aaa');
+                console.log(id);
+                $('#edit_categories').data('id', modalId);
+                $('#cateId').val(id);
+                $('#EditCateForm input[name=CateName]').val(cateName);
+            });
+
+            $('#edit_categories').on('click', '.btnSave', function () {
+                var form = new FormData();
+                form.append('CateName', $('#EditCateForm input[name=CateName]').val());
+                var cateId = $('#cateId').val();
+                console.log(cateId);
+                $.ajax({
+                    url: 'http://localhost:55860/api/Management/category/' + cateId,
+                    type: 'PUT',
+                    data: form,
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        if (res != null) {
+                            var modalId = $('#edit_categories').data('id');
+                            var trElements = table.row($('#' + modalId).parents('tr')).node();
+                            var tdElements = table.row($('#' + modalId).parents('tr')).node().children;
+                            var count = tdElements[0].innerText;
+                            var inforTdElement = '<h2 class="table-avatar">' +
+                                '<a href="#">' + res.cateName + '</a>' +
+                                '</h2>';
+                            var lastTdElement = '<div class="actions">' +
+                                '<a id="edit' + res.id + '" data-id="' + res.id + '" data-name="' + res.cateName + '" class="btn btn-sm bg-success-light btnEdit" data-bs-toggle="modal" href="#edit_categories">' +
+                                '<i class="fe fe-pencil"></i> Edit' +
+                                '</a>' +
+                                '<a id="delete' + res.id + '" data-id="' + res.id + '" data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light btnDelete">' +
+                                '<i class="fe fe-trash"></i> Delete' +
+                                '</a>' +
+                                '</div>';
+                            var updateData = [
+                                count,
+                                inforTdElement,
+                                lastTdElement
+                            ];
+                            table.row(trElements).data(updateData).draw();
+                            $('#edit_categories').modal('hide');
+
+                        }
+                    }
+                });
+
+            });
+
+            $('body').on('click','.btnDelete',function () {
+                var id = $(this).data('id');
+                $('#cateId').val(id);
+                var modalId = $(this).attr('id');
+                $('#delete_modal').data('id', modalId);
+            });
+
+            $('body').on('click', '.btnYes', function () {
+                var id = $('#cateId').val();
+                console.log(id);
+                $.ajax({
+                    url: 'http://localhost:55860/api/Management/category/' + id,
+                    type: 'DELETE',
+                    success: function (res) {
+                        if (res != null) {
+                            var id = $('#delete_modal').data('id');
+                            var tdElements = $('#' + id).parents("tr").children();
+                            var currentNumber = Number(tdElements[0].innerText);
+                            var count = Number($('#count').text()) - 1;
+                            $('#count').text(count);
+                            table.row($('#' + id).parents('tr')).remove().draw();
+                            var trElements = table.rows().nodes();
+                            for (var i = currentNumber - 1; i < count; i++) {
+                                let td = trElements[i].getElementsByTagName("td");
+                                td[0].innerText = currentNumber;
+                                currentNumber++;
+                            }
+                            $('#delete_modal').modal('hide');
+                        }
+                    }
+                });
+            });
+        })
+    </script>
+}

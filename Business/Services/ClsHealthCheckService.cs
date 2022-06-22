@@ -89,17 +89,5 @@ namespace Business.Services
             var healthCheckDto = _mapper.Map<HealthCheckDto>(healthChecks);
             return healthCheckDto;
         }
-
-        //public Task<HealthCheckDto> HealthCheckResultAsync(HealthCheckDto healthCheckDto)
-        //{
-        //var patient = _patientRepos
-        //                  .Entities
-        //                  .Include(a => a.User)
-        //                  .Where(x => x.AccountId == id)
-        //                  .FirstOrDefault();
-        //var patientsDto = _mapper.Map<PatientDetailsDto>(patient);
-        //patientsDto.Email = patient.User.Email;
-        //return healthChecksDto;
-        //}
     }
 }

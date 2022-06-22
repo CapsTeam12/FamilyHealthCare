@@ -138,10 +138,10 @@ namespace FamilyHealthCare.SharedLibrary
         }
         public static class HealthCheckService
         {
-            public static string HEALTHCHECK = "/healthcheck";
-            public static string HEALTHCHECKDETAILS = "/healthcheckdetails";
-            public static string HEALTHCHECKLIST = "/healthchecklist";
-            public static string HEALTHCHECKRESULT = "/healthcheckresult";
+            public static string HEALTHCHECK = "/api/HealthCheck/healthcheck";
+            public static string HEALTHCHECKDETAILS = "/api/HealthCheck/HealthCheckDetails";
+            public static string HEALTHCHECKLIST = "/api/HealthCheck/HealthCheckList";
+            public static string HEALTHCHECKRESULT = "/api/HealthCheck/HealthCheckResult";
         }
     }
 }

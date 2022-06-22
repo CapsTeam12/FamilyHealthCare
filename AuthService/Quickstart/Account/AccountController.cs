@@ -24,6 +24,8 @@ using Business.IServices;
 using System.Security.Claims;
 using Data;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using Business;
 
 namespace IdentityServerHost.Quickstart.UI
 {
@@ -37,6 +39,7 @@ namespace IdentityServerHost.Quickstart.UI
     public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
+        private readonly IBaseRepository<Patient> _patientRepo;
         private readonly SignInManager<User> _signInManager;
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IClientStore _clientStore;
@@ -53,6 +56,8 @@ namespace IdentityServerHost.Quickstart.UI
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             ApplicationDbContext db)
+            //IMapper mapper,
+            //IBaseRepository patientRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -320,9 +325,14 @@ namespace IdentityServerHost.Quickstart.UI
             foreach (var userExist in users)
             {
                 if (RegisterVm.Username == userExist.UserName)
-                    ModelState.AddModelError("Username", "The Username has already exist in the system");
+                    ModelState.AddModelError("Username", "The Username has already existed in the system");
             }
-
+            var patients = await _db.Patients.ToListAsync();
+            foreach(var phoneExist in patients)
+            {
+                if (RegisterVm.MobileNumber == phoneExist.Phone)
+                    ModelState.AddModelError("MobileNumber", "This Phone number has already existed in the system");
+            }
             if (!ModelState.IsValid)
             {
                 return View("Register", RegisterVm);
@@ -583,7 +593,7 @@ namespace IdentityServerHost.Quickstart.UI
             }
             return true;
         }
- 
+
         public void LoginInputVMValidator(LoginInputModel vm)
         {
             if (string.IsNullOrWhiteSpace(vm.Username))

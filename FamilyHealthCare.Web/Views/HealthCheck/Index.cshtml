@@ -41,36 +41,36 @@
                                     <div class="col-md-6 col-sm-12">
                                         <div class="form-group card-label">
                                             <label>Age</label>
-                                            <input class="form-control" type="text" placeholder="18" asp-for="Age">
+                                            <input class="form-control" type="text" placeholder="18" asp-for="Age" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-12">
                                         <div class="form-group card-label">
                                             <label>Weight</label>
-                                            <input class="form-control" type="text" placeholder="kg: 50" asp-for="Weight">
+                                            <input class="form-control" type="text" placeholder="kg: 50" asp-for="Weight" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-12">
                                         <div class="form-group card-label">
                                             <label>Height</label>
-                                            <input class="form-control" type="text" placeholder="cm: 165" asp-for="Height">
+                                            <input class="form-control" type="text" placeholder="cm: 165" asp-for="Height" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-12">
                                         <div class="form-group card-label">
                                             <label>Blood Pressure</label>
-                                            <input class="form-control" type="text" placeholder="80/120" asp-for="BloodPressure">
+                                            <input class="form-control" type="text" placeholder="140/80" asp-for="BloodPressure" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-12">
                                         <div class="form-group card-label">
                                             <label>Heart Rate</label>
-                                            <input class="form-control" type="text" placeholder="89" asp-for="HeartRate">
+                                            <input class="form-control" type="text" placeholder="89" asp-for="HeartRate" required>
                                         </div>
                                     </div>
                                     <div class="submit-section mt-2">
                                         <button id="btn-healthcheck" type="button" class="btn btn-primary submit-btn">Submit</button>
-                                        <a asp-action="" asp-controller="" class="btn btn-primary plan-btn">Plan</a>
+                                        <a asp-controller="Schedule" asp-action="Calendar" class="btn btn-primary plan-btn">Plan</a>
                                     </div>
                                 </div>
                             </div>
@@ -96,7 +96,7 @@
             </div>
             <div class="modal-footer">
                 <a asp-controller="HealthCheck" asp-action="HealthCheckResult">
-                    <button type="button" class="btn btn-primary">Continue</button>
+                    <button asp-controller="HealthCheck" asp-action="HealthCheckResult" type="button" class="btn btn-primary">Continue</button>
                 </a>
             </div>
         </div>

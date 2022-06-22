@@ -166,7 +166,7 @@ namespace ManagementService.Controllers
         }
 
         [HttpPost("addcategory")]
-        public async Task<CategoriesDetailsDto> AddCategoryAsync(CategoriesDetailsDto categoriesDetailsDto)
+        public async Task<CategoriesDetailsDto> AddCategoryAsync([FromForm] CategoriesDetailsDto categoriesDetailsDto)
         {
             var category = await _managementService.AddCategoryAsync(categoriesDetailsDto);
             return category;
@@ -180,7 +180,7 @@ namespace ManagementService.Controllers
         }
 
         [HttpPut("category/{id}")]
-        public async Task<CategoriesDetailsDto> UpdateCategoryAsync(int id, CategoriesDetailsDto categoriesDetailsDto)
+        public async Task<CategoriesDetailsDto> UpdateCategoryAsync(int id, [FromForm] CategoriesDetailsDto categoriesDetailsDto)
         {
             var category = await _managementService.UpdateCategoryAsync(id, categoriesDetailsDto);
             return category;

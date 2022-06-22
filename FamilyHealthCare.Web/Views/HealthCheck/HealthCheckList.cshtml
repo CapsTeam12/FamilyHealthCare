@@ -1,0 +1,70 @@
+﻿@using Contract.DTOs.HealthCheck;
+@model IEnumerable<HealthCheckDto>;
+@{
+    Layout = "_LayoutManagement";
+    ViewData["Title"] = "FHC - Health Check List";
+    var count = 0;
+}
+<!-- DataTable CSS-->
+<link href=@Url.Content("~/assets/plugins/datatables/datatables.min.css") rel="stylesheet" />
+
+<!-- Page Content -->
+
+<div class="col-md-7 col-lg-8 col-xl-9">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title float-start">Health Check Details</h4>
+                </div>
+                <div class="card-body">
+                    <div class="card card-table mb-0">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-center mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>BMI</th>
+                                            <th class="text-center">Heart Rate</th>
+                                            <th class="text-center">Blood Pressure</th>
+                                            <th>Check date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var healthCheck in Model)
+                                        {
+                                            <tr>
+                                                <td>@count++</td>
+                                                <td>@healthCheck.Patient.FullName</td>
+                                                <td>@healthCheck.BMI</td>
+                                                <td class="text-center">@healthCheck.HeartRate</td>
+                                                <td class="text-center">@healthCheck.BloodPressure</td>
+                                                <td>@healthCheck.Date.Date <span class="d-block text-info">@healthCheck.Date.TimeOfDay</span></td>
+                                                <td>
+                                                    <div class="table-action">
+                                                        <a href="#edit_medical_form" class="btn btn-sm bg-info-light" data-bs-toggle="modal">
+                                                            <i class="fas fa-edit"></i> Edit
+                                                        </a>
+                                                        <a class="btn btn-sm bg-danger-light" data-bs-toggle="modal" href="#delete_modal">
+                                                            <i class="fas fa-trash-alt"></i> Delete
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>	
