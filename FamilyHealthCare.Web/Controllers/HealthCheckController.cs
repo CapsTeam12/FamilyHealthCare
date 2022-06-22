@@ -1,16 +1,20 @@
 ﻿using Contract.DTOs.HealthCheck;
 using FamilyHealthCare.SharedLibrary;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FamilyHealthCare.Customer.Controllers
 {
+    [Authorize]
     public class HealthCheckController : Controller
     {
         private readonly IHttpClientFactory _httpClient;
@@ -22,19 +26,38 @@ namespace FamilyHealthCare.Customer.Controllers
             _httpContext = httpContext;
         }
 
-        [HttpGet]
-        public IActionResult HealthCheck()
+        [HttpPost]
+        public async Task<IActionResult> HealthCheck(HealthCheckDto healthCheckDto)
         {
-            //var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
-            //var accountId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
-            //var response = await client.GetAsync($"{EndpointConstants.HealthCheckService.HEALTHCHECKLIST}/{accountId}"); ;
-            //if (response.IsSuccessStatusCode)
+            var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
+            var accountId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            healthCheckDto.UserId = accountId;
+            var stringModel = JsonConvert.SerializeObject(healthCheckDto);
+            var stringContent = new StringContent(stringModel, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync($"{EndpointConstants.HealthCheckService.HEALTHCHECK}", stringContent);
+            // if (response.IsSuccessStatusCode)
             //{
-            //    var healthChecks = await response.Content.ReadAsAsync<List<HealthCheckDto>>();
-            //    return Json(new { success = true, item = healthChecks });
+            var healthChecks = await response.Content.ReadAsAsync<HealthCheckDto>();
+            return Json(new { success = true });
             //}
-            //return Json(new { success = false });
-            return View();
+            //return Json(new { success = false });   `   
+        }
+
+        [HttpGet]
+        public async Task<HealthCheckDto> HealthCheckResult()
+        {
+            var client = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
+            var accountId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            //healthCheckDto.UserId = accountId;
+            //var stringModel = JsonConvert.SerializeObject(healthCheckDto);
+            //var stringContent = new StringContent(stringModel, Encoding.UTF8, "application/json");
+            var response = await client.GetAsync($"{EndpointConstants.HealthCheckService.HEALTHCHECKRESULT}/{accountId}");
+            // if (response.IsSuccessStatusCode)
+            //{
+            var healthChecks = await response.Content.ReadAsAsync<HealthCheckDto>();
+            return healthChecks;
+            //}
+            //return Json(new { success = false });   `   
         }
         [HttpGet]
         public IActionResult Index()
