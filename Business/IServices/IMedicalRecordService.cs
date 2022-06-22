@@ -13,5 +13,6 @@ namespace Business.IServices
         Task<MedicalRecordDto> CreateMedicalRecord(AddUpdateMedicalRecordDto medicalRecordDto);
         Task<MedicalRecordDto> UpdateMedicalRecord(int id,AddUpdateMedicalRecordDto medicalRecordDto);
         Task<MedicalRecordDto> DeleteMedicalRecord(int id);
+        Task<bool> SendMedicalRecord(int patientId, string medicalContent);        
     }
 }

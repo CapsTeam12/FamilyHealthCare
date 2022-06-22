@@ -57,6 +57,10 @@
                                                             <td><a href="medical-records-detail.html"><span>@medicalRecord.Symptom</span></a></td>
                                                             <td>Dr. @medicalRecord.Doctor.FullName</td>
                                                             <td>
+                                                                <a id="print@(count)" data-id="@medicalRecord.Id" data-patientId="@medicalRecord.PatientId" data-diagnosis="@medicalRecord.Diagnosis" data-advice="@medicalRecord.Advice" data-reExamination="@medicalRecord.ReExamination"
+                                                                   class="btn btn-sm bg-purple-light btnPrint">
+                                                                    <i class="far fa-envelope"></i> Send
+                                                                </a>
                                                                 <a id="details@(count)" data-bs-toggle="modal"
                                                                    data-bs-target="#Details_medical_records_modal" data-id="@medicalRecord.Id" data-patientId="@medicalRecord.PatientId" data-diagnosis="@medicalRecord.Diagnosis" data-advice="@medicalRecord.Advice" data-reExamination="@medicalRecord.ReExamination"
                                                                    class="btn btn-sm bg-info-light btnView">
@@ -593,6 +597,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <!-- SweetAlert JS-->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="~/js/signature.js"></script>
     <script>
         $(document).ready(function () {
@@ -638,9 +644,9 @@
                 var table = $(this).closest('form').find('table')[0];
                 var tableId = table.getAttribute('id')
                 var prescriptionContent = $('<tr></tr>');
-                prescriptionContent.append('<td><input id="medicineName'+ count +'" class="form-control" name="MedicineName'+ count +'" value="" type="text"></td>')
-                prescriptionContent.append('<td><input id="quantity' + count + '" class="form-control" name="Quantity'+ count +'" type="text" value=""></td>')
-                prescriptionContent.append('<td><input id="days' + count + '" class="form-control" name="Days'+ count +'" value="" type="text"></td>')
+                prescriptionContent.append('<td><input id="medicineName' + count + '" class="form-control" name="MedicineName' + count + '" value="" type="text"></td>')
+                prescriptionContent.append('<td><input id="quantity' + count + '" class="form-control" name="Quantity' + count + '" type="text" value=""></td>')
+                prescriptionContent.append('<td><input id="days' + count + '" class="form-control" name="Days' + count + '" value="" type="text"></td>')
                 var elementTdTimeCheck = '<td>' +
                     '<div class="form-check form-check-inline">' +
                     '<label class="form-check-label">' +
@@ -683,7 +689,7 @@
                 for (var el of siblings) {
                     if (el.hasAttribute('hidden')) {
                         el.removeAttribute('hidden');
-                    }                   
+                    }
                 }
             });
             $('body').on('click', '.btnView', function () {
@@ -773,7 +779,7 @@
                                 $('#details_medical_records_form').find('h4.card-title').append('<i style="color:red;font-family:Font Awesome 5 Free;font-size: 14px;"> *No prescription details within this medical record!</i>');
                             }
                             for (var el of siblings) {
-                                el.setAttribute('hidden','hidden');
+                                el.setAttribute('hidden', 'hidden');
                             }
                         }
                     }
@@ -781,6 +787,107 @@
                 });
 
             })
+
+            // Print Medical Record
+            $('body').on('click', '.btnPrint', function () {
+                var id = $(this).attr('id'); // get Id
+                var tdElements = table.row($('#' + id).parents('tr')).node().children;
+                var patientName = tdElements[1].innerText;
+                var patientId = $(this).attr('data-patientId'); // Get PatientId
+                var MedicalRecordId = $(this).data('id'); // Get MedicalRecord Id
+                var date = new Date(tdElements[2].innerText);
+                var ExaminationDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+                var ReExamination = new Date($(this).attr('data-reExamination'));
+                var ReExaminationDate = ReExamination.getFullYear() + "-" + ("0" + (ReExamination.getMonth() + 1)).slice(-2) + "-" + ("0" + ReExamination.getDate()).slice(-2);
+                $.ajax({
+                    url: '/MedicalRecords/GetMedicalRecord/' + MedicalRecordId,
+                    type: 'GET',
+                    success: function (res) {
+                        if (res.success == true && res.item != null) {
+                            var medical = res.item;
+                            console.log(medical);
+                            let index = 0;
+                            var imageConstants = $('#imageConstants').text();
+                            var signature = imageConstants + medical.signature;
+                            // Medical Record Content
+                            var medicalRecordContent = medicalRecordContentEl(MedicalRecordId, patientName, medical.medicalRecord.symptom, medical.medicalRecord.diagnosis, medical.medicalRecord.advice, ExaminationDate, ReExaminationDate, medical.prescriptionName, medical.notes, signature, medical.doctor.fullName);
+                            // End medical record content
+                            $.each(medical.prescriptionDetailsDtos, function (i) {
+                                var pres = medical.prescriptionDetailsDtos[i];
+                                var prescriptionContent = $('<tr></tr>');
+                                prescriptionContent.append('<td><span class="d-block text-muted">' + pres.medicineName + '</span></td>');
+                                prescriptionContent.append('<td><span class="d-block text-muted">' + pres.quantity + '</span></td>');
+                                prescriptionContent.append('<td><span class="d-block text-muted">' + pres.days + '</span></td>');
+                                var elementTdTimeCheck = '<td>' +
+                                    '<div class="form-check form-check-inline">' +
+                                    '<label class="form-check-label">' +
+                                    '<input name="Time[]" value="1" class="form-check-input" disabled type="checkbox"> Morning' +
+                                    '</label>' +
+                                    '</div>' +
+                                    '<div class="form-check form-check-inline">' +
+                                    '<label class="form-check-label">' +
+                                    '<input name="Time[]" value="2" class="form-check-input" disabled type="checkbox"> Afternoon' +
+                                    '</label>' +
+                                    '</div>' +
+                                    '<div class="form-check form-check-inline">' +
+                                    '<label class="form-check-label">' +
+                                    '<input name="Time[]" value="3" class="form-check-input" disabled type="checkbox"> Evening' +
+                                    '</label>' +
+                                    '</div>' +
+                                    '<div class="form-check form-check-inline">' +
+                                    '<label class="form-check-label">' +
+                                    '<input name="Time[]" value="4" class="form-check-input" disabled type="checkbox"> Night' +
+                                    '</label>' +
+                                    '</div>' +
+                                    '</td>';
+                                prescriptionContent.append(elementTdTimeCheck);
+                                prescriptionContent.appendTo('#prescriptionTablePrint tbody');
+                                var trElements = $('#prescriptionTablePrint tbody').children();
+                                var tdElements = trElements[index].children; // get input element inside td element
+                                //console.log(trElements[index]);
+                                var inputCheckboxes = tdElements[3].getElementsByTagName('input');
+                                for (var j = 0; j < pres.time.length; j++) // 1 2 3
+                                {
+                                    var time = pres.time[j];
+                                    for (var i = 0; i < inputCheckboxes.length; i++) // 1 2 3 4
+                                    {
+                                        //console.log(inputCheckboxes[i].value);
+                                        if (Number(inputCheckboxes[i].value) == time) {
+                                            //console.log(inputCheckboxes[i]);
+                                            inputCheckboxes[i].checked = true;
+                                            inputCheckboxes[i].setAttribute('checked', 'checked');
+                                        }
+                                    }
+                                }
+
+                                index++;
+                            });
+                            var medicalContent = $('div#' + MedicalRecordId).html();
+                            //console.log(medicalContent);
+                            $.ajax({
+                                url: '/MedicalRecords/SendMedicalRecord',
+                                type: 'POST',
+                                data: { patientId: patientId, medicalContent: medicalContent },
+                                success: function (res) {
+                                    if (res.success) {
+                                        swal({
+                                            title: `The medical record has been sent successfully`,
+                                            icon: "success"
+                                        })
+                                        $('div#' + MedicalRecordId).remove();
+                                    } else {
+                                        swal({
+                                            title: `There was a problem sending medical records`,
+                                            icon: "info"
+                                        })
+                                    }
+                                }
+                            });
+                        }
+                    }
+
+                });
+            });
 
             // Add Medical Record
             $('#add_medical_records_modal').on('shown.bs.modal', function () {
@@ -1316,6 +1423,118 @@
 
             function RemoveValidateAddMorePrescription(elementId) {
                 $("#" + elementId).rules("remove");
+            }
+
+            function medicalRecordContentEl(MedicalId, PatientName, Symptom, Diagnosis, Advice, ExaminationDate, ReExaminationDate, PrescriptionName, Notes, Signature, DoctorName) {
+                var medicalRecordContent = `<div id="${MedicalId}" class="modal-content" style="display:none;width: 600px;margin: 0 auto;">
+                        <div class="modal-header">
+                        <h5 class="modal-title">Medical Record Details</h5>
+                        </div>
+                        <form id="print_medical_records_form" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label>Patient Name</label>
+                                            <input type="text" class="form-control" value="${PatientName}" readonly />
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label>Symptoms</label>
+                                            <input type="text" name="Symptom" class="form-control" placeholder="Symptom" value="${Symptom}" readonly>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="rows">
+                                        <div class="form-group">
+                                            <label>Diagnosis</label>
+                                            <input type="text" class="input-tags form-control" value="${Diagnosis}" name="Diagnosis" placeholder="Diagnosis" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="rows">
+                                        <div class="form-group">
+                                            <label>Advice</label>
+                                            <textarea readonly name="Advice" rows="2" class="form-control">${Advice}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label>Examination Date</label>
+                                            <input type="date" class="form-control" name="Date" value="${ExaminationDate}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <label>Re-Examination</label>
+                                                <input type="date" class="form-control" name="ReExamination" value="${ReExaminationDate}" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                    <h4 class="card-title">Prescription Details</h4>
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            <div class="form-group">
+                                                <strong>Prescription Name</strong>
+                                                <p class="form-control" style="display: inline;font-style: italic;">${PrescriptionName}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Prescription Item -->
+                                    <div class="card card-table">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table id="prescriptionTablePrint" class="table table-hover table-center">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width: 200px">Name</th>
+                                                            <th style="width: 100px">Quantity</th>
+                                                            <th style="width: 100px">Days</th>
+                                                            <th style="width: 100px;">Time</th>
+                                                            <th style="width: 80px;"></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /Prescription Item -->
+                                    <!-- Signature -->
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            <div class="form-group">
+                                                <strong>Notes</strong>
+                                                <textarea id="Notes" disabled style="resize:none;font-style:italic;" class="form-control">${Notes}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 text-end">
+                                            <div class="signature-wrap">
+                                                <div class="sign-name">
+                                                    <p class="mb-0">( Dr. ${DoctorName} )</p>
+                                                    <span class="text-muted">Signature</span>
+                                                    <img id="signatureImg" src="${Signature}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /Signature -->
+                                    <h6 hidden id="endPrescriptionDetails"></h6>
+                            </div>
+                        </form>
+                </div>`;
+                $('body').append(medicalRecordContent);
+                return medicalRecordContent;
             }
         })
     </script>

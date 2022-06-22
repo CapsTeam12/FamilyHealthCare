@@ -68,5 +68,17 @@ namespace MedicalRecordService.Controllers
             }
             return NotFound();
         }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> SendMedicalRecord([FromForm]int patientId, [FromForm] string medicalContent)
+        {
+            var result = await _medicalRecordService.SendMedicalRecord(patientId, medicalContent);
+            if (result)
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
+
     }
 }
