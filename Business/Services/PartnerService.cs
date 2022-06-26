@@ -65,6 +65,7 @@ namespace Business.Services
             user.UserName = userName;
             user.Email = doctorModel.Email;
             user.PhoneNumber = doctorModel.Phone;
+            user.IsActive = true;
             while (await _userManager.FindByNameAsync(userName) != null)
             {
                 userName = userName + rd.Next(1, 9);
@@ -131,6 +132,7 @@ namespace Business.Services
             user.UserName = userName;
             user.Email = pharmacyModel.Email;
             user.PhoneNumber = pharmacyModel.Phone;
+            user.IsActive = true;
             while(await _userManager.FindByNameAsync(userName) != null)
             {
                 userName = userName + rd.Next(1, 9);

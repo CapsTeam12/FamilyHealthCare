@@ -348,10 +348,10 @@ namespace Business.Services
                 new MailContent()
                 {
                     To = currentPatient.User.Email,
-                    Subject = $"Canceled booking appointment at {appointment.StartTime.ToString("HH:mm dd/MM/yyyy")}",
+                    Subject = $"Canceled booking appointment at {startTime.ToString("HH:mm dd/MM/yyyy")}",
                     Body = $"<h3>Dear {currentPatient.FullName},</h3>" +
 
-                        $"<p>Canceled an appointment at {appointment.StartTime.ToString("HH:mm dd/MM/yyyy")}. If you have any questions or expectations then please contact us. Thank you for using our service.</p>" +
+                        $"<p>Canceled an appointment at {startTime.ToString("HH:mm dd/MM/yyyy")}. If you have any questions or expectations then please contact us. Thank you for using our service.</p>" +
 
                         @"
                         <h3>Best regards,</h3>
@@ -367,10 +367,10 @@ namespace Business.Services
                 new MailContent()
                 {
                     To = doctor.Email,
-                    Subject = $"Canceled booking appointment at {appointment.StartTime.ToString("HH:mm dd/MM/yyyy")}",
+                    Subject = $"Canceled booking appointment at {startTime.ToString("HH:mm dd/MM/yyyy")}",
                     Body = $"<h3>Dear {doctor.FullName},</h3>" +
 
-                        $"<p>Canceled an appointment at {appointment.StartTime.ToString("HH:mm dd/MM/yyyy")}. If you have any questions or expectations then please contact us. Thank you for using our service.</p>" +
+                        $"<p>Canceled an appointment at {startTime.ToString("HH:mm dd/MM/yyyy")}. If you have any questions or expectations then please contact us. Thank you for using our service.</p>" +
 
                         @"
                         <h3>Best regards,</h3>
