@@ -352,12 +352,17 @@
                 url: 'http://localhost:46685/api/Appointment/List/' + userId,
                 type: 'GET',
                 success: function (res) {
+                    res.sort((a, b) => {
+                        if (a.status > b.status) return 1;
+                        if (a.status < b.status) return -1;
+                        return 0;
+                    });
+                    //console.log(res);
                     //console.log(res.length);
                     //$('#percentAppointment').attr('data-percent', '100');
                     //$('#appointmentCount').text(res.length);
                     $.each(res, function (i) {
                         var item = res[i];
-                        //console.log(item);
                         var element = $('<tr></tr>');
                         if (item.patient.avatar != null) {
                             element.append('<td><h2 class="table-avatar"><a href="patient-profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=' + imagePatientPath + item.patient.avatar + ' alt="User Image"></a><a href="patient-profile.html">' + item.patient.fullName + '</a></h2></td>');

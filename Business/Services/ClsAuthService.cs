@@ -65,9 +65,32 @@ namespace Business
             return Ok();
         }
 
-        public Task<IActionResult> UpdateDoctorProfileAsync()
+        public async Task<IActionResult> UpdateDoctorProfileAsync([FromForm] DoctorUpdateDto doctorDetailsDto)
         {
-            throw new NotImplementedException();
+            var user = _doctorRepos
+                                .Entities
+                                .Include(a => a.User)
+                                .Where(a => a.AccountId == doctorDetailsDto.AccountId)
+                                .First();
+            if (user == null)
+                return Unauthorized();
+            user.FullName = doctorDetailsDto.FullName;
+            user.Phone = doctorDetailsDto.Phone;
+            user.Gender = (int)doctorDetailsDto.Gender;
+            user.DateOfBirth = doctorDetailsDto.DateOfBirth;
+            user.Address = doctorDetailsDto.Address;
+            if (doctorDetailsDto.Avatar != null)
+            {
+                if (user.Avatar != null)
+                {
+                    await _fileService.DeleteFile(user.Avatar, ImageConstants.AVATARS_PATH);
+                }
+                user.Avatar = await _fileService.SaveFile(doctorDetailsDto.Avatar, ImageConstants.AVATARS_PATH);
+            }
+
+            var updatedDoctor = await _doctorRepos.Update(user);
+            var doctorDto = _mapper.Map<PatientDetailsDto>(updatedDoctor);
+            return Ok(doctorDto);
         }
 
         public async Task<IActionResult> UpdatePatientProfileAsync([FromForm] PatientUpdateDto patientDetailsDto)
@@ -105,9 +128,30 @@ namespace Business
 
        
 
-        public Task<IActionResult> UpdatePharmacyProfileAsync()
+        public async Task<IActionResult> UpdatePharmacyProfileAsync([FromForm]PharmacyUpdateDto pharmacyDetailsDto)
         {
-            throw new NotImplementedException();
+            var user = _pharmacyRepos
+                                .Entities
+                                .Include(a => a.User)
+                                .Where(a => a.AccountId == pharmacyDetailsDto.AccountId)
+                                .First();
+            if (user == null)
+                return Unauthorized();
+            user.PharmacyName = pharmacyDetailsDto.PharmacyName;
+            user.Phone = pharmacyDetailsDto.Phone;
+            user.Address = pharmacyDetailsDto.Address;
+            if (pharmacyDetailsDto.Avatar != null)
+            {
+                if (user.Avatar != null)
+                {
+                    await _fileService.DeleteFile(user.Avatar, ImageConstants.AVATARS_PATH);
+                }
+                user.Avatar = await _fileService.SaveFile(pharmacyDetailsDto.Avatar, ImageConstants.AVATARS_PATH);
+            }
+
+            var updatedPharmacy = await _pharmacyRepos.Update(user);
+            var pharmacyDto = _mapper.Map<PharmacyDetailsDto>(updatedPharmacy);
+            return Ok(pharmacyDto);
         }
     }
 }

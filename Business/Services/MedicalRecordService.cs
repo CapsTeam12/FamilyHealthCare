@@ -45,7 +45,7 @@ namespace Business.Services
                 {
                     To = patient.User.Email,
                     Subject = $"Medical record of {patient.FullName}",
-                    Body = $"Hi {patient.FullName}," +
+                    Body = $"Hi {patient.FullName}, we send your medical records" +
                         medicalContent +
                         @"
                         <h3>Best regards,</h3>

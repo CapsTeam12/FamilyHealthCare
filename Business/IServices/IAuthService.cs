@@ -13,8 +13,8 @@ namespace Business.IServices
     {
         public Task<IActionResult> ChangePasswordAsync(ChangePasswordDto changePasswordDto);
         public Task<IActionResult> UpdatePatientProfileAsync(PatientUpdateDto patientDetailsDto);
-        public Task<IActionResult> UpdateDoctorProfileAsync();
-        public Task<IActionResult> UpdatePharmacyProfileAsync();
+        public Task<IActionResult> UpdateDoctorProfileAsync(DoctorUpdateDto doctorDetailsDto);
+        public Task<IActionResult> UpdatePharmacyProfileAsync(PharmacyUpdateDto pharmacyDetailsDto);
         public Task<IActionResult> UpdateAdminProfileAsync();
     }
 }

@@ -1,4 +1,5 @@
-﻿using Contract.DTOs.MedicineService;
+﻿using Contract.DTOs.ManagementService;
+using Contract.DTOs.MedicineService;
 using Contract.DTOs.PrescriptionService;
 using FamilyHealthCare.Pharmacy.Models;
 using FamilyHealthCare.SharedLibrary;
@@ -89,9 +90,17 @@ namespace FamilyHealthCare.Pharmacy.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        public IActionResult Profile()
+        public async Task<IActionResult> Profile()
         {
-            return View();
+            var id = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            var httpClient = _httpClient.CreateClient(ServiceConstants.BACK_END_NAMED_CLIENT);
+            var response = await httpClient.GetAsync($"{EndpointConstants.ManagementService.PHARMACYDETAILS}/{id}");
+            var model = new ProfileViewModel();
+            if (response.IsSuccessStatusCode)
+            {
+                model.PharmacyDetails = await response.Content.ReadAsAsync<PharmacyDetailsDto>();
+            }
+            return View(model);
         }
         public IActionResult Setting()
         {

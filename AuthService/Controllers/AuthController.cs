@@ -31,15 +31,20 @@ namespace AuthService.Controllers
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IBaseRepository<Patient> _patientRepos;
+        private readonly IBaseRepository<Doctor> _doctorRepos;
+        private readonly IBaseRepository<Pharmacy> _pharmacyRepos;
 
         public AuthController(UserManager<User> userManager,
                               RoleManager<IdentityRole> roleManager,
-                              IAuthService authService, IBaseRepository<Patient> patientRepos)
+                              IAuthService authService, IBaseRepository<Patient> patientRepos,IBaseRepository<Doctor> doctorRepos,
+                                IBaseRepository<Pharmacy> pharmacyRepos)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _authService = authService;
             _patientRepos = patientRepos;
+            _doctorRepos = doctorRepos;
+            _pharmacyRepos = pharmacyRepos;
         }
 
 
@@ -222,6 +227,51 @@ namespace AuthService.Controllers
             return Ok(updatePatientProfile);
         }
 
-       
+        [HttpPut]
+        [Route("update-profile-doctor")]
+        public async Task<IActionResult> UpdateDoctorProfile([FromForm] DoctorUpdateDto doctorUpdateDto)
+        {
+            if (doctorUpdateDto.AccountId.ToString() == null)
+            {
+                return Unauthorized();
+            }
+            var doctors = await _doctorRepos.Entities.ToListAsync();
+            var users = await _userManager.Users.ToListAsync();
+            foreach (var doctor in doctors)
+            {
+                if (doctor.AccountId != doctorUpdateDto.AccountId)
+                {
+                    if (doctorUpdateDto.Phone == doctor.Phone)
+                        return NotFound();
+                }
+            }
+            var updateDoctorProfile = await _authService.UpdateDoctorProfileAsync(doctorUpdateDto);
+
+            return Ok(updateDoctorProfile);
+        }
+
+        [HttpPut]
+        [Route("update-profile-pharmacy")]
+        public async Task<IActionResult> UpdatePharmacyProfile([FromForm] PharmacyUpdateDto pharmacyUpdateDto)
+        {
+            if (pharmacyUpdateDto.AccountId.ToString() == null)
+            {
+                return Unauthorized();
+            }
+            var pharmacies = await _pharmacyRepos.Entities.ToListAsync();
+            var users = await _userManager.Users.ToListAsync();
+            foreach (var pharmacy in pharmacies)
+            {
+                if (pharmacy.AccountId != pharmacyUpdateDto.AccountId)
+                {
+                    if (pharmacyUpdateDto.Phone == pharmacy.Phone)
+                        return NotFound();
+                }
+            }
+            var updateDoctorProfile = await _authService.UpdatePharmacyProfileAsync(pharmacyUpdateDto);
+
+            return Ok(updateDoctorProfile);
+        }
+
     }
 }

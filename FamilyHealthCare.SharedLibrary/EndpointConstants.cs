@@ -49,6 +49,8 @@ namespace FamilyHealthCare.SharedLibrary
         {
             public static string CHANGEPASSWORD = "api/Auth/change-password";
             public static string PATIENTPROFILE = "api/Auth/update-profile";
+            public static string DOCTORPROFILE = "api/Auth/update-profile-doctor";
+            public static string PHARMACYPROFILE = "api/Auth/update-profile-pharmacy";
         }
 
         public static class SearchService
