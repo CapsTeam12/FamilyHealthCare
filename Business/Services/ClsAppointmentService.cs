@@ -261,7 +261,7 @@ namespace Business.Services
                         width='100px' style='float: left; margin-left: 5px; margin-right: 20px; border: 2px solid black;' />
                         <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health12@gmail.com</b></span><br>
                         <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a
-                        href='https://abc.com'>https://abc.com</a></span> <br>
+                        href='http://fhc.eastasia.cloudapp.azure.com/'>http://fhc.eastasia.cloudapp.azure.com/</a></span> <br>
                         </p>"
                 },
                 new MailContent()
@@ -279,7 +279,7 @@ namespace Business.Services
                         width='100px' style='float: left; margin-left: 5px; margin-right: 20px; border: 2px solid black;' />
                         <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health12@gmail.com</b></span><br>
                         <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a
-                        href='https://abc.com'>https://abc.com</a></span> <br>
+                        href='http://fhc.eastasia.cloudapp.azure.com/'>http://fhc.eastasia.cloudapp.azure.com/</a></span> <br>
                         </p>"
                 },
             };
@@ -361,7 +361,7 @@ namespace Business.Services
                         width='100px' style='float: left; margin-left: 5px; margin-right: 20px; border: 2px solid black;' />
                         <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health12@gmail.com</b></span><br>
                         <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a
-                        href='https://abc.com'>https://abc.com</a></span> <br>
+                        href='http://fhc.eastasia.cloudapp.azure.com/'>http://fhc.eastasia.cloudapp.azure.com/</a></span> <br>
                         </p>"
                 },
                 new MailContent()
@@ -380,7 +380,7 @@ namespace Business.Services
                         width='100px' style='float: left; margin-left: 5px; margin-right: 20px; border: 2px solid black;' />
                         <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health12@gmail.com</b></span><br>
                         <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a
-                        href='https://abc.com'>https://abc.com</a></span> <br>
+                        href='http://fhc.eastasia.cloudapp.azure.com/'>http://fhc.eastasia.cloudapp.azure.com/</a></span> <br>
                         </p>"
                 },
             };
