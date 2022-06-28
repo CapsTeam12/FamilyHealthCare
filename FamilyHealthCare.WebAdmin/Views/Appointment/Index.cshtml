@@ -26,38 +26,53 @@
                             @foreach (var ap in Model)
                             {
                                 count++;
-                            <tr>
-                                <td>@count</td>
-                                <td>
-                                    <h2 class="table-avatar">
-                                        <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@(ImageConstants.AVATARS+ap.Therapist.Avatar) alt="User Image"></a>
-                                        <a asp-controller="Doctor" asp-action="DetailsDoctor">Dr. @ap.Therapist.FullName</a>
-                                    </h2>
-                                </td>
-                                @if (ap.Status == 1)
-                                {
-                                    <td><span class="badge badge-pill badge-warning">Coming</span></td>
-                                }
-                                else if (ap.Status == 2)
-                                {
-                                    <td><span class="badge badge-pill badge-info">In Progress</span></td>
-                                }
-                                else if (ap.Status == 3)
-                                {
-                                    <td><span class="badge badge-pill badge-success">Completed</span></td>
-                                }
-                                else
-                                {
-                                    <td><span class="badge badge-pill badge-danger">Canceled</span></td>
-                                }
-                                <td>
-                                    <h2 class="table-avatar">
-                                        <a asp-controller="Patient" asp-action="DetailsPatient" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@(ImageConstants.AVATARS+ap.Patient.Avatar) alt="User Image"></a>
-                                        <a asp-controller="Patient" asp-action="DetailsPatient">@ap.Patient.FullName </a>
-                                    </h2>
-                                </td>
-                                <td>@ap.StartTime.ToString("dd MMM yyyy") <span class="text-primary d-block">@ap.StartTime.ToString("hh.mm tt") - @ap.EndTime.ToString("hh.mm tt")</span></td>
-                            </tr>
+                                <tr>
+                                    <td>@count</td>
+                                    <td>
+                                        <h2 class="table-avatar">
+                                            @if (ap.Therapist.Avatar != null)
+                                            {
+                                                <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@(ImageConstants.AVATARS + ap.Therapist.Avatar) alt="User Image"></a>
+                                            }
+                                            else
+                                            {
+                                                <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-01.jpg") alt="User Image"></a>
+                                            }
+                                            <a asp-controller="Doctor" asp-action="DetailsDoctor">Dr. @ap.Therapist.FullName</a>
+                                        </h2>
+                                    </td>
+                                    @if (ap.Status == 1)
+                                    {
+                                        <td><span class="badge badge-pill badge-warning">Coming</span></td>
+                                    }
+                                    else if (ap.Status == 2)
+                                    {
+                                        <td><span class="badge badge-pill badge-info">In Progress</span></td>
+                                    }
+                                    else if (ap.Status == 3)
+                                    {
+                                        <td><span class="badge badge-pill badge-success">Completed</span></td>
+                                    }
+                                    else
+                                    {
+                                        <td><span class="badge badge-pill badge-danger">Canceled</span></td>
+                                    }
+                                    <td>
+                                        <h2 class="table-avatar">
+                                            @if (ap.Patient.Avatar != null)
+                                            {
+
+                                                <a asp-controller="Patient" asp-action="DetailsPatient" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@(ImageConstants.AVATARS + ap.Patient.Avatar) alt="User Image"></a>
+                                            }
+                                            else
+                                            {
+                                                <a asp-controller="Patient" asp-action="DetailsPatient" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-01.jpg") alt="User Image"></a>
+                                            }
+                                            <a asp-controller="Patient" asp-action="DetailsPatient">@ap.Patient.FullName </a>
+                                        </h2>
+                                    </td>
+                                    <td>@ap.StartTime.ToString("dd MMM yyyy") <span class="text-primary d-block">@ap.StartTime.ToString("hh.mm tt") - @ap.EndTime.ToString("hh.mm tt")</span></td>
+                                </tr>
                             }
                         </tbody>
                     </table>

@@ -1,4 +1,5 @@
 ﻿@using Contract.DTOs.ManagementService;
+@using FamilyHealthCare.SharedLibrary;
 @model IEnumerable<DoctorDetailsDto>;
 @{
     var doctorCount = 1;
@@ -28,7 +29,14 @@
                                     <td>@(doctorCount++)</td>
                                     <td>
                                         <h2 class="table-avatar">
-                                            <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-01.jpg") alt="User Image"></a>
+                                            @if (doctor.Avatar != null)
+                                            {
+                                                <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@(ImageConstants.DOCTORS+doctor.Avatar) alt="User Image"></a>
+                                            }
+                                            else
+                                            {
+                                                <a asp-controller="Doctor" asp-action="DetailsDoctor" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src=@Url.Content("~/assets/img/doctors/doctor-thumb-01.jpg") alt="User Image"></a>
+                                            }
                                             <a asp-controller="Doctor" asp-action="DetailsDoctor">@doctor.FullName</a>
                                         </h2>
                                     </td>
