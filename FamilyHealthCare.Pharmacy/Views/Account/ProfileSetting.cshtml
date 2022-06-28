@@ -1,0 +1,153 @@
+﻿@using Contract.DTOs.ManagementService;
+@using FamilyHealthCare.SharedLibrary;
+@using Contract.DTOs.AuthService;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model ChangePasswordDto
+@{
+    ViewData["Title"] = "Profile Settings";
+    var pharmacy = ViewBag.Pharmacy as PharmacyDetailsDto;
+    var success = ViewBag.Success;
+    var PasswordTab = ViewBag.PasswordTab;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="profile-header">
+            <div class="row align-items-center">
+                <div class="col-auto profile-image">
+                    <a href="#">
+                        <img class="rounded-circle" alt="User Image" src=@(ImageConstants.PHARMACIES+pharmacy.Avatar)>
+                    </a>
+                </div>
+                <div class="col ml-md-n2 profile-user-info">
+                    <h4 class="user-name mb-0">@pharmacy.PharmacyName</h4>
+                    <h6 class="text-muted">@pharmacy.Phone</h6>
+                    <div class="user-Location"><i class="fa fa-map-marker"></i> @pharmacy.Address</div>
+                    <div class="about-text">@pharmacy.Biography</div>
+                </div>
+                <div class="col-auto profile-btn">
+
+                    @*<a href="" class="btn btn-primary">
+                            Edit
+                        </a>*@
+                </div>
+            </div>
+        </div>
+        <div class="profile-menu">
+            <ul class="nav nav-tabs nav-tabs-solid" id="tabsSetting">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#per_details_tab">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#password_tab">Password</a>
+                </li>
+            </ul>
+        </div>
+        <div class="tab-content profile-tab-cont">
+
+            <!-- Personal Details Tab -->
+            <div class="tab-pane fade show active" id="per_details_tab">
+
+                <!-- Personal Details -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title d-flex justify-content-between">
+                                    <span>Personal Details</span>
+                                    @*<a class="edit-link" data-bs-toggle="modal" href="#edit_personal_details"><i class="fa fa-edit me-1"></i>Edit</a>*@
+                                </h5>
+                                <div class="row">
+                                    <p class="col-sm-2 text-muted text-sm-end mb-0 mb-sm-3">Name</p>
+                                    <p class="col-sm-10">@pharmacy.PharmacyName</p>
+                                </div>
+                                <div class="row">
+                                    <p class="col-sm-2 text-muted text-sm-end mb-0 mb-sm-3">Mobile</p>
+                                    <p class="col-sm-10">@pharmacy.Phone</p>
+                                </div>
+                                <div class="row">
+                                    <p class="col-sm-2 text-muted text-sm-end mb-0">Address</p>
+                                    <p class="col-sm-10 mb-0">
+                                        @pharmacy.Address
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- /Personal Details -->
+
+            </div>
+            <!-- /Personal Details Tab -->
+            <!-- Change Password Tab -->
+            <div id="password_tab" class="tab-pane fade">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Change Password</h5>
+                        <div class="row">
+                            <div class="col-md-10 col-lg-6">
+                                <form asp-controller="Account" asp-action="ProfileSetting" method="post">
+                                    <div class="form-group">
+                                        <label>Old Password</label>
+                                        <input asp-for="CurrentPassword" type="password" class="form-control" required>
+                                        <span asp-validation-for="CurrentPassword" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>New Password</label>
+                                        <input asp-for="NewPassword" type="password" class="form-control" required>
+                                        <span asp-validation-for="NewPassword" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Confirm Password</label>
+                                        <input asp-for="ConfirmNewPassword" type="password" class="form-control" required>
+                                        <span asp-validation-for="ConfirmNewPassword" class="text-danger"></span>
+                                    </div>
+                                    <div class="submit-section">
+                                        <button type="submit" class="btn btn-primary submit-btn" id="btnSave">Save Changes</button>
+                                    </div>
+                                </form>
+                                <!-- /Change Password Form -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Change Password Tab -->
+
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+    $(function() {
+        var t = '@PasswordTab';
+        if (t.length) {
+            $('#tabsSetting a[href="#' + t + '"]').tab('show');
+        }
+    });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var state = "@success";
+            if (state == "Successfully!") {
+                swal({
+                    title: "Successfully!",
+                    icon: "success",
+                    text: "Update profile successfully!",
+                    type: "success",
+                    showCloseButton: "Close"
+                }).then((value) => {
+                    state = "";
+                });
+            }
+    });
+    </script>
+}

@@ -965,6 +965,7 @@
                                     //element.append('<td><a href="medical-records-detail.html"><span>' + medical.symptom + '</span></a></td>');
                                     //element.append('<td>Dr. ' + medical.doctor.fullName + '</td>');
                                     var lastTdElement = '<td>' +
+                                        '<a id="print' + count + '" data-id="' + medical.id + '" data-patientId="' + medical.patientId + '" data-diagnosis="' + medical.diagnosis + '" data-advice="' + medical.advice + '" data-reExamination="' + medical.reExamination + '" class="btn btn-sm bg-purple-light btnPrint"><i class="far fa-envelope"></i> Send</a>' +
                                         '<a id="details' + count + '" data-bs-toggle="modal" data-bs-target="#Details_medical_records_modal" data-id="' + medical.id + '" data-patientId="' + medical.patientId + '" data-diagnosis="' + medical.diagnosis + '" data-advice="' + medical.advice + '" data-reExamination="' + medical.reExamination + '" class="btn btn-sm bg-info-light btnView"><i class="far fa-eye"></i> View</a>' +
                                         '<a id="edit' + count + '" data-canvas="canvasEdit" onclick="CanvasSignature(this)"  data-id="' + medical.id + '" data-patientId="' + medical.patientId + '" data-diagnosis="' + medical.diagnosis + '" data-advice="' + medical.advice + '" data-reExamination="' + medical.reExamination + '" href="#" class="btn btn-sm bg-success-light  btnEdit" data-bs-toggle="modal" data-bs-target="#Edit_medical_records_modal"><i class="far fa-edit"></i> Edit</a>' +
                                         '<a id="delete' + count + '" data-id="' + medical.id + '" class="btn btn-sm bg-danger-light btnDelete" data-bs-toggle="modal" href="#delete_modal"><i class="fas fa-trash-alt"></i> Delete</a>' +
@@ -1145,6 +1146,7 @@
                                 var count = tdEls[0].innerText;
                                 //console.log('Count: ' + count);
                                 var lastTdElement = '<td>' +
+                                    '<a id="print' + count + '" data-id="' + medical.id + '" data-patientId="' + medical.patientId + '" data-diagnosis="' + medical.diagnosis + '" data-advice="' + medical.advice + '" data-reExamination="' + medical.reExamination + '" class="btn btn-sm bg-purple-light btnPrint"><i class="far fa-envelope"></i> Send</a>' +
                                     '<a id="details' + count + '" data-bs-toggle="modal" data-bs-target="#Details_medical_records_modal" data-id="' + medical.id + '" data-patientId="' + medical.patientId + '" data-diagnosis="' + medical.diagnosis + '" data-advice="' + medical.advice + '" data-reExamination="' + medical.reExamination + '" class="btn btn-sm bg-info-light btnView"><i class="far fa-eye"></i> View</a>' +
                                     '<a id="edit' + count + '" data-canvas="canvasEdit" onclick="CanvasSignature(this)" data-id="' + medical.id + '" data-patientId="' + medical.patientId + '" data-diagnosis="' + medical.diagnosis + '" data-advice="' + medical.advice + '" data-reExamination="' + medical.reExamination + '" href="#" class="btn btn-sm bg-success-light  btnEdit" data-bs-toggle="modal" data-bs-target="#Edit_medical_records_modal"><i class="far fa-edit"></i> Edit</a>' +
                                     '<a id="delete' + count + '" data-id="' + medical.id + '" class="btn btn-sm bg-danger-light btnDelete" data-bs-toggle="modal" href="#delete_modal"><i class="fas fa-trash-alt"></i> Delete</a>' +
@@ -1467,14 +1469,14 @@
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
                                             <label>Examination Date</label>
-                                            <input type="date" class="form-control" name="Date" value="${ExaminationDate}" readonly>
+                                            <input type="text" class="form-control" name="Date" value="${ExaminationDate}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
                                             <div class="form-group">
                                                 <label>Re-Examination</label>
-                                                <input type="date" class="form-control" name="ReExamination" value="${ReExaminationDate}" readonly>
+                                                <input type="text" class="form-control" name="ReExamination" value="${ReExaminationDate}" readonly>
                                             </div>
                                         </div>
                                     </div>

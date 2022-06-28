@@ -28,7 +28,7 @@ namespace Business.Services
         private readonly IZoomService _zoomService;
         private readonly ISendMailService _mailService;
 
-        public ClsAppointmentService(IMapper mapper, IDbClient dbClient, ApplicationDbContext db, IZoomService zoomService,ISendMailService mailService)
+        public ClsAppointmentService(IMapper mapper, IDbClient dbClient, ApplicationDbContext db, IZoomService zoomService, ISendMailService mailService)
         {
             //_repository = repository;
             _mapper = mapper;
@@ -243,6 +243,7 @@ namespace Business.Services
                 };
                 await _zoomService.UpdateMeeting(meeting.Id, meeting);
                 var appointmentDto = _mapper.Map<AppointmentDetailsDto>(appointmentModel);
+                var zoomMeeting = await _zoomService.Meeting(meeting.Id);
                 List<MailContent> mailContent = new List<MailContent>()
             {
                 new MailContent()
@@ -250,10 +251,9 @@ namespace Business.Services
                     To = patient.User.Email,
                     Subject = $"Scheduled appointment at {model.StartTime.ToString("HH:mm dd/MM/yyyy")}",
                     Body = $"<h3>Dear {patient.FullName},</h3>" +
-
-                        $"<p>Scheduled an appointment at {model.StartTime.ToString("HH:mm dd/MM/yyyy")}. If you have any questions or expectations then please contact us. Thank you for using our service.</p>" +
-
+                        $"<p>Scheduled an appointment at {model.StartTime.ToString("HH:mm dd/MM/yyyy")} with Dr. {therapist.FullName} and the appointment will take place in about 30 minutes. Join meeting <a target='_blank' href='{zoomMeeting.Join_Url}'>here</a></p>" +
                         @"
+                        <p>If you have any questions or expectations then please contact us. Thank you for using our service.</p>
                         <h3>Best regards,</h3>
                         <i>FHC Team</i>
                          <p>
@@ -261,7 +261,7 @@ namespace Business.Services
                         width='100px' style='float: left; margin-left: 5px; margin-right: 20px; border: 2px solid black;' />
                         <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health12@gmail.com</b></span><br>
                         <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a
-                        href='https://abc.com'>https://abc.com</a></span> <br>
+                        href='http://fhc.eastasia.cloudapp.azure.com/'>http://fhc.eastasia.cloudapp.azure.com/</a></span> <br>
                         </p>"
                 },
                 new MailContent()
@@ -269,10 +269,9 @@ namespace Business.Services
                     To = therapist.Email,
                     Subject = $"Scheduled appointment at {model.StartTime.ToString("HH:mm dd/MM/yyyy")}",
                     Body = $"<h3>Dear {therapist.FullName},</h3>" +
-
-                        $"<p>Scheduled an appointment at {model.StartTime.ToString("HH:mm dd/MM/yyyy")}. If you have any questions or expectations then please contact us. Thank you for using our service.</p>" +
-
+                        $"<p>Scheduled an appointment at {model.StartTime.ToString("HH:mm dd/MM/yyyy")} with patient {patient.FullName} and the appointment will take place in about 30 minutes. Start meeting <a target='_blank' href='{zoomMeeting.Start_Url}'>here</a></p>" +
                         @"
+                        <p> If you have any questions or expectations then please contact us. Thank you for using our service.</p>
                         <h3>Best regards,</h3>
                         <i>FHC Team</i>
                          <p>
@@ -280,7 +279,7 @@ namespace Business.Services
                         width='100px' style='float: left; margin-left: 5px; margin-right: 20px; border: 2px solid black;' />
                         <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health12@gmail.com</b></span><br>
                         <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a
-                        href='https://abc.com'>https://abc.com</a></span> <br>
+                        href='http://fhc.eastasia.cloudapp.azure.com/'>http://fhc.eastasia.cloudapp.azure.com/</a></span> <br>
                         </p>"
                 },
             };
@@ -349,10 +348,10 @@ namespace Business.Services
                 new MailContent()
                 {
                     To = currentPatient.User.Email,
-                    Subject = $"Canceled booking appointment at {appointment.StartTime.ToString("HH:mm dd/MM/yyyy")}",
+                    Subject = $"Canceled booking appointment at {startTime.ToString("HH:mm dd/MM/yyyy")}",
                     Body = $"<h3>Dear {currentPatient.FullName},</h3>" +
 
-                        $"<p>Canceled an appointment at {appointment.StartTime.ToString("HH:mm dd/MM/yyyy")}. If you have any questions or expectations then please contact us. Thank you for using our service.</p>" +
+                        $"<p>Canceled an appointment at {startTime.ToString("HH:mm dd/MM/yyyy")}. If you have any questions or expectations then please contact us. Thank you for using our service.</p>" +
 
                         @"
                         <h3>Best regards,</h3>
@@ -362,16 +361,16 @@ namespace Business.Services
                         width='100px' style='float: left; margin-left: 5px; margin-right: 20px; border: 2px solid black;' />
                         <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health12@gmail.com</b></span><br>
                         <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a
-                        href='https://abc.com'>https://abc.com</a></span> <br>
+                        href='http://fhc.eastasia.cloudapp.azure.com/'>http://fhc.eastasia.cloudapp.azure.com/</a></span> <br>
                         </p>"
                 },
                 new MailContent()
                 {
                     To = doctor.Email,
-                    Subject = $"Canceled booking appointment at {appointment.StartTime.ToString("HH:mm dd/MM/yyyy")}",
+                    Subject = $"Canceled booking appointment at {startTime.ToString("HH:mm dd/MM/yyyy")}",
                     Body = $"<h3>Dear {doctor.FullName},</h3>" +
 
-                        $"<p>Canceled an appointment at {appointment.StartTime.ToString("HH:mm dd/MM/yyyy")}. If you have any questions or expectations then please contact us. Thank you for using our service.</p>" +
+                        $"<p>Canceled an appointment at {startTime.ToString("HH:mm dd/MM/yyyy")}. If you have any questions or expectations then please contact us. Thank you for using our service.</p>" +
 
                         @"
                         <h3>Best regards,</h3>
@@ -381,7 +380,7 @@ namespace Business.Services
                         width='100px' style='float: left; margin-left: 5px; margin-right: 20px; border: 2px solid black;' />
                         <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health12@gmail.com</b></span><br>
                         <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a
-                        href='https://abc.com'>https://abc.com</a></span> <br>
+                        href='http://fhc.eastasia.cloudapp.azure.com/'>http://fhc.eastasia.cloudapp.azure.com/</a></span> <br>
                         </p>"
                 },
             };

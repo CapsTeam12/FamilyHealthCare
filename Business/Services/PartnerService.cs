@@ -65,6 +65,7 @@ namespace Business.Services
             user.UserName = userName;
             user.Email = doctorModel.Email;
             user.PhoneNumber = doctorModel.Phone;
+            user.IsActive = true;
             while (await _userManager.FindByNameAsync(userName) != null)
             {
                 userName = userName + rd.Next(1, 9);
@@ -81,14 +82,14 @@ namespace Business.Services
                                        "<p>You have become our partner,…</p>" +
                                        "<p>Use this account to access our service and contact your patient: </p>" +
                                        $"<p>UserName: <b>{user.UserName}</b>, Password: <b>{password}</b> </p>" +
-                                       "<p>Access path: <a href='https://abc.com'>https://abc.com</a></p>" +
+                                       "<p>Access path: <a href='http://http://fhc.eastasia.cloudapp.azure.com/'>http://http://fhc.eastasia.cloudapp.azure.com/</a></p>" +
                                         "<p>Please kindly learn the user guide in the attached file. </p>" +
                                        "<p>For more information please contact us at: <b>fhc.health12@gmail.com</b> or hotline: <b>09990909</b> </p> <hr>" +
                                        @"<p>
                                         <img src='https://lh3.googleusercontent.com/pw/AM-JKLVbarNakIE9FJgDXlR0RVbR57BcHN_5PllXqzVwgsk2oDTEj7hwJ-b8RzOsn2g8wsmWGFUfaAh6-WbF-dgLWDBrZEZFZKz68m4NqGzXX-lQduWo6LB5xZC31ScGgfQMsl5ICWbjL93xMJLtHjKxMUI=w160-h41-no?authuser=0'
                                             width='100px' style='float: left; margin-left: 5px; margin-right: 20px; border: 2px solid black;' />
                                         <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health12@gmail.com</b></span><br>
-                                        <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a href='https://abc.com'>https://abc.com</a></span> <br>
+                                        <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a href='http://fhc.eastasia.cloudapp.azure.com/'>http://fhc.eastasia.cloudapp.azure.com/</a></span> <br>
                                         </p>";
                 string folderPath = Path.Combine(WebHostEnviromentHelper.GetWebRootPath(), "userguide/");
                 string path = Path.Combine(folderPath, "mail-reply-request.docx");
@@ -97,7 +98,7 @@ namespace Business.Services
                 FormFile Attachment = new FormFile(stream, 0, stream.Length, "Attachments", Path.GetFileName(stream.Name))
                 {
                     Headers = new HeaderDictionary(),
-                    ContentDisposition = "form-data; name=\"Attachments\"; filename=\"mail-reply-request.docx\"",
+                    ContentDisposition = "form-data; name=\"Attachments\"; filename=\"FHC_PartnerGuide.docx\"",
                     ContentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                 };
                 MailContent mailContent = new MailContent()
@@ -131,6 +132,7 @@ namespace Business.Services
             user.UserName = userName;
             user.Email = pharmacyModel.Email;
             user.PhoneNumber = pharmacyModel.Phone;
+            user.IsActive = true;
             while(await _userManager.FindByNameAsync(userName) != null)
             {
                 userName = userName + rd.Next(1, 9);
@@ -147,14 +149,14 @@ namespace Business.Services
                                        "<p>You have become our partner,…</p>" +
                                        "<p>Use this account to access our service and contact your patient: </p>" +
                                        $"<p>UserName: <b>{user.UserName}</b>, Password: <b>{password}</b> </p>" +
-                                       "<p>Access path: <a href='https://abc.com'>https://abc.com</a></p>" +
+                                       "<p>Access path: <a href='http://fhc.eastasia.cloudapp.azure.com/'>http://fhc.eastasia.cloudapp.azure.com/</a></p>" +
                                         "<p>Please kindly learn the user guide in the attached file. </p>" +
                                        "<p>For more information please contact us at: <b>fhc.health12@gmail.com</b> or hotline: <b>09990909</b> </p> <hr>" +
                                        @"<p>
                                         <img src='https://lh3.googleusercontent.com/pw/AM-JKLVbarNakIE9FJgDXlR0RVbR57BcHN_5PllXqzVwgsk2oDTEj7hwJ-b8RzOsn2g8wsmWGFUfaAh6-WbF-dgLWDBrZEZFZKz68m4NqGzXX-lQduWo6LB5xZC31ScGgfQMsl5ICWbjL93xMJLtHjKxMUI=w160-h41-no?authuser=0'
                                             width='100px' style='float: left; margin-left: 5px; margin-right: 20px; border: 2px solid black;' />
                                         <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health12@gmail.com</b></span><br>
-                                        <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a href='https://abc.com'>https://abc.com</a></span> <br>
+                                        <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a href='http://fhc.eastasia.cloudapp.azure.com/'>http://fhc.eastasia.cloudapp.azure.com/</a></span> <br>
                                         </p>";
                 string folderPath = Path.Combine(WebHostEnviromentHelper.GetWebRootPath(), "userguide/");
                 string path = Path.Combine(folderPath, "mail-reply-request.docx");
@@ -163,7 +165,7 @@ namespace Business.Services
                 FormFile Attachment = new FormFile(stream, 0, stream.Length, "Attachments", Path.GetFileName(stream.Name))
                 {
                     Headers = new HeaderDictionary(),
-                    ContentDisposition = "form-data; name=\"Attachments\"; filename=\"mail-reply-request.docx\"",
+                    ContentDisposition = "form-data; name=\"Attachments\"; filename=\"FHC_PartnerGuide.docx\"",
                     ContentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                 };
                 MailContent mailContent = new MailContent()
@@ -214,7 +216,7 @@ namespace Business.Services
                                         <img src='https://lh3.googleusercontent.com/pw/AM-JKLVbarNakIE9FJgDXlR0RVbR57BcHN_5PllXqzVwgsk2oDTEj7hwJ-b8RzOsn2g8wsmWGFUfaAh6-WbF-dgLWDBrZEZFZKz68m4NqGzXX-lQduWo6LB5xZC31ScGgfQMsl5ICWbjL93xMJLtHjKxMUI=w160-h41-no?authuser=0'
                                             width='100px' style='float: left; margin-left: 5px; margin-right: 20px; border: 2px solid black;' />
                                         <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health12@gmail.com</b></span><br>
-                                        <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a href='https://abc.com'>https://abc.com</a></span> <br>
+                                        <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a href='http://fhc.eastasia.cloudapp.azure.com/'>http://fhc.eastasia.cloudapp.azure.com/</a></span> <br>
                                          </p>";
 
                 MailContent mailContent = new MailContent()
@@ -249,7 +251,7 @@ namespace Business.Services
                                         <img src='https://lh3.googleusercontent.com/pw/AM-JKLVbarNakIE9FJgDXlR0RVbR57BcHN_5PllXqzVwgsk2oDTEj7hwJ-b8RzOsn2g8wsmWGFUfaAh6-WbF-dgLWDBrZEZFZKz68m4NqGzXX-lQduWo6LB5xZC31ScGgfQMsl5ICWbjL93xMJLtHjKxMUI=w160-h41-no?authuser=0'
                                             width='100px' style='float: left; margin-left: 5px; margin-right: 20px; border: 2px solid black;' />
                                         <b style='float: left;'>FHC Team</b>&nbsp;|&nbsp;<span>Email: <b>fhc.health@gmail.com</b></span><br>
-                                        <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a href='https://abc.com'>https://abc.com</a></span> <br>
+                                        <span>Hotline: <b>09990909</b></span>&nbsp;|&nbsp;<span>Website: <a href='http://fhc.eastasia.cloudapp.azure.com/'>http://fhc.eastasia.cloudapp.azure.com/</a></span> <br>
                                    </p>";
 
                 MailContent mailContent = new MailContent()

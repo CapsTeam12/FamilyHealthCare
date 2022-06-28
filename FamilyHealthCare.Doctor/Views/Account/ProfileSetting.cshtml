@@ -1,0 +1,113 @@
+﻿@using FamilyHealthCare.SharedLibrary;
+@model Contract.DTOs.ManagementService.DoctorDetailsDto;
+@{
+    Layout = "_LayoutManagement";
+    ViewData["Title"] = "Profile Settings";
+    var success = ViewBag.Success;
+}
+<div class="col-md-7 col-lg-8 col-xl-9">
+    <div class="card">
+        <div class="card-body">
+
+            <!-- Profile Settings Form -->
+            <form asp-controller="Account" asp-action="ProfileSetting" method="post" enctype="multipart/form-data">
+                <div class="row form-row">
+                    <div class="col-12 col-md-12">
+                        <div class="form-group">
+                            <div class="change-avatar">
+                                <div class="profile-img">
+                                    <img src="@(ImageConstants.AVATARS+Model.Avatar)" alt="Patient Image" id="avatar">
+                                </div>
+                                <div class="upload-img">
+                                    <div class="change-photo-btn">
+                                        <span><i class="fa fa-upload"></i> Upload Photo</span>
+                                        <input type="file" class="upload" asp-for="Avatar" onchange="readPicture(this);">
+                                    </div>
+                                    <small class="form-text text-muted">Allowed JPG, JPEG or PNG. Max size of 2MB</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label asp-for="FullName">Full Name</label>
+                            <input type="text" class="form-control" asp-for="FullName" required>
+                            <span asp-validation-for="FullName" class="text-danger"></span>
+
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label asp-for="DateOfBirth">Date of Birth</label>
+                            <div class="cal-icon">
+                                <input type="text" class="form-control datetimepicker" asp-for="DateOfBirth" required>
+                                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label>Gender</label>
+                            <select class="form-select form-control" asp-for="Gender" required>
+                                <option value="0">Select</option>
+                                <option value="1">Male</option>
+                                <option value="2">Female</option>
+                            </select>
+                            <span asp-validation-for="Gender" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="text" class="form-control" asp-for="Phone" pattern=".{10}" title="The Phone must be 10 numberic" required>
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" class="form-control" asp-for="Address" required>
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="submit-section">
+                    <button type="submit" class="btn btn-primary submit-btn">Save Changes</button>
+                </div>
+            </form>
+            <!-- /Profile Settings Form -->
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function readPicture(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('img#avatar').attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var state = "@success";
+            if (state == "Successfully!") {
+                swal({
+                    title: "Successfully!",
+                    icon: "success",
+                    text: "Update profile successfully!",
+                    type: "success",
+                    showCloseButton: "Close"
+                }).then((value) => {
+                    state = "";
+                });
+            }
+    });
+    </script>
+}

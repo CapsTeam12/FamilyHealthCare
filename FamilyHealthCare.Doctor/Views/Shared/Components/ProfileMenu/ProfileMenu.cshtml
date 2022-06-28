@@ -8,7 +8,7 @@
         <span class="user-img">
             @if (Model.Avatar != null)
             {
-                <img class="rounded-circle" src=@(ImageConstants.AVATARS+Model.Avatar) width="31" alt="Darren Elder">
+                <img class="rounded-circle" src=@(ImageConstants.DOCTORS+Model.Avatar) width="31" alt="Darren Elder">
             }
             else
             {
@@ -22,7 +22,7 @@
             <div class="avatar avatar-sm">
                 @if (Model.Avatar != null)
                 {
-                    <img src=@(ImageConstants.AVATARS+Model.Avatar) alt="User Image" class="avatar-img rounded-circle">
+                    <img src=@(ImageConstants.DOCTORS+Model.Avatar) alt="User Image" class="avatar-img rounded-circle">
                 }
                 else
                 {
@@ -35,7 +35,7 @@
                 <p class="text-muted mb-0">Doctor</p>
             </div>
         </div>
-        <a class="dropdown-item" href="doctor-profile-settings.html">Profile Settings</a>
+        <a class="dropdown-item"  asp-controller="Account" asp-action="ChangePassword">Change Password</a>
         <a class="dropdown-item" asp-controller="Account" asp-action="SignOut">Logout</a>
     </div>
 </li>
